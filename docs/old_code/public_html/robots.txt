@@ -1,0 +1,31 @@
+# Efforts Engineers - robots.txt
+# Replace the current robots.txt on effortsengineers.in with this file.
+# The current file is blocking search engines and AI agents from reading the site.
+
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI/agent crawlers so the company is discoverable
+# when buyers ask AI assistants to find compressor spare parts suppliers.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://www.effortsengineers.in/sitemap.xml

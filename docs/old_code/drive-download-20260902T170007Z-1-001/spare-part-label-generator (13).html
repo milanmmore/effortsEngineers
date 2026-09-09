@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Efforts Engineers — Label Generator</title>
+<style>
+  :root{
+    --navy:#0f2942;
+    --navy-dark:#081826;
+    --cyan:#00b4d8;
+    --cyan-light:#e6f9fc;
+    --ink:#1a2733;
+    --muted:#5b6b7a;
+    --border:#d7dfe6;
+    --paper:#f4f7f9;
+    --white:#ffffff;
+    --warn:#c0392b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .app{
+    max-width:1200px;
+    margin:0 auto;
+    padding:24px 20px 80px;
+  }
+  header.app-header{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:22px;
+  }
+  .logo-badge{
+    width:46px;height:46px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .logo-badge img{width:100%;height:100%;object-fit:contain;}
+  header.app-header h1{
+    font-size:20px;
+    margin:0;
+    color:var(--navy);
+  }
+  header.app-header p{
+    margin:2px 0 0;
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  .panel{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 1px 3px rgba(15,41,66,0.06);
+  }
+  .panel h2{
+    font-size:15px;
+    margin:0 0 14px;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .panel h2 .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--cyan);
+  }
+  .panel-subtext{
+    font-size:12.5px;
+    color:var(--muted);
+    margin:-8px 0 14px;
+    line-height:1.5;
+  }
+
+  .po-row{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .field label{
+    font-size:12px;
+    font-weight:600;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.3px;
+  }
+  input[type=text], input[type=number]{
+    border:1px solid var(--border);
+    border-radius:7px;
+    padding:9px 11px;
+    font-size:14px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--paper);
+  }
+  input:focus{
+    outline:none;
+    border-color:var(--cyan);
+    background:var(--white);
+  }
+  textarea{
+    border:1px solid var(--border);
+    border-radius:7px;
+    padding:10px 12px;
+    font-size:14px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--paper);
+    resize:vertical;
+  }
+  textarea:focus{outline:none;border-color:var(--cyan);background:var(--white);}
+
+  .entry-grid{
+    display:grid;
+    grid-template-columns:2.2fr 1.6fr 0.9fr 1.4fr auto;
+    gap:10px;
+    align-items:end;
+  }
+  .entry-grid .field input{width:100%;}
+
+  button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+    border-radius:7px;
+    font-weight:600;
+    font-size:13px;
+  }
+  .btn-add{
+    background:var(--navy);
+    color:var(--white);
+    padding:10px 18px;
+    white-space:nowrap;
+  }
+  .btn-add:hover{background:var(--navy-dark);}
+
+  table.parts-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:16px;
+    font-size:13.5px;
+  }
+  table.parts-table th{
+    text-align:left;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.3px;
+    color:var(--muted);
+    border-bottom:2px solid var(--border);
+    padding:8px 10px;
+  }
+  table.parts-table td{
+    padding:9px 10px;
+    border-bottom:1px solid var(--border);
+    vertical-align:middle;
+  }
+  table.parts-table tr:last-child td{border-bottom:none;}
+  .qty-pill{
+    background:var(--cyan-light);
+    color:var(--navy);
+    padding:3px 10px;
+    border-radius:20px;
+    font-weight:700;
+    font-size:12.5px;
+  }
+  .remove-btn{
+    background:none;
+    color:var(--warn);
+    padding:4px 8px;
+    font-size:12px;
+  }
+  .remove-btn:hover{text-decoration:underline;}
+  .empty-note{
+    color:var(--muted);
+    font-size:13px;
+    padding:14px 0;
+    text-align:center;
+  }
+
+  .actions-row{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+  }
+  select{
+    border:1px solid var(--border);
+    border-radius:7px;
+    padding:9px 11px;
+    font-size:14px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--paper);
+    width:100%;
+    cursor:pointer;
+  }
+  select:focus{
+    outline:none;
+    border-color:var(--cyan);
+    background:var(--white);
+  }
+  .row-mode-select{
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:5px 8px;
+    font-size:12.5px;
+    font-family:inherit;
+    background:var(--cyan-light);
+    color:var(--navy);
+    font-weight:600;
+    cursor:pointer;
+  }
+  .summary{
+    font-size:13px;
+    color:var(--muted);
+  }
+  .summary b{color:var(--navy);}
+  .btn-generate{
+    background:var(--cyan);
+    color:var(--navy-dark);
+    padding:12px 22px;
+    font-size:14px;
+  }
+  .btn-generate:hover{background:#00a1c2;}
+  .btn-print{
+    background:var(--navy);
+    color:var(--white);
+    padding:12px 22px;
+    font-size:14px;
+  }
+  .btn-print:hover{background:var(--navy-dark);}
+  .btn-clear{
+    background:none;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:11px 16px;
+    font-size:13px;
+  }
+  .btn-clear:hover{border-color:var(--warn);color:var(--warn);}
+
+  /* ---- TABS ---- */
+  .tab-buttons{
+    display:flex;
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .tab-btn{
+    padding:10px 20px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--white);
+    color:var(--muted);
+    font-weight:700;
+    font-size:13.5px;
+  }
+  .tab-btn.active{
+    background:var(--navy);
+    color:var(--white);
+    border-color:var(--navy);
+  }
+  .tab-btn:not(.active):hover{border-color:var(--cyan);color:var(--navy);}
+
+  /* ---- ADDRESS TAB ---- */
+  .addr-list-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    padding:12px 14px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    margin-top:10px;
+    background:var(--paper);
+  }
+  .addr-list-item pre{
+    margin:0;
+    font-family:inherit;
+    font-size:13px;
+    white-space:pre-wrap;
+    color:var(--ink);
+  }
+  .addr-suggestions{
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:9px;
+    max-height:280px;
+    overflow-y:auto;
+    z-index:30;
+    box-shadow:0 6px 18px rgba(15,41,66,0.16);
+    margin-top:4px;
+  }
+  .addr-suggestion-item{
+    padding:9px 13px;
+    cursor:pointer;
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+    color:var(--ink);
+  }
+  .addr-suggestion-item:last-child{border-bottom:none;}
+  .addr-suggestion-item:hover{background:var(--cyan-light);}
+  .addr-suggestion-item b{color:var(--navy);}
+  .addr-suggestion-empty{
+    padding:10px 13px;
+    font-size:12.5px;
+    color:var(--muted);
+    cursor:default;
+  }
+
+  /* ---- LABEL SHEET ---- */
+  #sheetSection{display:none;}
+  .sheet-toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .sheet-toolbar .summary{font-size:13px;}
+
+  .sheet-wrap{
+    background:#ccd5db;
+    padding:20px;
+    border-radius:10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+  .a4-page{
+    width:210mm;
+    min-height:297mm;
+    background:var(--white);
+    box-shadow:0 2px 10px rgba(0,0,0,0.15);
+    padding:6mm;
+    display:grid;
+    justify-content:center;
+    align-content:start;
+  }
+  .a4-page.parts-page{
+    grid-template-columns:repeat(2, 88mm);
+    grid-auto-rows:38mm;
+    gap:2.5mm;
+  }
+  .a4-page.addr-page{
+    grid-template-columns:repeat(2, 95mm);
+    grid-auto-rows:60mm;
+    gap:4mm;
+  }
+
+  /* Parts label */
+  .label{
+    border:1.4px solid #000;
+    border-radius:1.8mm;
+    padding:2.8mm 3.2mm;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:1mm;
+    overflow:hidden;
+    background:#fff;
+    position:relative;
+  }
+  .label-main{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:1mm;
+  }
+  .label-partname{
+    font-size:16.5px;
+    font-weight:800;
+    color:#000;
+    line-height:1.16;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+  }
+  .label-model{
+    font-size:11.5px;
+    color:#000;
+    font-weight:600;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .label-model span{color:#000;font-weight:600;font-size:9.5px;}
+  .label-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:1.1mm;
+    padding-top:1.1mm;
+    border-top:1px dashed #000;
+    font-size:9.5px;
+    color:#000;
+    font-weight:600;
+  }
+  .label-foot b{color:#000;}
+
+  /* Address label */
+  .addr-label{
+    border:1.6px solid #000;
+    border-radius:2mm;
+    padding:3.5mm 4.5mm;
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+    overflow:hidden;
+  }
+  .addr-from-row{
+    display:flex;
+    align-items:center;
+    gap:2.5mm;
+    padding-bottom:2mm;
+    border-bottom:1.4px solid #000;
+    margin-bottom:2.5mm;
+  }
+  .addr-logo{
+    width:10mm;
+    height:10mm;
+    object-fit:contain;
+    flex-shrink:0;
+  }
+  .addr-from-text{
+    font-size:8.2px;
+    line-height:1.35;
+    color:#000;
+    font-weight:600;
+    white-space:pre-wrap;
+  }
+  .addr-from-text b{font-size:10px;}
+  .addr-to-label{
+    font-size:8.5px;
+    font-weight:800;
+    letter-spacing:.6px;
+    color:#000;
+    text-transform:uppercase;
+    margin-bottom:1.2mm;
+  }
+  .addr-to-text{
+    font-size:13px;
+    font-weight:600;
+    line-height:1.42;
+    color:#000;
+    white-space:pre-wrap;
+    flex:1;
+    overflow:hidden;
+  }
+
+  .editable{
+    cursor:text;
+    border-radius:1.5px;
+    outline:none;
+    transition:background-color .15s;
+  }
+  .editable:hover{background-color:#f4f4f4;}
+  .editable:focus{
+    background-color:#fff8d6;
+    box-shadow:0 0 0 1px #000;
+  }
+
+  .page-marker{
+    font-size:12px;
+    color:var(--navy);
+    font-weight:700;
+    align-self:flex-start;
+    margin-left:2mm;
+  }
+  .edit-hint{
+    font-size:12.5px;
+    color:var(--muted);
+    font-style:italic;
+  }
+
+  @media print{
+    body{background:var(--white);}
+    .app > header, .panel, .sheet-toolbar, .page-marker{display:none!important;}
+    .sheet-wrap{
+      background:var(--white);
+      padding:0;
+      gap:0;
+    }
+    .a4-page{
+      box-shadow:none;
+      margin:0;
+      page-break-after:always;
+    }
+    .app{padding:0;max-width:none;}
+    #sheetSection{display:block!important;}
+    .editable:hover, .editable:focus{
+      background-color:transparent!important;
+      box-shadow:none!important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <div class="logo-badge"><img src="data:image/png;base64,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" alt="Efforts Engineers"></div>
+    <div>
+      <h1>Efforts Engineers — Label Generator</h1>
+      <p>Create spare part labels or courier address labels, print-ready on A4</p>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tab-buttons">
+    <button class="tab-btn active" id="tabPartsBtn" onclick="switchTab('parts')">📦 Part Labels</button>
+    <button class="tab-btn" id="tabAddrBtn" onclick="switchTab('address')">✉️ Address Labels</button>
+  </div>
+
+  <!-- ================= PART LABELS TAB ================= -->
+  <div id="partsTabContent">
+    <section class="panel">
+      <h2><span class="dot"></span> Order Details</h2>
+      <div class="po-row">
+        <div class="field" style="width:220px;">
+          <label>PO Number</label>
+          <input type="text" id="poNumber" placeholder="e.g. PO-2026-118">
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2><span class="dot"></span> Add Part Line</h2>
+      <div class="entry-grid">
+        <div class="field">
+          <label>Part Name</label>
+          <input type="text" id="inPartName" placeholder="e.g. Suction Valve Plate">
+        </div>
+        <div class="field">
+          <label>Compressor Model</label>
+          <input type="text" id="inModel" placeholder="e.g. Grasso RC12E">
+        </div>
+        <div class="field">
+          <label>Qty</label>
+          <input type="number" id="inQty" min="1" value="1">
+        </div>
+        <div class="field">
+          <label>Label Type</label>
+          <select id="inMode">
+            <option value="perUnit">1 label per unit</option>
+            <option value="perPart">1 label total</option>
+          </select>
+        </div>
+        <button class="btn-add" onclick="addPart()">+ Add Part</button>
+      </div>
+
+      <table class="parts-table" id="partsTable">
+        <thead>
+          <tr>
+            <th style="width:34%;">Part Name</th>
+            <th style="width:24%;">Compressor Model</th>
+            <th style="width:12%;">Qty</th>
+            <th style="width:20%;">Label Type</th>
+            <th style="width:10%;"></th>
+          </tr>
+        </thead>
+        <tbody id="partsBody">
+        </tbody>
+      </table>
+      <div class="empty-note" id="emptyNote">No parts added yet — add your first part line above.</div>
+
+      <div class="actions-row" style="margin-top:16px;">
+        <div class="summary" id="summaryText"><b>0</b> part lines &nbsp;·&nbsp; <b>0</b> total labels &nbsp;·&nbsp; <b>0</b> A4 sheets</div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn-clear" onclick="clearAllParts()">Clear All</button>
+          <button class="btn-generate" onclick="generatePartLabels()">Generate Labels ▸</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= ADDRESS LABELS TAB ================= -->
+  <div id="addressTabContent" style="display:none;">
+    <section class="panel">
+      <h2><span class="dot"></span> From (Sender — same on every label)</h2>
+      <p class="panel-subtext">This stays constant across all address labels. Edit it if the address changes.</p>
+      <textarea id="fromAddress" style="width:100%;min-height:110px;">EFFORTS ENGINEERS
+SHOP NO. 10 & 11, SHIROLE PARK,
+SENAPATI BAPAT ROAD, VETAL BABA CHOWK,
+PUNE – 411 016, MS. INDIA
+Tel. No. 020 - 25678102, M. No. 9096001010</textarea>
+    </section>
+
+    <section class="panel">
+      <h2><span class="dot"></span> To (Recipient — add one per label)</h2>
+      <p class="panel-subtext">Search your saved address book below, or type a new recipient directly into the box.</p>
+
+      <div class="field" style="position:relative; margin-bottom:16px;">
+        <label>Search Saved Addresses (<span id="addrBookCount">0</span> saved contacts)</label>
+        <input type="text" id="addrSearch" placeholder="Type a name, company, or city…" autocomplete="off"
+          oninput="filterAddressBook()" onfocus="filterAddressBook()"
+          onblur="setTimeout(()=>{document.getElementById('addrSuggestions').style.display='none';}, 150)">
+        <div id="addrSuggestions" class="addr-suggestions" style="display:none;"></div>
+      </div>
+
+      <div class="field">
+        <label>Recipient Address</label>
+        <textarea id="inToAddress" style="width:100%;min-height:100px;" placeholder="Mr. Pavan Shinde&#10;Kaas Agro Ventures Pvt. Ltd.&#10;Gat No 761, Mayani, Taluka Khatav,&#10;SATARA – 415 102.&#10;M. No. 96730 77107"></textarea>
+      </div>
+      <button class="btn-add" style="margin-top:10px;" onclick="addAddress()">+ Add Recipient</button>
+
+      <div id="addressList"></div>
+      <div class="empty-note" id="addrEmptyNote">No recipients added yet — search above or add one manually.</div>
+
+      <div class="actions-row" style="margin-top:16px;">
+        <div class="summary" id="addrSummaryText"><b>0</b> recipients &nbsp;·&nbsp; <b>0</b> A4 sheets</div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn-clear" onclick="clearAllAddresses()">Clear All</button>
+          <button class="btn-generate" onclick="generateAddressLabels()">Generate Labels ▸</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- LABEL SHEET OUTPUT -->
+  <section id="sheetSection">
+    <div class="sheet-toolbar">
+      <div>
+        <div class="summary" id="sheetSummary"></div>
+        <div class="edit-hint">✎ Click directly on any text on a label below to edit it before printing</div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-clear" onclick="document.getElementById('sheetSection').style.display='none';">◂ Back to Edit</button>
+        <button class="btn-print" onclick="window.print()">🖨 Print Labels</button>
+      </div>
+    </div>
+    <div class="sheet-wrap" id="sheetWrap"></div>
+  </section>
+
+</div>
+
+<script>
+const LOGO_SRC = "data:image/png;base64,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";
+
+let parts = [];
+let addresses = [];
+const ADDRESS_BOOK = [{"label":"Mr. Pavan Shinde — Kaas Agro Ventures Pvt. Ltd.","address":"Mr. Pavan Shinde\nKaas Agro Ventures Pvt. Ltd.\nGat No 761, Mayani,\nTaluka Khatav,\nSATARA – 415 102.\nM. No. 96730 77107"},{"label":"Mr. Pratik Thakar / Mr. Hiren Chahwala — SPECTRUM DYES & CHEMICALS ...","address":"Mr. Pratik Thakar / Mr. Hiren Chahwala\nSPECTRUM DYES & CHEMICALS PVT. LTD.\nB 484-502-503A-504, N. H. 8, Palsana,\nSURAT – 394 315.\n( Gujarat )\nTel. No. 9924102520,  95120 42852"},{"label":"Attn. Mr. Omkar Patil — Gadre Marine Export Pvt. Ltd.","address":"Attn. Mr. Omkar Patil\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600 M. No. 91686 56573"},{"label":"Colourtex Industries Pvt. Ltd. — (Unit–2)","address":"Colourtex Industries Pvt. Ltd.\n(Unit–2)\nSr. No. 80, FP No. 15,16,21\nG.I.D.C. Pandesara,\nSURAT – 394 221.\n( Gujarat )\nTel. No. 0261- 2891419 , 2890010\nM. No 9096001010"},{"label":"Colourtex Industries Pvt. Ltd. — (Unit–2)","address":"Colourtex Industries Pvt. Ltd.\n(Unit–2)\nSr. No. 80, FP No. 15,16,21\nG.I.D.C. Pandesara,\nSURAT – 394 221.\n( Gujarat )\nTel. No. 0261- 2891419 , 2890010"},{"label":"Mrs. Starlee Valle — Lot 31 Block 1, Agan Grandville Salvani Street,","address":"Mrs. Starlee Valle\nLot 31 Block 1, Agan Grandville Salvani Street,\nBrgy City Heights,\nGeneral Santos City,\nPhilippines 9500\nTel No.  +63 9286800692"},{"label":"PRIME INSTRUMENTATION SOLUTION INC — 167 Brgy. Malibu, Gitanang Mal...","address":"PRIME INSTRUMENTATION SOLUTION INC\n167 Brgy. Malibu, Gitanang Malibu,\nTuy 4214, Batangas,\nPHILIPPINES\nTel No.  +63 917 143 0737"},{"label":"Mr. Rakeshkumar Bhikhabhai Patel — Flat # 303, 3rd Floor, Status-II,","address":"Mr. Rakeshkumar Bhikhabhai Patel\nFlat # 303, 3rd Floor, Status-II,\nNear Vyayamshala, Anand-388 001.\n( Gujarat )\nMob No: 97238 22050"},{"label":"Mr. Omkar Patil — Gadre Marine Export Pvt. Ltd.","address":"Mr. Omkar Patil\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600 M. No. 9168656573"},{"label":"Mr. Omkar Patil","address":"Mr. Omkar Patil"},{"label":"Mr. Siddesh Sawant","address":"Mr. Siddesh Sawant"},{"label":"Mr. Mandar More","address":"Mr. Mandar More"},{"label":"Mr. Abhijeet Vengurlekar","address":"Mr. Abhijeet Vengurlekar"},{"label":"Mr. Harshal Shetye","address":"Mr. Harshal Shetye"},{"label":"Mr. Sadik Phansopkar","address":"Mr. Sadik Phansopkar"},{"label":"Mr. Sandeep Paradkar","address":"Mr. Sandeep Paradkar"},{"label":"VALCOR ENTERPRISES INC. — Mrs. Starlee B. Valle","address":"VALCOR ENTERPRISES INC.\nMrs. Starlee B. Valle\n75, Dr Pilapil Street,\nSagad, Pasig City\nPHILIPPINES  1600.\nTel No.  +63 9286800692"},{"label":"VALCOR ENTERPRISES INC. — UNIT 2 GROUD FLOOR","address":"VALCOR ENTERPRISES INC.\nUNIT 2 GROUD FLOOR\nGRI BUSINESS CENTER\nKM.14 PANACAN HIGHWAY BUNAWAN\nDISTRICT DAVAO CITY,\nPHILIPPINES\nTel No.  +63 9164334507"},{"label":"KIRLOSAKIM REFRIGERATION — (M) SDN. BHD.","address":"KIRLOSAKIM REFRIGERATION\n(M) SDN. BHD.\nNo. 36, Jalan Dagang 10,\nTaman Dagang Jaya,\n68000 Ampang, Selangor D.E.\nMalaysia\nPh. No.  +60 126851413"},{"label":"Rene S Pinuela — ROLMAC CONSUMER GOODS TRADING","address":"Rene S Pinuela\nROLMAC CONSUMER GOODS TRADING\n427 Calvo Bldg.\n266 Escolta St Binondo,\nCity of Manila, First Dis 1006\nPHILIPPINES.\nTel No.  +63 9175192053"},{"label":"Centralized Processing Centre — Income Tax Department","address":"Centralized Processing Centre\nIncome Tax Department\nBENGALURU – 560 500"},{"label":"Rene S Pinuela — Pinuela Refrigeration Services","address":"Rene S Pinuela\nPinuela Refrigeration Services\nUnit 16 2nd Floor I PARK CENTER A.\nRodriguez Avenue Manggahan\nPasig City 1611\nManila Philippines\nTel No.  +63 9171189056"},{"label":"Rene S Pinuela — TIN No. : 204–721–842-000","address":"Rene S Pinuela\nTIN No. : 204–721–842-000\nUnit 16 2nd Floor IPARK CENTER A.\nRodriguez Avenue Manggahan Pasig City\nZIP CODE: 1611  Manila Philippines\nPINUELA REFRIGERATION SERVICES\nTel No. +63 9171189056"},{"label":"PRIME PACIFIC CONSUMER GOODS TRADING — 2/F 1170 Roxas Boulevard Corner","address":"PRIME PACIFIC CONSUMER GOODS TRADING\n2/F 1170 Roxas Boulevard Corner\nArsenio Cruz-Herrera St. Brgy 667\nZone 072\nManila Philippines\nTel No.  +63 9175192053"},{"label":"MARTINEX  VENTURES LTD. — 9, ALHAJI YAYA STREET,","address":"MARTINEX  VENTURES LTD.\n9, ALHAJI YAYA STREET,\nILASAMAJA, OSHODI  ISOLO,\nLagos-Nigeria\nTEL :  +2348033024401"},{"label":"John West International Ltd — #51, Opebi Road, Ikeja,","address":"John West International Ltd\n#51, Opebi Road, Ikeja,\nLagos-Nigeria\nMobile+ 234 (0) 805 161 0002\n(0) 803 305 4128"},{"label":"Mr. Ashish Kumbhare — Utility Department","address":"Mr. Ashish Kumbhare\nUtility Department\nDinshaw’s Dairy Foods Ltd.\nPlot No. K 41 & 42, M.I.D.C. Butibori,\nFive Star Industrial Area,\nBUTIBORI – 441 122.\nDist. : Nagpur\nTel No. 265053 / 54 / 265084/85\nMob. No. 9096966700"},{"label":"Mr. Rajesh Shete — SHRI SAI SERVICES","address":"Mr. Rajesh Shete\nSHRI SAI SERVICES\nMAPUSA\nGOA\nMob. No. 94232 85670"},{"label":"Mr. Mahesh Bankar — Johnson Controls India Pvt. Ltd","address":"Mr. Mahesh Bankar\nJohnson Controls India Pvt. Ltd\nGat No. 393, Plot No. 2359,\nAmbekar Wasti, Wadki,\nTaluka Haveli, Pune – 412 308.\nTel. No. 020 – 6606 7187\nM. No. 93245 05119"},{"label":"Ajeeta Ashok Malusare — C/2201 Keshav Heights CHS,","address":"Ajeeta Ashok Malusare\nC/2201 Keshav Heights CHS,\n90 Feet Road , Parsik Nagar,\nKalwa (West )\nTHANE – 400 605.\nM No:98205 86861/82910 46007"},{"label":"Mr. Vilas Dorkade","address":"Mr. Vilas Dorkade"},{"label":"Mr. Gautam Vanik","address":"Mr. Gautam Vanik"},{"label":"Mr. Hitesh Mehta","address":"Mr. Hitesh Mehta"},{"label":"Mr. Manoj Pandit","address":"Mr. Manoj Pandit"},{"label":"Mr. Sagar Mandavkar","address":"Mr. Sagar Mandavkar"},{"label":"Mr. Yogesh Pawaskar","address":"Mr. Yogesh Pawaskar"},{"label":"Mr. Swapnil Mane","address":"Mr. Swapnil Mane"},{"label":"Mr. Vijaykumar Chavan","address":"Mr. Vijaykumar Chavan"},{"label":"Mr. Niket Pawaskar","address":"Mr. Niket Pawaskar"},{"label":"Mr. Vaibhav Parkar","address":"Mr. Vaibhav Parkar"},{"label":"Mr. Satish Desai","address":"Mr. Satish Desai"},{"label":"Mr. Chetan Desai","address":"Mr. Chetan Desai"},{"label":"Mr. Ashish Keshaorao Kumbhare — Sant Tukdoji Ward, Gajanan Nagar,","address":"Mr. Ashish Keshaorao Kumbhare\nSant Tukdoji Ward, Gajanan Nagar,\nHinganghat - 442 301.\nDist :- Wardha\nMobile 9096966700"},{"label":"Mr. Chetan Pohekar — SDPL Aashray Beltarodi,","address":"Mr. Chetan Pohekar\nSDPL Aashray Beltarodi,\nBuilding No 1B, Flat No 208 209,\nSecond Floor,\nNear D Mart Beltarodi,\nNAGPUR 440 005.\nMob. No. 9975036110"},{"label":"Mr. Gaurav Thanke — Flat No. 805 A Wing Greenfield-2,","address":"Mr. Gaurav Thanke\nFlat No. 805 A Wing Greenfield-2,\nBehind  HINGNA NAGPUR\nWagdara 441 110\nM. No.  95189 63017"},{"label":"PACIFIC X ENTERPRISES AND CO. — 9 DAPITAN COR BACO ST. BRGY.","address":"PACIFIC X ENTERPRISES AND CO.\n9 DAPITAN COR BACO ST. BRGY.\nSANTA TERESITA,\nQUEZON CITY 1114  PHILIPPINES\nTel No.  +63 9171189056"},{"label":"Mr. Sandeep Paradkar — Gadre Marine Export Pvt. Ltd.","address":"Mr. Sandeep Paradkar\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600 M. No. 7391043144"},{"label":"Mr. Siddhesh Sawant — Gadre Marine Export Pvt. Ltd.","address":"Mr. Siddhesh Sawant\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600 M. No. 9272091235"},{"label":"Dry Ice People — Pune Trade Centre, Khadve Nagar,","address":"Dry Ice People\nPune Trade Centre, Khadve Nagar,\nNear Wagholi,\nPUNE – 412 207\nM. No. 95525 99181"},{"label":"PRIME INSTRUMENTATION SOLUTION INC — B3 L9 Primrose St. Crestwood H...","address":"PRIME INSTRUMENTATION SOLUTION INC\nB3 L9 Primrose St. Crestwood Heights,\nPhase 4 Brgy. San Luis Antipolo 1870\nPHILIPPINES\nTel No. +63 917 159 7056"},{"label":"Mr. Aditya G. Salvi — D-502, Astonia Royal Building,","address":"Mr. Aditya G. Salvi\nD-502, Astonia Royal Building,\nNarhe Road, Ambegaon Bk,\nPUNE – 411 046.\nM. No. 73783 68152"},{"label":"Mr. Girish S. Salvi — D-502, Astonia Royal Building,","address":"Mr. Girish S. Salvi\nD-502, Astonia Royal Building,\nNarhe Road, Ambegaon Bk,\nPUNE – 411 046.\nM. No. 98220 07114"},{"label":"Rene S Pinuela — ROLMAC CONSUMER GOOD TRADING","address":"Rene S Pinuela\nROLMAC CONSUMER GOOD TRADING\n427 Calvo Bldg. 266 Escolta St Binondo,\nCity of Manila, First Dis 1006\nPHILIPPINES.\nTel No.  +63 9175192053"},{"label":"Mr.  V. R. Shastri — A/2, Shrish Housing Society,","address":"Mr.  V. R. Shastri\nA/2, Shrish Housing Society,\nSahakar Nagar No 2, Jaishankar Society Lane,\nNear Shinde High School,\nPUNE – 411 009.\nM. No.  98212 23609"},{"label":"Mrs. Anju Rawat — SUBHOT ENTERPRISES PVT. LTD.","address":"Mrs. Anju Rawat\nSUBHOT ENTERPRISES PVT. LTD.\nPlot No. 51/10, Madhuban Bapudham Industrial Area,\nMeerut Road,\nGHAZIABAD – 201 013. (Uttar Pradesh )\nM. No. 9310163794"},{"label":"Rene S Pinuela — TOPJPR International Tranding","address":"Rene S Pinuela\nTOPJPR International Tranding\n1958 MA. Clara Street,\nZone 050, BRGY. 510\nSAMPALOC\nManila Philippines\nTel No.  +63 9175192053"},{"label":"Mr. SHAILENDRA BHAGVANDAS TULSANI — S. no. 127, Flat no. 401, Tulsa...","address":"Mr. SHAILENDRA BHAGVANDAS TULSANI\nS. no. 127, Flat no. 401, Tulsani Heights,\nAkurdi Gurudwara, Walhekarwadi, Pune,\nPUNE -  411033"},{"label":"TRITON AQUA AFRICA LIMITED — 49 APAPA-OSHODI EXPRESS ROAD","address":"TRITON AQUA AFRICA LIMITED\n49 APAPA-OSHODI EXPRESS ROAD\nIJESHATEDO,SURULERE, SURULERE,\nSURULERE, LAGOS\nTel. No. +234 9035398307"},{"label":"Mr. Chalapati — INOX AIR PRODUCTS PVT. LTD.","address":"Mr. Chalapati\nINOX AIR PRODUCTS PVT. LTD.\n38, Phase-I, I.D.A. Pashanylaram,\nPatancheru Mandal,\nDist ; MEDAK,\nTELANGANA – 502 307.\nTel. No. 08455 – 224330 - 332\nM. No. 09441328422"},{"label":"Mr. Chetan Pohekar — Dinshaw’s Dairy Foods Ltd.","address":"Mr. Chetan Pohekar\nDinshaw’s Dairy Foods Ltd.\n( Dairy Division )\nPlot No. K 41 & 42, M.I.D.C. Butibori,\nFive Star Industrial Area,\nBUTIBORI – 441 122.\nDist. : Nagpur\nTel No. 07104-664164\nMob. No. 9975036110"},{"label":"Mr. Chetan Pohekar — Dinshaw’s Dairy Foods Ltd.","address":"Mr. Chetan Pohekar\nDinshaw’s Dairy Foods Ltd.\nPlot No. K 41 & 42, M.I.D.C. Butibori,\nFive Star Industrial Area,\nBUTIBORI – 441 122.\nDist. : Nagpur\nTel No. 07104-664164\nMob. No. 9975036110"},{"label":"Mr. Deshank Ghukse — Purchase Manager","address":"Mr. Deshank Ghukse\nPurchase Manager\nDinshaw’s Dairy Foods Ltd.\nPlot No. K 41 & 42, M.I.D.C. Butibori,\nFive Star Industrial Area,\nBUTIBORI – 441 122.\nDist. : Nagpur\nTel No. 07104-664164\nMob. No. 9096966700"},{"label":"Minakshi Sarade —  Jr. Purchase Executive","address":"Minakshi Sarade\n Jr. Purchase Executive\n Dinshaw's Dairy Foods Pvt. Ltd.\n K-41, 5 Star Industrial Area MIDC,\n Butibori, Nagpur-441122\n  Ph. No.-  07104-664173."},{"label":"Mr. Mohan Doifode — ARCTIC AGRO FOODS PVT. LTD.","address":"Mr. Mohan Doifode\nARCTIC AGRO FOODS PVT. LTD.\nSr. No. 104, At Post Nandur,\nTal. Daund,\nDist. : PUNE – 414 304.\nM. No. 9689746267"},{"label":"K. Sivaraj — 89A, Mettukkadu,","address":"K. Sivaraj\n89A, Mettukkadu,\nNallipalayam Road, Jambai (PO ),\nJambai, Bhavani (TK ),\nErode ( Dist ),\nTAMILNADU – 638 312.\nm. No. 8760258317"},{"label":"Refcon Engineering Services Pvt. Ltd. — 3rd , 310, 311, THE PENTAGON,","address":"Refcon Engineering Services Pvt. Ltd.\n3rd , 310, 311, THE PENTAGON,\nOff. PUNE - SATARA, PARVATI DARSHAN,\nPUNE – 411 009.\nM. No. 89565 71058"},{"label":"TRRUESUN ENTERRPRISES — C/o HINDUSTAN CONSTRUCTION CO. LTD.","address":"TRRUESUN ENTERRPRISES\nC/o HINDUSTAN CONSTRUCTION CO. LTD.\nBARC Integrated Nuclear Recycle Plant\nPO - Ghivali , Tehsil Boisar ,\nDist : Palghar\n​BOISER- ​ 401 502."},{"label":"Mr. Harshal Shetye — Gadre Marine Export Pvt. Ltd.","address":"Mr. Harshal Shetye\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600 M. No. 7391075887"},{"label":"Mr. Aniket Narvekar — Gadre Marine Export Pvt. Ltd.","address":"Mr. Aniket Narvekar\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231002  M. No. 9168656584"},{"label":"Mr. Vijaykumar Chavan — Gadre Marine Export Pvt. Ltd.","address":"Mr. Vijaykumar Chavan\nGadre Marine Export Pvt. Ltd.\nSalt Road, At Tundara,\nP.O. Inchudi, PS Khantapada,\nBALASORE – 756 021.\n( Orissa )\nM. No. 9921435350 / 91686 88223"},{"label":"Mr. Gaurav Deshpande — MEHERAA DAIRY FOODS AND PRODUCTS PVT. LTD.","address":"Mr. Gaurav Deshpande\nMEHERAA DAIRY FOODS AND PRODUCTS PVT. LTD.\nGAT NO. 150, BOAPGAON, TAL-PURANDAR, DIST-PUNE,\nPURANDER, PUNE RURAL, MAHARASHTRA-412301"},{"label":"Mr. Gaurav Deshpande — MEHERAA DAIRY FOODS AND PRODUCTS PVT. LTD.","address":"Mr. Gaurav Deshpande\nMEHERAA DAIRY FOODS AND PRODUCTS PVT. LTD.\nS. N. 4, Plot No. 5, Pashan Sus Road,\nA Wing, Anusha Residency,\nSutarwadi, Pune"},{"label":"Mr. Chaudhari — Laxmi Ice Factory","address":"Mr. Chaudhari\nLaxmi Ice Factory\nPlot No. 16, M.I.D.C.,\nBEED – 431 122.\nM. No. 9326099799"},{"label":"Mr. Chetan G. Jungi — Mechanical Engineer","address":"Mr. Chetan G. Jungi\nMechanical Engineer\nSILVER SEA FOOD\nJavarnaka, Po Box No. 96,\nPORBANDAR – 360 575\n( Gujarat )\nTel No. 2241819, 2251027\nM. No. 9824498371"},{"label":"VINAYAK TRADING COMPANY — 5 / B, Duttakripa CHS. Parel,","address":"VINAYAK TRADING COMPANY\n5 / B, Duttakripa CHS. Parel,\nDr. B. R. Ambedkar Road,\nChinchpokali ( East ),\nMUMBAI – 400 012.\nTel. No. 23735775 / 6"},{"label":"Mr. Ajay sharma — MARCOTEX ENGINEERS & CONSULTANTS","address":"Mr. Ajay sharma\nMARCOTEX ENGINEERS & CONSULTANTS\n25-A, Poddar Chambers,\nS. A. Brelvi Road, Fort,\nFort,\nMUMBAI – 400 001.\nTel. No. 22664808 , 22641379\nM. No.  98200 89724"},{"label":"Mr. Anil Kumar — Frigerio Conserva Allana Pvt. Ltd.","address":"Mr. Anil Kumar\nFrigerio Conserva Allana Pvt. Ltd.\nSurvey No. 325, Algole Road, IDA,\nAlgole  Village , Dist : Medak\nZAHEERABAD – 502 220.\n( Telangana )\nTel. No. 282955 , 283941\nM. No.  9652800144"},{"label":"Mr. Shabbir Ali — Frigerio Conserva Allana Pvt. Ltd.","address":"Mr. Shabbir Ali\nFrigerio Conserva Allana Pvt. Ltd.\nSurvey No. 325, Algole Road, IDA,\nAlgole  Village , Dist : Medak\nZAHEERABAD – 502 220.\n( Telangana )\nTel. No. 282955 , 283941\nM. No.  99893 37638"},{"label":"Mr. Murshid Ahmed Shaikh — Frigerio Conserva Allana Pvt. Ltd.","address":"Mr. Murshid Ahmed Shaikh\nFrigerio Conserva Allana Pvt. Ltd.\nSurvey No. 325, Algole Road, IDA,\nAlgole  Village , Zaheerabad , Medak,\nZAHEERABAD – 502 220.\n( Telangana )\nTel. No. 282955 , 283941\nM. No.  9652800143"},{"label":"Mr. Rafique — Frigerio Conserva Allana Pvt. Ltd.","address":"Mr. Rafique\nFrigerio Conserva Allana Pvt. Ltd.\nSurvey No. 325, Algole Road, IDA,\nAlgole  Village , Medak, Sangareddy,\nZAHEERABAD – 502 220.\n( Telangana )\nTel. No. 282955 , 283941\nM. No.  85271 01068"},{"label":"ASHISH ENTERPRISES — CTS. No. 1831, B – 16, Yashwant Pride,","address":"ASHISH ENTERPRISES\nCTS. No. 1831, B – 16, Yashwant Pride,\nKeshvnagar, Kasarwadi,\nPUNE – 411 034.\nM. No. 96891 94238"},{"label":"Mr. Gaurav Thamke — Dinshaw’s Dairy Foods Ltd.","address":"Mr. Gaurav Thamke\nDinshaw’s Dairy Foods Ltd.\nPlot No. K 41 & 42, M.I.D.C. Butibori,\nFive Star Industrial Area,\nBUTIBORI – 441 122.\nDist. : Nagpur\nTel No. 265053 / 54 / 265084/85\nMo No. 9518963017"},{"label":"Mr.  Vinod S Dadghaye — Asst. Officer Purchase","address":"Mr.  Vinod S Dadghaye\nAsst. Officer Purchase\nBhansali Engineering Polymers Ltd.\nBhansali Nagar,\nTaluka Sausar,\nSATNOOR - CHHINDWARA – 480 108.\n( Madhya Pradesh )\nLandline : (07165) 226376 – 79\nCell : 8435002920"},{"label":"Mr. Mithilesh Katole — Sr. Officer Purchase","address":"Mr. Mithilesh Katole\nSr. Officer Purchase\nBhansali Engineering Polymers Ltd.\nBhansali Nagar,\nTaluka Sausar,\nSATNOOR - CHHINDWARA – 480 108.\n( Madhya Pradesh )\nLandline : (07165) 226376 – 79\nCell : 97130 44006"},{"label":"FLAME AUTOMATION & ROBOTIC SYSTEMS — Get No 199, Behind Jotiba Mandir,","address":"FLAME AUTOMATION & ROBOTIC SYSTEMS\nGet No 199, Behind Jotiba Mandir,\nJotiba Nagar, Talwade ,\nPUNE -411 062.\nM. No. 9881254869"},{"label":"VADILAL INDUSTRIES LTD. — Vadilal Ice Factory Compound,","address":"VADILAL INDUSTRIES LTD.\nVadilal Ice Factory Compound,\nNear Mohanlal Chali, Near Narsinghji Temple\nNear Ramkrishna Mill, Gomtipur\nAHMEDABAD – 380 021\n( Gujarat )\nMob No. 9714714501"},{"label":"VADILAL INDUSTRIES LIMITED. — Village : Ozarpada ,","address":"VADILAL INDUSTRIES LIMITED.\nVillage : Ozarpada ,\nTiskari Road,\nDHARAMPUR – 396 050.\nDist : Valsad\n( Gujarat )\nTel. No. 02633 – 240145 , 241435"},{"label":"ROHIT ENGINEERING ENTERPRISE — 26, Ground Floor, Shramik Building,","address":"ROHIT ENGINEERING ENTERPRISE\n26, Ground Floor, Shramik Building,\nS. Nalawade Marg,\nChinchpokli Bridge, Parel\nPAREL – 400 012.\nMumbai\nM. No. 99671 83963"},{"label":"Mr. A Prakash — #A4, Live In Style Apartment","address":"Mr. A Prakash\n#A4, Live In Style Apartment\n12, Pottery Road,\nRichards Town,\nBENGALURU – 560 005.\n( Karnataka )\nM. No. 9900570762"},{"label":"Anshul Specialty Molecules Ltd. — Plot No. 108, 109 & 110,","address":"Anshul Specialty Molecules Ltd.\nPlot No. 108, 109 & 110,\nM.I.D.C. Dhatav,\nROHA – 402 116.\nDist : Raigad.\nTel. No. 263581, 83"},{"label":"INOX AIR PRODUCTS PVT. LTD. — In the Premises of Tata Metaliks Ltd.","address":"INOX AIR PRODUCTS PVT. LTD.\nIn the Premises of Tata Metaliks Ltd.\nP.O. Samraipur,\nVill-Gokulpur, Dist : Paschim Madinipur,\nKHARAGPUR – 721 301.\n( W.B.)\nTel. No. 03222-202632 / 633\nM. No. 9932782310 JAYDIP BASU"},{"label":"INOX AIR PRODUCTS PVT. LTD. — In the Premises of Tata Metaliks Ltd.","address":"INOX AIR PRODUCTS PVT. LTD.\nIn the Premises of Tata Metaliks Ltd.\nP.O. Samraipur,\nVill-Gokulpur, Dist : Paschim Madinipur,\nKHARAGPUR – 721 301.\n( W.B.)\nTel. No. 03222-202632 / 633\nM. No. 9932782310"},{"label":"SPECTRUM DYES & CHEMICALS PVT. LTD. — B 484-502-503A-504, N.H. 8 Pa...","address":"SPECTRUM DYES & CHEMICALS PVT. LTD.\nB 484-502-503A-504, N.H. 8 Palsana,\nSURAT – 394 315.\n( Gujarat )\nM. No. 9824407575"},{"label":"Mr. D. K. Walse Patil — DSK Pride Building, 2nd Floor,","address":"Mr. D. K. Walse Patil\nDSK Pride Building, 2nd Floor,\nNear Pune Nasik Heighway,\nMulewdi Chowk,\nMANCHAR – 410 503.\nTal. Ambegaon, Dist. Pune\nM. No. 98220 76699"},{"label":"Mr. Kishor Patil — PATIL PISTON RING & ENGINEERING","address":"Mr. Kishor Patil\nPATIL PISTON RING & ENGINEERING\nPlot No. W – 88, M.I.D.C. Gokul Shirgaon,\nKOLHAPUR – 416234\nTel. No. 2690172 M. No. 9422046700"},{"label":"Mr. Sandip Arle — INFINITI GASES PVT. LTD.","address":"Mr. Sandip Arle\nINFINITI GASES PVT. LTD.\nC/o. Gangamai Industries & Construction Ltd.\nNear Babhulgaon, Tal. Shevgaon,\nDist : Ahmednagar – 414 502.\nM. No. 8459784716 / 9689920082"},{"label":"Mr. — Plot No 30 Gut No 32 Maji Sanik Colony Padegaon","address":"Mr.\nPlot No 30 Gut No 32 Maji Sanik Colony Padegaon\nPadegaon, Near Matoshree Public School,\nAURANGABAD – 431 002\nM. No."},{"label":"Mr. — INFINITI GASES PVT. LTD.","address":"Mr.\nINFINITI GASES PVT. LTD.\nGut No. 122, N.H. 17, Nagothane,\nVillage Nidi, Tal. Roha,\nDist : RAIGAD – 402 106.\nM. No."},{"label":"Mr. — Infinity Gases Pvt. Ltd.","address":"Mr.\nInfinity Gases Pvt. Ltd.\nC/o. Grainotech Industries Ltd.\nGat No. 238/239, Nagar Road,\nBhendala Village, Gangapur,\nTal. Gangapur – 431 110.\nCHARAPATI SAMBHAJINAGAR – 431 001.\nMob. No."},{"label":"Mr. Shailesh Patel — Infiniti Gases Pvt. Ltd.","address":"Mr. Shailesh Patel\nInfiniti Gases Pvt. Ltd.\nGirnar Complex, Near LIC Building,\nAdalat Road,\nChatrapati Sambhajinagar – 431 001.\nM. No. 89992 18795, 9860907222"},{"label":"Mr. Anil Shankhala — Infinity Gases Pvt. Ltd.","address":"Mr. Anil Shankhala\nInfinity Gases Pvt. Ltd.\nC/o. Grainotech Industries Ltd.\nGat No. 238/239, Nagar Road,\nBhendala Village, Gangapur,\nTal. Gangapur – 431 110.\nDist. : Aurangabad\nMob. No. 96372 94422"},{"label":"Mr. Anil Shankhala — INFINITI GASES PVT. LTD.","address":"Mr. Anil Shankhala\nINFINITI GASES PVT. LTD.\nGIMAR OFFICE WALUNJ GODOWN,\nAURANGABAD – 431 136.\nM. No. 96372 94422"},{"label":"Mr. Gangamai Sandeep — INFINITI GASES PRIVATE LIMITED.","address":"Mr. Gangamai Sandeep\nINFINITI GASES PRIVATE LIMITED.\nR.S. No. 161/5, At. Mora,\nNear Reliance Industries Ltd.\nN.H. No. 6, Hazira – Surat Road,\nTal. Choryasi, Dist. SURAT – 394 517.\n( Gujarat )\nM. No. 96899 20082"},{"label":"Attn. Mr. Amol — Infiniti Gases Pvt. Ltd.","address":"Attn. Mr. Amol\nInfiniti Gases Pvt. Ltd.\nC/o. Lokmangal Agro Industries Ltd.\nAt. Subhash Nagar, Bibi Darphal,\nTal. North Solapur,\nSOLAPUR – 413 222.\nM. No. 9763555617"},{"label":"Parthe Tube Ice Technology — PAP/R 221, T.T.C Industrial Area, Raba...","address":"Parthe Tube Ice Technology\nPAP/R 221, T.T.C Industrial Area, Rabale, M.I.D.C, Navi Mumbai, Maharashtra 400701\nPhone: 9320162109 / 9665520728"},{"label":"Attn. Mr. Anil Shankhala — Infiniti Gases Pvt. Ltd.","address":"Attn. Mr. Anil Shankhala\nInfiniti Gases Pvt. Ltd.\nC/o. Lokmangal Agro Industries Ltd.\nAt. Subhash Nagar, Bibi Darphal,\nTal. North Solapur,\nSOLAPUR – 413 222.\nM. No.96372 94422"},{"label":"Mr. Kiran Gaikwad — SANGOLA","address":"Mr. Kiran Gaikwad\nSANGOLA\n( Maharashtra )\nM. No. 76202 80360"},{"label":"Mr. Umesh Aher — INFINTI GASES PVT. LTD.","address":"Mr. Umesh Aher\nINFINTI GASES PVT. LTD.\nC/O. The Sanjivani ( Taladi ) Sahakari\nSakhar Karkhana Ltd.\nAt – Sahajandnagar, Post – Shingnapur,\nTal. Kopargaon,\nDist – Ahmednagar – 423 603.\nM. No. 8275899761"},{"label":"Attn. Mr. Anil Shankla — HARMAN FINO CHEM LTD.","address":"Attn. Mr. Anil Shankla\nHARMAN FINO CHEM LTD.\nPlot No # E # 9E # 8E # 7 MIDC Industrial Area,\nChikalthana,\nAURANGABAD – 431 006.\nMob. No. 96372 94422, 84215 64665"},{"label":"Mr. Sandeep — MANISHA ENGINEERING CO.","address":"Mr. Sandeep\nMANISHA ENGINEERING CO.\nPlot No. 69, Shop No. 02,\nSec – 4 A, Khairane,\nNAVI MUMBAI- 400 709.\nM. No. 9137374761"},{"label":"Mr. Varma / Mr. Devikar — ROYALLE ENGINEERING ENTERPRISES","address":"Mr. Varma / Mr. Devikar\nROYALLE ENGINEERING ENTERPRISES\n58-1-223/1, Old Karasa Nad Post,\nVISAKHAPATNAM – 530 009.\n( Andhra Pradesh )\nT. No. 0891 - 2573098\nM. No. 8142993317 / 7730887030"},{"label":"The Director of Educational Media Research Centre — S P Pune Univer...","address":"The Director of Educational Media Research Centre\nS P Pune University\nGaneshkhind,\nPUNE – 411 007."},{"label":"Mr. Vijay Khatal — Supriya Lifescience Limited.","address":"Mr. Vijay Khatal\nSupriya Lifescience Limited.\nA-5/2, Lote Parshuram Industrial Area,\nM.I.D.C., Taluka Khed,\nLOTE – 415 722.\nLote Parshuram Chiplun\nTel. No. 02356 - 272299\nM. No. 8805367795/ 9967325220"},{"label":"SUNIL ENGINEERING WORKS — 7, Bhaktinagar Station Plot,","address":"SUNIL ENGINEERING WORKS\n7, Bhaktinagar Station Plot,\nOpp. Virani Complex,\nRAJKOT – 360 002. ( Gujarat )\nM. No. 9773237753"},{"label":"Jagdamba Milk & milk Products — Ashti","address":"Jagdamba Milk & milk Products\nAshti\nM. No. 9764126298"},{"label":"Mr. Sunil Gauraje — Supriya Lifescience Limited.","address":"Mr. Sunil Gauraje\nSupriya Lifescience Limited.\nPlot No A-2, M.I.D.C.\nTaluka Chiplun,\nDist Ratnagiri,\nGANE KHADPOLI – 415 605.\nTel. No. 02356 - 272299\nM. No. 94225 95665"},{"label":"Supriya Lifescience Limited. — Plot No A-2, M.I.D.C.","address":"Supriya Lifescience Limited.\nPlot No A-2, M.I.D.C.\nTaluka Chiplun,\nDist Ratnagiri,\nGANE KHADPOLI – 415 605.\nTel. No. 02356 - 272299\nM. No. 99673 25220"},{"label":"Supriya Lifescience Limited. Bill — 207/208, Udyog Bhavan,","address":"Supriya Lifescience Limited. Bill\n207/208, Udyog Bhavan,\nSonawala Road,\nGoregaon ( East ),\nMumbai – 400 063.\nTel. No. 022 – 4033 2700"},{"label":"Attn. Mr. Chetan Desai — Colourtex Industries Pvt. Ltd.  ( Unit – 2)","address":"Attn. Mr. Chetan Desai\nColourtex Industries Pvt. Ltd.  ( Unit – 2)\nSr. No. 80, FP No. 15,16,21\nG.I.D.C. Pandesara,\nSURAT – 394 221.\n( Gujarat )\nTel. No. 0261- 2891419 , 2890010\nM. No.  9978444148"},{"label":"P.O. No. 4400066215 Dt. 08/10/13","address":"P.O. No. 4400066215 Dt. 08/10/13"},{"label":"Attn. Mr. Satish Desai — Manager Maintenance","address":"Attn. Mr. Satish Desai\nManager Maintenance\nColourtex Industries Pvt. Ltd.  ( Unit – 2)\nSr. No. 80, FP No. 15,16,21\nG.I.D.C. Pandesara,\nSURAT – 394 221.\n( Gujarat )\nTel. No. 0261- 2891419 , 2890010\nM. No. 9978947776"},{"label":"P.O. No. 4400254653 Dt. 10/10/23","address":"P.O. No. 4400254653 Dt. 10/10/23"},{"label":"Attn. Mr. Jayesh Rane — ( Warehouse )","address":"Attn. Mr. Jayesh Rane\n( Warehouse )\nHINDALCO INDUSTRIES LIMITED.\nPlot No. 2, M.I.D.C. Taloja,\nTALOJA – 410 208.\nDist : Raigad\nTel. No. 27412261 – 65, 66292929"},{"label":"Gadre Marine Export Pvt. Ltd. — 31/1, A-1, Baikady Village,","address":"Gadre Marine Export Pvt. Ltd.\n31/1, A-1, Baikady Village,\nBRAHMAVAR – 576 213.\nDist : Udupi. ( Karnatak )\nTel. No. 0820-2561268"},{"label":"Attn. Mr. M.M. Singh — Inox Air Products Ltd.","address":"Attn. Mr. M.M. Singh\nInox Air Products Ltd.\nPlot No. 92, Block – D, IDA,\nAutonagar,\nVISAKHAPATNAM – 530 012.\n( A.P.)\nTel No. 2517415 , 2517507"},{"label":"Mr. Saurabh Salvi — I 602, Western Avenue,","address":"Mr. Saurabh Salvi\nI 602, Western Avenue,\nShankar Kalate Nagar, Wakad,\nPune – 411 057.\nM. No. 90960 01010"},{"label":"Mr. Sagar Mandavkar — Store Department","address":"Mr. Sagar Mandavkar\nStore Department\nGADRE MARINE EXPORT\n3298 – A, Mirkarwada,\nRATNAGIRI – 415 612.\nTel. No. 232570 / 232882\nM. No. 8830981915"},{"label":"Mr. Shivalkar — GADRE MARINE EXPORT","address":"Mr. Shivalkar\nGADRE MARINE EXPORT\n3298 – A, Mirkarwada,\nRATNAGIRI – 415 612.\nTel. No. 232570 / 232882\nM. No. 7020543724"},{"label":"Mr. Vishwanath Balage — Refrigeration HOD","address":"Mr. Vishwanath Balage\nRefrigeration HOD\nGADRE MARINE EXPORT\n3298 – A, Mirkarwada,\nRATNAGIRI – 415 612\nTel. No. 232570 / 232882\nM. No. 9764410727"},{"label":"Mr. Ajit Gadekar — B J Bhandari Papers Pvt. Ltd.","address":"Mr. Ajit Gadekar\nB J Bhandari Papers Pvt. Ltd.\n1140, Raviwar Peth,\nGovind Halwai Chowk,\nPUNE – 411 002\nM. No. 9372727901 , 9325006053"},{"label":"Attn. Mr. Vishal Nimje — Tripal S Engineering","address":"Attn. Mr. Vishal Nimje\nTripal S Engineering\nBhodkhe, Ward No. 5,\nKatol Road, Kalmeshwar,\nNAGPUR – 441 501.\nM. No. 8888149140 , 88888864909"},{"label":"M/S. B. G. CHITALE — Bhilwadi Station – 416 303.","address":"M/S. B. G. CHITALE\nBhilwadi Station – 416 303.\nDist : Sangli,\nTel. No. 02346-233112"},{"label":"P.O. No. BGC/18-19/PO/VAM/7 — Date 04/12/18","address":"P.O. No. BGC/18-19/PO/VAM/7\nDate 04/12/18"},{"label":"Mr. Santosh Prabhakaran — BTG Infrastructure Services Pvt. Ltd.","address":"Mr. Santosh Prabhakaran\nBTG Infrastructure Services Pvt. Ltd.\nPlot No. M – 62, M.I.D.C. Taloja,\nTALOJA – 410 208.\nDist : Raigad\nM. No. 9867070740"},{"label":"Sumeet Shetty — CONSOLIDATED ENGINEERING ENTERPRISES.","address":"Sumeet Shetty\nCONSOLIDATED ENGINEERING ENTERPRISES.\nShreeji Chambers 2nd floor ,17/313,\nShahid Bhagat Singh Road,\nCalicut Street\nMumbai - 400001\nOffice: 022-22652517 & 022-22615347"},{"label":"Attn. Mr. N. K. Naik — Consolidated Engineering Enterprises","address":"Attn. Mr. N. K. Naik\nConsolidated Engineering Enterprises\nShreeji Chamber, 2nd Floor,Room No. 17,\n313, Shahid Bhagat Singh Road,\nCalicut Street Corner,\nMUMBAI – 400 001.\nTel. No. 22652517 , 22615347"},{"label":"Attn. Mr. Sameer Phadke — O & U Mechanical","address":"Attn. Mr. Sameer Phadke\nO & U Mechanical\nFINOLEX INDUSTRIES LIMITED.\nVillage Gholap, Ranpur Pawas Road,\nRATNAGIRI – 415 612.\nTel. No. 02352 – 238027 - 31"},{"label":"Mr. Apurva Pankaj Parulekar — 2821A Anand Bhuvan, Veer Savarkar Path,","address":"Mr. Apurva Pankaj Parulekar\n2821A Anand Bhuvan, Veer Savarkar Path,\nnear lokamanya multipurpose bank\nRatnagiri 415 612\nMob No: +91 94034 6136"},{"label":"FRIGERIO CONSERVA ALLANA LTD. — Sr. No. 325, Algole Road, IDA,","address":"FRIGERIO CONSERVA ALLANA LTD.\nSr. No. 325, Algole Road, IDA,\nAlgole Village, Zaheerabad,\nDist : Medak,\nZAHEERABAD – 502 220.\n( Telangana )"},{"label":"Tel. No. 282955 , 283941. — To","address":"Tel. No. 282955 , 283941.\nTo\nAMOCON ENTERPRISE\n14, Krishna Industrial Estate,\nDhumal Nagar, Wadiv,\nVASAI ( East ),\nMUMBAI.\nM. No. 9819682401"},{"label":"Mr. Dhanraj Khadse — M-II/77 Phase – 1, Kabir Nagar,","address":"Mr. Dhanraj Khadse\nM-II/77 Phase – 1, Kabir Nagar,\n( Near New Shopping Complex )\nKabir Nagar,\nRAIPUR – 492 001 ( CG )\n( M.P. )\nM. No 9981686325"},{"label":"Hospira Health Care India Pvt. Ltd. — L-8 (P), L – 9, Gut No. 38 (P),","address":"Hospira Health Care India Pvt. Ltd.\nL-8 (P), L – 9, Gut No. 38 (P),\nM.I.D.C. Industrial Area Walunj,\nAURANGABAD – 431 136.\nTel. No. 3067243"},{"label":"ELPPE CHEMICALS PVT. LTD. — 63/2, 57/1, 6311, M.I.D.C. Area,","address":"ELPPE CHEMICALS PVT. LTD.\n63/2, 57/1, 6311, M.I.D.C. Area,\nDhatav , Roha,\nROHA – 402 116.\nDist : Raigad.\nTel. No. 263589 , 263889"},{"label":"GADRE MARINE EXPORT PVT. LTD. — Plot No. 130/1, Holiday Home Road,","address":"GADRE MARINE EXPORT PVT. LTD.\nPlot No. 130/1, Holiday Home Road,\nCHORWAD – 362 250.\nDist : Junagadh,\n( Gujarat )\nTel. No. 02870-288659, 660, 661"},{"label":"SALVIN INDUSTRIAL ENGINEERS — 207, Kuber Complex,","address":"SALVIN INDUSTRIAL ENGINEERS\n207, Kuber Complex,\nDr. Yagnik Road, Opp. Jillapanchayat,\nNear Race Course,\nRAJKOT – 360 001.\n( Gujarat )\nTel. No. 2477741 , 3042477\nM. No. 9925465765"},{"label":"Mr. Sameer Gujarathi — Samson International Marketing Agency","address":"Mr. Sameer Gujarathi\nSamson International Marketing Agency\n37/2 Joshi Industrial Estate,\nNear Zeal Educational Institute,\nNext To Canara Bank Narhe Branch,\nDhayari – Narhe Road,\nPUNE – 411 041.\nM. No. 93703 82627"},{"label":"Yog Electro Process Pvt. Ltd. — Plot No. G-63/8, Chakan Industrial ...","address":"Yog Electro Process Pvt. Ltd.\nPlot No. G-63/8, Chakan Industrial Area,\nPhase III, Village –Kuruli,\nM.I.D.C. CHAKAN,\nPUNE – 410 501.\nM. No. 9371015543 / 9371015544"},{"label":"INOX AIR PRODUCTS PVT. LTD. — KARJAN MFG.","address":"INOX AIR PRODUCTS PVT. LTD.\nKARJAN MFG.\nBlock – 102, 106 P, Vemardi Road,\nVil – Junj Jitha, Karjan,\nVADODARA – 391 240.\n( Gujarat )\nTel. No. 02666 - 235800"},{"label":"INCOME TAX PAN SERVICES UNIT — ( NSDL e-Govemance Infrastructure Li...","address":"INCOME TAX PAN SERVICES UNIT\n( NSDL e-Govemance Infrastructure Limited )\n4th Floor, Sapphire Chambers,\nBaner Road, Baner, PUNE – 411 045.\nTel. No. 020 - 27218080"},{"label":"INOX AIR PRODUCTS PVT. LTD. — In The Premises Of Sunflag Iron & Ste...","address":"INOX AIR PRODUCTS PVT. LTD.\nIn The Premises Of Sunflag Iron & Steel Co. Ltd.\nWarthi,  Bhandara Road,\nBHANDARA – 441 905.\nTel. No. 650502"},{"label":"Attn. Mr. Avinash Bhor / Hem Vyas — DHL EXPRESS INDIA PVT. LTD.","address":"Attn. Mr. Avinash Bhor / Hem Vyas\nDHL EXPRESS INDIA PVT. LTD.\n2A / 2B, Bhau Patil Road,\nNext to Aundh I.T. Park,\nBopodi,\nPUNE – 411 020.\nTel. No. 25921349"},{"label":"Sai Pooja Agrotech Cold Storage — S. No 152/2, Mumbai Agra Road,","address":"Sai Pooja Agrotech Cold Storage\nS. No 152/2, Mumbai Agra Road,\nOpp. APMC Market Yard,\nPIMPALGAON BASWANT – 422 209.\nDist Nasik\nM. No. 84595 79091 / 90287 19509"},{"label":"N. K. KANCHWALA — Akeel Ahmed Compound,","address":"N. K. KANCHWALA\nAkeel Ahmed Compound,\nShivajinagar, Near Noorani Masjid,\nJogeshwari ( East ),\nMUMBAI – 400 060.\nM. No. 98333 19854"},{"label":"S. M. REFRIGERATION PVT. LTD. — 15/66, Ground Floor,","address":"S. M. REFRIGERATION PVT. LTD.\n15/66, Ground Floor,\nOld Rajinder Nagar,\nNEW DELHI – 110 060.\nTel. No. 25753963, 25743196\nMob. No 9350204228"},{"label":"DELIVERY AT — To,","address":"DELIVERY AT\nTo,\nMrs. Rima Malhotra\nC 127/2, Kirti Nagar,\n2nd Floor,\nNEW DELHI–110 015.\nMob.No. 9350204228"},{"label":"Mr Vishal Dhamale — Manegrow Agro Products Pvt. Ltd.","address":"Mr Vishal Dhamale\nManegrow Agro Products Pvt. Ltd.\nGat No. 379, At Post Bebadohal,\nPawana Dam Road, Tal. Wadagaon Maval,\nDist.: Pune – 410 506.\nM. No. 9881190155"},{"label":"Manegrow Agro Products Pvt. Ltd. — Gat No. 379, At Post Bebadohal,","address":"Manegrow Agro Products Pvt. Ltd.\nGat No. 379, At Post Bebadohal,\nPawana Dam Road, Tal. Wadagaon Maval,\nDist.: Pune – 410 506.\nM. No. 91565 52022"},{"label":"Mr. Vipin Malhotra — S. M. ENTERPRISES","address":"Mr. Vipin Malhotra\nS. M. ENTERPRISES\nShop No. 16, DDA Market,\nRajdhani Enclave, Pitampura,\nNorth West Delhi,\nNEW DELHI – 110 034.\nM. No. 9953094228"},{"label":"CHIEF GENERAL MANAGER — Ammunition Factory, Khadki,","address":"CHIEF GENERAL MANAGER\nAmmunition Factory, Khadki,\nUnit Of Munitions India Ltd.\nA Govt. Of India Enterprises, Ministry Of Defence,\nKhadki, Pune 411 003."},{"label":"PO. No 20250444CP Dt 04-06-2025.","address":"PO. No 20250444CP Dt 04-06-2025."},{"label":"Mr. Rakesh Kumar — SHREE RADHEY MACHENICAL WORKS","address":"Mr. Rakesh Kumar\nSHREE RADHEY MACHENICAL WORKS\nShop No. 3743, Netaji Subhash Marg,\nDarya Ganj,\nNEW DELHI – 110 002.\nM. No. 98101 34289"},{"label":"Mr. Mohan Gupta — Gupta Ice & Cold Storage","address":"Mr. Mohan Gupta\nGupta Ice & Cold Storage\nW 212 A, M.I.D.C. Taloja,\nTALOJA – 410 208.\nDist : Raigad\nM. No. 9987020999"},{"label":"Mr. S A Samnani — National Ice Factory","address":"Mr. S A Samnani\nNational Ice Factory\nPoona Road, Sangamner Khurd\nSANGAMNER – 422 605.\nM. No. 9850264079\n9545543999"},{"label":"Mr. J. S. Jadhav — DHANLAXMI ENTERPRISES","address":"Mr. J. S. Jadhav\nDHANLAXMI ENTERPRISES\n304, Ramanand Park,\nHadapsar Gadi Tal,\nNear Janseva Bank\nPUNE – 411 028.\nM. No. 9822248733"},{"label":"Attn. Mr.Vijaykumar Chavan — Gadre Marine Export Pvt. Ltd.","address":"Attn. Mr.Vijaykumar Chavan\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600 M. No. 9921435350"},{"label":"Mr. Prashant Shende — Bharat Vanaspati Pharmacy","address":"Mr. Prashant Shende\nBharat Vanaspati Pharmacy\nA/P. Manchar, Tal. Ambegaon,\nMANCHAR,\nDist. Pune – 410503.\nM. No. 99755 79343"},{"label":"Mr. Swapnil Mane — Gadre Marine Export Pvt. Ltd.","address":"Mr. Swapnil Mane\nGadre Marine Export Pvt. Ltd.\nSalt Road, At. Tundara,\nP.O. Inchudi, PS Khantapada,\nBALASORE – 756 021.\n( Orissa )\nM. No. 9130606066"},{"label":"Mr. Chakravarti — Benara Bi – Metals Pvt. Ltd.","address":"Mr. Chakravarti\nBenara Bi – Metals Pvt. Ltd.\n15 Km. Mile Stone, Artoni,\nArtoni,\nAGRA – 282 007.\n( U.P.)\nM. No. 9927324888 , 9897029539"},{"label":"Mr. Sunil Raghunath Nalawade — House No 2/226, Sainagar,","address":"Mr. Sunil Raghunath Nalawade\nHouse No 2/226, Sainagar,\nPomedi Khurd,\nKUVARBAV – 415 612.\nRATNAGIRI\nM. No. 98223 85084"},{"label":"Mr. Anil Sankla — V TECH ENGINEERING","address":"Mr. Anil Sankla\nV TECH ENGINEERING\nShop No 10, Basement Floor,\nFame Tapadiya Cinemarket,\nN 1 CIDCO,\nAURANGABAD – 431 003.\nM. No. 9637294422"},{"label":"INOX AIR PRODUCTS PVT. LTD. — In the Premises of Kirloskar Ferrous","address":"INOX AIR PRODUCTS PVT. LTD.\nIn the Premises of Kirloskar Ferrous\nIndustries Ltd.\nJejuri Morgaon Road,\nVillage Kolvihre,\nJEJURI – 412 303.\nM. No. 7447448266"},{"label":"INOX AIR PRODUCTS PVT. LTD. — In the Premises of ISMT Ltd. Compound,","address":"INOX AIR PRODUCTS PVT. LTD.\nIn the Premises of ISMT Ltd. Compound,\nJejuri Morgaon Road,\nVillage Kolvihre,\nJEJURI – 412 303.\nTel. No. 02115-253373"},{"label":"THAKUR AGRO — ALANDI MARKAL ROAD,","address":"THAKUR AGRO\nALANDI MARKAL ROAD,\nSOLU, MARKAL,\nDIST. : PUNE – 412105.\nM. No. 89757 30113"},{"label":"Consolidated Engineering Enterprises — Shreeji Chamber, 2nd Floor, ...","address":"Consolidated Engineering Enterprises\nShreeji Chamber, 2nd Floor, Room No 17,\n313, Shahid Bhagat Singh Road,\nCalicut Street Corner,\nMUMBAI – 400 038.\nTel. No. 22652517, 22615347"},{"label":"Rajiv kr Singh — Asst. Manager (Services)","address":"Rajiv kr Singh\nAsst. Manager (Services)"},{"label":"Air Control And Chemical Engineering Co. Ltd. — H.O.: 63, The Chamb...","address":"Air Control And Chemical Engineering Co. Ltd.\nH.O.: 63, The Chambers, Near Goyal Palace, Opp. Gurudwara,\nSarkhej-Gandhinagar Highway,\nAHMEDABAD – 380 054. (Guj)\nMobile  +91-9974147686  Tel.: 079-26853578"},{"label":"Mr. Maheshwari — SUNRISE SALES CORPORATION","address":"Mr. Maheshwari\nSUNRISE SALES CORPORATION\n00 Suraj Ganj, Near Rathi Dall Mill,\nNarmadapuram, Hoshanagabad,\nITARSI – 461 111. ( M.P.)\nM. No. 94250 40490"},{"label":"Mr. Ghanshyam Bargale — ORDANANCE FACTORY ROAD","address":"Mr. Ghanshyam Bargale\nORDANANCE FACTORY ROAD\nVILLAGE PANDUKHEDI\nNear Mateshwari Garden\nITARSI – 461 122  ( M.P.)"},{"label":"Contact No. : 99263 67730","address":"Contact No. : 99263 67730"},{"label":"Mr. R. K. Meena — Quarter No. 3059","address":"Mr. R. K. Meena\nQuarter No. 3059\nType C Ordnance Factory\nITARSI -  461122.\n( Madhya Pradesh )\nMob. 8962107073"},{"label":"Mr. Mahinder — ORDNANCE  FACTORY  ROAD","address":"Mr. Mahinder\nORDNANCE  FACTORY  ROAD\nITARSI – 461 122  ( M.P.)\nM. No. 83570 90606"},{"label":"Mr. Ramashre R Yadav — Aditya Nagar Co-Op Hsg. Soc.","address":"Mr. Ramashre R Yadav\nAditya Nagar Co-Op Hsg. Soc.\nRoom No D – 39,\nGadital Hadapsar,  Hadapsar,\nPUNE – 411 028.\nM. No. 9881616528"},{"label":"THE GENERAL MANAGER — ORDNANCE FACTORY","address":"THE GENERAL MANAGER\nORDNANCE FACTORY\nITARSI – 461 122.\nDist : Hoshangabad ( M.P.)\nTel. No. 07572-233027/28  M. No. 9302822687"},{"label":"Mr. Ramashre Yadav — INOX AIR PRODUCTS LIMITED.","address":"Mr. Ramashre Yadav\nINOX AIR PRODUCTS LIMITED.\nISMT Ltd. Compound,\nJejuri Morgaon Road,\nJEJURI – 412 303.\nTel. No. 233000 M. No. 9881616528"},{"label":"Mr. D. Krishna Dhanaraj — INOX AIR PRODUCTS PVT. LTD.","address":"Mr. D. Krishna Dhanaraj\nINOX AIR PRODUCTS PVT. LTD.\nR.S. No. 26, Kanniakoil # Bahour Main Road,\nManapet #PO, Utchimedu,\nPUDUCHERRY – 607 402.\nTel. No. 2615911 / 13\nM. No. 9994392346"},{"label":"Mr. Senthil Kumar — INOX AIR PRODUCTS PVT. LTD.","address":"Mr. Senthil Kumar\nINOX AIR PRODUCTS PVT. LTD.\nR.S. No. 26, Kanniakoil # Bahour Main Road,\nManapet #PO, Utchimedu,\nPUDUCHERRY – 607 402.\nTel. No. Tel. No. 2615911 / 13\nM. No. 86675 68939"},{"label":"Dispatch the material thro VRL Logistics,Cuddalore, Tamil Nadu.","address":"Dispatch the material thro VRL Logistics,Cuddalore, Tamil Nadu."},{"label":"INOX AIR PRODUCTS LTD. — R.S. NO. 26,","address":"INOX AIR PRODUCTS LTD.\nR.S. NO. 26,\nKannia Koil – Bahour Main Road,\nKANNIAKOIL – 607 402.\nTel. No. 0413 – 2615911 / 13"},{"label":"Mr. Sadik Phansopkar — Gadre Marine Export Pvt. Ltd.","address":"Mr. Sadik Phansopkar\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600  M. No. 97659 92153"},{"label":"Mr. Abhijeet Vengurlekar — Gadre Marine Export Pvt. Ltd.","address":"Mr. Abhijeet Vengurlekar\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639."},{"label":"Tel. No. 231600 M. No. 9158008952 — To","address":"Tel. No. 231600 M. No. 9158008952\nTo\nDolphin Marine Foods & Processors ( India ) Pvt. Ltd.\nPlot No. M-13, M.I.D.C. Taloja,\nTALOJA – 410 208.\nDist : Raigad.\nTel. No. 27401179"},{"label":"P. O. No. DMFP/359/2013-14 Dt. 19/02/14","address":"P. O. No. DMFP/359/2013-14 Dt. 19/02/14"},{"label":"KUNDALIKA CHEMICALS — 35, M.I.D.C. Industrial Estate,","address":"KUNDALIKA CHEMICALS\n35, M.I.D.C. Industrial Estate,\nDhatav,\nROHA – 402 116.\nTel. No. 263625 M. No. 9850671690"},{"label":"Mr. Chandrakant Hirve — Warnanagar,","address":"Mr. Chandrakant Hirve\nWarnanagar,\nDist ; Kolhapur"},{"label":"WARNANAGAR OFFICE DELIVERY — M. No. 76668 78150","address":"WARNANAGAR OFFICE DELIVERY\nM. No. 76668 78150"},{"label":"Ganga Ice Factory — C/o. Shivaji G. Shinde","address":"Ganga Ice Factory\nC/o. Shivaji G. Shinde\nIndira Nagar,\nTal. SHRIRAMPUR-413 709.\nDist : Ahmednagar.\nM. No. 9970754990"},{"label":"Mr. Sudhir Malusare — A/C – 309, Rajnandan Co-Op Housing Society,","address":"Mr. Sudhir Malusare\nA/C – 309, Rajnandan Co-Op Housing Society,\nRajendra Nagar Road,\nDattapada,\nNear Ekta Bhumi Garden,\nBorivali ( East ),\nMUMBAI – 400 066.\nM. No. 9860319412"},{"label":"J. K. ENTERPRISES — Virani Aghat,","address":"J. K. ENTERPRISES\nVirani Aghat,\nDhebar Road ( South ),\nBehind Hi-Tech Tyre,\nRAJKOT – 360 002.\n( Gujarat )\nM. NO. 9825636255 , 9408311433"},{"label":"Mr. Vinay Bhagwat / Mr Sanjay Kudal — VINATI ORGANICS LTD.","address":"Mr. Vinay Bhagwat / Mr Sanjay Kudal\nVINATI ORGANICS LTD.\nA-20, M.I.D.C.,Industrial Area,\nLote Parshuram – 415 722.\nTal. Khed,"},{"label":"T. No. 273032 / 33 / 34","address":"T. No. 273032 / 33 / 34"},{"label":"Mr. Saurav Suman — LUPIN LIMITED.","address":"Mr. Saurav Suman\nLUPIN LIMITED.\nMandideep – API Unit 2,\n198 – 202 New Industrial Area No. 2,\nDist : Raisen\nMANDIDEEP – 462 046.\n( Madhya Pradesh )\nM. No. 74804 10324"},{"label":"LUPIN LIMITED. For invoice copy — Empir Towers, 11th Floor, South B...","address":"LUPIN LIMITED. For invoice copy\nEmpir Towers, 11th Floor, South Block C & D,\nThane Belapur Road, Airoli East,\nNAVI MUMBAI – 400 708.\nTel. No. 68652000"},{"label":"Mr. Ramji Patel — LUPIN LIMITED","address":"Mr. Ramji Patel\nLUPIN LIMITED\nMandideep, API Unit 2,\n198-202, New Industrial Area No 2,\nDist : Raisen,\nMANDIDEEP – 462 046.\n( Madhya Pradesh )\nM. No. 07480 410324"},{"label":"ANTI – LEAK ENGINEERING — BF 06, Saraf Kaskar Industrial Estate,","address":"ANTI – LEAK ENGINEERING\nBF 06, Saraf Kaskar Industrial Estate,\nNear Oshiwara Bridge, S. V. Road,\nJogeshwari ( West ),\nMUMBAI – 400 102.\nM. No. 9769624244 , 7506201701"},{"label":"Mr. Nandkishor Gamre — GADRE MARINE EXPORT PVT. LTD.","address":"Mr. Nandkishor Gamre\nGADRE MARINE EXPORT PVT. LTD.\nSy. No. 31/1, A-1, Baikady Village,\nDakshina Kannada,\nBRAHMAVAR – 576 213.\nDist : Udupi, ( Karnataka )\nTel. No. 0820 - 2561268\nM. No. 9765991079"},{"label":"Attn. Mr. Kotkar — Trimurti Food Tech Pvt. Ltd.","address":"Attn. Mr. Kotkar\nTrimurti Food Tech Pvt. Ltd.\nVadgaon Amli,\nTal. Parner,\nDist : Ahmednagar\nM. No. 9764444152"},{"label":"SHEETAL COOL PRODUCTS LTD. — Plot No. 75, TO 81, G.I.D.C. Estate,","address":"SHEETAL COOL PRODUCTS LTD.\nPlot No. 75, TO 81, G.I.D.C. Estate,\nAMRELI – 365 601.\n( Gujarat )\nM. No. 9081828397"},{"label":"Mr. Arjun Vyas — SHEETAL COOL PRODUCTS LTD.","address":"Mr. Arjun Vyas\nSHEETAL COOL PRODUCTS LTD.\nPlot No. 75, TO 81, G.I.D.C. Estate,\nAMRELI – 365 601.\n( Gujarat )\nM. No. 9409694541"},{"label":"Mr. Manoj Jogi — SHEETAL COOL PRODUCTS LTD.","address":"Mr. Manoj Jogi\nSHEETAL COOL PRODUCTS LTD.\nPlot No. 75, TO 81, G.I.D.C. Estate,\nAMRELI – 365 601.\n( Gujarat )"},{"label":"M. No. 9375829489 — To","address":"M. No. 9375829489\nTo\nMr. Dhaval Patel\nSHEETAL COOL PRODUCTS LTD.\nPlot No. 75 To 81, G.I.D.C. Estate,\nAMRELI – 365 620.\n( Gujarat )\nTel. No. 02792-240501  M. No. 94096 94541"},{"label":"Inox Air Products Pvt.Ltd. — Plot No. B – 131, ","address":"Inox Air Products Pvt.Ltd.\nPlot No. B – 131, \nButibori M.I.D.C. Industrial Area,\nBUTIBORI – 441 122.\nDist. : Nagpur\nTel No. 9607801110/ 2220 / 4440"},{"label":"P. O. No. 4500211431 Dt. 09-07-2020","address":"P. O. No. 4500211431 Dt. 09-07-2020"},{"label":"With Kind Regards, — Manasi Ghadge","address":"With Kind Regards,\nManasi Ghadge\nAsstt. Manager - Exports\nMAN Logistics (India) Private Limited,\n204, Dhantak Plaza,\nMakwana Road, Off Andheri-Kurla Road,\nMarol, Andheri East, Mumbai 400 059.\nHandphone: + 91 8655061131\nTel:+ 91 22 6101 1128\nFax: + 91 22 2920 0316"},{"label":"Mr. Shiv Prasad — Inox Air Products Pvt. Ltd.","address":"Mr. Shiv Prasad\nInox Air Products Pvt. Ltd.\nSite of Arjas Steel Pvt. Ltd.\nVillage : Jambulapadu,\nMandal : Tadipatri,\nDistrict : Anantapur,\nAndhra Pradesh – 515 411.\nMobile No : 9963081209"},{"label":"Mr. Shiv Prasad — INOX-AIR PRODUCTS PVT. LTD","address":"Mr. Shiv Prasad\nINOX-AIR PRODUCTS PVT. LTD\nSite of Gerdau Steel India Pvt. Ltd.\n15/75, R. F. Road, Village : Jambulapadu,\nAnantapur,\nTADIPATRI – 515 411. (A.P.)\nTel. No. 08558 – 201646/7 M. No : 9963081209"},{"label":"Mr. Shiv Prasad — INOX-AIR PRODUCTS PVT. LTD","address":"Mr. Shiv Prasad\nINOX-AIR PRODUCTS PVT. LTD\nSite of Gerdau Steel India Pvt. Ltd.\n15/75, R. F. Road,\nVillage : Jambulapadu,\nAnantapur,\nTADIPATRI – 515 411.\nTel No 08558 – 201646/7\nMobile No. : 9963081209"},{"label":"Mr. Shivprasad — Inox Air Products Pvt. Ltd.","address":"Mr. Shivprasad\nInox Air Products Pvt. Ltd.\nSite of Gerdau Steel India Pvt. Ltd.\n15/75, R. F. Road,\nVillage Jambulpadu,  Anantpur,\nTADIPATRI – 515 411.\n( Andhra Pradesh )\nTel. No. 08558 – 201646/7\nM. No. 9963081209"},{"label":"INOX AIR PRODUCTS PVT. LTD. — Site of Gerdau Steel India Ltd.","address":"INOX AIR PRODUCTS PVT. LTD.\nSite of Gerdau Steel India Ltd.\nJambulapadu Village,\nDist : Anantpur,\nTADIPATRI – 515 411.\n( Andhara Pradesh )\nTel. No. 201646 / 7\nMobile No : 9963081209"},{"label":"POONA HOSPITAL & RESEARCH CENTRE — 27, Sadashiv Peth,","address":"POONA HOSPITAL & RESEARCH CENTRE\n27, Sadashiv Peth,\nL. B. Shastri Road,\nPUNE – 411 030.\nTel. No. 24331706 , 66096000"},{"label":"Mr. D.P. Singh — S. R. REFRIGERATION","address":"Mr. D.P. Singh\nS. R. REFRIGERATION\nShop No 09 Ehsan Plaza\n123/31, Beside Shalimar Square,\nB N Road, Lalbagh\nLUCKNOW – 226 001.  ( U.P. )\nM. No. 97931 21555"},{"label":"Transport nagar Lucknow","address":"Transport nagar Lucknow"},{"label":"Mr. Umesh Kumar — C/o S C SALUJA","address":"Mr. Umesh Kumar\nC/o S C SALUJA\nH N 554-K/16 ARJUN NAGAR ALAMBAGH\nOPP JANTA GIRLS INTER COLLEGE\nLUCKNOW 226 005.\n( U.P.)\nMob. 78449 92810"},{"label":"Mr. Umesh Kumar — C/o. VERMA ICE FACTORY","address":"Mr. Umesh Kumar\nC/o. VERMA ICE FACTORY\nLUCKNOW 226 001.\n( Uttar Pradesh )\nMob. 78449 92810"},{"label":"Mr. Anna — ZEBU DAIRY TECH PVT. LTD.","address":"Mr. Anna\nZEBU DAIRY TECH PVT. LTD.\nSOUTH GOA 403 115.\nM. NO. 93263 38233"},{"label":"BOOK AT PANJIM","address":"BOOK AT PANJIM"},{"label":"Mr. Sanjay Chauhan — SWASTIK REFRIGERATION","address":"Mr. Sanjay Chauhan\nSWASTIK REFRIGERATION\nNew Shubham City,\nPandit Khera, Krishna nagar,\nLUCKNOW 226 023.\n( U.P.)\nMob.No. 8081934005 , 9648317730"},{"label":"Mr. Ajay Narang — NARANG REFRIGERATION SALES","address":"Mr. Ajay Narang\nNARANG REFRIGERATION SALES\nF-13/87, Hargovind Dayal Bhavan,\nOpp. Old RTO Office, Latouche Road,\nLUCKNOW – 226 018.\n( U.P.)\nM. No. 9415090157 , 9696099905"},{"label":"PEPSICO INDIA HOLDINGS PVT. LTD. — D – 7, M.I.D.C. Paithan,","address":"PEPSICO INDIA HOLDINGS PVT. LTD.\nD – 7, M.I.D.C. Paithan,\nPAITHAN – 431 148.\nDist : Aurangabad.\nTel. No. 02431 – 233212, 233213/14"},{"label":"Mr. Deshpande — Mahalaxmi Ice & Cold Storage","address":"Mr. Deshpande\nMahalaxmi Ice & Cold Storage\nPlot No. 12, Margao Industrial Estate,\nSt. Jose-De-Areal, Margao,\nMARGAO,\nGOA – 403 709.\nTel. No. 2860136 M. No. 9823279480"},{"label":"Mr. Deshpande — 404, B2 Building, Mahadkar Residency,","address":"Mr. Deshpande\n404, B2 Building, Mahadkar Residency,\nNear Bhusari Colony, Kothrud,\nPUNE\nM. No. 9823279480"},{"label":"Mrs. Nitu Singh — EEPC INDIA","address":"Mrs. Nitu Singh\nEEPC INDIA\nAN EPC UNDER UNION MINISTRY OF COMMERCE\n& INDUSTRY, GOVERNMENT OF INDIA\nB-202 & 220, Aurus Chambers,\nAnnex \"B\", 2nd Floor, Behind Mahindra Tower,\nS.S. Amrutwar Marg, Worli,\nMumbai 400 013\nTel : 022-4212 5555 Fax: 022-4212 5556"},{"label":"Navayuga Engineering Company Ltd. — Plot No. 379, Road No. 10,","address":"Navayuga Engineering Company Ltd.\nPlot No. 379, Road No. 10,\nJubilee Hills\nHYDERABAD – 500 003.\nTel. No.040-23339991/92"},{"label":"DELIVERY AT — To.","address":"DELIVERY AT\nTo.\nMr. Ch. Appala Naidu\nNavayuga Engineering Company Ltd.\nSiripuram Village, Manthani Mandal,\nPeddapalli Dist.,\nTelangana – 505 184.\nM. No. 9908921789"},{"label":"ABHAY REFRIGERATION — GAT. NO 22,","address":"ABHAY REFRIGERATION\nGAT. NO 22,\nPUNE SOLAPUR ROAD,\nNEAR YAVAT,\nKHUTBAV – 412 203.\nM. NO. 9766585959"},{"label":"MAYUR ICE FACTORY — YAVAT","address":"MAYUR ICE FACTORY\nYAVAT\nM. NO. 9766585959"},{"label":"Mr. Anna — MAYUR ICE FACTORY","address":"Mr. Anna\nMAYUR ICE FACTORY\nYAVAT\nM. NO. 93263 38233"},{"label":"Mr.  Rahul Sand — RAHUL AGRO SERVICES","address":"Mr.  Rahul Sand\nRAHUL AGRO SERVICES\nKesariya Complex,\nSakuri Road,\nRAHATA – 423107\nDist Ahmednagar\nM. No. 9226214452/9766585959"},{"label":"Mr. Pathan — DILKHUSH ICE FACTORY","address":"Mr. Pathan\nDILKHUSH ICE FACTORY\nSOLAPUR\nM. NO. 9371256595\n9890256595"},{"label":"CAMPHOR & ALLIED PRODUCTS LTD. — P.O. Clutterbuckganj,","address":"CAMPHOR & ALLIED PRODUCTS LTD.\nP.O. Clutterbuckganj,\nDist.: BAREILLY – 243 502.\n( U.P.)\nTel. No. 2561128, 2561115"},{"label":"CHIRAG ENTERPRISES — 107, Abhishek Complex,","address":"CHIRAG ENTERPRISES\n107, Abhishek Complex,\nBehind Navgujarat Collage,\nIncome Tax, Ashram Road,\nAHMEDABAD – 380 014.\n( Gujarat )\nM. No. 9824022217 / 9327004725"},{"label":"Mr. Subrata Pal — 3M INDIA LTD.","address":"Mr. Subrata Pal\n3M INDIA LTD.\nConcorde Block, U.B. City,\nVittal Mallya Road,\nBANGLORE – 560 001."},{"label":"Tel No. 080 – 66595529 — M. No. 9019198666","address":"Tel No. 080 – 66595529\nM. No. 9019198666\nTo\nK. K. INDUSTRIAL PRODUCTS\n242, Bepin Behari Ganguly Street,\nKOLKATA – 700 012.\nTel. No. 223700365 , 22346168"},{"label":"CHIRAG ENTERPRISES — 21, Ellora Park Society,","address":"CHIRAG ENTERPRISES\n21, Ellora Park Society,\nOpp. Jain Temple,\nNavrangpura Char Rasta,\nAHMEDABAD – 380 013.\n( Gujarat )\nTel. No. 27542322 M. No. 9327004725"},{"label":"Kind Attn. Mr. Bhagat","address":"Kind Attn. Mr. Bhagat"},{"label":"Rathi Dye Chem Pvt. Ltd. — 40, M.I.D.C. Dhatav,","address":"Rathi Dye Chem Pvt. Ltd.\n40, M.I.D.C. Dhatav,\nROHA – 402 109.\nDist : Raigad\nM. No. 8380072838"},{"label":"FILTRO INDUSTRIES — Aba Saheb Chinchwade Industrial Estate,","address":"FILTRO INDUSTRIES\nAba Saheb Chinchwade Industrial Estate,\nWalhekarwadi,\nChinchwad 411 033\nTel No: +91 98220 72915"},{"label":"Mr. Hitesh Mehta — GADRE MARINE EXPORT PVT. LTD.","address":"Mr. Hitesh Mehta\nGADRE MARINE EXPORT PVT. LTD.\nPlot No. 130/1, Holiday Home Road,\nCHORWAD – 362 250.\nDist : Junagadh ( Gujarat )\nTel. No. 288660 , 288661\nM. No. 89800 36673"},{"label":"Mr. Vilas Dorkade — GADRE MARINE EXPORT PVT. LTD.","address":"Mr. Vilas Dorkade\nGADRE MARINE EXPORT PVT. LTD.\nPlot No. 130/1, Holiday Home Road,\nCHORWAD – 362 250.\nDist : Junagadh ( Gujarat )\nTel. No. 288660 , 288661\nM. No. 09099023178"},{"label":"Mr. Vilas Dorkade — GADRE MARINE EXPORT PVT. LTD.","address":"Mr. Vilas Dorkade\nGADRE MARINE EXPORT PVT. LTD.\nPlot No. 130/1, Holiday Home Road,\nCHORWAD – 362 250.\nDist : Junagadh,\n( Gujarat )\nBooking at veraval\nTel. No. 02870-288659, 660, 661\nM. No.   09099023178"},{"label":"TRACKON OFFICE DELIVERY  PIN CODE 362265","address":"TRACKON OFFICE DELIVERY  PIN CODE 362265"},{"label":"Subject: Change of Address — From: \"Dipika Mestry\" <accounts@amocon...","address":"Subject: Change of Address\nFrom: \"Dipika Mestry\" <accounts@amocon.com> Sat, 31 Jan '15 6:24p\nTo: You\nShow full Headers\n﻿\nDear Sir / Madam,"},{"label":"We would like to inform you that our Masjjid office has — ​been","address":"We would like to inform you that our Masjjid office has\n​been\nclosed."},{"label":"Henceforth — our correspondance address","address":"Henceforth\nour correspondance address\nfor all documents​\nwill be,\n209 Shanta Industrial Estate  I.B.Patel Rd.,\nGoregaon East Mumbai-400 063,\nPh no :+91 22 26864648,42648359"},{"label":"And material dispatch address will be, — ​14,​Krisha Industrial Est...","address":"And material dispatch address will be,\n​14,​Krisha Industrial Estate,\nDhumal Nagar, Waliv,\nVasai (E), Dist - Thane - 401208.\n​​"},{"label":"ULTRA ENGINEERING — B/F-06, Saraf Kaskar Industrial Estate,","address":"ULTRA ENGINEERING\nB/F-06, Saraf Kaskar Industrial Estate,\nS. V. Road, Oshiwara,\nJogeshwari ( West ),\nMUMBAI – 400 102.\nT. No 26782993 , 66714273\nM. No 9869169370"},{"label":"Best Regards, —  ","address":"Best Regards,\n \nDipika Mestry\nAmocon Enterprise\n209 Shanta Industrial Estate\nI.B.Patel Rd.,\nGoregaon East\nMumbai-400063\nIndia\nPh         : + 91 22 26864648\nTelefax  : + 91 22 26864649\nEmail     : info@amocon.com\nWeb      : www.amocon.com\nCatlog    : www.refrigeration-compressor-spareparts.com"},{"label":"DELIVERY AT — Mr. Manik N. Patil","address":"DELIVERY AT\nMr. Manik N. Patil\n202, Balaji Nagar Colony\nNear Ganpati Mandir,\nKupwad Road.\nSANGLI – 416 416.\nM. No. 94224 07893"},{"label":"THEUR GASES PVT. LTD. — At Post Athani,","address":"THEUR GASES PVT. LTD.\nAt Post Athani,\nDist : Belgaum – 591 234.\nM. No. 94224 07893"},{"label":"MANIK ENGINEERS — 180, Ratna Deep,","address":"MANIK ENGINEERS\n180, Ratna Deep,\nL.B. Shastri Road, Navi Peth,\nPUNE – 411 030.\nTel. No. 24531417 , 24533102"},{"label":"Mr. Geogy George — Sr. Executive – Admin & Purchase","address":"Mr. Geogy George\nSr. Executive – Admin & Purchase\nInox Air Products Pvt. Ltd.\nPlot No. B – 131, M.I.D.C.Industrial Area,,\nBUTIBORI – 441 122.\n( Nagpur )\nTel. No. 265291/92  M. No. 94221 29588\nTel. No 9607801110 / 2220 / 4440"},{"label":"Mr. Geogy George — Sr. Executive – Admin & Purchase","address":"Mr. Geogy George\nSr. Executive – Admin & Purchase\nInox Air Products Pvt. Ltd.\nWardha (UVSL ) – 64 TPD Plant,\nIn Premises of Uttam Value Steel Ltd\nBhugaon Road, BHUGAON,\nWARDHA – 442 001.\n( Nagpur )\nTel. No. 07152-282146/147\nM. No. 94221 29588 / 9607801110"},{"label":"Mr. Geogy George — Sr. Executive – Admin & Purchase","address":"Mr. Geogy George\nSr. Executive – Admin & Purchase\nINOX AIR PRODUCTS PVT. LTD.\nWardha (EVSL ) – 64 TPD Plant,\nIn Premises of Evonith Value Steel Ltd\nBhugaon Link Road, BHUGAON,\nWARDHA – 442 001.\n( Nagpur )\nTel. No. 07152-282146/147\nM. No. 94221 29588 / 9405690511/514"},{"label":"INOX AIR PRODUCTS PVT. LTD. — Premises of Uttam value Steel Ltd.","address":"INOX AIR PRODUCTS PVT. LTD.\nPremises of Uttam value Steel Ltd.\nBhugaon,\nBhugaon Link Road\nWARDHA – 442 001.\nTel. No. 07152 – 282146 / 147"},{"label":"Mr. V. K. Singh — INOX  AIR PRODUCTS PVT. LTD.","address":"Mr. V. K. Singh\nINOX  AIR PRODUCTS PVT. LTD.\nWardha (UVSL) – 64 TPD Plant,\nIn Premises Of Uttam Value Steel Ltd.\nBhugaon Road, Bhugaon,\nWARDHA – 442 001.\nTel. No. 07152 – 282146 / 147\nM. No. +91 70200 44050"},{"label":"Mr. Mohammed Shoeb / Mr. Ahmed — AL-KABEER EXPORTS PVT. LTD.","address":"Mr. Mohammed Shoeb / Mr. Ahmed\nAL-KABEER EXPORTS PVT. LTD.\nRudraram ( Village ),\nPatancheru ( Mandal ), Medak ( Dist ),\nTELANGANA – 500 033.\nTel. No. 08455 – 220189,90,91\nMob. No.  9849092250 / 9866295702"},{"label":"SUPERFREEZE INDIA — 256, Rasta Peth,","address":"SUPERFREEZE INDIA\n256, Rasta Peth,\nOpp. Hotel karishma , Near Naidu Ganpati,\nPUNE – 411 011.\nTel. No. 26141294"},{"label":"AL-KABEER EXPORTS PVT. LTD. — Rudraram ( Village ),","address":"AL-KABEER EXPORTS PVT. LTD.\nRudraram ( Village ),\nPatancheru ( Mandal ),\nMedak ( Dist ),\nTELANGANA – 500 033.\nTel. No. 08455 – 220189,90,91\nMob. No.  9849092250 / 9866295702"},{"label":"INOX AIR PRODUCTS PVT. LTD. — C/o. Lloyds Steel Industries Ltd.","address":"INOX AIR PRODUCTS PVT. LTD.\nC/o. Lloyds Steel Industries Ltd.\nLloyds Nagar, Bhugaon,\nNear MSEB Power Station,\nWARDHA – 442 001.\nTel. No. 07152 – 282143"},{"label":"Mr. Hussain Shaikh — KOHINOOR ICE FACTORY","address":"Mr. Hussain Shaikh\nKOHINOOR ICE FACTORY\nNanadgaon Road\nAt - YEOLA – 423 401.\nDist. Nasik\nMOB. 9975701700"},{"label":"VADILAL INDUSTRIES LIMITED. — Village Pundhra,","address":"VADILAL INDUSTRIES LIMITED.\nVillage Pundhra,\nTaluka Mansa,\nDist: Gandhinagar – 382 855.\nTel No. 02763 – 300433 - 36"},{"label":"P. O. No. 4500136152 Dt. 13/05/19","address":"P. O. No. 4500136152 Dt. 13/05/19"},{"label":"Delivery At. — VADILAL INDUSTRIES LIMITED.- GOMTIPUR","address":"Delivery At.\nVADILAL INDUSTRIES LIMITED.- GOMTIPUR\nVADILAL ICE FACTORY COMPOUNDNEAR\nRAM KRISHNA MILL.GOMTIPUR\nAHMEDABAD – 380 021.\n( Gujarat )\nTel. No. 25622616 / 17 / 18"},{"label":"DELIVERY AT — Goan Fresh Marine Exports Pvt. Ltd.  ( Unit 2.)","address":"DELIVERY AT\nGoan Fresh Marine Exports Pvt. Ltd.  ( Unit 2.)\nC/o. Lewis Natural Foods\nSy. No. 31/1A1, Baikkady Village, Brahmavar,\nDakshina Kannada, Udupi, Karnataka – 576 213\nM No  9223075760"},{"label":"Refrigeration Allied Works — D. No 40/11/53 Talpagiri Colony,","address":"Refrigeration Allied Works\nD. No 40/11/53 Talpagiri Colony,\nNear Delliep Nursing Collage,\nBuja Buja Nellore, Ak Nagar Post,\nNELLORE – 524 004. ( Andhra Pradesh )\nM. No. 7702246621 / 9652845616"},{"label":"Mr. Shashikant Shamrao Malusare — Shraddha Infinity","address":"Mr. Shashikant Shamrao Malusare\nShraddha Infinity\nSahakar Ssg. Society, Flat No. 1202,\nUtkarsha Nagar,\nNear Kokan Mitra Mandal Gymnasium,\nBhandup ( West ),\nMUMBAI – 400 078.\nMob. No. 9820873047 , 8451829528"},{"label":"Mr. Shashikant Shamrao Malusare — Bewitching Apartment, Block No 104,","address":"Mr. Shashikant Shamrao Malusare\nBewitching Apartment, Block No 104,\nMiniland, Tank Road,\nNear Pimpleshwar Mahadev Mandir,\nBhandup ( West ),\nMUMBAI – 400 078.\nMob. No. 9820873047"},{"label":"Mr. Shashikant Malusare — Flat No. 1, Ground Floor,","address":"Mr. Shashikant Malusare\nFlat No. 1, Ground Floor,\nBewetching Apartment,\nMiniland, Tank Road,\nNear Pimpleshwar Mahadev Mandir,\nMUMBAI – 400 078.\nMob. No. 989219963"},{"label":"Mr. Vinayak Shastri — A/16,  Shri  kunj  Hsg.  Soc.","address":"Mr. Vinayak Shastri\nA/16,  Shri  kunj  Hsg.  Soc.\nHanuman  Road,Vile-Parle  ( E )\nMumbai  400057\nM. No. 9821223609\nT. No. 26166675"},{"label":"PRAJ REFRIGERATION INDUSTRIES — Gat No. 68/2, Milkat No. 313,","address":"PRAJ REFRIGERATION INDUSTRIES\nGat No. 68/2, Milkat No. 313,\nPost Shirswadi, Wadebolhai,\nTal. Haveli Dist. Pune – 412 207.\nM. No. 98901 46817"},{"label":"Mr. Kartik Bhosale — Opp. Bhuskute Snacks Corner,","address":"Mr. Kartik Bhosale\nOpp. Bhuskute Snacks Corner,\nKakartale,\nMAHAD – 402 301.\nM. No 9921685850"},{"label":"INFINITI GASES PVT. LTD. — Revenue Servey No. 161/1, At Mora,","address":"INFINITI GASES PVT. LTD.\nRevenue Servey No. 161/1, At Mora,\nNear Relinace Industries Ltd. Gate No. 1,\nN.H. 6, Hazira – Surat Road,\nTal. Choryasi, Dist : SURAT – 394 510.\n( Gujarat )\nM. No. 7709623015, 9404474316"},{"label":"Mr. Machindra — Punjab State Container & Warehousing Corp. Ltd.","address":"Mr. Machindra\nPunjab State Container & Warehousing Corp. Ltd.\nNew Shed No. 1 Location Point A,B,C,D, Plot No. 2,\nSector-2, Dronagiri, Tal. Uran, Dist Raigad,\nNAVI MUMBAI – 400 707.\nM. No. 9167969973"},{"label":"Mr. Balasaheb Shinde — Solapur","address":"Mr. Balasaheb Shinde\nSolapur\nM. No 8788506273"},{"label":"Mr. Naveen — SATYADEVA LIFE SCIENCES","address":"Mr. Naveen\nSATYADEVA LIFE SCIENCES\nPLOT NO F – 24 M.I.D.C.,\nCHINCHOLI,\nSOLAPUR – 413 255.\nM. No 74476 38386"},{"label":"Mr. Niket Pawaskar — Gadre Marine Export Pvt. Ltd.","address":"Mr. Niket Pawaskar\nGadre Marine Export Pvt. Ltd.\nPlot No. IP – 32 & IP – 33, MSEZ, Bajpe,\nPost & Village Mangaluru Taluka,\nDAKSHINA KANNADA - 574142\nMANGLORE ( Karnataka )\nM. No. 9423874655"},{"label":"WITHOUT PAYMENT OF IGST) — WITHOUT PAYMENT OF IGST)","address":"WITHOUT PAYMENT OF IGST)\nWITHOUT PAYMENT OF IGST)\nWITHOUT PAYMENT OF IGST)\nWITHOUT PAYMENT OF IGST)"},{"label":"Mr. Sunil Salvi — Gadre Marine Export Pvt. Ltd.","address":"Mr. Sunil Salvi\nGadre Marine Export Pvt. Ltd.\nPlot No. IP-32 & IP-33, MSEZ,\nBajpe Post & Village Mangaluru,\nKalavara, Tal Permude,\nDAKSHINA KANNADA\nMANGLORE – 574 142.\nM. No. 9823120126"},{"label":"Mr. Vaibhav Parkar — Gadre Marine Export Pvt. Ltd.","address":"Mr. Vaibhav Parkar\nGadre Marine Export Pvt. Ltd.\nPlot No. IP – 32 & IP – 33, MSEZ, Bajpe,\nPost & Village Mangaluru Taluka,\nDAKSHINA KANNADA - 574142\nMANGLORE ( Karnataka )\nM. No : 77670 24676 / 7507856468"},{"label":"FREEZON — Akshay Colony Road,","address":"FREEZON\nAkshay Colony Road,\nSr. No. 3/2, Near Dhone Ingale Company,\nWARJE – PUNE – 411 058."},{"label":"Mr. Lakhwinder Salhotra — PRAKASH ENGINEERING","address":"Mr. Lakhwinder Salhotra\nPRAKASH ENGINEERING\nJagtap Building, 2nd Floor,\nGangotri Nagar,\nAbove Balaji Paan Shop, Opp. Mamta Sweet,\nPimple Gurav\nPUNE– 411 027.\nM. No. 98220 69490"},{"label":"Mr. Kamthe — Taj Frozen Foods India Ltd.","address":"Mr. Kamthe\nTaj Frozen Foods India Ltd.\nPlot No C – 90,\nAdditional MIDC Area Jejuri,\nJEJURI – 412 303.\nTal, Purandar, Dist. Pune\nTel No 02155 – 25390\nM. No 9822630715"},{"label":"Mr. Kamthe — Taj Foods Products Pvt. Ltd.","address":"Mr. Kamthe\nTaj Foods Products Pvt. Ltd.\nPlot No C – 90,\nAdditional MIDC Area Jejuri,\nJEJURI – 412 303.\nTal, Purandar, Dist. Pune\nTel No 02155 – 25390\nM. No 9822630715"},{"label":"Mr. Neeraj Bhati — Axis Bank Ltd.","address":"Mr. Neeraj Bhati\nAxis Bank Ltd.\nBusiness Square,\nPlot No. 57, Mayur Colony,\nNext to Jog School, Kothrud,\nPUNE – 411 038.\nM. No. 8806666779"},{"label":"Mr. Hussain Aquib — Customer Service Manager - Trade CSM","address":"Mr. Hussain Aquib\nCustomer Service Manager - Trade CSM\nAXIS BANK LTD.\nStilt Floor, C.T.S. No. 1189/25,\nPlot No. 3, Arihant,\nKarve Nagar,\nPUNE – 411 052.\nTel. No. 25456858/38 M. No. 8892497771"},{"label":"Mr. Mandar More — Gadre Marine Export Pvt. Ltd.","address":"Mr. Mandar More\nGadre Marine Export Pvt. Ltd.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600 M. No. 9823875060"},{"label":"Mr. Laxman Pawar — Inox Air Products Pvt. Ltd.","address":"Mr. Laxman Pawar\nInox Air Products Pvt. Ltd.\nIn The Premises Kirloskar Ferrous\nIndustries Ltd. Compound\nMorgoan Rd. Village - Kolvihire, Jejuri\nJEJURI – 412 303.\nM. No. 98816 16528 / 74474 48266"},{"label":"Inox Air Products Ltd. — I.S.M.T. Ltd. Compound,","address":"Inox Air Products Ltd.\nI.S.M.T. Ltd. Compound,\nJejuri Morgaon Road,\nVillage Kolvihere,\nJEJURI – 412 303.\nDist. : Pune\nTel No. 02115-253373"},{"label":"P. O. No. 4500088827  Dt. 02-10-13","address":"P. O. No. 4500088827  Dt. 02-10-13"},{"label":"S. M. REFRIGERATION PVT. LTD. — 51/1, Basement,","address":"S. M. REFRIGERATION PVT. LTD.\n51/1, Basement,\nOld Rajinder Nagar,\nNEW DELHI – 110 060.\nTel. No. 25753963, 25743196\nMob. No 9350204228"},{"label":"Attn. Mr. Ganesh Lakhan — Purchase Department","address":"Attn. Mr. Ganesh Lakhan\nPurchase Department\nFINOLEX INDUSTRIES LIMITED.\nVillage Gholap, Ranpur Pawas Road,\nRATNAGIRI – 415 612.\nTel. No. 02352 – 238027 - 31"},{"label":"Attn. Mr. Avinash R. Khatavkar — Dy. Manager - Purchase","address":"Attn. Mr. Avinash R. Khatavkar\nDy. Manager - Purchase\nFINOLEX INDUSTRIES LIMITED.\nVillage Gholap, Ranpur Pawas Road,\nRATNAGIRI – 415 612.\nTel. No. 02352 – 238027 - 31"},{"label":"Fluoroplast Engineers Pvt. Ltd. — 11/14, Subhash Estate,","address":"Fluoroplast Engineers Pvt. Ltd.\n11/14, Subhash Estate,\nB/S Swaminaryan Temple,\nRamol Road, CTM\nAHMEDABAD – 380026.\n( Gujarat )\nM. No. 9925011837\n9933058345"},{"label":"Attn Mr. Deshpande — Mahalaxmi Ice & Cold Storage","address":"Attn Mr. Deshpande\nMahalaxmi Ice & Cold Storage\nPlot No. 12, Margaon Industrial Estate,\nSt. Jose De-Areal, Margaon,\nGOA – 403 709.\nTel. No. 2860136\nMob. No. 98232 79480"},{"label":"Mrs. Rima Malhotra — C 127/2, Kirti Nagar,","address":"Mrs. Rima Malhotra\nC 127/2, Kirti Nagar,\n2nd Floor,\nNEW DELHI – 110 015.\nMob.No. 9350204228"},{"label":"VADILAL INDUSTRIES LIMITED. — Tiskari Road, Ozarpada,","address":"VADILAL INDUSTRIES LIMITED.\nTiskari Road, Ozarpada,\nDHARAMPUR – 396 050.\nDist: Valsad, ( Gujarat )\nTel No. 02633 - 40144 / 40"},{"label":"P.O. No. 11/5/EN/1200284 — Date 31-01-2013","address":"P.O. No. 11/5/EN/1200284\nDate 31-01-2013"},{"label":"VADILAL INDUSTRIES LIMITED. — Village Pundhra,","address":"VADILAL INDUSTRIES LIMITED.\nVillage Pundhra,\nTaluka Mansa,\nDist: Gandhinagar – 382 855.\nTel No. 85265 /66"},{"label":"P. O. No. 11/22/EN/1300200 Dt. 03/06/13 — P. O. No. 11/22/EN/130031...","address":"P. O. No. 11/22/EN/1300200 Dt. 03/06/13\nP. O. No. 11/22/EN/1300319 Dt. 27/06/13\nP. O. No. 11/22/EN/1300330 Dt. 27/06/13"},{"label":"Delivery At. — VADILAL INDUSTRIES LIMITED.","address":"Delivery At.\nVADILAL INDUSTRIES LIMITED.\nDudheshwar Road,\nBehind Jupiter Mills,\nDudheshwar,\nAHMEDABAD – 380 004.\n( Gujarat )\nTel. No. 25622616 / 17 / 18"},{"label":"Inox Air Products Ltd. — Plot No. B – 131, ","address":"Inox Air Products Ltd.\nPlot No. B – 131, \nButibori M.I.D.C. Industrial Area,\nBUTIBORI – 441 122.\nDist. : Nagpur\nTel No. 25291 / 96 / 338"},{"label":"P. O. No. 4500084970 Dt. 11-07-13","address":"P. O. No. 4500084970 Dt. 11-07-13"},{"label":"RAJPAL AIRCON — 424, Mangalwar Peth,","address":"RAJPAL AIRCON\n424, Mangalwar Peth,\n‘S’ Chamber\nPUNE – 411 011.\nTel. No. 26126372 , 26051587\nM. No 9822029774"},{"label":"Thermomech Engineers & Solutions — H No. 1/6/586, Near Hanuman Mandir,","address":"Thermomech Engineers & Solutions\nH No. 1/6/586, Near Hanuman Mandir,\nShrinagar ,\nNANDED – 431 605.\nM. NO. 7719821977"},{"label":"SPEED FREEZE ENGINEERS — 737, Mission Church Road,","address":"SPEED FREEZE ENGINEERS\n737, Mission Church Road,\nFatehpuri,\nDelhi – 110 006.\nTel. No. 23977055, 23925014"},{"label":"Attn. Mr. Anil Shankhala — Infiniti Gases Pvt. Ltd.","address":"Attn. Mr. Anil Shankhala\nInfiniti Gases Pvt. Ltd.\nRevenue Sr. No. 161/1, At. Mora,\nNear Reliance Industries Ltd. Gate No. 1,\nN.H. No. 6, Hazira – Surat Road, Tal. Choryasi,\nDist : SURAT – 394 510.\n( Gujarat )\nMob. No. 07709622014"},{"label":"Ganga Ice Factory — C/o. Mr. Galande Patil","address":"Ganga Ice Factory\nC/o. Mr. Galande Patil\nIndira Nagar,\nHaregaon Road,\nTal. SHRIRAMPUR-413 709.\nDist : Ahmednagar.\nM. No. 9156780785"},{"label":"SHRI SAMARTH ICE FACTORY — Awsari Khurd, Gaimukh,","address":"SHRI SAMARTH ICE FACTORY\nAwsari Khurd, Gaimukh,\nTal. Ambegaon\nDist : Pune – 412 405.\nM. No. 9284716039"},{"label":"Mr. Deepak Bailurkar — Adani Electricity Mumbai Limited","address":"Mr. Deepak Bailurkar\nAdani Electricity Mumbai Limited\nAdani Dahanu Thermal Power Station,\nADTPS Main Stores,\nDahanu Road,  District: Palghar,\nDAHANU – 401 608.\nMaharashtra\nPhone : 9325118314\nEmail : deepak.bailurkar@adani.com\nSHYAM JEE REFRIGERATION\nOld Roadways Check Post,\nTeri Bagia, Hatras Road,\nAGRA – 282 006 ( Uttar Pradesh )\nM. No. 98370 63899"},{"label":"Mr. S. M. Nadkarni — NAMAN Plot No. 8,","address":"Mr. S. M. Nadkarni\nNAMAN Plot No. 8,\nSr. No. 6928, Vidyavihar Colony,\nNear Railway Gate, Vishrambag,\nSANGLI – 416 415.\nM. No. 91195 76777"},{"label":"Mr. R. Nadkarni — Shree Datta Cold Storage","address":"Mr. R. Nadkarni\nShree Datta Cold Storage\nJ 52, M.I.D.C. Kupwad,\nKUPWAD – 416 436.\nTal. Miraj , Dist Sangli.\nM. No. 9119576777"},{"label":"Mr. S M Nadkarni — Shree Datta Cold Storage","address":"Mr. S M Nadkarni\nShree Datta Cold Storage\n‘NAMAN’ Plot No 8.\nSr. No 6928 Vidhyavihar Colony,\nNear Railway Gate.\nVishrambag Sangli 416 415.\nM. No.  911957 6777"},{"label":"Mr. Wahid — VADILAL INDUSTRIES LIMITED.","address":"Mr. Wahid\nVADILAL INDUSTRIES LIMITED.\nD – 24, Persa Khera Industrial Area,\nBAREILLY – 243 502.\n( U.P.)\nTel. No. 3981401-21/29\nM. No. 9760045501"},{"label":"Mr. Priyanshu Gupta — VADILAL INDUSTRIES LIMITED.","address":"Mr. Priyanshu Gupta\nVADILAL INDUSTRIES LIMITED.\nD – 24, Persa Khera Industrial Area,\nBAREILLY – 243 502.\n( U.P.)\nTel. No. 3981401-21/29\nM. No.  87551 39052"},{"label":"P.O. No. 4500074352 — Date 27-03-17","address":"P.O. No. 4500074352\nDate 27-03-17\nTo\nMr. Nagesh Walke\nInter Jas Logistics Pvt. Ltd.\n209 & 210, Konark Epitone,\nViman Nagar,\nPUNE – 411 014.\nTel. No. 41284102\nM. No. 8554982608"},{"label":"Mr. K. L. Shirke — Manager – Pers & Admin.","address":"Mr. K. L. Shirke\nManager – Pers & Admin.\nInox Air Products Pvt. Ltd.\nB – 131, M.I.D.C. Industrial Area\nBUTIBORI – 441 122.\nDist. : Nagpur\nTel No. 265291 / 92 / 93\nM. No. 9823339700"},{"label":"AL-KABBER EXPORTS PVT. LTD. — Rudraram ( Village ),","address":"AL-KABBER EXPORTS PVT. LTD.\nRudraram ( Village ),\nPatancheru ( Mandal ),\nMedak ( Dist.)\nANDHRA PRADESH – 502 329.\nTel No. 08455-220190 / 220191"},{"label":"P.O. No. 02881 Dt. 30-01-13 — To","address":"P.O. No. 02881 Dt. 30-01-13\nTo\nMr. Sadik Phansopkar\nGADRE MARINE EXPORT PVT. LTD.\nPlot No. FP – 1, M.I.D.C.,\nMirjole Block,\nRATNAGIRI – 415 639.\nTel. No. 231600 , 230967"},{"label":"JYOTI COMPRESSOR PART CO. — Great Western Building, Building No.37,...","address":"JYOTI COMPRESSOR PART CO.\nGreat Western Building, Building No.37, Flat No.56,\nGr.floor, Maharashtra Chamber of Commerce Lane, \nFort, Mumbai - 400 023\nTelefax: +9122 22850065/66\nMob: +919820127608\nEMAIL: jyoticompresor@gmail.com\njyoticompressor@yahoo.in\nTo\nMr. Kalpesh Panjri\nBLUE OCEAN MARINE\nJavar Road, O Nr. Subhashnagar,\nJavar Gam,\nPORBANDAR – 360 575.\n( Gujarat )\nM. No. 90338 69159"},{"label":"Mr. Vikas Patil — SAI PRASAD COLD STORAGE","address":"Mr. Vikas Patil\nSAI PRASAD COLD STORAGE\nGat No. 261/2, M.I.D.C. Kupwad,\nTanang Road, KUPWAD\nSANGLI - 416436\nM. No.8459579091 / 90287 19509"},{"label":"Mr. Siraj Jamdar — Moshi","address":"Mr. Siraj Jamdar\nMoshi\nM. No. 9850549340"},{"label":"Mr. Y. K. Murali — INPRO MARKETING SERVICES","address":"Mr. Y. K. Murali\nINPRO MARKETING SERVICES\nNo. 31, Kemson Apartment,\nLane Opp. Vision Express,\nAmeerpet,\nHYDERABAD – 500 016.\n( Telangana)\nM. No. 099129 24114"},{"label":"ISG RUBBER INDUSTRIES — Unit No 2, Abhilasha Industrial Estate,","address":"ISG RUBBER INDUSTRIES\nUnit No 2, Abhilasha Industrial Estate,\nNo. 9, Opp. Hotel Golden Chariot,\nMumbai Ahmedabad Highway,\nVASAI EAST – 401 208.\nDist : Palghar\nM. No. 8291929071 , 8291929072"},{"label":"ISG ELASTOMERS — Unit No 8 & 9, Abhilasha Industrial Estate,","address":"ISG ELASTOMERS\nUnit No 8 & 9, Abhilasha Industrial Estate,\nNo. 9, Valiv Road, Opp. Hotel Golden Tulip,\nDist Palghar,\nVASAI EAST – 401 208.\nM. No. 8291929071 , 8291929072"},{"label":"Mr. Bhausaheb Galande Patil — GANGA ICE FACTORY","address":"Mr. Bhausaheb Galande Patil\nGANGA ICE FACTORY\nHotel Neelayam,\nNear S.T. Bus Stand, Shrirampur,\nTal. Shrirampur\nDist : Ahmednagar\nM. No. 9209480438"},{"label":"Mr. Khandalkar — Inox Air Products Pvt. Ltd.","address":"Mr. Khandalkar\nInox Air Products Pvt. Ltd.\nPlot No. 38, IDA Phase I,\nPashmylaram, Patancheru Mandal,\nDist : Medak,\nTELANGANA –  502 307.\nTel. No. 224330 - 332\nM. No. 07702084505"},{"label":"Santulan Ayurveda Pvt Ltd — Plot No-72, Nangargaon Industrial Estate,","address":"Santulan Ayurveda Pvt Ltd\nPlot No-72, Nangargaon Industrial Estate,\nNangargaon, Lonavala-410401\nTal:- Maval, Dist:- Pune\nMaharashtra\nOffice Tel Nos:- 88888-02156/02794\nEmail:- pharmacy@santulan.in\nContact Person:- Mr Ravindra S Naik ( 98223-20422)"},{"label":"Mr. Sushil — Triple – S Engineering","address":"Mr. Sushil\nTriple – S Engineering\nBhodkhe, Ward No. 5, \nKatol Road,, Kamleshwar,\nNAGPUR – 441 501.\nM. No. 8888864909"},{"label":"Mr. Raju Nadkarni — DATTA COLD STORAGE","address":"Mr. Raju Nadkarni\nDATTA COLD STORAGE\nJ – 51 , M.I.D.C. Kupwad,\nKUPWAD\nTal. Miraj Dist : Sangli.\nMob. No. 9422407704"},{"label":"SHRAVANJOSHI ENGINEERING PVT.LTD. — (C.I.N: U29253PN2013PTC149950)","address":"SHRAVANJOSHI ENGINEERING PVT.LTD.\n(C.I.N: U29253PN2013PTC149950)\nShop # 15, Orchid Complex “B” Wing,\n1367, SadashivPeth, Pune – 411 030\nPhone: +91-20-6500 7724 / 26\nMobile: +91 – 8888834341"},{"label":"Mr. Quiyum Khan — Purchase Department","address":"Mr. Quiyum Khan\nPurchase Department\nDinshaw’s Dairy Foods Ltd.\nPlot No. K 41 & 42, M.I.D.C. Butibori,\nFive Star Industrial Area,\nBUTIBORI – 441 122.\nDist. : Nagpur"},{"label":"Tel No. 265053 / 54 / 265084/85 — Mo No. 9823308086","address":"Tel No. 265053 / 54 / 265084/85\nMo No. 9823308086\nP. O. No. PO101350 Dt. 11-09-12"},{"label":"Mr. Chaudhari — LAXMI ICE FACTORY","address":"Mr. Chaudhari\nLAXMI ICE FACTORY\nPlot No. B-16 M.I.D.C.,\nIndustrial Area,\nBEED – 431 122\nTel No. 02442-227298\nM. No.  9326099799"},{"label":"Mr. Deepak Talekar — ATC Global Logistics Pvt. Ltd.","address":"Mr. Deepak Talekar\nATC Global Logistics Pvt. Ltd.\n902, Windfall, Sahar Plaza Complex,\nM. V. Road, Andheri ( East )\nMUMBAI – 400 059.\nTel. No. # 91-22-61873000 / 3041\nM. No. 9821146348"},{"label":"Mr. Hemant Mayekar — ATC GLOBAL LOGISTICS PVT. LTD.","address":"Mr. Hemant Mayekar\nATC GLOBAL LOGISTICS PVT. LTD.\n901, Peninsula Towers,\nGanpatrao Kadam Marg,\nLower Parel,\nMUMBAI – 400 013.\nTel. No. 66513041 M. No. 9870334360"},{"label":"Umesh Gajanan Ambollkar — ATC Global Logistics Pvt. Ltd.","address":"Umesh Gajanan Ambollkar\nATC Global Logistics Pvt. Ltd.\n901, Peninsula Tower, Peninsula Corporate Park,\nG.K. Marg, Lower Parel (W),\nMumbai 400 013.\nMob. - 9821618559 / 9224149398\nTel.. - 022 - 66513037."},{"label":"Kind Attention - Mr. Jatin Bansal/VENGURL Ambavane — HINDALCO INDUS...","address":"Kind Attention - Mr. Jatin Bansal/VENGURL Ambavane\nHINDALCO INDUSTRIES LIMITED - Taloja Works \nPlot No. - 2, MIDC Taloja AV, Navi Mumbai , \nDistrict - Raigad, Pin code - 410208, Maharashtra, \nTelephone :- 91-22-66292 255/66292 220"},{"label":"Tata Consultancy Services Ltd. — ( Certifying Authority – PKI Servi...","address":"Tata Consultancy Services Ltd.\n( Certifying Authority – PKI Services )\n10th Floor, Kensington Wing B,\n10-BX-35, 36 & 47, Hiranandani Builders SEZ,\nHiranandani Business Park,  Powai ,\nMUMBAI – 400 076.\nTel. No. 67323000 , 67322525"},{"label":"Mr. Maqsood Shaikh — MAHARASHTRA ICE FACTORY","address":"Mr. Maqsood Shaikh\nMAHARASHTRA ICE FACTORY\nKadam Compound,\nBehind Nalanda Hotel,\nSubhash Road,\nNear Nasik Road Railway Station,\nNASIK – 422 101.\nM. No. 9822843341"},{"label":"Orchid Chemicals & Pharmaceuticals Ltd. — L-8 (P), L-9, Gut No. 38 ...","address":"Orchid Chemicals & Pharmaceuticals Ltd.\nL-8 (P), L-9, Gut No. 38 (P),\nMIDC Industrial Area Walunj,\nAURANGABAD – 431 136.\nTel No. 0240-2567399"},{"label":"P.O. No. 4500267429/MUKUND/GBA — Date 14-01-2013","address":"P.O. No. 4500267429/MUKUND/GBA\nDate 14-01-2013\nTo\nMr. Satish Shetty\nUPS JETAIR EXPRESS PVT. LTD.\nPlot No. #6A, Shyam Nagar,\nOff. JVLR, Jogeshwari ( East ),\nMUMBAI – 400 060.\nTel. No. 2827239 / 6263 / 6237"},{"label":"Mr. Baban Jethar — Asst. Manager – Pricing & Customer Service","address":"Mr. Baban Jethar\nAsst. Manager – Pricing & Customer Service\n6th Floor, Anchorage,\nGovandi East,\nMUMBAI – 400 088.\nT. No. 022-67407510\nM. No. 9619790982"},{"label":"Mr. N. K. Naik — Consolidated Engineering Enterprises","address":"Mr. N. K. Naik\nConsolidated Engineering Enterprises\nShreeji Chamber, 2nd Floor, Room No. 17,\n313, Shahid Bhagat Singh Road,\nCalicut Street Corner,\nMUMBAI – 400 038.\nTel. No. 22652517 , 22615347"},{"label":"Mr. Navale S Rahul — Purchase Department","address":"Mr. Navale S Rahul\nPurchase Department\n3M INDIA LTD.\nPlot No. B – 20, Ranjangaon MIDC,\nRANJANGAON\nDist : Pune 412 209.\nMobile: +919096225553"},{"label":"Bopanna Kelapanda Nanjappa | — Direct Taxation Finance","address":"Bopanna Kelapanda Nanjappa |\nDirect Taxation Finance\n3M Electro & Communication India Pvt. Ltd.\nCorporate Office, Concorde Block, UB City, Vittal Mallya Road, Bangalore | 560001\nOffice: 6659 5443 | Mobile: 9845631060\nbknanjappa@mmm.com | www.3M.com"},{"label":"Mr. Bopanna Kelapanda Nanjappa — Direct Taxation Finance","address":"Mr. Bopanna Kelapanda Nanjappa\nDirect Taxation Finance\n3M Electro & Communication India Pvt. Ltd.\nConcorde Block, UB City,\nVittal Mallya Road,\nBangalore – 560 001.\nOffice: 6659 5443 | Mobile: 9845631060\nbknanjappa@mmm.com | www.3M.com"},{"label":"Mr. D. K. Suresh / Taxation Dept. — 3M India Limited.","address":"Mr. D. K. Suresh / Taxation Dept.\n3M India Limited.\nWework Prestige Central, 3rd Floor,\n36, Infantry Road,\nBENGALURU – 560 001.\n( Karnataka )\nTel No.  +91- 80- 2223 1414"},{"label":"Attn. Mr. B. S. Mhaske — Infinity Gases Pvt. Ltd.","address":"Attn. Mr. B. S. Mhaske\nInfinity Gases Pvt. Ltd.\nC/o. Aurangabad Carbon Products Pvt. Ltd.\nG – 8, M.I.D.C. Walunj,\nWalunj,\nAURANGABAD – 431 136.\nMob. No. 9552533157"},{"label":"Mr. Sanjay Mittal — S. K. SALES ( INDIA )","address":"Mr. Sanjay Mittal\nS. K. SALES ( INDIA )\n3606, Sitaram Bazar,\nNear Chavdi Bazar Metro Station,\nDELHI – 110 006.\nM. No. 9810133787"},{"label":"Mr. Shashikant Dakare — VIRAJ DAIRY LIMITED","address":"Mr. Shashikant Dakare\nVIRAJ DAIRY LIMITED\nTal. Khanapur, Dist. Sangli,\nKundal Road, Bhavaninagar,\nVITA – 415 311.\nM. No. 9970004375, 8087151675"},{"label":"Mr. Swapnil Nalge — Opulent Industries","address":"Mr. Swapnil Nalge\nOpulent Industries\nPlot No. E 23, Kurkumkh Ind. Area,\nKURKUMBH – 413 802.\nTal. Daund Dist : Pune\nM. No. 7721909696"},{"label":"Compressor And Parts Company — 104, 1st Floor-1, Plot 31 B Arihant ...","address":"Compressor And Parts Company\n104, 1st Floor-1, Plot 31 B Arihant Building,\nDr. Dadasaheb Bhadkamkar Marg,\nMumbai Central,\nMUMBAI – 400 008.\nM. No. 99679 17565 , 99678 57915"},{"label":"Mr. Harish Mistri — Akshar Engineering Corporation","address":"Mr. Harish Mistri\nAkshar Engineering Corporation\nNear Tim Works, Pardi Sandhpore,\nMograwadi,\nVALSAD – 396 001.\n( GUJARAT )\nM. No. 9375815326"},{"label":"Mr. Deshpande — Niranjan Industries","address":"Mr. Deshpande\nNiranjan Industries\nPlot no SA 13 & 14 ,\nCuncolim Industrial Estate,\nCuncolim,Salcete,\nGOA -  403 703.\nT. No. 0832 - 2860136\nM. No. 98232 79480"},{"label":"Vat Tin : 30401107855 — CST no. : M/CST/9727","address":"Vat Tin : 30401107855\nCST no. : M/CST/9727"},{"label":"Mr. Raju Reddy — RAJ ENTERPRISES","address":"Mr. Raju Reddy\nRAJ ENTERPRISES\nPlot No. 182, Near CIDCO Office, GC,\nWalunj, Mahanagar – 1, WALUNJ\nAURANGABAD – 431 136.\nM. No. 96896 56966"},{"label":"Mr. Sandeep Harkhani — VADILAL INDUSTRIES LTD.","address":"Mr. Sandeep Harkhani\nVADILAL INDUSTRIES LTD.\nDudheshwar Road,\nBehind Jupiter Mills,\nDudheshawar,\nAHMEDABAD – 380 004.\n( Gujarat )\nTel No. 25622616/17/18\nM. No.99240 64300"},{"label":"Mr. Deepak Talekar — ATC Global Logistics Pvt. Ltd.","address":"Mr. Deepak Talekar\nATC Global Logistics Pvt. Ltd.\n(Previously known as A.T.C. (Clearing & Shipping) Pvt. Ltd.)\n902, Windfall,Sahar Plaza Complex,M.V.Road,\nAndheri (East), Mumbai-400059, Maharashtra.\nTel # 91-22-61873000 / 3041 Fax # 91-22-61873005\nMobile - 9821146348"},{"label":"Attn. Mr. Anil Shankhala — Infinity Gases Pvt. Ltd.","address":"Attn. Mr. Anil Shankhala\nInfinity Gases Pvt. Ltd.\nC/o. Grainotech Industries Ltd.\nGat No. 238/239, Nagar Road,\nBhendala, Gangapur,\nDist. : Aurangabad\nMob. No. 7709622014"},{"label":"Mr. Ravi Maskara — ( Chartered Accountant )","address":"Mr. Ravi Maskara\n( Chartered Accountant )\nMrigendra Cold Storage\nMain Road,\nBEGUSARAI – 851 101.\n( Bihar )\nM. No. 9835992760 , 9431211921"},{"label":"MRIGENDRA COLD STORAGE PVT. LTD. — At Rajwara ( Barauni ),","address":"MRIGENDRA COLD STORAGE PVT. LTD.\nAt Rajwara ( Barauni ),\nPost Garhara,\nDist BEGUSARAI – 851 116.\n( Bihar )\nM. No. 8210545921, 9142291762"},{"label":"MRIGENDRA COLD STORAGE PVT. LTD. — At Rajwara ( Barauni ),","address":"MRIGENDRA COLD STORAGE PVT. LTD.\nAt Rajwara ( Barauni ),\nPost Garhara,\nDist BEGUSARAI – 851 116.\n( Bihar )\nM. No. 9431211921 , 9308938399, 8210545921"},{"label":"Attn. Mr. Vishwas Joshi — VISHWAS ENTERPRISES","address":"Attn. Mr. Vishwas Joshi\nVISHWAS ENTERPRISES\nA.P. Parshuram,\nCHIPLUN – 415 605.\nMob. No. 9422430933\nTel. No. 258287"},{"label":"VADILAL INDUSTRIES LIMITED. — Dudheshwar Road,","address":"VADILAL INDUSTRIES LIMITED.\nDudheshwar Road,\nBehind Jupiter Mills,\nDudheshwar,\nAHMEDABAD – 380 004.\n( Gujarat )\nTel. No. 25622616 / 17 / 18"},{"label":"Inox Air Products Pvt. Ltd. — R. S. No. 26,","address":"Inox Air Products Pvt. Ltd.\nR. S. No. 26,\nKanniakoil Bahour Main Road,\nManpet # PO, Utchimedu\nPUDUCHERRY – 607 402.\nTel. No. 2615911 / 13"},{"label":"P. O. No. 4500181112 Dt. 19-11-18","address":"P. O. No. 4500181112 Dt. 19-11-18"},{"label":"AMOCON ENTERPRISE — 209, Shanta Industrial Estate,","address":"AMOCON ENTERPRISE\n209, Shanta Industrial Estate,\nI. B. Patel Road,\nGoregaon ( East ),\nMUMBAI – 400 063.\nTel. No. 26864648"},{"label":"Mr. Kishor Kapse — G-104, Qualitas Garden CHS,","address":"Mr. Kishor Kapse\nG-104, Qualitas Garden CHS,\nAt- Koproli, Mathersn Road\nPost- Nere,\nPanvel – 410 206.\nM. No. 9737956156"},{"label":"Mr. Swapnil Paigude — AARTI INDUSTRIES","address":"Mr. Swapnil Paigude\nAARTI INDUSTRIES\nSr. No. 36/1/1, Sinhagad Road,\nNear Lokmat, Beside Maruti Service Station,\nVadgaon Khurd,\nPUNE - 411 041.\nM. No. 99220 80060"},{"label":"Mr. Valse Patil — Shri Samarth Ice Factory","address":"Mr. Valse Patil\nShri Samarth Ice Factory\nAwasari Khurd, Gaimukh,\nTal Ambegaon, Dist Pune – 412 405.\nM. No. 9284716039"},{"label":"Book At Manchar Warehouse","address":"Book At Manchar Warehouse"},{"label":"Mr. Bandar — S. L. AGRO FOODS","address":"Mr. Bandar\nS. L. AGRO FOODS\nGate No 310, Kuruli Moi Road,\nBagate Wasti, A/P. Kuruli,\nTal. Khed, Dist Pune – 410 501.\nM. No. 95611 36143"},{"label":"Mr. Rathod — B-1, 18, Phase -1, Kumar Prithvi,","address":"Mr. Rathod\nB-1, 18, Phase -1, Kumar Prithvi,\nBehind Shreeji Lawns,\nKondhwa,\nPUNE -  411 048.\nMobile No: +91 75889 42327"},{"label":"Mr. Mohan Kanoj — MARUTI ABHIYANTRIKI","address":"Mr. Mohan Kanoj\nMARUTI ABHIYANTRIKI\nPune\nM. No. 70400 75586"},{"label":"Mr. Deshmukh — Purchase manager","address":"Mr. Deshmukh\nPurchase manager\nAurangabad Disctrict Co Op\nProducer Union Ltd.\nNear Government Milk Scheme,\nJalna Road,\nAurangabad – 431 001.\nT. No. 2354386 , 2354387\nM. No. 9326756048\nTo\nMr. Dhananjay Chaher\nMr. Prasanna\nSUPA\nM. No. 9096867700\nM. No. 9561553505"},{"label":"Attn. Mr. Dhananjay Bundge — MAPRO FOODS PVT. LTD.","address":"Attn. Mr. Dhananjay Bundge\nMAPRO FOODS PVT. LTD.\n122, Shendurjane,\nWai Surur Road,\nWAI – 412 803.\nTal. Wai , Dist : Satara\nTel. No. 222111 M. No. 9422606682"},{"label":"Attn. Mr. Hasbnis / Mr. Birnale — Chitale Agro Industries Pvt. Ltd.","address":"Attn. Mr. Hasbnis / Mr. Birnale\nChitale Agro Industries Pvt. Ltd.\nBhilwadi Station,\nTal. Palus,\nDist.: Sangli – 416 303.\nTel. No. 233119"},{"label":"VINAYAK TRADING COMPANY — 5/8, Duttakripa CHS. Parel,","address":"VINAYAK TRADING COMPANY\n5/8, Duttakripa CHS. Parel,\nDr. B. R. Ambedkar Road,\nChinchpokli ( East ),\nMUMBAI – 400 012.\nTel. No. 23735775  M. No. 92233 34400"},{"label":"K. PRAFUL — Legend Prestige, Shop No. 6,","address":"K. PRAFUL\nLegend Prestige, Shop No. 6,\nB. T. Kawade, Road, Off Solapur Road,\nBehind Kroma, Wanawadi,\nPUNE – 411 013.\nM. No. 99960 075750"},{"label":"Geekay Pneumatics Pvt. Ltd. — 41/1764, Town Hall Road,","address":"Geekay Pneumatics Pvt. Ltd.\n41/1764, Town Hall Road,\nErnakulam North,\nKOCHI – 682 018.\n( Kerala )\nTel No. 2364024, 2371364\nM. No. 9995883709"},{"label":"Kolben Compressor Spares India P. Ltd. — Surya Mahal, 5 B.B. Marg,","address":"Kolben Compressor Spares India P. Ltd.\nSurya Mahal, 5 B.B. Marg,\nOff. Nagindas Master Road,\nFort,\nMUMBAI – 400 023\nTel No. 22660677, 22670072\nM. No. 9820307901"},{"label":"S. M. REFRIGERATION PVT. LTD. — 311,Chintels House, 3rd Floor,","address":"S. M. REFRIGERATION PVT. LTD.\n311,Chintels House, 3rd Floor,\n16, Station Road,\nLUCKNOW – 226 001.\n( U.P.)\nTel. No. 2635610, 2635151\nM. No. 9335200224"},{"label":"Mr. S. D. Lomte — Plot No. 119, Gat No. 132","address":"Mr. S. D. Lomte\nPlot No. 119, Gat No. 132\nArunoday Colony\nBeed By Pass Road\nNear Datta Mandir Satara Parisar\nAurangabad – 431 005.\nM. No. 9623652821"},{"label":"Mr. Salunke — SOLCON ENGINEERS","address":"Mr. Salunke\nSOLCON ENGINEERS\n78/632, Bhagirathi Building,\nLaxminagar, Parvati,\nPUNE – 411 009.\nM. No. 98222 93244"},{"label":"Mr. Rajiv Singh — Parag Milk Foods Ltd.","address":"Mr. Rajiv Singh\nParag Milk Foods Ltd.\nManchar , Ambegaon,\nDist : Pune.\nM. No. 88669 53144"},{"label":"INOX AIR PRODUCTS PVT. LTD. — R.S. No. 26, Kanniakoil # Bahur Main ...","address":"INOX AIR PRODUCTS PVT. LTD.\nR.S. No. 26, Kanniakoil # Bahur Main Road,\nManpet # PO, Utchimedu,\nPUDUCHERRY – 607 402.\nTel. No. 2615911 / 13"},{"label":"PRECICOMP INDIA — 51/A, Jintan Udyog Nagar,","address":"PRECICOMP INDIA\n51/A, Jintan Udyog Nagar,\nSURENDRANAGAR – 363 001.\n( Gujarat )\nTel. No. 237227 M. No. 9825224227"},{"label":"SHREEJI PRESSURE GAUGE PVT. LTD. — F/8, HATKESH UDYOG NAGAR PREMISES,","address":"SHREEJI PRESSURE GAUGE PVT. LTD.\nF/8, HATKESH UDYOG NAGAR PREMISES,\nMIRA BHAYANDER ROAD, MIRA ROAD (E),\nTHANE – 401 107.\nTel No  : + 91 9082935596"},{"label":"SYNAGRO NATURALS LLP — Gat No 435, 437 Manjri Khurd Road,","address":"SYNAGRO NATURALS LLP\nGat No 435, 437 Manjri Khurd Road,\nVillage Manjri Khurd, Tal. Haveli,\nDist. Pune – 412 207\nM. No. 9322835055"},{"label":"Mr. V. M. Baburaj — Sea Cool Refrigeration Chennai","address":"Mr. V. M. Baburaj\nSea Cool Refrigeration Chennai\nPlot No 16, TVS Nagar,1st Main Road,\nTVS Avenue Korattur North,\nCHENNAI – 600 076.\n(Tamilnadu)\nM. No. 9382143908"},{"label":"Attn. Mr. Sanjeev Garg — SHYAMJEE REFRIGERATION","address":"Attn. Mr. Sanjeev Garg\nSHYAMJEE REFRIGERATION\nOld Roadways Check Post,\nTeri Bagia, Hathras Road,\nAGRA – 282 006.\n( U.P.)"},{"label":"Mob. No. 9837063899 — To","address":"Mob. No. 9837063899\nTo\nYadav Electronics & Electrials\n71-31-681/1, Krantinagar,\nNear Malkapur Police Station,\nKrantinagar Locketed at Back Side of Nau Sena Baugh,\nDouble Water Tank,\nVISAKHAPATNAM – 530 005. ( A.P.)\nTel. No. 09848192498 , 09392109679"},{"label":"M D ICE PLANT — Shed No D 3-4, Maegao Industrial Estate,","address":"M D ICE PLANT\nShed No D 3-4, Maegao Industrial Estate,\nSt. Jose De Areal , Salcete,\nGOA – 403 709.\nM. No. 9049916082"},{"label":"Mr. Sushil — Triple S Engineers","address":"Mr. Sushil\nTriple S Engineers\nBhodkhe Ward No. 5,\nKatol Road Kamleshwar,\nNAGPUR – 441 501.\nTel. No. 8888864909, 8087204006"},{"label":"Hospira Healthcare India Pvt. Ltd. — Accounta Payable","address":"Hospira Healthcare India Pvt. Ltd.\nAccounta Payable\nSri Nivas, New No. 86( Old No. 89)\nG. N. Chetty Road, T. Nagar,\nCHENNAI – 600 017.\n(Tamilnadu)\nTel. No. 044 - 39370000"},{"label":"Mr. Ramdas Pawar — Pawar Paper Convertors","address":"Mr. Ramdas Pawar\nPawar Paper Convertors\nSahara Recidency, B – 2,\nGround Floor, Opp. Vithal Petro Pump (HP),\nBhekrainagar, Phursungi,\nPUNE – 412 308.\nTel. No. 26981013 M. No. 9822196559"},{"label":"LPR Export ( Engine Components ) Pvt. Ltd. — Mathura Road, Artoni,","address":"LPR Export ( Engine Components ) Pvt. Ltd.\nMathura Road, Artoni,\nAGRA – 282 007.\n( Uttar Pradesh )\nTel. No. 98370 26764, 98370 47628, 98370 06940"},{"label":"SHREENATH SALES ( GUJ.) — Shed No. 44, Pushkar Industrial Estate – 2,","address":"SHREENATH SALES ( GUJ.)\nShed No. 44, Pushkar Industrial Estate – 2,\nNear Vinzol Power, G.I.D.C., Phase 1,\nVATVA,\nAHMEDABAD –  382 445.\n( Gujarat )\nTel. No. 48474455 M. No. 9099010622"},{"label":"Mr. Saurabh Bansal — Sea Cool Refrigeration Hyderabad Pvt. Ltd.","address":"Mr. Saurabh Bansal\nSea Cool Refrigeration Hyderabad Pvt. Ltd.\nNo. 2-3-15/1/11, Gandhi Market,\nM. G. Road, Secunderabad,\nTELANGANA – 500 003\nM. No. 9000733932"},{"label":"To,                                                                ...","address":"To,                                                                                                                                                 09th Feb.20 16\n3M Electro & Communication India Private Limited.\nConcorde Block, UB City,\nNo. 24, Vittal Mallya Road,\nBangalore – 560001."},{"label":"Mr. Pophale — Vedant Industrial Solution","address":"Mr. Pophale\nVedant Industrial Solution\nGat No 366/1, MIDC Kharabwadi,\nBSNL Tower, Ambethan Near DTL Co. Unit 1,\nCHAKAN, PUNE – 410 501.\nM. No. 8983878704"},{"label":"Deepak B. Talekar — Air Export Executive","address":"Deepak B. Talekar\nAir Export Executive\n-------------------------------\nATC Global Logistics Pvt. Ltd.\n902, Windfall,Sahar Plaza Complex,M.V.Road,\nAndheri (East), Mumbai-400059, Maharashtra.\nDirect No. 61873041 | Board No. 61873000 |\nFax. No. 61873005\nTo,\nCooling People Pune Pvt. Ltd.\n1st Floor, Office No 101-102,\nVenkatshwara House,\nObove Hotel Woodland,\nNear Sharda Centre\nErandwane, PUNE – 411 004.\nT. No. 25433092\nM. No. 9422016122"},{"label":"Mr. Sunil Vishwakarma — INFINITI GASES PVT. LTD.","address":"Mr. Sunil Vishwakarma\nINFINITI GASES PVT. LTD.\nGut No. 122, N.H. 17, Nagothane,\nVillage Nidi, Tal. Roha,\nDist : RAIGAD – 402 106.\nM. No. 7007674033 , 94556 13410"},{"label":"SWATI ENGINEERING ENTERPRISE — 20, 2nd Floor, Shree Krishna Centre,","address":"SWATI ENGINEERING ENTERPRISE\n20, 2nd Floor, Shree Krishna Centre,\nNear Mithakahli Six Road, Navrangpura,\nAHMEDABAD – 380 009.\n( Gujarat )\nTel. No. 26561594, 26461196\nM. No. 9824027432 , 9016507387"},{"label":"Swati Engineering Enterprise — 20, 2nd Floor, Shree Krishna Centre,","address":"Swati Engineering Enterprise\n20, 2nd Floor, Shree Krishna Centre,\nNear Mithakhali Six Road,\nNavrangpura,\nAHMEDABAD – 380 009.\n( Gujarat )"},{"label":"Tel. No. 26561594, 30027432 — To","address":"Tel. No. 26561594, 30027432\nTo\nULTRA ENGINEERING\nB/F06, Sarraf Kaskar Industrial Estate,\nS. V. Road, Near Oshiwara Bridge,\nJogeshwar ( West ),\nMUMBAI – 400 102.\nTel. No. 26782993 M. No.9869169370"},{"label":"MR. PRAKASH MUDHOL — SAKENMIRJI,","address":"MR. PRAKASH MUDHOL\nSAKENMIRJI,\nTAL MUDHOL DIST : BAGALKOT,\nMUDHOL – 587 313 ( Karnataka )\nM. No. 9483181234"},{"label":"Fragile Glass — Handle with Care","address":"Fragile Glass\nHandle with Care\nTo\nThe General Manager\nOrdnance Factory\nJawaharnagar,\nBHANDARA – 441 906.\nTel. No. 275242 / 243 / 322"},{"label":"Koyana Sahakari Dudh Utpadak — Prakriya Sangh Ltd.","address":"Koyana Sahakari Dudh Utpadak\nPrakriya Sangh Ltd.\nPune Banglore National Highway (NH-4),\nAt Post Khodashi,\nTal : Karad – 415 110.\nTel No. 281012, 283142 M No. 9922912528"},{"label":"Mr. Gaikwad — Koyana Sahakari Dudh Utpadak Prakriya Sangh  Ltd.","address":"Mr. Gaikwad\nKoyana Sahakari Dudh Utpadak Prakriya Sangh  Ltd.\nPune Banglore National Highway ( N.H. 4),\nAt. Post  Khodashi,  Tal. Karad,\nDist : Satara – 415 110.\nTel. No. 02164-283012  M. No. 9922912528"},{"label":"METALEX CRYOGENICS LTD. — Geetai Complex, Gat No 151, Mahalunge,","address":"METALEX CRYOGENICS LTD.\nGeetai Complex, Gat No 151, Mahalunge,\nChakan Talegaon Road,\nPune – 410 501.\nTel. No 2588117 / 8"},{"label":"Mr. Rupesh Dhande — ISHWAR FORGE Pvt. Ltd.","address":"Mr. Rupesh Dhande\nISHWAR FORGE Pvt. Ltd.\n30/11, Block No. FP II, M.I.D.C.,\nBhosari 411 018.\nM. No. 98223 04494"},{"label":"Kavita Vasant More — 302, Vishesh Residency,","address":"Kavita Vasant More\n302, Vishesh Residency,\nOpposite St. Andrew’s School,\nMalewadi, Matheran Road, Akurli\nPANVEL – 410 206.\nNavi Mumbai.\nM No 9987519046"},{"label":"Aurangabad District Co-Op Milk — Producer’s Union Ltd.","address":"Aurangabad District Co-Op Milk\nProducer’s Union Ltd.\nNear Government Milk Scheme,\nJalna Road,\nAURANGABAD – 431 001."},{"label":"Tel. No. 2354386 , 2354387 — To","address":"Tel. No. 2354386 , 2354387\nTo\nIL & FS Engineering & Construction Co. Ltd.\nBetween Kapri Station to Congress Nagar,\nSitabuldi Centre, North  South Corridor,\nNAGPUR\nM. No. 07447405215"},{"label":"Mr. Shakil Murtuza — FREEZE FAST","address":"Mr. Shakil Murtuza\nFREEZE FAST\nPlot No. 32, M.I.D.C. Zadgaon,\nNarmada Cement Factory,\nRATNAGIRI – 415 612\nMob. No. 9422382011"},{"label":"ALLIED BEARINGS — C-1 / 17, G.I.D.C.","address":"ALLIED BEARINGS\nC-1 / 17, G.I.D.C.\nAji Industrial Estate, Phase – I,\nRAJKOT – 360 003.\n( Gujarat )\nTel. No. 2389209\nM. No. 9426990061"},{"label":"ASIATIC BEARINGS CO — C-1 / 18, Road – F,","address":"ASIATIC BEARINGS CO\nC-1 / 18, Road – F,\nAji Industrial Estate,\nPhase – I, G.I.D.C.,\nRAJKOT – 360 003.\n( Gujarat )\nM. No. 94269 90061"},{"label":"J. K. Enterprise — Virani Aghat,","address":"J. K. Enterprise\nVirani Aghat,\nDhebar Road ( South ),\nBehind H – Tech Tyre,\nRAJKOT – 360 002.\n( Gujarat )\nMob. No.  9825636255, 9408311433"},{"label":"Attn Mr. Manish Shah — AMOCON ENTERPRISE","address":"Attn Mr. Manish Shah\nAMOCON ENTERPRISE\nG.M.-3, Gokul Building,\n80-A, Baroda Street,\nIron Market, Masjid (East),\nMUMBAI – 400 009.\nTel. No. 23481116 , 23480652"},{"label":"John West International Ltd — #51, Opebi Road, Ikeja,","address":"John West International Ltd\n#51, Opebi Road, Ikeja,\nLagos-Nigeria\nMobile+ 234 (0) 805 161 0002, (0) 803 305 4128\nTo\nQAAF ENTERPRISE\nLucky Colony, 3rd Floor,\nVERAVAL – 362 267.\n( Gujarat )\nTel. No. 02876 - 231242\nM. No. 98242 86337"},{"label":"Qaaf Industrial Corporation — Near G.I.D.C., Bhidiya,","address":"Qaaf Industrial Corporation\nNear G.I.D.C., Bhidiya,\nVERAVAL – 362 269.\n( Gujarat )\nTel. No. 02876 - 231242\nM. No. 98242 86337"},{"label":"SPECTRUM DYES & CHEMICALS PVT. LTD. — B 484-502-503A-504, N. H. 8, ...","address":"SPECTRUM DYES & CHEMICALS PVT. LTD.\nB 484-502-503A-504, N. H. 8, Palsana,\nSURAT – 394 315.\n( Gujarat )\nTel. No. 9824407575 , 9824589088"},{"label":"Hiren Chahwala | Asst. Manager – Purchase — SPECTRUM DYES & CHEMICA...","address":"Hiren Chahwala | Asst. Manager – Purchase\nSPECTRUM DYES & CHEMICALS PVT. LTD.\nB 484-502-503A-504, N. H. 8, Palsana,\nSURAT – 394 315.\n( Gujarat )\nTel. No. 98244 07575 ,  95120 42852"},{"label":"Mr. Gaurang Naik — SPECTRUM DYES & CHEMICALS PVT. LTD.","address":"Mr. Gaurang Naik\nSPECTRUM DYES & CHEMICALS PVT. LTD.\nB 484-502-503A-504, N. H. 8, Palsana,\nSURAT – 394 315.\n( Gujarat )\nTel. No. 98241 38263"},{"label":"Mr.Kishore Kapse — Sakshi Park, Building No 6,","address":"Mr.Kishore Kapse\nSakshi Park, Building No 6,\nRoom No A – 01,\nAt. Malewadi,\nPANVEL – 410 206.\nM. No. 98192 24942"},{"label":"GLOBUS RESOURCES LTD. — KM 49- APAPA OSHODI EXP WAY","address":"GLOBUS RESOURCES LTD.\nKM 49- APAPA OSHODI EXP WAY\nIJESHA – LAGOS\nNIGERIA\nTel. No.  00234 - 8125149140"},{"label":"GLOBUS RESOURCES LTD. — 1 AGBARA ATAN EXPRESSWAY,","address":"GLOBUS RESOURCES LTD.\n1 AGBARA ATAN EXPRESSWAY,\nAGBARA , ABEOKUTA NORTH,\nOGUN STATE, NIGERIA\nTel No: +234 9033765972"},{"label":"Consignee :-  GLOBUS RESOURCES LTD. — 1 AGBARA ATAN EXPRESSWAY,","address":"Consignee :-  GLOBUS RESOURCES LTD.\n1 AGBARA ATAN EXPRESSWAY,\nAGBARA , ABEOKUTA NORTH,\nOGUN STATE, NIGERIA\nTel No: +234 7093201259"},{"label":"DHRUMAN ENGINEERING CO. — 30, 29B, Navalkar Building,","address":"DHRUMAN ENGINEERING CO.\n30, 29B, Navalkar Building,\nKennedy Bridge, Opera House,\nMUMBAI – 400 004.\nM. No. 9867682233, 93222 36170"},{"label":"ALFA OM INTERNATIONAL — 26, 2nd Floor, 29 B Navalkar Building,","address":"ALFA OM INTERNATIONAL\n26, 2nd Floor, 29 B Navalkar Building,\nKennedy Bridge, Opera House,\nMUMBAI – 400 004.\nM. No. 9867682233, 93222 36170"},{"label":"Inox Air Products Pvt. Ltd. — Chennai Gas Division","address":"Inox Air Products Pvt. Ltd.\nChennai Gas Division\n266-1A1B2B1B, Manali Express Highway,\nSathangadu, Tiruvallur,\nCHENNAI – 600 068.\nTel. No. 044-66462440, 438, 433\nM. No. 9600016601"},{"label":"Mr. Momin Ismail — Al Quresh ( Aurangabad City )","address":"Mr. Momin Ismail\nAl Quresh ( Aurangabad City )\nModern Abattior Pvt. Ltd.\nGut No. 69, Pade Gaon,\nAURANGABAD – 431 001.\nM. No. 9834901253"},{"label":"The General Manager — High Explosives Factory","address":"The General Manager\nHigh Explosives Factory\nNear Holkar Bridge,\nCaldicott Road, Khadki\nPUNE – 411 003."},{"label":"Contact Person : Mr . Dattatray Kondhawale","address":"Contact Person : Mr . Dattatray Kondhawale"},{"label":"Mr. Sameer Ahmed — AL QURESH EXPORTS","address":"Mr. Sameer Ahmed\nAL QURESH EXPORTS\nGut No. 67, N.H. 9 Hyderabad Road,\nMulegaon Tanda,\nSOLAPUR – 413 006.\nM. No. 7387869762"},{"label":"27AADFA1292M1ZC","address":"27AADFA1292M1ZC"},{"label":"RAJ MACHINE TOOLS ( INDIA ) — 4324/4, Ground Floor, National Market,","address":"RAJ MACHINE TOOLS ( INDIA )\n4324/4, Ground Floor, National Market,\nKucha Pandit Lal Kuan,\nDELHI – 110 006.\nTel. No. 47097617\nM. No. 9899611516 / 9351374888"},{"label":"SHIVAM TOOLS & TECHNOLOGY — ITARSI– 461 111.","address":"SHIVAM TOOLS & TECHNOLOGY\nITARSI– 461 111.\n( Madhya Pradesh )\nM. No. 83570 90606"},{"label":"Mr. Jitendra Pachpute — Sr. Officer-Logistics","address":"Mr. Jitendra Pachpute\nSr. Officer-Logistics\nATLAS COPCO INDIA LTD.\nC/O Chakan Logistics Park Pvt. Ltd.\nGat No. 357, Plot No. 38,40,41,42, 43 & 44, Ambethan Road,\nVillage Kharabwadi, Taluka Khed,\nChakan, District Pune, 410 501.\nM. No. 90962 16275"},{"label":"Mr.Sandeep Patil — Rahat Continental Pvt. Ltd","address":"Mr.Sandeep Patil\nRahat Continental Pvt. Ltd\nSuite 712, The Crescent Business park,\nSakinaka Telephone Exchange Lane,\nOff Andheri kurla Road, Safed Pool,\nMUMBAI -  400072\nMob -84518 02545"},{"label":"Mr. Vinayak Ingale — Johnson Controls India Pvt. Ltd.","address":"Mr. Vinayak Ingale\nJohnson Controls India Pvt. Ltd.\nB – 2, 3rd Floor, Cerebrum IT Park,\nKumar City, Kalyani Nagar,\nPUNE – 411 014.\nM. No. 99232 00903"},{"label":"From — Jinharsh Industrial Solutions Pvt. Ltd.","address":"From\nJinharsh Industrial Solutions Pvt. Ltd.\n76/78, Nagdevi Street, Ground Floor,\nMUMBAI -  400 003."},{"label":"T. No. 23432566 23440401","address":"T. No. 23432566 23440401"},{"label":"Mr. Sudhir Kesare — Johnson Controls India Pvt. Ltd","address":"Mr. Sudhir Kesare\nJohnson Controls India Pvt. Ltd\nGat No. 393, Plot No. 2359,\nAmbekar Wasti, Wadki,\nTaluka Haveli, Pune – 412 308.\nTel. No. 020 – 6606 7187\nM. No. 99232 00919"},{"label":"Krypton Corps Pvt. Ltd. — Gut No.357/87, Wagjai Nanar,","address":"Krypton Corps Pvt. Ltd.\nGut No.357/87, Wagjai Nanar,\nKharabwadi, Chakan, Tal Khed,\nCHAKAN – 410 501\nM. No. 89838 78704"},{"label":"Mr. Saurabh Deodhare — PAMS ENTERPRISES","address":"Mr. Saurabh Deodhare\nPAMS ENTERPRISES\n16/2, Sadashiv Peth,\nTilak Road,\nPUNE – 411 030.\nM. No. 9011066506"},{"label":"Kale Krishi Udyog — Gat. No. 862, Plot No. 2B,","address":"Kale Krishi Udyog\nGat. No. 862, Plot No. 2B,\nVillage Velu, Tal. Bhor,\nNear Kakde Lazer Cutting ( Unit 2)\nPUNE – 412 205.\nM. No. 98814 73308"},{"label":"Controller Procurement Material — Organisation ( Vizag )","address":"Controller Procurement Material\nOrganisation ( Vizag )\nKancharapalem (PO)\nVisakhapatnam – 530 008.\nM. No. 98215 42793"},{"label":"From — SKY Onboard Marine Services Pvt. Ltd.","address":"From\nSKY Onboard Marine Services Pvt. Ltd.\n210,”Abhishek”, Off Link Road,\nDalia Estate, Andheri ( West )\nMUMBAI  - 400 053.\nM. No. 96191 12307"},{"label":"Mr. Prakash Damodar Shettigar — 822/A , Rameswar Complex","address":"Mr. Prakash Damodar Shettigar\n822/A , Rameswar Complex\nBharad , Malvan\nSindhudurg  416 606.\n‪M. No. 94232 14678"},{"label":"George Ice Factory — 1972, Gapharbeg Street,","address":"George Ice Factory\n1972, Gapharbeg Street,\nSharbatwala Chowk,\nOpp Hotel Sahil, Camp,\nPUNE – 411 001.\nM. No. 98233 73332"},{"label":"T Nusserwanji Nowroji — 12 NPS Lines","address":"T Nusserwanji Nowroji\n12 NPS Lines\nNear Poolgate Bus Stand\nCamp,\nPUNE 411001\nM. No.  98233 73332"},{"label":"ARDESHIR & SONS — 1972, Guffer Baig Street,","address":"ARDESHIR & SONS\n1972, Guffer Baig Street,\nSharbatwala Chowk,\nOpp Hotel Sahil, Camp,\nPUNE – 411 001.\nM. No. 98233 73332"},{"label":"Mr. Patnavar — I3D MINDS","address":"Mr. Patnavar\nI3D MINDS\nSarveshwar Apts,\nArage Bhavan,\nICHALKARANJI 416 115.\nM. No. 91569 88448, 8698189449"},{"label":"Mr. Patnavar — I3D MINDS","address":"Mr. Patnavar\nI3D MINDS\nO/A : 18/271, Bhone Mala,\nNear Dr. Nano Inc.\nICHALKARANJI 416 115.\nM. No. 91569 88448, 70575 17516"},{"label":"Delivery Anjani Courier Office — ICHALKARANJI","address":"Delivery Anjani Courier Office\nICHALKARANJI"},{"label":"Mr. Manik N Patil — 202, Balaji Nagar colony,","address":"Mr. Manik N Patil\n202, Balaji Nagar colony,\nNear Ganpati Mandir,\nKupwad Road\nSANGLI – 416 416.\nM. No. +91 94224 07893"},{"label":"Mr. Paigude — ACR Engineering Sales & Services Pvt. Ltd.","address":"Mr. Paigude\nACR Engineering Sales & Services Pvt. Ltd.\n101 / 102, 4th Dimension,\nNear C.D.S.S. Erandwane,\nPUNE – 411 004.\nTel. No. 25421759 M. No. 9011027802"},{"label":"Mr. Vaibhav R Patil — V. R. ENGINEERS","address":"Mr. Vaibhav R Patil\nV. R. ENGINEERS\nGat No. 164, Plot No 25,\nNear Kupwad M.I.D.C. Opp. RTO Office,\nSAVALI – 416 436.\nPost Tanang, Tal. Miraj, Dist Sangli\nM. No. 9422582139, 9657986666"},{"label":"MEGATRADE — 1838, Sadashiv Peth","address":"MEGATRADE\n1838, Sadashiv Peth\nNikhil Niketan Apartment,\nBhikardas Maruti Road,\nNear Vande Mataram Mitra Mandal,\nPUNE – 411 030.\nM. No. 997055841\n9503399974"},{"label":"APRILIA CONTROLS — 1838, Sadashiv Peth","address":"APRILIA CONTROLS\n1838, Sadashiv Peth\nNikhil Niketan Apartment,\nBhikardas Maruti Road,\nNear Vande Mataram Mitra Mandal,\nPUNE – 411 030.\nM. No. 997055841 , 9503399974"},{"label":"Mr. Sunil Raikar — Penguin Coldstorages Pvt. Ltd.","address":"Mr. Sunil Raikar\nPenguin Coldstorages Pvt. Ltd.\nPlot No.96, Mahatma Soc, Lane No 9,\nShreeprasad Bunglow,\nKothrud,\nPUNE – 411 038.\nM. No. 9850084950"},{"label":"Mr. Sunil Raikar — Penguin Coldstorages Pvt. Ltd.","address":"Mr. Sunil Raikar\nPenguin Coldstorages Pvt. Ltd.\nGat No.568/3, Village Kelwade,\nPune Banglore Highway,\nTal. Bhor, Dist Pune 412 213.\nM. No. 9850084950"},{"label":"Mr. Manik Patil — DECCAN DRY ICE PVT. LTD.","address":"Mr. Manik Patil\nDECCAN DRY ICE PVT. LTD.\nKSM Distillery Compound,\nKasba Bavda,\nKOLHAPUR – 416 006.\nM. No. 94224 07893"},{"label":"Mr. Manik Patil — DECCAN DRY ICE PVT. LTD.","address":"Mr. Manik Patil\nDECCAN DRY ICE PVT. LTD.\nC/O Shree chatrapati Shahu sahakari sakar karkhana Ltd.\nDistillery Unit Kagal,\nKAGAL – 416 216\nM. No. 94224 07893"},{"label":"Mr. Dhawal Patil — DECCAN DRY ICE PVT. LTD.","address":"Mr. Dhawal Patil\nDECCAN DRY ICE PVT. LTD.\n2813/19 , B Ward , Belbaug ,\nMangalwar Peth,\nKOLHAPUR – 416 012\nM. No. 9850884655"},{"label":"Mr. Lalit Ratilal Rathod — PREM SHANTI ICE FACTORY","address":"Mr. Lalit Ratilal Rathod\nPREM SHANTI ICE FACTORY\nDreamcity Bng. No. 10\nNear Gade Hospital\nMulewadi Road\nMANCHAR – 410 503\nM. No 99600 00648"},{"label":"SHRI SAI SERVICES — Gat No. 390-1/5P , Near Skoda Services,","address":"SHRI SAI SERVICES\nGat No. 390-1/5P , Near Skoda Services,\nM.I.D.C. Shiroli,\nKOLHAPUR – 416 122.\nM. No. 98345 05914"},{"label":"Mr. Vishnu Waghmode — Kylight Refrigeration & Air Conditioning","address":"Mr. Vishnu Waghmode\nKylight Refrigeration & Air Conditioning\nF – 21, Sunrise Appt.\nSanskar Nagari, Daund\nDAUND\n( Dist. Pune )\nM. No. 8390446331"},{"label":"SAHU AIRCON — 13, Gulab Industrial Estate","address":"SAHU AIRCON\n13, Gulab Industrial Estate\nNear Sakinaka MTNL, Airport Road,\nAndheri East,\nMUMBAI – 400 072.\nM. No. 8591714006 ,9892100562"},{"label":"Mr. Nelson Parera — S.S. Dairy Milk And Milk Products","address":"Mr. Nelson Parera\nS.S. Dairy Milk And Milk Products\nH. No. 1/12/1, Survey No. 68/1, Velus,\nThana Road, Valpoi\nNORTH GOA – 403 506.\nM. No. 73506 99555"},{"label":"Book at — MAPUSA","address":"Book at\nMAPUSA"},{"label":"Mr. KIRAN AWARI — Agasti Engineering & Equipment","address":"Mr. KIRAN AWARI\nAgasti Engineering & Equipment"},{"label":"SANGAMNER – OFFICE DELIVERY — M. No. 88301 83501","address":"SANGAMNER – OFFICE DELIVERY\nM. No. 88301 83501"},{"label":"Dhananjay Deshpande — E-104, Neels Lake view.","address":"Dhananjay Deshpande\nE-104, Neels Lake view.\nPlot no 20, Khanda Colony West,\nNew Panvel 410206\nM. No. 9833889734 / 9220549554"},{"label":"Hi-Tech Engineering & Consultancy Services — Beside Crusade House,","address":"Hi-Tech Engineering & Consultancy Services\nBeside Crusade House,\nPhoenix  Bay,\nPORT BLAIR – 744 102.\nAndaman & Nicobar Island\nT. No. 03192- 231276, 236214\nM. No. 09434280369\nMr. A.M.K. Prasad\nM. No. 9434280371"},{"label":"Mr. HAIDAR YOUSSEF JASSIM AL YASIRI — NEAR HOTEL HAMDAN","address":"Mr. HAIDAR YOUSSEF JASSIM AL YASIRI\nNEAR HOTEL HAMDAN\nIRAQ, BASRA – 61001.\nIRAQ\nTEL:00 964 780 101 5546\n0790 116 7614\n0770 265 3203"},{"label":"Mr. Ali — Aqasi Al Mada .Co","address":"Mr. Ali\nAqasi Al Mada .Co\nAddress : Iraq-Basrah-Breha- near\nAlsaade Hospital\nQuarter 304-Street No.52-House No.4\nEmail : Amarssa17@yahoo .com\nTel: +9647706129710"},{"label":"Mr. Sawant — KALPSHREE ENGINEERING","address":"Mr. Sawant\nKALPSHREE ENGINEERING\nW – 34, M.I.D.C., GOKUL SHIRGAON,\nKOLHAPUR – 416 234.\nM. No. 9175541451"},{"label":"JAYSHREE INDUSTRIES — 223-224-225, G.I.D.C. Kuvadva,","address":"JAYSHREE INDUSTRIES\n223-224-225, G.I.D.C. Kuvadva,\nRajkot Ahmedabad Heighway,\nRAJKOT – 360 003.\n( Gujarat )\nM. No. 98241 92288"},{"label":"JAYSHREE INDUSTRIES — ‘Anand’ 1, Maruti Nagar,","address":"JAYSHREE INDUSTRIES\n‘Anand’ 1, Maruti Nagar,\nRace Course Ring Road,\nNear Airport,\nRAJKOT – 360 001.\n( Gujarat )\nT. No. 2787399 , 6540502\nM. No. 9824208490"},{"label":"OMAN CHEMICALS & PHARMACEUTICALS LLC. — ROOM# 406, SHEIKH ESSA TOWES","address":"OMAN CHEMICALS & PHARMACEUTICALS LLC.\nROOM# 406, SHEIKH ESSA TOWES\nSHEIKH ZAYED ROAD,\nDUBAI ( U.A.E.)"},{"label":"CONTACT NO: +97143215833","address":"CONTACT NO: +97143215833"},{"label":"OST Refrigeration Pte Ltd — Blk 5 Ang Mo Kio Industrial Park","address":"OST Refrigeration Pte Ltd\nBlk 5 Ang Mo Kio Industrial Park\n2A #07-27 AMK Tech II\nSingapore 567760"},{"label":"OMAN CHEMICALS & PHARMACEUTICALS LLC. — ROOM#406, SHEIKH ESSA TOWERS","address":"OMAN CHEMICALS & PHARMACEUTICALS LLC.\nROOM#406, SHEIKH ESSA TOWERS\nSHEIKH ZAYED ROAD,\nDUBAI (U.A.E.)"},{"label":"AVICO ENGINEERING COMPANY — 68/12 – To 3 - Vanquan","address":"AVICO ENGINEERING COMPANY\n68/12 – To 3 - Vanquan\nHadong – Hanoi - Vietnam\nVietnam 23912\nPh. No. +84 989 584 123"},{"label":"To, Only Documents — AVICO ENGINEERING COMPANY","address":"To, Only Documents\nAVICO ENGINEERING COMPANY\n6/18B, CO NHUE,\nTU LIEM,\nHA NOI - 23912\nVIETNAM\nPh. No. +84.4.37420157"},{"label":"CASPART — # 486-6, Daecheon-dong,","address":"CASPART\n# 486-6, Daecheon-dong,\nDalseo-gu, Daegu – City,\nKorea  (Post (zip ) Code 704-800)\nPh. No. 0082536421185"},{"label":"MR.AHMED KASSIM AWAD — KAYRATH EST","address":"MR.AHMED KASSIM AWAD\nKAYRATH EST\nABUARISH ,\nGIZAN, K. S. A\nContact Person: MR.  \nMOB.NO : +00966505768395\nTel. No.  : 0096673251059"},{"label":"Mr. Survase — Akash Enterprises","address":"Mr. Survase\nAkash Enterprises\nSr. No. 8/11, Flat No B 404,\nShri Venkatesh Khitij, Jambulwadi Road,\nAmbegaon Khurd,\nPUNE – 411 046.\nM. No. 9422028170 , 9371967858"},{"label":"Mr. Vikas Survase — Seva Lodging Boarding Restaurant","address":"Mr. Vikas Survase\nSeva Lodging Boarding Restaurant\n12/497, Shahu Corner,\nICHALKARANJI – 416 115.\nM. No. 94220 28170"},{"label":"Famibo Services Limited — C35/G4 Close; Citec Estate","address":"Famibo Services Limited\nC35/G4 Close; Citec Estate\nInternational Ltd. Mount Mbora\nPleasant; Along Airport Rd.\nJabi. Abuja. FCT. Nigeria.\nPh. No.  +234 817 703 7377"},{"label":"Vadilal Industries Ltd. — Village Pundhra, Tal. Mansa","address":"Vadilal Industries Ltd.\nVillage Pundhra, Tal. Mansa\nDist : Gandhinagar – 382 855.\n( Gujarat )\nTel. No. 02763 – 300433 - 36"},{"label":"P O No. 4500308060 Dt. 13-10-2025","address":"P O No. 4500308060 Dt. 13-10-2025"},{"label":"SKY G LOGISTICS LTD. — UNIT D, 6/F, BLOCK 4, GOLDEN DRAGAON INDUSTR...","address":"SKY G LOGISTICS LTD.\nUNIT D, 6/F, BLOCK 4, GOLDEN DRAGAON INDUSTRIAL CENTRE\n182 TAI LIN PAI ROAD, KWAI CHUNG, N.T. HONG KONG\nTel No. (852) 2766 2333"},{"label":"Attn: Steven Ruan — Lefilter Building ,No.9 Hongli Avenue,","address":"Attn: Steven Ruan\nLefilter Building ,No.9 Hongli Avenue,\nMuye  District ,Xinxiang City,\nHenan Province,China\nMobile:0086-18568229226"},{"label":"AL – AKSAA STAR CO. LTD. — AL-Nu'man Street ,","address":"AL – AKSAA STAR CO. LTD.\nAL-Nu'man Street ,\nSayed Sultan Ali\nIRAQ – BAGHDAD"},{"label":"BHARAT VENTURES LTD. — 49, APAPA – OSHODI EXPRESSWAY","address":"BHARAT VENTURES LTD.\n49, APAPA – OSHODI EXPRESSWAY\nIJESHA – TEDO, LAGOS,\nNIGERIA\nTel No: +234 9035398307"},{"label":"BHARAT VENTURES LTD. — 49, APAPA – OSHODI EXPRESSWAY","address":"BHARAT VENTURES LTD.\n49, APAPA – OSHODI EXPRESSWAY\nIJESHA – TEDO, LAGOS,\nNIGERIA\nTel No: +234 7093201259"},{"label":"ATTN : Mr. STANLEY — TOPHIGH LOGISTICS SERVICES LTD","address":"ATTN : Mr. STANLEY\nTOPHIGH LOGISTICS SERVICES LTD\n20 Awoniyi Elemo Street,\nAjao Estate\nLAGOS, NIGERIA\nTEL : 234 805 4265 630\n234 906 9741 283"},{"label":"Mr Rohit Tupkar — PMS Management Consultancy Services","address":"Mr Rohit Tupkar\nPMS Management Consultancy Services\nSwamiraj Bunglow, 3rd Floor,\nAnandvihar Colony, Opp Ranka Jwellars Lane,\nSinhagad Road, Hingane Khurd,\nPUNE – 411051.\nM. No. 9975201248/ 9145156699"},{"label":"Mr. Kashinath Parab — ARAMEX INDIA PVT. LTD.","address":"Mr. Kashinath Parab\nARAMEX INDIA PVT. LTD.\nAt. Polt No B – 4, Cross Road B,\nMarol M.I.D.C., Andheri ( East ),\nMUMBAI – 400 093.\nM. No. 98335 62294"},{"label":"MR.MOHAMMED KAMIL MOHAMMED GAZZAZ — GAZZAZ ICE PLANT,","address":"MR.MOHAMMED KAMIL MOHAMMED GAZZAZ\nGAZZAZ ICE PLANT,\nPOST OFFICE BOX NO: 658,\nABUARISH ,\nGIZAN, K. S. A\nMOB.NO : +966505771989"},{"label":"The G.I. Group Ltd. — G. I. Building,","address":"The G.I. Group Ltd.\nG. I. Building,\n28 Lancaster Road,\nNew Barnet, Herts EN4 8 AP\nEngland"},{"label":"Cont No. 0208 441 9993","address":"Cont No. 0208 441 9993"},{"label":"ALPHAKRUST LTD. — Plot No. 40, Block 70, P.O. Box 8316,","address":"ALPHAKRUST LTD.\nPlot No. 40, Block 70, P.O. Box 8316,\nDAR ES SALAAM\nTANZANIA\nContact Person: Mr. Rajeshkumar\nPh. No.  +255786999604"},{"label":"Mr. Pathan — DILKHUSH ICE FACTORY","address":"Mr. Pathan\nDILKHUSH ICE FACTORY\nMohol,\nSOLAPUR\nM. No. 9890251707 , 9890256595"},{"label":"Mr. Ketan Nagdev — AMAR ICE FACTORY","address":"Mr. Ketan Nagdev\nAMAR ICE FACTORY\nPlot No. 177, Near Inamdar Tiles,\nAkkalkot M.I.D.C.,\nSOLAPUR\nM. No. 9960945533 , 9518599365"},{"label":"Mr. Ketan Nagdev — BABA ICE FACTORY","address":"Mr. Ketan Nagdev\nBABA ICE FACTORY\n25 Industrial Estate, Hotgi Road,\nSOLAPUR\nM. No. 9960945533 , 9518599365"},{"label":"HP Valves (Thailand) Co.Ltd. — 13/58 Moo 8 Thaweewattana","address":"HP Valves (Thailand) Co.Ltd.\n13/58 Moo 8 Thaweewattana\nBangkok 10170 Thailand\nContact Person : Mr. Phakkarin\nPh. No. +66950545653"},{"label":"SCCE Solutions Co. Ltd. — 13/59 Moo 8 Thaweewattana","address":"SCCE Solutions Co. Ltd.\n13/59 Moo 8 Thaweewattana\nBangkok 10170 Thailand\nPh. No. +66950545653"},{"label":"SCC Equipment Co. Ltd. — 13/59 Moo 8 Thaweewattana","address":"SCC Equipment Co. Ltd.\n13/59 Moo 8 Thaweewattana\nBangkok 10170 Thailand\nContact Person : Mr. Phakkarin\nPh. No. +66950545653"},{"label":"To For Ducuments — Mr Fayaz Ahmed","address":"To For Ducuments\nMr Fayaz Ahmed\nOMAN CHEMICALS & PHARMACEUTICALS LLC.\nP.O.Box 436, Al Mahadha Indl Area\nCity : Al Buraimi\nPostal code: 512\nSULTANATE OF OMAN"},{"label":"Contact No.   +968-95403640","address":"Contact No.   +968-95403640"},{"label":"Mr. Ramesh Jadhav — Onkar Maintenance & Oprations","address":"Mr. Ramesh Jadhav\nOnkar Maintenance & Oprations\nC 102, MIDC Chincholi,\nSOLAPUR – 413 255.\nM. No. 96049 64568"},{"label":"Mr. Rahim Ataur — ASL PACKAGING LTD.","address":"Mr. Rahim Ataur\nASL PACKAGING LTD.\nImara Daima Junction, Mombasa Road\nP.O. Box 17753-00500,\nNairobi, Kenya.\nM. No. +254756163531"},{"label":"Mr. Ghadge — GHADGE ENGINEERING WORKS","address":"Mr. Ghadge\nGHADGE ENGINEERING WORKS\n123/4/5, Santosh Nagar,\nKatraj Ambegaon Road,\nBehind Katraj Octroi Naka, Katraj,\nPUNE – 411 046.\nM. No. 98500 30949"},{"label":"APAR ENGINEERS — 101, \"SYMPHONY\" 29,","address":"APAR ENGINEERS\n101, \"SYMPHONY\" 29,\nCENTRAL EXCISE COLONY.,\nSNEHANAGAR,\nNAGPUR-440 015\nPHONE:2224718, TEL. FAX: 091-712-2224718,CELL: 09422113682"},{"label":"Mr. Pradeep Awasthee — ATM ENTERPRISES","address":"Mr. Pradeep Awasthee\nATM ENTERPRISES\n76, Rajas Society,\nKatraj, PUNE – 411 046.\nM. No. 98223 10780"},{"label":"Standard Air Ltd. — Harleyford Estate ,","address":"Standard Air Ltd.\nHarleyford Estate ,\nHanley Road,\nMarlow , Bucksinghamshire\nSL7 2DY United Kingdom"},{"label":"Cont No.  +44 (O) 1628 472055","address":"Cont No.  +44 (O) 1628 472055"},{"label":"MR.MOHAMMED KAMIL MOHAMMED GAZZAZ — GAZZAZ ICE PLANT,","address":"MR.MOHAMMED KAMIL MOHAMMED GAZZAZ\nGAZZAZ ICE PLANT,\nPOST OFFICE BOX NO: 658,\nABUARISH ,\nGIZAN,  K. S. A\n \nMOB.NO : 00966501392284,\n00966555758712\nTo,\nMR.MOHAMMED KAMIL MOHAMMED GAZZAZ\nGAZZAZ ICE PLANT,\nPOST OFFICE BOX NO: 658,\nABUARISH ,\nGIZAN,  K. S. A\n \nMOB.NO : 00966501392284,\n00966555758712"},{"label":"Ralco Europa S. L. — Cl Almirall Proixida, 14-16 BJOS,","address":"Ralco Europa S. L.\nCl Almirall Proixida, 14-16 BJOS,\n08030 Barcelona\nBARCELONA - ES\nTel. No. 932 745 270"},{"label":"Ralco Europa S. L. — Cl Almirall Proixida, 14-16 BJOS,","address":"Ralco Europa S. L.\nCl Almirall Proixida, 14-16 BJOS,\n08030 Barcelona"},{"label":"Cont No. 932 745 270","address":"Cont No. 932 745 270"},{"label":"SEAFOOD PRODUCTS LTD. — KM 49- APAPA OSHODI EXP WAY","address":"SEAFOOD PRODUCTS LTD.\nKM 49- APAPA OSHODI EXP WAY\nIJESHA – LAGOS\nNIGERIA"},{"label":"Cont No. 002347037706891","address":"Cont No. 002347037706891"},{"label":"Powder Coating Engineering pte Ltd. — No. 7, Gul Link","address":"Powder Coating Engineering pte Ltd.\nNo. 7, Gul Link\nJurong Town\nSingapore 629377\nPh. No. 68615466"},{"label":"IKATAN SARJANA SDN. BHD. — 35, Jalan Utarid U5,/11, Ssksyen U5,","address":"IKATAN SARJANA SDN. BHD.\n35, Jalan Utarid U5,/11, Ssksyen U5,\nMah Sing Integrated Park,\n40150 Shah Alam, Selangor,\nMalaysia\nPh. No. +603 7845 3292"},{"label":"KSR POWER AND ENGINEERING LTD — 8A AJANAKU STREET AWUSE ESTATE","address":"KSR POWER AND ENGINEERING LTD\n8A AJANAKU STREET AWUSE ESTATE\nOPEBI IKEJA LAGOS NIGERIA\nMr. Kalyan: +234 903 539 8307"},{"label":"FIC2009 Co. Ltd. — 13/33 moo 8 Puttamonthong sai 4Rd.,","address":"FIC2009 Co. Ltd.\n13/33 moo 8 Puttamonthong sai 4Rd.,\nThaweewattana Bangkok 10170\nThailand\nPh. No. 66 2 889 9979 , 66 2 888 5815"},{"label":"Attn.: Mr. Deepak Bailurkar (Store In-charge) — Address:","address":"Attn.: Mr. Deepak Bailurkar (Store In-charge)\nAddress:\nAdani Electricity Mumbai Limited\nAdani Dahanu Thermal Power Station,\nADTPS Main Stores,\nDahanu Road, Dahanu,\nDistrict: Palghar, Maharashtra 401608\nEmail : deepak.bailurkar@adani.com\nPhone : 9325118314"},{"label":"MR. ALI AHMED KASSIM AWAD — KAYARATH EST : POST BOX NO. – 3 ,","address":"MR. ALI AHMED KASSIM AWAD\nKAYARATH EST : POST BOX NO. – 3 ,\nABUARISH ,\nGIZAN, K.S.A.\nContact Person : Mr. Thomas Daniel\nPh. No. 00966505771989"},{"label":"KSR Agrovet Pvt. Ltd. — No. 10, Ogunbowale Street,","address":"KSR Agrovet Pvt. Ltd.\nNo. 10, Ogunbowale Street,\nIlasamaja\nLagos, Nigeria"},{"label":"Contact Person :  Mr. Kalyana Sundaram — M. No. +234 9035398307","address":"Contact Person :  Mr. Kalyana Sundaram\nM. No. +234 9035398307"},{"label":"Rene S Pinuela — Pinuela Refrigeration Services","address":"Rene S Pinuela\nPinuela Refrigeration Services\nUnit 16 2nd Floor IPARK CENTER A.\nRodriguez Avenue Manggahan Pasig City 1611\nManila Philippines\nTel No.  +63 9175192053"},{"label":"Rene S Pinuela — Pinuela Refrigeration Services","address":"Rene S Pinuela\nPinuela Refrigeration Services\nBlk 27 Lot 2, M. Araullo Street,\nKataningan Village, Muntinlupa City,\nPoblacion - 1776\nManila Philippines\nTel No.  +63 9175192053"},{"label":"BONGHAWAN MARKETING — 1566 A MACEDA ST ZONE 049","address":"BONGHAWAN MARKETING\n1566 A MACEDA ST ZONE 049\nBRGY 494 SAMPALOC MANILA\nMANILA 1008\nPHILIPPINES\nTel No.  +63 9175192053"},{"label":"Mr. Shridhar A. Salvi — A-2/604, Rounak Park,","address":"Mr. Shridhar A. Salvi\nA-2/604, Rounak Park,\nPokharan Road No. 2.,\nTHANE ( West ) – 400 610.\nM. No. 9820178343"},{"label":"SHREYA  P. SALVI — 1/6, Sunil Cottage,","address":"SHREYA  P. SALVI\n1/6, Sunil Cottage,\nBandrekarwadi,\nJogeshwari East,\nMUMBAI– 400 060.\nM. No. 72085 93091"},{"label":"PRATHAM  SALVI — 1/6, Sunil Cottage,","address":"PRATHAM  SALVI\n1/6, Sunil Cottage,\nBandrekarwadi,\nJogeshwari East,\nMUMBAI– 400 060.\nM. No. 72085 93091"},{"label":"From — Mr. Saurabh Salvi","address":"From\nMr. Saurabh Salvi\nB-20 Shirole Park,\nSenapati Bapat Road,\nVetal Baba Chowk\nPUNE – 411 016.\nM. No. 90960 01010"},{"label":"KTV TEVHNO PVT. LTD. — R 493, TTC Industrial Area,","address":"KTV TEVHNO PVT. LTD.\nR 493, TTC Industrial Area,\nMIDC Rabale,\nNAVI MUMBAI – 400 701."},{"label":"Mr. Anand Sawant — 23 Lady Grey Avenue,","address":"Mr. Anand Sawant\n23 Lady Grey Avenue,\nHeathcote, Warwick,\nCV34 6FH\nPh. No. +44 7423 753725"},{"label":"Mr. Abhishek — SSS SAI FORWARDERS PVT. LTD","address":"Mr. Abhishek\nSSS SAI FORWARDERS PVT. LTD\nOFFICE NO – B/8, ROY APARTMENT\nBESIDE AIR CARGO COMPLEX\nSAHAR CARGO,\nANDHERI E ) , MUMBAI 400099\nTEL NO: ‭+91 91672 30186"},{"label":"Diwali Gift","address":"Diwali Gift"},{"label":"Mr. Gaurav Thanke — Flat No. 805 A Wing Greenfield-2,","address":"Mr. Gaurav Thanke\nFlat No. 805 A Wing Greenfield-2,\nBehind\nHINGNA NAGPUR\nWagdara 441 110"},{"label":"मोबाइल/ 9518963017","address":"मोबाइल/ 9518963017"},{"label":"RATNAGIRI Diwali Gift","address":"RATNAGIRI Diwali Gift"},{"label":"Gadre  Mirkarwada","address":"Gadre  Mirkarwada"},{"label":"Gadre Orissa","address":"Gadre Orissa"},{"label":"Colourtex","address":"Colourtex"},{"label":"From, — Vijay D. Dhawale","address":"From,\nVijay D. Dhawale\nS. No 44, Vasant Nagar, Lane No 1,\nKelewadi, A.R.A.I. Road,\nNear Balshivaji Mitra Mandal,\nOff Paud Road, Kothrud,\nPUNE – 411 038."}];
+
+/* ---------- ADDRESS BOOK SEARCH ---------- */
+function filterAddressBook(){
+  const q = document.getElementById('addrSearch').value.trim().toLowerCase();
+  const box = document.getElementById('addrSuggestions');
+  if(!q){ box.style.display = 'none'; box.innerHTML = ''; return; }
+
+  const matches = ADDRESS_BOOK
+    .filter(e => (e.label + ' ' + e.address).toLowerCase().includes(q))
+    .slice(0, 10);
+
+  if(matches.length === 0){
+    box.innerHTML = '<div class="addr-suggestion-empty">No saved match — you can type a new address below.</div>';
+    box.style.display = 'block';
+    return;
+  }
+
+  box.innerHTML = matches.map(m => {
+    const idx = ADDRESS_BOOK.indexOf(m);
+    return `<div class="addr-suggestion-item" onclick="selectAddress(${idx})"><b>${escapeHtml(m.label)}</b></div>`;
+  }).join('');
+  box.style.display = 'block';
+}
+
+function selectAddress(idx){
+  const entry = ADDRESS_BOOK[idx];
+  if(!entry) return;
+  document.getElementById('inToAddress').value = entry.address;
+  document.getElementById('addrSearch').value = '';
+  document.getElementById('addrSuggestions').style.display = 'none';
+  document.getElementById('inToAddress').focus();
+}
+
+/* ---------- TABS ---------- */
+function switchTab(tab){
+  document.getElementById('partsTabContent').style.display = tab === 'parts' ? 'block' : 'none';
+  document.getElementById('addressTabContent').style.display = tab === 'address' ? 'block' : 'none';
+  document.getElementById('tabPartsBtn').classList.toggle('active', tab === 'parts');
+  document.getElementById('tabAddrBtn').classList.toggle('active', tab === 'address');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/* ================= PART LABELS ================= */
+function addPart(){
+  const name = document.getElementById('inPartName').value.trim();
+  const model = document.getElementById('inModel').value.trim();
+  const qty = parseInt(document.getElementById('inQty').value) || 0;
+  const mode = document.getElementById('inMode').value;
+
+  if(!name || qty < 1){
+    alert('Please enter at least a Part Name and a valid Qty.');
+    return;
+  }
+
+  parts.push({name, model, qty, mode});
+
+  document.getElementById('inPartName').value = '';
+  document.getElementById('inModel').value = '';
+  document.getElementById('inQty').value = '1';
+  document.getElementById('inMode').value = 'perUnit';
+  document.getElementById('inPartName').focus();
+
+  renderPartsTable();
+}
+
+function updatePartMode(index, value){
+  parts[index].mode = value;
+  renderPartsTable();
+}
+
+function removePart(index){
+  parts.splice(index, 1);
+  renderPartsTable();
+}
+
+function clearAllParts(){
+  if(parts.length && !confirm('Clear all part lines?')) return;
+  parts = [];
+  renderPartsTable();
+  document.getElementById('sheetSection').style.display = 'none';
+}
+
+function renderPartsTable(){
+  const body = document.getElementById('partsBody');
+  const emptyNote = document.getElementById('emptyNote');
+  body.innerHTML = '';
+
+  if(parts.length === 0){
+    emptyNote.style.display = 'block';
+  } else {
+    emptyNote.style.display = 'none';
+    parts.forEach((p, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${escapeHtml(p.name)}</td>
+        <td>${escapeHtml(p.model || '—')}</td>
+        <td><span class="qty-pill">${p.qty}</span></td>
+        <td>
+          <select class="row-mode-select" onchange="updatePartMode(${i}, this.value)">
+            <option value="perUnit" ${p.mode==='perUnit'?'selected':''}>1 per unit (${p.qty})</option>
+            <option value="perPart" ${p.mode==='perPart'?'selected':''}>1 label total</option>
+          </select>
+        </td>
+        <td><button class="remove-btn" onclick="removePart(${i})">Remove</button></td>
+      `;
+      body.appendChild(tr);
+    });
+  }
+
+  const totalLabels = parts.reduce((s,p)=> s + (p.mode === 'perPart' ? 1 : p.qty), 0);
+  const sheets = Math.max(1, Math.ceil(totalLabels / 14));
+  document.getElementById('summaryText').innerHTML =
+    `<b>${parts.length}</b> part lines &nbsp;·&nbsp; <b>${totalLabels}</b> labels to print &nbsp;·&nbsp; <b>${totalLabels ? sheets : 0}</b> A4 sheet${sheets>1?'s':''}`;
+}
+
+function generatePartLabels(){
+  if(parts.length === 0){
+    alert('Add at least one part line first.');
+    return;
+  }
+
+  const po = document.getElementById('poNumber').value.trim() || '—';
+
+  const labelList = [];
+  parts.forEach(p => {
+    if(p.mode === 'perUnit'){
+      for(let i=1; i<=p.qty; i++){
+        labelList.push({...p, seq:i, po});
+      }
+    } else {
+      labelList.push({...p, seq:null, po});
+    }
+  });
+
+  const perPage = 14;
+  const totalPages = Math.ceil(labelList.length / perPage);
+
+  const wrap = document.getElementById('sheetWrap');
+  wrap.innerHTML = '';
+
+  for(let pg=0; pg<totalPages; pg++){
+    const marker = document.createElement('div');
+    marker.className = 'page-marker';
+    marker.textContent = `Sheet ${pg+1} of ${totalPages}`;
+    wrap.appendChild(marker);
+
+    const page = document.createElement('div');
+    page.className = 'a4-page parts-page';
+
+    const pageLabels = labelList.slice(pg*perPage, pg*perPage+perPage);
+    pageLabels.forEach((lab) => {
+      const div = document.createElement('div');
+      div.className = 'label';
+      const footRight = lab.seq !== null
+        ? `Qty <b>${lab.qty}</b> &nbsp;·&nbsp; Unit ${lab.seq}/${lab.qty}`
+        : `Qty: <b>${lab.qty}</b>`;
+      div.innerHTML = `
+        <div class="label-main">
+          <div class="label-partname editable" contenteditable="true" spellcheck="false">${escapeHtml(lab.name)}</div>
+          <div class="label-model"><span>Model </span><span class="editable" contenteditable="true" spellcheck="false">${lab.model ? escapeHtml(lab.model) : '—'}</span></div>
+          <div class="label-foot">
+            <span>PO: <b class="editable" contenteditable="true" spellcheck="false">${escapeHtml(lab.po)}</b></span>
+            <span class="editable" contenteditable="true" spellcheck="false">${footRight}</span>
+          </div>
+        </div>
+      `;
+      page.appendChild(div);
+    });
+
+    wrap.appendChild(page);
+  }
+
+  document.getElementById('sheetSection').style.display = 'block';
+  document.getElementById('sheetSummary').innerHTML =
+    `<b>${labelList.length}</b> part labels across <b>${totalPages}</b> A4 sheet${totalPages>1?'s':''} — PO: <b>${escapeHtml(po)}</b>`;
+
+  document.getElementById('sheetSection').scrollIntoView({behavior:'smooth'});
+}
+
+/* ================= ADDRESS LABELS ================= */
+function addAddress(){
+  const text = document.getElementById('inToAddress').value.trim();
+  if(!text){
+    alert('Please enter the recipient address.');
+    return;
+  }
+  addresses.push(text);
+  document.getElementById('inToAddress').value = '';
+  document.getElementById('inToAddress').focus();
+  renderAddressList();
+}
+
+function removeAddress(index){
+  addresses.splice(index, 1);
+  renderAddressList();
+}
+
+function clearAllAddresses(){
+  if(addresses.length && !confirm('Clear all recipient addresses?')) return;
+  addresses = [];
+  renderAddressList();
+  document.getElementById('sheetSection').style.display = 'none';
+}
+
+function renderAddressList(){
+  const list = document.getElementById('addressList');
+  const emptyNote = document.getElementById('addrEmptyNote');
+  list.innerHTML = '';
+
+  emptyNote.style.display = addresses.length === 0 ? 'block' : 'none';
+
+  addresses.forEach((addr, i) => {
+    const div = document.createElement('div');
+    div.className = 'addr-list-item';
+    div.innerHTML = `
+      <pre>${escapeHtml(addr)}</pre>
+      <button class="remove-btn" onclick="removeAddress(${i})">Remove</button>
+    `;
+    list.appendChild(div);
+  });
+
+  const sheets = Math.max(1, Math.ceil(addresses.length / 8));
+  document.getElementById('addrSummaryText').innerHTML =
+    `<b>${addresses.length}</b> recipients &nbsp;·&nbsp; <b>${addresses.length ? sheets : 0}</b> A4 sheet${sheets>1?'s':''}`;
+}
+
+function generateAddressLabels(){
+  if(addresses.length === 0){
+    alert('Add at least one recipient address first.');
+    return;
+  }
+
+  const fromText = document.getElementById('fromAddress').value.trim() || 'EFFORTS ENGINEERS';
+  const perPage = 8;
+  const totalPages = Math.ceil(addresses.length / perPage);
+
+  const wrap = document.getElementById('sheetWrap');
+  wrap.innerHTML = '';
+
+  for(let pg=0; pg<totalPages; pg++){
+    const marker = document.createElement('div');
+    marker.className = 'page-marker';
+    marker.textContent = `Sheet ${pg+1} of ${totalPages}`;
+    wrap.appendChild(marker);
+
+    const page = document.createElement('div');
+    page.className = 'a4-page addr-page';
+
+    const pageAddrs = addresses.slice(pg*perPage, pg*perPage+perPage);
+    pageAddrs.forEach((addr) => {
+      const div = document.createElement('div');
+      div.className = 'addr-label';
+      div.innerHTML = `
+        <div class="addr-from-row">
+          <img class="addr-logo" src="${LOGO_SRC}" alt="">
+          <div class="addr-from-text editable" contenteditable="true" spellcheck="false">${escapeHtml(fromText)}</div>
+        </div>
+        <div class="addr-to-label">To</div>
+        <div class="addr-to-text editable" contenteditable="true" spellcheck="false">${escapeHtml(addr)}</div>
+      `;
+      page.appendChild(div);
+    });
+
+    wrap.appendChild(page);
+  }
+
+  document.getElementById('sheetSection').style.display = 'block';
+  document.getElementById('sheetSummary').innerHTML =
+    `<b>${addresses.length}</b> address labels across <b>${totalPages}</b> A4 sheet${totalPages>1?'s':''}`;
+
+  document.getElementById('sheetSection').scrollIntoView({behavior:'smooth'});
+}
+
+renderPartsTable();
+renderAddressList();
+document.getElementById('addrBookCount').textContent = ADDRESS_BOOK.length;
+</script>
+</body>
+</html>

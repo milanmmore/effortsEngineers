@@ -1,0 +1,33 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "workbench.editor.enablePreview": false,
+    "files.autoSave": "afterDelay",
+    "editor.wordWrap": "on"
+  },
+  "launch": {},
+  "extensions": {
+    "recommendations": [
+      "yzhang.markdown-all-in-one",
+      "davidanson.vscode-markdownlint",
+      "shd101wyy.markdown-preview-enhanced"
+    ]
+  },
+  "workspaceFile": "project-docs.code-workspace",
+  "openFiles": [
+    "README.md",
+    "PROJECT_PLAN.md",
+    "docs/README.md",
+    "docs/phase4.md",
+    "docs/phase5.md",
+    "docs/phase6.md",
+    "docs/phase7.md",
+    "docs/architecture-spec.md",
+    "docs/deployment-workflow-spec.md",
+    "docs/roadmap-spec.md"
+  ]
+}

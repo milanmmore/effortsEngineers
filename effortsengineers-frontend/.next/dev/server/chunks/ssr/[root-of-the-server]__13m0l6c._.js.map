@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///D:/EffortsEngineers/effortsengineers-frontend/app/page.js"],"sourcesContent":["export default function HomePage() {\r\n\treturn (\r\n\t\t<main>\r\n\t\t\t<h1>Efforts Engineers</h1>\r\n\t\t\t<p>Client portal and administration platform.</p>\r\n\t\t</main>\r\n\t);\r\n}\r\n"],"names":["HomePage"],"mappings":";;;;;;AAAe,SAASA;IACvB,qBACC,8OAAC;;0BACA,8OAAC;0BAAG;;;;;;0BACJ,8OAAC;0BAAE;;;;;;;;;;;;AAGN"}}]
+}
