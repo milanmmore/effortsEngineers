@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',               // ✅ replaces next export
-  outputFileTracingRoot: __dirname,
-  basePath: '/effortsengineers',  // ✅ repo name for GitHub Pages
-  assetPrefix: '/effortsengineers/',
+  basePath: '/EffortsEngineers',  // ✅ repo name for GitHub Pages
+  assetPrefix: '/EffortsEngineers/',
 };
 
 module.exports = nextConfig;
+
 

@@ -9,7 +9,7 @@ self.__SERVER_FILES_MANIFEST={
     "typedRoutes": false,
     "distDir": ".next",
     "cleanDistDir": true,
-    "assetPrefix": "/effortsengineers/",
+    "assetPrefix": "/EffortsEngineers/",
     "cacheMaxMemorySize": 52428800,
     "configOrigin": "next.config.js",
     "useFileSystemPublicRoutes": true,
@@ -43,7 +43,7 @@ self.__SERVER_FILES_MANIFEST={
         256,
         384
       ],
-      "path": "/effortsengineers/_next/image",
+      "path": "/EffortsEngineers/_next/image",
       "loader": "default",
       "loaderFile": "",
       "domains": [],
@@ -78,7 +78,7 @@ self.__SERVER_FILES_MANIFEST={
       "maxInactiveAge": 60000,
       "pagesBufferLength": 5
     },
-    "basePath": "/effortsengineers",
+    "basePath": "/EffortsEngineers",
     "sassOptions": {},
     "trailingSlash": false,
     "i18n": null,

@@ -3,16 +3,16 @@
   "pages404": true,
   "appType": "app",
   "caseSensitive": false,
-  "basePath": "/effortsengineers",
+  "basePath": "/EffortsEngineers",
   "redirects": [
     {
-      "source": "/effortsengineers/",
-      "destination": "/effortsengineers",
+      "source": "/EffortsEngineers/",
+      "destination": "/EffortsEngineers",
       "basePath": false,
       "internal": true,
       "priority": true,
       "statusCode": 308,
-      "regex": "^/effortsengineers/$"
+      "regex": "^/EffortsEngineers/$"
     },
     {
       "source": "/:path+/",
@@ -28,9 +28,9 @@
   "rewrites": {
     "beforeFiles": [
       {
-        "source": "/effortsengineers//_next/:path+",
-        "destination": "/effortsengineers/_next/:path+",
-        "regex": "^/effortsengineers//_next(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))(?:/)?$"
+        "source": "/EffortsEngineers//_next/:path+",
+        "destination": "/EffortsEngineers/_next/:path+",
+        "regex": "^/EffortsEngineers//_next(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))(?:/)?$"
       }
     ],
     "afterFiles": [],
