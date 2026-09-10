@@ -1,13 +1,14 @@
 {
+  "/_global-error/page": "app/_global-error/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/admin/dashboard/page": "app/admin/dashboard/page.js",
   "/admin/forecasting/page": "app/admin/forecasting/page.js",
+  "/admin/inventory/page": "app/admin/inventory/page.js",
   "/admin/orders/page": "app/admin/orders/page.js",
   "/auth/login/page": "app/auth/login/page.js",
-  "/admin/inventory/page": "app/admin/inventory/page.js",
   "/auth/register/page": "app/auth/register/page.js",
-  "/client/dashboard/page": "app/client/dashboard/page.js",
   "/client/catalog/page": "app/client/catalog/page.js",
+  "/client/dashboard/page": "app/client/dashboard/page.js",
   "/client/quotation/page": "app/client/quotation/page.js",
   "/page": "app/page.js"
 }
