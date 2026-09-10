@@ -1,6 +1,10 @@
-// next.config.js
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  outputFileTracingRoot: __dirname, // ensures Next.js uses frontend folder as root
+  output: 'export',               // ✅ replaces next export
+  outputFileTracingRoot: __dirname,
+  basePath: '/effortsengineers',  // ✅ repo name for GitHub Pages
+  assetPrefix: '/effortsengineers/',
 };
 
 module.exports = nextConfig;
+
