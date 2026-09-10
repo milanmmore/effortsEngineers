@@ -2,7 +2,8 @@ name: Deploy Next.js to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
@@ -14,20 +15,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24   # ✅ matches GitHub runner + Next.js requirement
+          node-version: 18   # or 20, depending on your Next.js version
 
       - name: Install dependencies
         run: |
           cd effortsengineers-frontend
           npm install
 
-      - name: Build Next.js
+      - name: Build Next.js (static export)
         run: |
           cd effortsengineers-frontend
           npm run build
+        # Because next.config.js has output: 'export',
+        # this will generate the static site into effortsengineers-frontend/out
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: effortsengineers-frontend/out
+          keep_files: false
