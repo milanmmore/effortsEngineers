@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24   # ✅ matches GitHub runner and Next.js requirement
+          node-version: 24   # ✅ aligns with GitHub runners + Next.js 16
 
       - name: Install dependencies
         run: |
