@@ -8,8 +8,17 @@ const pool = new Pool(
 				port: Number(process.env.DB_PORT) || 5432,
 				user: process.env.DB_USER || 'postgres',
 				password: process.env.DB_PASSWORD,
-				database: process.env.DB_NAME || 'effortsengineers',
-			},
+				database: process.env.PGDATABASE,
+      }
 );
 
-module.exports = pool;
+pool.on('error', (err) => {
+  console.error('Unexpected PostgreSQL error', err);
+  process.exit(1);
+});
+
+module.exports = {
+  query: (text, params) => pool.query(text, params),
+  getClient: () => pool.connect(),
+  pool,
+};
