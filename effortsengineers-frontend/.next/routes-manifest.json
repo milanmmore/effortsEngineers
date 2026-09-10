@@ -3,8 +3,17 @@
   "pages404": true,
   "appType": "app",
   "caseSensitive": false,
-  "basePath": "",
+  "basePath": "/effortsengineers",
   "redirects": [
+    {
+      "source": "/effortsengineers/",
+      "destination": "/effortsengineers",
+      "basePath": false,
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^/effortsengineers/$"
+    },
     {
       "source": "/:path+/",
       "destination": "/:path+",
@@ -17,7 +26,13 @@
   "headers": [],
   "onMatchHeaders": [],
   "rewrites": {
-    "beforeFiles": [],
+    "beforeFiles": [
+      {
+        "source": "/effortsengineers//_next/:path+",
+        "destination": "/effortsengineers/_next/:path+",
+        "regex": "^/effortsengineers//_next(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))(?:/)?$"
+      }
+    ],
     "afterFiles": [],
     "fallback": []
   },
