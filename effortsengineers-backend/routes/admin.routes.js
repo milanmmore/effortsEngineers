@@ -1,12 +1,13 @@
-const express = require('express');
-const { listInventory, updateStock } = require('../controllers/inventory.controller');
-const { requireAuth, requireRole } = require('../middleware/auth');
+import express from "express";
+import { listInventory, updateStock } from "../controllers/inventory.Controller.js";
+import { requireAuth, requireRole } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.use(requireAuth, requireRole('admin')); // every admin route requires an admin
+// every admin route requires an admin
+router.use(requireAuth, requireRole("admin"));
 
-router.get('/inventory', listInventory);
-router.patch('/inventory/:catalogItemId', updateStock);
+router.get("/inventory", listInventory);
+router.patch("/inventory/:catalogItemId", updateStock);
 
-module.exports = router;
+export default router; // <-- critical for ESM

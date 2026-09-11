@@ -1,68 +1,84 @@
-const db = require('../config/db');
-const ApiError = require('../utils/ApiError');
-const asyncHandler = require('../utils/asyncHandler');
+// controllers/inventory.controller.js
+import db from "../config/db.js";
+import asyncHandler from "../utils/asyncHandler.js";
+import ApiError from "../utils/ApiError.js";
 
-// GET /api/admin/inventory - current stock levels for all catalog items
-const listInventory = asyncHandler(async (req, res) => {
+// GET /api/inventory
+export const listInventory = asyncHandler(async (req, res) => {
   const result = await db.query(
-    `SELECT id, sku, name, stock_quantity, is_active FROM catalog_items ORDER BY name ASC`
+    "SELECT id, product_id, quantity, updated_at FROM inventory ORDER BY updated_at DESC"
   );
   res.json(result.rows);
 });
 
-// PATCH /api/admin/inventory/:catalogItemId
-// body: { mode: 'set' | 'adjust', quantity: number, reason?: string }
-//   mode 'set'    -> stock_quantity = quantity
-//   mode 'adjust' -> stock_quantity += quantity  (use a negative number to deduct)
-const updateStock = asyncHandler(async (req, res) => {
-  const { mode = 'adjust', quantity, reason } = req.body;
-  const { catalogItemId } = req.params;
-
-  if (typeof quantity !== 'number' || !Number.isFinite(quantity)) {
-    throw new ApiError(400, 'quantity must be a number');
-  }
-  if (!['set', 'adjust'].includes(mode)) {
-    throw new ApiError(400, "mode must be 'set' or 'adjust'");
-  }
-
-  const client = await db.getClient();
-  try {
-    await client.query('BEGIN');
-
-    const current = await client.query(
-      'SELECT stock_quantity FROM catalog_items WHERE id = $1 FOR UPDATE',
-      [catalogItemId]
-    );
-    if (current.rows.length === 0) {
-      throw new ApiError(404, 'Catalog item not found');
-    }
-
-    const currentQty = current.rows[0].stock_quantity;
-    const newQty = mode === 'set' ? quantity : currentQty + quantity;
-
-    if (newQty < 0) {
-      throw new ApiError(400, 'Resulting stock quantity cannot be negative');
-    }
-
-    const updated = await client.query(
-      `UPDATE catalog_items SET stock_quantity = $1, updated_at = NOW() WHERE id = $2 RETURNING *`,
-      [newQty, catalogItemId]
-    );
-
-    await client.query(
-      `INSERT INTO inventory_logs (catalog_item_id, change_qty, reason, created_by)
-       VALUES ($1, $2, $3, $4)`,
-      [catalogItemId, newQty - currentQty, reason || null, req.user.id]
-    );
-
-    await client.query('COMMIT');
-    res.json(updated.rows[0]);
-  } catch (err) {
-    await client.query('ROLLBACK');
-    throw err;
-  } finally {
-    client.release();
-  }
+// GET /api/inventory/:id
+export const getInventoryItem = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await db.query(
+    "SELECT id, product_id, quantity, updated_at FROM inventory WHERE id = $1",
+    [id]
+  );
+  if (result.rows.length === 0) throw new ApiError(404, "Inventory item not found");
+  res.json(result.rows[0]);
 });
 
-module.exports = { listInventory, updateStock };
+// POST /api/inventory
+export const createInventoryItem = asyncHandler(async (req, res) => {
+  const { product_id, quantity } = req.body;
+  if (!product_id || !quantity) throw new ApiError(400, "product_id and quantity are required");
+
+  const result = await db.query(
+    `INSERT INTO inventory (product_id, quantity)
+     VALUES ($1, $2)
+     RETURNING id, product_id, quantity, updated_at`,
+    [product_id, quantity]
+  );
+  res.status(201).json(result.rows[0]);
+});
+
+// PUT /api/inventory/:id
+export const updateInventoryItem = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+
+  const result = await db.query(
+    `UPDATE inventory
+     SET quantity = $1
+     WHERE id = $2
+     RETURNING id, product_id, quantity, updated_at`,
+    [quantity, id]
+  );
+  if (result.rows.length === 0) throw new ApiError(404, "Inventory item not found");
+  res.json(result.rows[0]);
+});
+
+// DELETE /api/inventory/:id
+export const deleteInventoryItem = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await db.query("DELETE FROM inventory WHERE id = $1 RETURNING id", [id]);
+  if (result.rows.length === 0) throw new ApiError(404, "Inventory item not found");
+  res.json({ message: "Inventory item deleted successfully" });
+});
+
+// Update stock for a product
+export const updateStock = asyncHandler(async (req, res) => {
+  const { product_id, quantity } = req.body;
+
+  if (!product_id || quantity == null) {
+    throw new ApiError(400, "product_id and quantity are required");
+  }
+
+  const result = await db.query(
+    `UPDATE inventory
+     SET quantity = $1, updated_at = NOW()
+     WHERE product_id = $2
+     RETURNING id, product_id, quantity, updated_at`,
+    [quantity, product_id]
+  );
+
+  if (result.rows.length === 0) {
+    throw new ApiError(404, "Inventory item not found");
+  }
+
+  res.json(result.rows[0]);
+});

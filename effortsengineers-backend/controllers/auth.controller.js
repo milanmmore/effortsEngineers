@@ -1,25 +1,25 @@
-const bcrypt = require('bcryptjs');
-const db = require('../config/db');
-const ApiError = require('../utils/ApiError');
-const { signToken } = require('../utils/jwt');
-const asyncHandler = require('../utils/asyncHandler');
+import bcrypt from "bcryptjs";
+import db from "../config/db.js";
+import ApiError from "../utils/ApiError.js";
+import { signToken, verifyToken } from "../utils/jwt.js";
+import asyncHandler from "../utils/asyncHandler.js";
+
 
 // POST /api/auth/register
-const register = asyncHandler(async (req, res) => {
+export const register = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
 
   if (!name || !email || !password) {
-    throw new ApiError(400, 'name, email and password are required');
+    throw new ApiError(400, "name, email and password are required");
   }
 
-  const existing = await db.query('SELECT id FROM users WHERE email = $1', [email]);
+  const existing = await db.query("SELECT id FROM users WHERE email = $1", [email]);
   if (existing.rows.length > 0) {
-    throw new ApiError(409, 'An account with this email already exists');
+    throw new ApiError(409, "An account with this email already exists");
   }
 
-  // Public registration is always 'client'. Promote to 'admin' directly in the
-  // database, or add a separate admin-protected endpoint if you need one later.
-  const assignedRole = 'client';
+  // Public registration is always 'client'
+  const assignedRole = "client";
   void role; // ignored on purpose
 
   const passwordHash = await bcrypt.hash(password, 10);
@@ -38,23 +38,23 @@ const register = asyncHandler(async (req, res) => {
 });
 
 // POST /api/auth/login
-const login = asyncHandler(async (req, res) => {
+export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new ApiError(400, 'email and password are required');
+    throw new ApiError(400, "email and password are required");
   }
 
-  const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+  const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
   const user = result.rows[0];
 
   if (!user) {
-    throw new ApiError(401, 'Invalid email or password');
+    throw new ApiError(401, "Invalid email or password");
   }
 
   const match = await bcrypt.compare(password, user.password_hash);
   if (!match) {
-    throw new ApiError(401, 'Invalid email or password');
+    throw new ApiError(401, "Invalid email or password");
   }
 
   const token = signToken({ id: user.id, role: user.role, email: user.email });
@@ -64,5 +64,3 @@ const login = asyncHandler(async (req, res) => {
     token,
   });
 });
-
-module.exports = { register, login };

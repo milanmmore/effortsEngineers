@@ -1,19 +1,19 @@
-const express = require('express');
-const {
-  createQuotation,
+// routes/quotation.routes.js
+import express from "express";
+import {
   listQuotations,
   getQuotation,
-  updateQuotationStatus,
-} = require('../controllers/quotation.controller');
-const { requireAuth, requireRole } = require('../middleware/auth');
+  createQuotation,
+} from "../controllers/quotation.Controller.js";
+import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.use(requireAuth); // every quotation route requires a logged-in user
+// Public routes
+router.get("/", listQuotations);
+router.get("/:id", getQuotation);
 
-router.post('/', createQuotation);
-router.get('/', listQuotations);
-router.get('/:id', getQuotation);
-router.patch('/:id/status', requireRole('admin'), updateQuotationStatus);
+// Admin-only route
+router.post("/", requireAuth, requireRole("admin"), createQuotation);
 
-module.exports = router;
+export default router;

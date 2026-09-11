@@ -1,10 +1,10 @@
-const jwt = require('jsonwebtoken');
+// utils/jwt.js
+import jwtLib from "jsonwebtoken";
 
-const signToken = (payload) =>
-  jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
-  });
+export const signToken = (payload) => {
+  return jwtLib.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+};
 
-const verifyToken = (token) => jwt.verify(token, process.env.JWT_SECRET);
-
-module.exports = { signToken, verifyToken };
+export const verifyToken = (token) => {
+  return jwtLib.verify(token, process.env.JWT_SECRET);
+};

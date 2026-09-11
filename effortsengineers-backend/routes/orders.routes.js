@@ -1,13 +1,23 @@
-const express = require('express');
-const { listOrders, getOrder, updateOrderStatus } = require('../controllers/orders.controller');
-const { requireAuth, requireRole } = require('../middleware/auth');
+// routes/orders.routes.js
+import express from "express";
+import {
+  listOrders,
+  getOrder,
+  createOrder,
+  updateOrder,
+  deleteOrder,
+} from "../controllers/orders.Controller.js";
+import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.use(requireAuth); // every orders route requires a logged-in user
+// Public routes
+router.get("/", listOrders);
+router.get("/:id", getOrder);
 
-router.get('/', listOrders);
-router.get('/:id', getOrder);
-router.patch('/:id/status', requireRole('admin'), updateOrderStatus);
+// Admin-only routes
+router.post("/", requireAuth, requireRole("admin"), createOrder);
+router.put("/:id", requireAuth, requireRole("admin"), updateOrder);
+router.delete("/:id", requireAuth, requireRole("admin"), deleteOrder);
 
-module.exports = router;
+export default router;

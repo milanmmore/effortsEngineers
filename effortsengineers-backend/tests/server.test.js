@@ -1,16 +1,20 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const app = require('../server');
+// __tests__/server.test.js
+import { jest } from "@jest/globals";
+import request from "supertest";
+import * as dbModule from "../config/db.js";
+import app from "../server.js";
 
-test('health endpoint returns an ok status', async () => {
-  const server = app.listen(0);
-  const { port } = server.address();
+test("health endpoint returns an ok status", async () => {
+  const res = await request(app).get("/api/health");
+  expect(res.status).toBe(200);
+  expect(res.body).toEqual({ status: "ok" });
+});
 
-  try {
-    const response = await fetch(`http://127.0.0.1:${port}/health`);
-    assert.equal(response.status, 200);
-    assert.deepEqual(await response.json(), { status: 'ok' });
-  } finally {
-    await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
-  }
+test("unknown route returns 404", async () => {
+  const res = await request(app).get("/api/does-not-exist");
+  expect(res.status).toBe(404);
+});
+
+afterAll(async () => {
+  await dbModule.default.pool.end();
 });

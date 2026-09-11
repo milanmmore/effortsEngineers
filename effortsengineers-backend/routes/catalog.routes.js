@@ -1,22 +1,19 @@
-const express = require('express');
-const {
+import express from "express";
+import {
   listCatalog,
   getCatalogItem,
   createCatalogItem,
   updateCatalogItem,
   deleteCatalogItem,
-} = require('../controllers/catalog.controller');
-const { requireAuth, requireRole } = require('../middleware/auth');
+} from "../controllers/catalog.Controller.js";
+import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// Public - anyone can browse the catalog
-router.get('/', listCatalog);
-router.get('/:id', getCatalogItem);
+router.get("/", listCatalog);
+router.get("/:id", getCatalogItem);
+router.post("/", requireAuth, requireRole("admin"), createCatalogItem);
+router.put("/:id", requireAuth, requireRole("admin"), updateCatalogItem);
+router.delete("/:id", requireAuth, requireRole("admin"), deleteCatalogItem);
 
-// Admin only - manage catalog
-router.post('/', requireAuth, requireRole('admin'), createCatalogItem);
-router.put('/:id', requireAuth, requireRole('admin'), updateCatalogItem);
-router.delete('/:id', requireAuth, requireRole('admin'), deleteCatalogItem);
-
-module.exports = router;
+export default router;
