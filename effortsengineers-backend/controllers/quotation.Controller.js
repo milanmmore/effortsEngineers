@@ -38,3 +38,27 @@ export const createQuotation = asyncHandler(async (req, res) => {
 
   res.status(201).json(result.rows[0]);
 });
+
+// PUT /api/quotations/:id/status
+export const updateQuotationStatus = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { status, total } = req.body;
+
+  if (!status) {
+    throw new ApiError(400, "status is required");
+  }
+
+  const result = await db.query(
+    `UPDATE quotations
+     SET status = $1, total = COALESCE($2, total)
+     WHERE id = $3
+     RETURNING *`,
+    [status, total !== undefined ? total : null, id]
+  );
+
+  if (result.rows.length === 0) {
+    throw new ApiError(404, "Quotation not found");
+  }
+
+  res.json(result.rows[0]);
+});

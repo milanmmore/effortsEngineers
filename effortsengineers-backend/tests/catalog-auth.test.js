@@ -12,8 +12,9 @@ jest.unstable_mockModule("../utils/jwt.js", () => ({
 const jwtModule = await import("../utils/jwt.js");
 const { default: app } = await import("../server.js");
 
+
 beforeEach(() => {
-  // Default mock for verifyToken
+  // JWT role mock
   jwtModule.verifyToken.mockImplementation((token) => {
     if (token === "admin-token") {
       return { id: 1, email: "admin@example.com", role: "admin" };
@@ -22,6 +23,14 @@ beforeEach(() => {
       return { id: 2, email: "user@example.com", role: "user" };
     }
     throw new Error("Invalid token");
+  });
+
+  // DB insert mock
+  jest.spyOn(dbModule.default, "query").mockImplementation(async (sql, params) => {
+    if (sql.startsWith("INSERT INTO products")) {
+      return { rows: [{ id: 1, name: params[0], description: params[1], price: params[2], created_at: new Date() }] };
+    }
+    return { rows: [] };
   });
 });
 

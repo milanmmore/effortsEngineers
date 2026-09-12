@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { pathToFileURL } from "node:url";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -12,6 +13,8 @@ import adminRoutes from "./routes/admin.routes.js";
 import clientRoutes from "./routes/clients.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import inventoryRoutes from "./routes/inventory.routes.js";
+import inquiriesRoutes from "./routes/inquiries.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
@@ -34,12 +37,14 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/client", clientRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/inventory", inventoryRoutes);
+app.use("/api/inquiries", inquiriesRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
 
 // Only start the server if run directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`API listening on port ${PORT}`));
 }
