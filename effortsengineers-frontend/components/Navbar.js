@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
@@ -11,9 +11,39 @@ export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const { items, setIsDrawerOpen } = useContext(QuoteContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const pathname = usePathname();
+  const navRef = useRef(null);
 
   const isActive = (path) => pathname === path;
+  const isSolutionsActive = ["/products", "/services", "/productsourcing"].includes(pathname);
+  const isCompanyActive = ["/about", "/warranty", "/contact"].includes(pathname);
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close mobile nav and dropdowns on route change
+  useEffect(() => {
+    setIsOpen(false);
+    setActiveDropdown(null);
+  }, [pathname]);
+
+  const toggleDropdown = (name) => {
+    setActiveDropdown((prev) => (prev === name ? null : name));
+  };
+
+  const closeAll = () => {
+    setIsOpen(false);
+    setActiveDropdown(null);
+  };
 
   return (
     <>
@@ -47,38 +77,122 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className={`nav-links ${isOpen ? "is-open" : ""}`}>
-            <Link href="/" className={isActive("/") ? "active" : ""} onClick={() => setIsOpen(false)}>
+          {/* Desktop & Mobile Navigation Links */}
+          <div className={`nav-links ${isOpen ? "is-open" : ""}`} ref={navRef}>
+            {/* 1. Home */}
+            <Link href="/" className={isActive("/") ? "active" : ""} onClick={closeAll}>
               Home
             </Link>
-            <Link href="/products" className={isActive("/products") ? "active" : ""} onClick={() => setIsOpen(false)}>
-              Products
-            </Link>
-            <Link href="/services" className={isActive("/services") ? "active" : ""} onClick={() => setIsOpen(false)}>
-              Services & Projects
-            </Link>
-            <Link href="/global-reach" className={isActive("/global-reach") ? "active" : ""} onClick={() => setIsOpen(false)}>
+
+            {/* 2. Solutions & Spares Dropdown */}
+            <div className={`nav-dropdown ${activeDropdown === "solutions" ? "is-open" : ""}`}>
+              <button
+                type="button"
+                className={`nav-dropdown-trigger ${isSolutionsActive ? "has-active-child" : ""}`}
+                onClick={() => toggleDropdown("solutions")}
+                aria-expanded={activeDropdown === "solutions"}
+              >
+                <span>Solutions &amp; Spares</span>
+                <span className="dropdown-chevron">▼</span>
+              </button>
+              <div className="dropdown-menu">
+                <Link
+                  href="/products"
+                  className={`dropdown-item ${isActive("/products") ? "active" : ""}`}
+                  onClick={closeAll}
+                >
+                  <span className="dropdown-item-icon">📦</span>
+                  <div className="dropdown-item-text">
+                    <span className="dropdown-item-title">Products &amp; Catalog</span>
+                    <span className="dropdown-item-desc">Ammonia, Freon, Air &amp; Gas compressor spares</span>
+                  </div>
+                </Link>
+                <Link
+                  href="/services"
+                  className={`dropdown-item ${isActive("/services") ? "active" : ""}`}
+                  onClick={closeAll}
+                >
+                  <span className="dropdown-item-icon">⚙️</span>
+                  <div className="dropdown-item-text">
+                    <span className="dropdown-item-title">Services &amp; Projects</span>
+                    <span className="dropdown-item-desc">Compressor overhaul, retrofitting &amp; repair</span>
+                  </div>
+                </Link>
+                <Link
+                  href="/productsourcing"
+                  className={`dropdown-item ${isActive("/productsourcing") ? "active" : ""}`}
+                  onClick={closeAll}
+                >
+                  <span className="dropdown-item-icon">🔍</span>
+                  <div className="dropdown-item-text">
+                    <span className="dropdown-item-title">Custom Sourcing</span>
+                    <span className="dropdown-item-desc">Hard-to-find spares &amp; reverse engineering</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
+
+            {/* 3. Global Reach */}
+            <Link href="/global-reach" className={isActive("/global-reach") ? "active" : ""} onClick={closeAll}>
               Global Reach
             </Link>
-            <Link href="/warranty" className={isActive("/warranty") ? "active" : ""} onClick={() => setIsOpen(false)}>
-              Warranty & FAQ
-            </Link>
-            <Link href="/about" className={isActive("/about") ? "active" : ""} onClick={() => setIsOpen(false)}>
-              About Us
-            </Link>
-            <Link href="/contact" className={isActive("/contact") ? "active" : ""} onClick={() => setIsOpen(false)}>
-              Contact
-            </Link>
+
+            {/* 4. Company & Support Dropdown */}
+            <div className={`nav-dropdown ${activeDropdown === "company" ? "is-open" : ""}`}>
+              <button
+                type="button"
+                className={`nav-dropdown-trigger ${isCompanyActive ? "has-active-child" : ""}`}
+                onClick={() => toggleDropdown("company")}
+                aria-expanded={activeDropdown === "company"}
+              >
+                <span>Company &amp; Support</span>
+                <span className="dropdown-chevron">▼</span>
+              </button>
+              <div className="dropdown-menu">
+                <Link
+                  href="/about"
+                  className={`dropdown-item ${isActive("/about") ? "active" : ""}`}
+                  onClick={closeAll}
+                >
+                  <span className="dropdown-item-icon">🏢</span>
+                  <div className="dropdown-item-text">
+                    <span className="dropdown-item-title">About Us</span>
+                    <span className="dropdown-item-desc">40+ years heritage, plant &amp; certifications</span>
+                  </div>
+                </Link>
+                <Link
+                  href="/warranty"
+                  className={`dropdown-item ${isActive("/warranty") ? "active" : ""}`}
+                  onClick={closeAll}
+                >
+                  <span className="dropdown-item-icon">🛡️</span>
+                  <div className="dropdown-item-text">
+                    <span className="dropdown-item-title">Warranty &amp; FAQ</span>
+                    <span className="dropdown-item-desc">OEM standards, warranty terms &amp; answers</span>
+                  </div>
+                </Link>
+                <Link
+                  href="/contact"
+                  className={`dropdown-item ${isActive("/contact") ? "active" : ""}`}
+                  onClick={closeAll}
+                >
+                  <span className="dropdown-item-icon">📞</span>
+                  <div className="dropdown-item-text">
+                    <span className="dropdown-item-title">Contact Us</span>
+                    <span className="dropdown-item-desc">Direct RFQs, plant visits &amp; 24/7 hotline</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
 
             {user?.role === "client" && (
-              <Link href="/client/dashboard" className={isActive("/client/dashboard") ? "active" : ""} onClick={() => setIsOpen(false)}>
+              <Link href="/client/dashboard" className={isActive("/client/dashboard") ? "active" : ""} onClick={closeAll}>
                 Client Portal
               </Link>
             )}
 
             {user?.role === "admin" && (
-              <Link href="/admin/dashboard" className={isActive("/admin/dashboard") ? "active" : ""} onClick={() => setIsOpen(false)}>
+              <Link href="/admin/dashboard" className={isActive("/admin/dashboard") ? "active" : ""} onClick={closeAll}>
                 Admin Panel
               </Link>
             )}

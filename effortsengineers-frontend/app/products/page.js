@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, { useContext, useEffect, useState, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { QuoteContext } from "@/context/QuoteContext";
@@ -164,7 +164,7 @@ const ALL_PRODUCTS = [
   },
 ];
 
-export default function ProductsPage() {
+function ProductsContent() {
   const { addItem, setIsDrawerOpen } = useContext(QuoteContext);
   const searchParams = useSearchParams();
   const initialBrand = searchParams?.get("brand") || "All";
@@ -319,5 +319,13 @@ export default function ProductsPage() {
         </Link>
       </div>
     </main>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div className="section-shell" style={{ padding: "40px", textAlign: "center" }}>Loading catalog...</div>}>
+      <ProductsContent />
+    </Suspense>
   );
 }
