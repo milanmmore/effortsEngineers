@@ -709,52 +709,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
 }
 
-/* BRAND COMPATIBILITY MARQUEE */
-.brand-strip-section {
-  background: white;
-  border-bottom: 1px solid var(--line);
-  padding: 30px 0.5in;
-}
-.brand-strip-inner {
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-}
-.brand-strip-inner p {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 20px;
-}
-.brand-logos-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.brand-badge-card {
-  background: var(--bg-page);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  padding: 10px 20px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--navy);
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.brand-badge-card:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
-}
+
 
 /* WHY CHOOSE US (AMOCON STYLE 3-COLUMN) */
 .why-choose-grid {

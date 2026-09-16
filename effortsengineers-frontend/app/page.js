@@ -303,27 +303,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. BRAND COMPATIBILITY STRIP (Amocon-inspired) */}
-      <section className="brand-strip-section">
-        <div className="brand-strip-inner">
-          <p>Precision Compatible Spares For Leading Industrial Compressor Brands</p>
-          <div className="brand-logos-row">
-            <Link href="/products?brand=Grasso" className="brand-badge-card">GRASSO</Link>
-            <Link href="/products?brand=Bitzer" className="brand-badge-card">BITZER</Link>
-            <Link href="/products?brand=Kirloskar" className="brand-badge-card">KIRLOSKAR</Link>
-            <Link href="/products?brand=Carrier" className="brand-badge-card">CARRIER</Link>
-            <Link href="/products?brand=Sabroe" className="brand-badge-card">SABROE</Link>
-            <Link href="/products?brand=Bock" className="brand-badge-card">BOCK</Link>
-            <Link href="/products?brand=Daikin" className="brand-badge-card">DAIKIN</Link>
-            <Link href="/products?brand=Vilter" className="brand-badge-card">VILTER</Link>
-            <Link href="/products?brand=Mycom" className="brand-badge-card">MYCOM</Link>
-            <Link href="/products?brand=Copeland" className="brand-badge-card">COPELAND</Link>
-            <Link href="/products?brand=York" className="brand-badge-card">YORK</Link>
-          </div>
-        </div>
-      </section>
 
-      {/* 3. WHY CHOOSE US (AMOCON STYLE 3-COLUMN BADGES) */}
+      {/* 2. WHY CHOOSE US (AMOCON STYLE 3-COLUMN BADGES) */}
       <section className="section-shell" style={{ background: "#f0f9ff" }}>
         <div className="section-header">
           <span className="eyebrow">The Efforts Advantage</span>
