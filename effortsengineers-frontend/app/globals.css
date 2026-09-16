@@ -1495,29 +1495,43 @@ h1, h2, h3, h4, h5, h6 {
 
 /* FLOATING WHATSAPP BUTTON */
 .whatsapp-trigger-btn {
-  width: 40px !important;
   height: 40px !important;
-  min-width: 40px !important;
   min-height: 40px !important;
-  max-width: 40px !important;
-  max-height: 40px !important;
-  border-radius: 50% !important;
+  border-radius: 20px !important;
   background: #25d366 !important;
   color: white !important;
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+  gap: 8px !important;
+  padding: 0 16px 0 12px !important;
   box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4) !important;
   border: 2px solid white !important;
   cursor: pointer;
-  padding: 0 !important;
-  margin: 0 !important;
-  box-sizing: border-box !important;
   text-decoration: none !important;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 .whatsapp-trigger-btn:hover {
-  transform: scale(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.5) !important;
+}
+.whatsapp-btn-text {
+  display: inline;
+}
+@media (max-width: 640px) {
+  .whatsapp-btn-text {
+    display: none;
+  }
+  .whatsapp-trigger-btn {
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+  }
 }
 
 /* FOOTER (AMOCON STYLE) */

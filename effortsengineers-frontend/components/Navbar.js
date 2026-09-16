@@ -57,9 +57,6 @@ export default function Navbar() {
           <div className="announcement-right">
             <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>📞 {CONTACT_CONFIG.phone}</a>
             <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`}>✉️ {CONTACT_CONFIG.primaryEmail}</a>
-            <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#25d366" }}>
-              💬 WhatsApp Us
-            </a>
           </div>
         </div>
       </div>

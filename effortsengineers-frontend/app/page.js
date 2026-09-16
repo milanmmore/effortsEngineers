@@ -190,9 +190,6 @@ export default function HomePage() {
               <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber hero-btn">
                 📋 Open Quote Builder
               </button>
-              <a href="https://wa.me/919096026622" target="_blank" rel="noreferrer" className="btn btn-outline-white hero-btn">
-                💬 WhatsApp Engineer
-              </a>
             </div>
 
             {/* Stats Counter Strip */}
