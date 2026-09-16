@@ -23,7 +23,7 @@ beforeEach(() => {
         rows: [{
           id: 1,
           email: "milan@example.com",
-          password_hash: await bcrypt.hash("secret", 10),
+          password_hash: await bcrypt.hash("Secret@123", 10),
         }],
       };
     }
@@ -59,7 +59,7 @@ test("full user flow: register → login → create order → admin stats", asyn
   const regRes = await request(app).post("/api/auth/register").send({
     name: "Milan",
     email: "milan@example.com",
-    password: "secret",
+    password: "Secret@123",
   });
   expect(regRes.status).toBe(201);
   expect(regRes.body.token).toBeTruthy();
@@ -67,7 +67,7 @@ test("full user flow: register → login → create order → admin stats", asyn
   // Login
   const loginRes = await request(app).post("/api/auth/login").send({
     email: "milan@example.com",
-    password: "secret",
+    password: "Secret@123",
   });
   expect(loginRes.status).toBe(200);
   expect(loginRes.body.token).toBeTruthy();

@@ -48,7 +48,7 @@ test("register with duplicate email fails", async () => {
   const res = await request(app).post("/api/auth/register").send({
     name: "Milan",
     email: "exists@example.com",
-    password: "secret",
+    password: "Secret@123",
   });
   expect(res.status).toBe(409);
   expect(res.body.message).toMatch(/already exists/i);

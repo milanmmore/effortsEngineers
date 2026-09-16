@@ -2,94 +2,104 @@
 
 ## 1. Project Structure
 - Use the existing folder: `effortsengineers-backend`
-- Inside, add:
-    - Database scripts live at the repository root in `scripts/`.
-  - `config/` → environment and database configs
+- Core folders include:
+  - `config/` → PostgreSQL and environment configuration
+  - `controllers/` → API handlers
+  - `routes/` → route registration
+  - `middleware/` → auth and validation
   - `tests/` → backend test cases
-  - `package.json` → project metadata
-  - `.env` → environment variables (not committed to Git)
+  - `scripts/` → DB schema and initialization scripts
+  - `.env` → local environment values (not committed to Git)
 
 ---
 
 ## 2. Environment Configuration
-- Create `.env` file in root of backend:
+- Create a `.env` file in the backend root:
   ```env
   PORT=5000
   DB_HOST=localhost
-  DB_PORT=5432
+  DB_PORT=5433
   DB_USER=postgres
   DB_PASSWORD=yourpassword
   DB_NAME=effortsengineers
+  JWT_SECRET=your_jwt_secret
   ```
-* Add .env to .gitignore to avoid exposing secrets.
+- Add `.env` to `.gitignore` to avoid exposing secrets.
 
 ## 3. Install Dependencies
-Run inside effortsengineers-backend:
-    ```bash
-    npm ci
-    ```
+Run inside `effortsengineers-backend`:
+```bash
+npm install
+```
 
 ## 4. Database Setup
-    - From the repository root, run the checked-in SQL script:
-    ```bash
-    psql -U postgres -f scripts/generateDB.sql
-    ```
-    - Verify schema creation in PostgreSQL:
-    ```bash
-    psql -U postgres -d effortsengineers -c "\dt"
-    ```
+- From the repository root, run the checked-in SQL script:
+  ```bash
+  psql -U postgres -h localhost -p 5433 -f scripts/generateDB.sql
+  ```
+- Verify the schema is present:
+  ```bash
+  psql -U postgres -h localhost -p 5433 -d effortsengineers -c "\dt"
+  ```
 
 ## 5. Express Server
-- The current entry point is `server.js`. Keep the server implementation there unless the project is deliberately migrated to `src/index.js`:
-    ```javascript
-    const express = require('express');
-    const cors = require('cors');
-    require('dotenv').config();
+The backend entry point is `server.js`, and the project uses ESM syntax.
 
-    const app = express();
-    app.use(cors());
-    app.use(express.json());
+```javascript
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
-    app.get('/', (req, res) => {
-    res.send('Efforts Engineers Backend Running');
-    });
+dotenv.config();
 
-        const PORT = process.env.PORT || 5000;
-        module.exports = app;
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-        if (require.main === module) {
-            app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-        }
-    ```
-- Run server after adding a `dev` script to `package.json`, or use `node server.js`:
-    ```bash
-    node server.js
-    ```
-- Verify the health endpoint:
-    ```bash
-    curl http://localhost:5000/health
-    ```
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+export default app;
+
+if (process.argv[1] && import.meta.url === `file://${process.argv[1]}`) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+```
+
+Start the server with:
+```bash
+npm run dev
+```
+
+Or run directly:
+```bash
+node server.js
+```
+
+Verify the health endpoint:
+```bash
+curl http://localhost:5000/api/health
+```
 
 ## 6. Testing Setup
-- The current test command uses Node's built-in test runner. Add tests under `tests/`:
-    ```javascript
-        const test = require('node:test');
-        const assert = require('node:assert/strict');
+The backend already uses Jest, with DB-backed tests exposed via `npm run test:db` and mock-based tests via `npm run test:mock`.
 
-        test('backend module exports an HTTP app', () => {
-            assert.equal(typeof require('../server').listen, 'function');
-        });
-    ```
-- Run tests:
-    ```bash
-    npm test
-    ```
+Run the standard suite:
+```bash
+npm test
+```
 
-The current server exposes only `/` and `/health`. Catalog, quotation, order,
-inventory, forecasting, and authentication routes remain implementation tasks.
+Run the DB-backed suite:
+```bash
+npm run test:db
+```
+
+The backend currently exposes `/api/health` and API route groups such as auth, catalog, quotation, orders, inventory, and admin endpoints.
 
 ## 7. Toolkit Recommendation (Backend Focus)
 - **Primary**: GitHub Copilot + Copilot Chat → daily coding assistance
-- **Secondary**: Claude Dev → reasoning‑heavy QA test generation
+- **Secondary**: Claude Dev → reasoning-heavy QA and API test generation
 - **Tertiary**: Gemini Pro → backend QA automation workflows (see [Gemini Pro Guide](../templates/GEMINI_SETUP.md))
 - **Optional**: Codex API → experimental backend agents

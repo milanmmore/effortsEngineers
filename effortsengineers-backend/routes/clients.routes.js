@@ -11,6 +11,6 @@ const router = express.Router();
 
 router.get("/catalog", browseCatalog);
 router.post("/quotation", requestQuotation);
-router.get("/dashboard/:client_id", requireAuth, viewClientDashboard);
+router.get("/dashboard", requireAuth, viewClientDashboard);
 
 export default router;

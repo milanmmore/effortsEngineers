@@ -30,17 +30,31 @@ export const requestQuotation = asyncHandler(async (req, res) => {
 
 // View client dashboard
 export const viewClientDashboard = asyncHandler(async (req, res) => {
-  const { client_id } = req.params;
-  if (!client_id) throw new ApiError(400, "client_id is required");
+  if (!req.user?.email) throw new ApiError(401, "Authenticated user is required");
+
+  const client = await db.query(
+    "SELECT id FROM clients WHERE email = $1",
+    [req.user.email]
+  );
+
+  if (client.rows.length === 0) {
+    return res.json({ quotations: [], orders: [] });
+  }
+
+  const clientId = client.rows[0].id;
 
   const quotations = await db.query(
-    "SELECT * FROM quotations WHERE customer_id = $1 ORDER BY created_at DESC",
-    [client_id]
+    "SELECT * FROM quotations WHERE client_id = $1 ORDER BY created_at DESC",
+    [clientId]
   );
 
   const orders = await db.query(
-    "SELECT * FROM orders WHERE customer_id = $1 ORDER BY created_at DESC",
-    [client_id]
+    `SELECT orders.*
+     FROM orders
+     INNER JOIN quotations ON quotations.id = orders.quotation_id
+     WHERE quotations.client_id = $1
+     ORDER BY orders.created_at DESC`,
+    [clientId]
   );
 
   res.json({ quotations: quotations.rows, orders: orders.rows });

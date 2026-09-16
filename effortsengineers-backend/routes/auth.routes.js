@@ -1,6 +1,6 @@
 // routes/auth.routes.js
 import express from "express";
-import { register, login } from "../controllers/auth.controller.js";
+import { register, login, forgotPassword, resetPassword } from "../controllers/auth.controller.js";
 import { verifyToken } from "../utils/jwt.js";
 
 const router = express.Router();
@@ -20,6 +20,8 @@ const authMiddleware = (req, res, next) => {
 
 router.post("/register", register);
 router.post("/login", login);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 router.get("/profile", authMiddleware, (req, res) => {
   res.json({ message: "Protected route accessed successfully", user: req.user });
 });
