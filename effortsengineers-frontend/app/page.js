@@ -6,8 +6,7 @@ import API from "@/lib/axiosClient";
 import { sendEmailNotification } from "@/lib/emailService";
 
 export default function HomePage() {
-  const { addItem, setIsDrawerOpen } = useContext(QuoteContext);
-  const [activeFaq, setActiveFaq] = useState(null);
+  const { setIsDrawerOpen } = useContext(QuoteContext);
 
   // Quick Hero RFQ state
   const [rfqName, setRfqName] = useState("");
@@ -62,110 +61,6 @@ export default function HomePage() {
       setIsSubmitting(false);
     }
   };
-
-  const toggleFaq = (index) => {
-    setActiveFaq(activeFaq === index ? null : index);
-  };
-
-  // Featured Ready Stock Parts
-  const featuredParts = [
-    {
-      id: "EE-PRD-101",
-      name: "Cylinder Liner - Grasso RC11 / RC12",
-      brand: "Grasso",
-      category: "Cylinder Liners",
-      oem_no: "GRA-RC11-LIN",
-      price: 6800,
-      stock_status: "In Stock (Express 24h)",
-      stock_type: "in-stock",
-      image: "/images/liners-bushes.jpg",
-      description: "Centrifugally cast, precision plateau-honed bore for optimum lubrication retention and minimal ring wear.",
-    },
-    {
-      id: "EE-PRD-102",
-      name: "Piston Ring Set - Bitzer 4N / 4P / 6F",
-      brand: "Bitzer",
-      category: "Piston Rings",
-      oem_no: "BIT-4N-RNG",
-      price: 2400,
-      stock_status: "In Stock (Express 24h)",
-      stock_type: "in-stock",
-      image: "/images/piston-rings.jpg",
-      description: "Set includes compression rings and oil scraper rings with PTFE/bronze coating for heavy refrigerant duty.",
-    },
-    {
-      id: "EE-PRD-103",
-      name: "Connecting Rod Assembly - Kirloskar KC6 / KCX",
-      brand: "Kirloskar",
-      category: "Connecting Rods",
-      oem_no: "KIR-KC6-ROD",
-      price: 8500,
-      stock_status: "In Stock (Express 24h)",
-      stock_type: "in-stock",
-      image: "/images/connecting-rods.jpg",
-      description: "Forged alloy steel rod balanced to within ±2 grams, fitted with high-lead phosphor bronze small-end bushes.",
-    },
-    {
-      id: "EE-PRD-104",
-      name: "Suction & Discharge Valve Plate - Carrier 5H",
-      brand: "Carrier",
-      category: "Valves & Reeds",
-      oem_no: "CAR-5H-VLV",
-      price: 4200,
-      stock_status: "Low Stock (4 units left)",
-      stock_type: "low-stock",
-      image: "/images/compressor-parts.jpg",
-      description: "Swedish flapper steel valve discs lapped to optical flatness for zero leakage and rapid thermal dissipation.",
-    },
-    {
-      id: "EE-PRD-105",
-      name: "Complete Overhaul Gasket & O-Ring Kit - Sabroe CMO",
-      brand: "Sabroe",
-      category: "Seals & Gaskets",
-      oem_no: "SAB-CMO-GSK",
-      price: 3800,
-      stock_status: "In Stock (Express 24h)",
-      stock_type: "in-stock",
-      image: "/images/seals-kits.jpg",
-      description: "Asbestos-free high-density aramid gasket material with Viton/HNBR O-rings resistant to ammonia & synthetic oils.",
-    },
-    {
-      id: "EE-PRD-106",
-      name: "Crankshaft Main Bearing Bush - Daikin C75 / C58",
-      brand: "Daikin",
-      category: "Bearings & Bushes",
-      oem_no: "DAI-C75-BRG",
-      price: 5400,
-      stock_status: "Made to Order (3-5 days)",
-      stock_type: "order",
-      image: "/images/compressor-parts.jpg",
-      description: "Tri-metal heavy-duty sleeve bearing diamond-bored for exacting journal clearance under high suction loads.",
-    },
-  ];
-
-  // FAQ items
-  const faqList = [
-    {
-      q: "What does the 1-Year Zero-Defect Replacement Warranty cover?",
-      a: "Our warranty guarantees that every spare part is free from dimensional, metallurgical, and manufacturing defects for a full 12 months from dispatch. In the rare event of an out-of-tolerance part, we provide an immediate 24-hour express replacement dispatch without waiting for warranty claim arbitration.",
-    },
-    {
-      q: "Are Efforts Engineers spare parts 100% interchangeable with OEM parts?",
-      a: "Yes. All our parts are reverse-engineered and CNC machined strictly following OEM dimensional limits, micro-finishes, and material specifications. They are direct drop-in replacements for original Kirloskar, Grasso, Bitzer, Carrier, Sabroe, Bock, and Daikin compressors.",
-    },
-    {
-      q: "How fast is your breakdown express dispatch?",
-      a: "For parts held in ready stock (over 10,000 line items), orders placed before 3:00 PM IST are dispatched the same day from our Pune logistics center via express air cargo or priority courier (Blue Dart, DHL, FedEx) with 24-48h delivery across India and major international hubs.",
-    },
-    {
-      q: "Do you supply Material Test Reports (MTR) and inspection certificates?",
-      a: "Yes. Every batch is certified under ISO 9001:2015. On request, we provide Chemical & Mechanical Material Test Reports (MTC 3.1), CMM dimensional inspection sheets, and dynamic balancing certificates.",
-    },
-    {
-      q: "Can you manufacture obsolete or customized compressor parts from sample or drawing?",
-      a: "Yes. Our engineering division specializes in precision reverse engineering. You can send us a worn sample, engineering drawing, or broken component, and our CNC machining wing will replicate the exact geometry, metallurgy, and heat treatment.",
-    },
-  ];
 
   return (
     <main>
@@ -453,35 +348,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. WARRANTY FAQ ACCORDION */}
-      <section id="faq" className="section-shell" style={{ background: "#f8fafc", borderTop: "1px solid var(--line)" }}>
-        <div className="section-header">
-          <span className="eyebrow">Clear Guarantees</span>
-          <h2 className="section-title"><b>Frequently Asked</b> Questions & Warranty</h2>
-          <p className="section-desc">
-            Everything you need to know about our quality inspection, warranty claims, and shipping policies.
-          </p>
-          <div className="separator-line" />
-        </div>
 
-        <div className="faq-accordion">
-          {faqList.map((item, index) => (
-            <div key={index} className="faq-item">
-              <div className="faq-header" onClick={() => toggleFaq(index)}>
-                <span>{item.q}</span>
-                <span className="faq-icon">{activeFaq === index ? "−" : "+"}</span>
-              </div>
-              {activeFaq === index && (
-                <div className="faq-body">
-                  <p style={{ margin: 0 }}>{item.a}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 9. HIGH-IMPACT RFQ CTA STRIP */}
+      {/* 5. HIGH-IMPACT RFQ CTA STRIP */}
       <section style={{ 
         background: `
           radial-gradient(circle at 80% 30%, rgba(2, 132, 199, 0.22) 0%, transparent 55%),
