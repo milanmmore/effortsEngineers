@@ -5,10 +5,17 @@ const nextConfig = {
   output: 'export',
   ...(isGithubPages
     ? {
-        basePath: '/EffortsEngineers',
-        assetPrefix: '/EffortsEngineers/',
+        basePath: '/effortsEngineers',
+        assetPrefix: '/effortsEngineers/',
+        env: {
+          NEXT_PUBLIC_BASE_PATH: '/effortsEngineers',
+        },
       }
-    : {}),
+    : {
+        env: {
+          NEXT_PUBLIC_BASE_PATH: '',
+        },
+      }),
   images: {
     unoptimized: true,
   },
