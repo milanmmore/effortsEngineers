@@ -10,11 +10,18 @@ dotenv.config({ path: "env.test" });
 import pkg from "pg";
 const { Pool } = pkg;
 
+const isLocalDb =
+  !process.env.DATABASE_URL ||
+  process.env.DATABASE_URL.includes("localhost") ||
+  process.env.DATABASE_URL.includes("127.0.0.1") ||
+  process.env.DB_HOST === "localhost" ||
+  process.env.DB_HOST === "127.0.0.1";
+
 const pool = new Pool(
   process.env.DATABASE_URL
     ? {
         connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false },
+        ssl: isLocalDb ? false : { rejectUnauthorized: false },
       }
     : {
         host: process.env.DB_HOST || "localhost",
