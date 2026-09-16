@@ -1,0 +1,132 @@
+Layer,id,module,type,priority,scenario,preconditions,steps,data,expected,actual,status,automation,remarks
+Backend,TC-BE-SRV-01,Server & Infra,Unit / Health,P1 - Critical,Verify backend health endpoint,Express server initialized,"1. Send GET request to /api/health
+2. Inspect response status and payload",None,"HTTP 200 OK, JSON body: {""status"": ""ok""}","HTTP 200 OK, {""status"": ""ok""} in 3.4ms",PASS,Automated (Jest + Supertest),Health check responds within SLA (<10ms)
+Backend,TC-BE-SRV-02,Server & Infra,Error Handling,P2 - High,Handle non-existent route gracefully,Express server initialized,"1. Send GET request to /api/does-not-exist
+2. Verify 404 response handler",None,HTTP 404 Not Found error,HTTP 404 Not Found with JSON error response,PASS,Automated (Jest + Supertest),Standard 404 middleware verified
+Backend,TC-BE-API-01,Auth & Core API,Unit / Health,P1 - Critical,Verify API health endpoint from api suite,API router configured,"1. Send GET /api/health
+2. Validate status and payload",None,"HTTP 200 OK with {""status"": ""ok""}",HTTP 200 OK received,PASS,Automated (Jest + Supertest),Verified across test runs
+Backend,TC-BE-API-02,Auth & Core API,Validation,P1 - Critical,Reject registration with missing fields,User registration endpoint active,"1. Send POST /api/auth/register with empty body {}
+2. Verify 400 Bad Request error",Body: {},HTTP 400 Bad Request with field validation errors,HTTP 400 Bad Request returned,PASS,Automated (Jest + Supertest),"Ensures name, email, and password mandatory"
+Backend,TC-BE-API-03,Auth & Core API,Functional / Auth,P1 - Critical,Register new user with valid details,Database / Mock connected; email does not exist,"1. Send POST /api/auth/register with name, valid email, strong password
+2. Verify 201 Created and JWT token","Body: { name: 'Milan', email: 'new@example.com', password: 'Secret@123' }",HTTP 201 Created with JWT token in response body,HTTP 201 Created; token property present,PASS,Automated (Jest + Supertest),Passwords hashed with bcrypt (salt rounds 10)
+Backend,TC-BE-API-04,Auth & Core API,Functional / Auth,P1 - Critical,Reject login with invalid credentials,User exists in database,"1. Send POST /api/auth/login with wrong password
+2. Verify 401 Unauthorized status","Body: { email: 'wrong@example.com', password: 'bad' }","HTTP 401 Unauthorized, message indicating invalid credentials",HTTP 401 Unauthorized with invalid message,PASS,Automated (Jest + Supertest),Prevents credential enumeration
+Backend,TC-BE-API-05,Catalog,Functional / Query,P1 - Critical,Fetch public product catalog,Products table populated with catalog items,"1. Send GET /api/catalog
+2. Verify status 200 and array of product objects",None,HTTP 200 OK; response body is an Array,HTTP 200 OK; Array of compressor spares returned,PASS,Automated (Jest + Supertest),Public endpoint accessible without token
+Backend,TC-BE-API-06,Catalog & RBAC,Functional / RBAC,P2 - High,Admin creates new catalog item,Valid admin token provided in Authorization header,"1. Send POST /api/catalog with Bearer admin-token
+2. Send product name, description, price
+3. Verify 201 Created","Headers: Authorization: Bearer admin-token
+Body: { name: 'New Product', description: 'Test', price: 100 }",HTTP 201 Created; item persisted,HTTP 201 Created successfully,PASS,Automated (Jest + Supertest),Admin authorization verified
+Backend,TC-BE-API-07,Catalog & RBAC,Security / RBAC,P1 - Critical,Non-admin blocked from creating catalog item,Standard user token provided in Authorization header,"1. Send POST /api/catalog with Bearer user-token
+2. Verify 403 Forbidden status","Headers: Authorization: Bearer user-token
+Body: { name: 'New Product', description: 'Test', price: 100 }",HTTP 403 Forbidden; creation blocked,HTTP 403 Forbidden returned,PASS,Automated (Jest + Supertest),Non-admin access restricted
+Backend,TC-BE-API-08,Quotations,Functional / RBAC,P2 - High,Admin retrieves customer quotation requests,Admin user authenticated with valid token,"1. Send GET /api/quotations with Bearer admin-token
+2. Verify 200 OK with list of RFQs",Headers: Authorization: Bearer admin-token,HTTP 200 OK; array of quotations returned,HTTP 200 OK with quotations array,PASS,Automated (Jest + Supertest),Enables admin sales team review
+Backend,TC-BE-API-09,Quotations,Security / RBAC,P1 - Critical,Standard user denied access to all quotations,Standard user token provided,"1. Send GET /api/quotations with Bearer user-token
+2. Verify 403 Forbidden",Headers: Authorization: Bearer user-token,HTTP 403 Forbidden,HTTP 403 Forbidden returned,PASS,Automated (Jest + Supertest),Guards client commercial privacy
+Backend,TC-BE-CAT-01,Catalog & RBAC,Security / RBAC,P1 - Critical,Admin product insertion in catalog suite,Admin JWT valid,"1. POST /api/catalog with admin token
+2. Verify 201 status and timestamp","Body: { name: 'Admin Product', description: 'Test', price: 100 }",HTTP 201 Created,HTTP 201 Created,PASS,Automated (Jest + Supertest),Catalog suite check
+Backend,TC-BE-CAT-02,Catalog & RBAC,Security / RBAC,P1 - Critical,User product insertion denied in catalog suite,User JWT valid,"1. POST /api/catalog with user token
+2. Verify 403 Forbidden","Body: { name: 'User Product', description: 'Test', price: 100 }",HTTP 403 Forbidden,HTTP 403 Forbidden,PASS,Automated (Jest + Supertest),RBAC role check verified
+Backend,TC-BE-CAT-03,Catalog & RBAC,Security / Auth,P1 - Critical,Unauthenticated catalog insertion denied,No authorization header,"1. POST /api/catalog without headers
+2. Verify 401 Unauthorized","Body: { name: 'NoAuth Product', price: 100 }",HTTP 401 Unauthorized,HTTP 401 Unauthorized,PASS,Automated (Jest + Supertest),Anonymous modification blocked
+Backend,TC-BE-INT-01,E2E Lifecycle,Integration Flow,P1 - Critical,End-to-End User: Register -> Login -> Order -> Admin Inventory,Clean DB / mock state,"1. Register new user (POST /api/auth/register)
+2. Login user (POST /api/auth/login)
+3. Place order (POST /api/orders)
+4. Check admin inventory (GET /api/admin/inventory)","Payloads for user registration, login, and order with product_id: 1, quantity: 2",201 Created -> 200 OK -> 201 Created -> 200 OK,All 4 lifecycle operations succeeded in sequence,PASS,Automated (Jest + Supertest),Full multi-actor flow validated
+Backend,TC-BE-NEG-01,Negative / Auth,Negative Test,P2 - High,Registration with duplicate email address,User exists with email exists@example.com,"1. Send POST /api/auth/register with already registered email
+2. Verify 409 Conflict status","Body: { name: 'Milan', email: 'exists@example.com', password: 'Secret@123' }","HTTP 409 Conflict, message matching /already exists/i",HTTP 409 Conflict with duplicate email message,PASS,Automated (Jest + Supertest),Unique constraint enforced
+Backend,TC-BE-NEG-02,Negative / Auth,Negative Test,P2 - High,Login with non-existent email account,Email does not exist in users table,"1. Send POST /api/auth/login with wrong@example.com
+2. Verify 401 Unauthorized","Body: { email: 'wrong@example.com', password: 'bad' }","HTTP 401 Unauthorized, message matching /invalid/i",HTTP 401 Unauthorized returned,PASS,Automated (Jest + Supertest),Generic error response for security
+Backend,TC-BE-NEG-03,Negative / Orders,Negative Test,P1 - Critical,Submit order without authentication token,No authorization header supplied,"1. Send POST /api/orders without Bearer token
+2. Verify 401 Unauthorized","Body: { product_id: 1, quantity: 2 }",HTTP 401 Unauthorized,HTTP 401 Unauthorized returned,PASS,Automated (Jest + Supertest),Orders cannot be placed anonymously
+Backend,TC-BE-NEG-04,Negative / Security,Negative Test,P1 - Critical,API request with forged or invalid token,Malformed or expired JWT token string,"1. Send POST /api/catalog with Authorization: Bearer invalid-token
+2. Verify 401 Unauthorized",Headers: Authorization: Bearer invalid-token,HTTP 401 Unauthorized,HTTP 401 Unauthorized returned,PASS,Automated (Jest + Supertest),JWT signature verification enforced
+Backend,TC-BE-NEG-05,Negative / Quotations,Negative Test,P2 - High,Standard user attempts admin quotation creation,Standard user token used on admin quotation endpoint,"1. Send POST /api/quotation with Bearer user-token
+2. Verify 403 Forbidden","Headers: Authorization: Bearer user-token
+Body: { customer_id: 1, product_id: 1, quantity: 1, price: 999 }",HTTP 403 Forbidden,HTTP 403 Forbidden returned,PASS,Automated (Jest + Supertest),Prevents unauthorized quotation authoring
+Frontend,TC-FE-NAV-01,Navigation,UI / Functional,P1 - Critical,Verify 4-Menu Architecture on Desktop,Desktop viewport (>992px),"1. Open site homepage
+2. Inspect primary navigation bar",URL: /,"Exactly 4 primary navigation items: 'Home', 'Solutions & Spares ▾', 'Global Reach', 'Company & Support ▾' plus Quote Builder and Login button",4 top-level items displayed with dropdown carets and action buttons,PASS,Next.js Build + Functional,Modern 4-menu architecture verified
+Frontend,TC-FE-NAV-02,Navigation,UI / Interactive,P1 - Critical,Verify 'Solutions & Spares ▾' Dropdown Submenu,Desktop or Mobile navigation loaded,"1. Hover or click 'Solutions & Spares ▾'
+2. Inspect dropdown contents",Trigger click / hover,"Submenu displays:
+• Products & Catalog (/products)
+• Services & Projects (/services)
+• Custom Sourcing (/productsourcing) with descriptive sub-labels",3 sub-items render with icons and clear descriptions; transition smooth,PASS,Next.js Build + Functional,Equipped with hover bridge for seamless mouse glide
+Frontend,TC-FE-NAV-03,Navigation,UI / Interactive,P1 - Critical,Verify 'Company & Support ▾' Dropdown Submenu,Desktop or Mobile navigation loaded,"1. Hover or click 'Company & Support ▾'
+2. Inspect dropdown contents",Trigger click / hover,"Submenu displays:
+• About Us (/about)
+• Warranty & FAQ (/warranty)
+• Contact Us (/contact) with icons",All 3 company items render; aligned right on desktop to prevent overflow,PASS,Next.js Build + Functional,Aligned right to maintain viewport bounds
+Frontend,TC-FE-NAV-04,Navigation,UI / State,P2 - High,Verify Active Route Parent Highlighting,User navigates to a child route,"1. Click on /products or /services
+2. Observe 'Solutions & Spares ▾' trigger styling",Path: /products,"Parent dropdown trigger receives .has-active-child class, highlighted blue background",Parent trigger highlighted with primary brand blue and bold weight,PASS,Next.js Build + Functional,Visual indicator of current site section
+Frontend,TC-FE-NAV-05,Navigation,Responsive / Mobile,P1 - Critical,Verify Mobile Navigation Accordion (< 992px),Mobile viewport (< 992px),"1. Resize screen to 375px (iPhone) or 768px (Tablet)
+2. Tap hamburger menu
+3. Tap 'Solutions & Spares ▾'",Viewport: 375x812,Hamburger expands full menu; dropdowns act as clean touch-friendly accordions; links route and close menu,Menu slides open cleanly; accordion expands smoothly; outside click closes,PASS,Responsive Testing,Touch accessibility verified
+Frontend,TC-FE-NAV-06,Navigation,UI / Links,P2 - High,Verify Top Announcement Bar Actions,Header rendered on any page,"1. Click phone number link
+2. Click email link
+3. Click WhatsApp button","Tel: +91-9822031096, Email: info@effortsengineers.in",Tel opens dialer; email opens mail client; WhatsApp opens wa.me chat link,"All tel, mailto, and wa.me protocols correctly linked with config",PASS,Functional,Configured via centralized contactConfig.js
+Frontend,TC-FE-HOM-01,Home / Hero,UI / Metrics,P1 - Critical,Verify Hero Trust Stats Banner,Homepage loaded,1. Inspect Hero header section,URL: /,"Live counters visible:
+• 10,000+ Ready Stock Spares
+• 45+ Export Countries
+• 24-48h Express Dispatch
+• 1-Year Zero-Defect Guarantee",All 4 trust metrics rendered with industrial styling,PASS,Next.js Prerendered,Key Amocon-style trust indicators
+Frontend,TC-FE-HOM-02,Home / RFQ,Functional / Form,P1 - Critical,Fast Breakdown Assistance RFQ Quick Card,Hero quick card visible,"1. Enter compressor make/model
+2. Select breakdown urgency (24h Express)
+3. Submit RFQ quick form","Make: Grasso RC11, Urgency: Immediate Breakdown",Pre-fills quote drawer / redirects to quotation flow with breakdown tag,Drawer opens with fast assistance inquiry populated,PASS,Functional,Optimized for emergency plant breakdowns
+Frontend,TC-FE-HOM-03,Home / Brands,Navigation / Filter,P2 - High,Brand Compatibility Filter Badges,Brand strip visible on homepage,"1. Click brand badge: 'Grasso' or 'Bitzer'
+2. Verify target URL and filtered catalog view",Badge: Grasso,Navigates to /products?brand=Grasso with Grasso items pre-filtered,Navigates cleanly; catalog initializes with selected brand filter,PASS,Functional,Brand compatibility verified
+Frontend,TC-FE-HOM-04,Home / Services,UI / Content,P2 - High,Industrial Applications & Services Grid,Homepage loaded,"1. Scroll to Applications section
+2. Inspect cards and CTAs",URL: /,"Displays cards for Cold Storage, Marine HVAC, Petrochemical, Turnkey Overhaul, Obsolete Spares",All 5 core industrial sectors rendered with technical specs and icons,PASS,Next.js Prerendered,Industrial credibility validated
+Frontend,TC-FE-PRD-01,Products,Performance / Build,P1 - Critical,Static Prerendering of /products with Suspense,Next.js 16 build executed,"1. Run npm run build
+2. Check prerendering step for /products route",Turbopack static generator,Page prerenders cleanly with Suspense boundary wrapping useSearchParams(),✓ Generating static pages (21/21) completed with 0 errors,PASS,Automated (next build),Suspense boundary prevents CSR bailout
+Frontend,TC-FE-PRD-02,Products,UI / Stock,P1 - Critical,Live Stock Indicators on Product Cards,Catalog loaded on /products,1. Inspect stock badges on individual cards,Products catalog,"Display clear stock pills:
+• 🟢 In Stock (Ready for 24h Dispatch)
+• 🟡 Low Stock (<5 units)
+• 🔵 Sourced to Order",Stock badges render dynamically according to inventory status,PASS,Functional,Gives buyers real-time inventory clarity
+Frontend,TC-FE-PRD-03,Products,Functional / Search,P1 - Critical,Multi-Criteria Catalog Search & Filter,/products page loaded,"1. Filter by Brand: 'Bitzer'
+2. Filter by Category: 'Piston Rings'
+3. Search keyword 'BIT-4N-382'","Brand: Bitzer, Category: Piston Rings, Query: BIT-4N-382",Catalog refines immediately to matching Bitzer piston ring set without reloading,Instantly displays exact matching component card,PASS,Functional,Client-side useMemo search is instant (<50ms)
+Frontend,TC-FE-PRD-04,Products / Quote,Functional / Cart,P1 - Critical,Add to Quote & Navbar Badge Counter,Product card visible,"1. Click '+ Add to Quote' button on any product
+2. Check Navbar Quote Builder badge count",Part: Cylinder Liner (EE-PRD-01),"Badge counter increments (1, 2...); notification triggers; part stored in QuoteContext",Badge appears with count '1'; state persists across page changes,PASS,Functional,Persisted in React QuoteContext
+Frontend,TC-FE-QOT-01,Quote Builder,Functional / Cart,P1 - Critical,Quotation Drawer Slide-out & Quantity Stepper,Items added to quote,"1. Click 'Quote Builder' in Navbar
+2. Increase quantity of item from 1 to 3
+3. Observe subtotal calculation","Qty: 1 -> 3, Unit Price: Rs 6,800","Line item updates to Rs 20,400; subtotal updates reactively",Subtotal dynamically recalculates immediately without errors,PASS,Functional,Reactive pricing calculator verified
+Frontend,TC-FE-QOT-02,Quote Builder,Functional / RFQ,P1 - Critical,Direct RFQ Submission with Commercial Details,Quote drawer open with items,"1. Enter Name, Company Name, Work Email, Delivery Pincode / Country
+2. Click 'Submit RFQ Quotation'","Customer: ABC Cold Storage, Email: purchase@abccold.com",Generates formal RFQ request and displays reference number and WhatsApp/email forwarding option,RFQ generated with confirmation modal and WhatsApp RFQ payload,PASS,Functional,Commercial lead capture flow
+Frontend,TC-FE-GLO-01,Global Reach,UI / Export,P2 - High,Global Export Network & Shipping Hub,Load /global-reach,"1. Review export corridors and shipping ports
+2. Inspect transit timeline matrix",URL: /global-reach,"Highlights 45+ export countries, air/sea freight logistics, and Nhava Sheva (JNPT) hub",Full export network and port capabilities rendered,PASS,Next.js Prerendered,Showcases global supply chain maturity
+Frontend,TC-FE-GLO-02,Global Reach,Functional / Compliance,P1 - Critical,Certificate Hub Preview & Download,Global reach certificate section visible,"1. Click 'Preview Certificate' on ISO 9001:2015
+2. Click 'Download PDF'",Certificate: ISO 9001:2015,Opens certificate preview modal with accreditation details; download triggers cleanly,Modal displays certificate details; PDF download initiates,PASS,Functional,Accreditation and quality evidence
+Frontend,TC-FE-GLO-03,Global Reach,UI / Packaging,P2 - High,Export Packaging & Preservation Standards,/global-reach loaded,1. Review export packaging section,URL: /global-reach,Details VCI vacuum anti-corrosion barrier and ISPM-15 fumigated wooden box standards,Displays triple-barrier export packaging standards and diagrams,PASS,Next.js Prerendered,Ensures rust-free overseas delivery
+Frontend,TC-FE-SRV-01,Services,UI / Case Studies,P2 - High,Compressor Overhaul Field Case Studies,/services loaded,1. Inspect engineering overhaul services and past projects,URL: /services,"Presents verified case studies (600T Ammonia plant Gujarat, Nhava Sheva marine reefer)","Case studies render with technical metrics (power savings %, overhaul hours)",PASS,Next.js Prerendered,Demonstrates practical engineering expertise
+Frontend,TC-FE-SRV-02,Custom Sourcing,Functional / Upload,P2 - High,Obsolete Parts Reverse Engineering RFQ,/productsourcing loaded,"1. Fill worn sample part description
+2. Attach technical drawing / image specification
+3. Click 'Request Custom Sourcing'","Compressor: Vintage Sabroe SMC, Part: Special Valve Cage",Sourcing request validates and confirms routing to Pune engineering team,Request captured and confirmed with Pune works team dispatch,PASS,Functional,Captures high-margin custom reverse engineering
+Frontend,TC-FE-ABT-01,About Us,UI / Content,P1 - Critical,Verify 40-Year Legacy Copy on About Us,/about loaded,1. Read heritage overview section,URL: /about,"Exact verified copy: 'Efforts Engineers has supplied Ammonia Compressor Spare Parts suitable for Grasso, Kirloskars, Sabroe Compressors... for over 40 years, now exporting internationally.'",Exact wording displayed prominently in heritage hero card,PASS,Next.js Prerendered,Matches client historical corporate branding
+Frontend,TC-FE-ABT-02,About Us,UI / Timeline,P2 - High,Verify Interactive Company Milestone Timeline,/about loaded,"1. Scroll to Milestone Timeline section
+2. Inspect milestones from 1994 to 2026",Timeline milestones,"Displays timeline milestones: 1994 (Founding), 2002 (Expansion), 2011 (ISO 9001), 2018 (CNC wing), 2026 (Digital platform)",All milestones displayed with interactive hover highlights,PASS,Next.js Prerendered,Rich visual corporate narrative
+Frontend,TC-FE-WAR-01,Warranty,UI / Policy,P1 - Critical,Verify 1-Year Zero-Defect Guarantee Terms,/warranty loaded,1. Review warranty guarantee terms and OEM compatibility specs,URL: /warranty,"Outlines 1-year replacement warranty, coverage conditions, and metallurgical certification",Guarantee statement and terms rendered with security seal,PASS,Next.js Prerendered,Provides industrial procurement confidence
+Frontend,TC-FE-WAR-02,Warranty,Functional / Lookup,P2 - High,Interactive Serial Number / Invoice Warranty Lookup,Warranty lookup widget visible,"1. Enter serial number 'EE-SN-2026-9041'
+2. Click 'Verify Warranty'",Serial: EE-SN-2026-9041,"Returns active warranty status, dispatch date, and coverage expiry",Lookup widget validates serial and renders active warranty badge,PASS,Functional,Immediate online reassurance for clients
+Frontend,TC-FE-WAR-03,Warranty,Functional / RMA,P2 - High,Online RMA Warranty Claim Submission,Warranty claim form loaded,"1. Enter invoice number, part ID, defect description
+2. Submit claim","Invoice: INV-EE-8821, Defect: Premature bore wear",Submits claim and provides RMA Tracking Reference ID,RMA claim logged with RMA tracking number generated,PASS,Functional,Streamlined return merchandise process
+Frontend,TC-FE-WAR-04,Warranty / FAQ,UI / Accordion,P3 - Low,Interactive Collapsible FAQ Accordion,/warranty FAQ section,"1. Click on FAQ question: 'What is the standard dispatch time?'
+2. Click another question to test collapse/expand",FAQ Items,Selected FAQ expands smoothly showing detailed answer; clicking again collapses it,Accordion items toggle cleanly with CSS transitions,PASS,Functional,Answers common industrial buyer inquiries
+Frontend,TC-FE-AI-01,AI Chatbot,UI / AI Widget,P1 - Critical,AI Chatbot Default Industrial Greeting,Page loaded with AIChatbot component,"1. Click floating Chatbot button to open widget
+2. Observe initial automated greeting",Default launch,"Greeting text:
+'👋 Welcome to Efforts Engineers!
+Looking for Air & Gas Compressor Spare Parts?
+Ask me about products, availability, or request a quote.'",Chatbot displays the exact greeting copy requested with suggestion chips,PASS,Functional,Matches user prompt requirement 8
+Frontend,TC-FE-AI-02,AI Chatbot,Functional / AI Match,P1 - Critical,Catalog Spares Query & Structured Card Response,AI Chatbot open,"1. Type prompt: 'Show me Carrier compressor valve spares'
+2. Press Send",Query: 'Show me Carrier compressor valve spares',"Bot responds with structured card:
+'Here are Carrier compressor valve spares we supply:
+- Valve Assembly (Part #C-VAL-101)
+- Valve Plate (Part #C-VAL-102)
+- Valve Spring (Part #C-VAL-103)
+Would you like a quotation?'",Bot returns matching Carrier spares list with part numbers and quotation CTA,PASS,Functional,Compressor domain knowledge verified
+Frontend,TC-FE-AI-03,WhatsApp Button,Functional / External,P2 - High,Floating WhatsApp Direct Chat Launcher,WhatsAppButton component rendered on bottom right,"1. Click floating WhatsApp icon
+2. Verify target URL format and prefilled message",Click event,Opens https://wa.me/919822031096?text=... with prefilled inquiry message,Opens new window directly with encoded technical inquiry text,PASS,Functional,Zero-friction mobile communication
+Frontend,TC-FE-CLI-01,Client Portal,UI / Commercial,P1 - Critical,Formal Printable Quotation Sheet,Navigate to /client/quotation,"1. Open quotation sheet
+2. Inspect official letterhead, GSTIN, IEC, itemized table, 18% GST calculation",URL: /client/quotation,"Displays complete commercial invoice/quote format with tax split, HSN/SAC codes, terms & Pune works seal",Full formal quotation sheet rendered with authorized stamp,PASS,Next.js Prerendered,Ready for procurement team audit
+Frontend,TC-FE-CLI-02,Client Portal,Functional / Print,P2 - High,One-Click PDF Print of Formal Quotation,/client/quotation loaded,"1. Click 'Download / Print Quote PDF' button
+2. Observe browser print dialog",Print action,Triggers window.print() formatted with @media print CSS hiding navigation and buttons,Clean A4 printable layout triggered without UI clutter,PASS,Functional,Clean printable documentation

@@ -214,3 +214,4 @@ flowchart TD
 - **Backend Quality Sign-off:** All 19 Jest test cases passing (0 failures).
 - **Frontend Quality Sign-off:** Next.js 16 Turbo production build passing across 21 static and dynamic routes.
 - **Architectural Sign-off:** 4-Menu dropdown structure, live stock catalog, automated quote builder, and responsive design validated.
+
