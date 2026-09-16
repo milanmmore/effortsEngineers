@@ -341,87 +341,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. SERVICES & APPLICATIONS GRID (Amocon-inspired) */}
-      <section className="section-shell">
-        <div className="section-header">
-          <span className="eyebrow">Engineering Applications</span>
-          <h2 className="section-title"><b>Our Product</b> Applications & Services</h2>
-          <p className="section-desc">
-            Powering critical refrigeration systems across heavy industries, marine fleets, and food processing plants.
-          </p>
-          <div className="separator-line" />
-        </div>
 
-        <div className="services-grid">
-          <div className="service-card">
-            <div className="service-img-wrapper">
-              <img src="/images/compressor-parts.jpg" alt="Industrial Cold Storage" />
-            </div>
-            <div className="service-content">
-              <h3>Industrial Refrigeration & Cold Storage</h3>
-              <p>Heavy ammonia and freon compressor spares for large-scale cold stores, seafood preservation, ice plants, and frozen meat processing.</p>
-              <Link href="/services" className="service-link">View Engineering Scope →</Link>
-            </div>
-          </div>
-
-          <div className="service-card">
-            <div className="service-img-wrapper">
-              <img src="/images/seals-kits.jpg" alt="Marine HVAC Compressor Spares" />
-            </div>
-            <div className="service-content">
-              <h3>Marine & Transport HVAC</h3>
-              <p>Certified replacement parts for cargo reefer containers, fishing trawlers, offshore vessels, and land-based refrigerated transport fleets.</p>
-              <Link href="/services" className="service-link">View Marine Solutions →</Link>
-            </div>
-          </div>
-
-          <div className="service-card">
-            <div className="service-img-wrapper">
-              <img src="/images/connecting-rods.jpg" alt="Process Gas" />
-            </div>
-            <div className="service-content">
-              <h3>Petrochemical & Process Gas Compression</h3>
-              <p>Specialized alloy components for hydrocarbon gas, CO2, nitrogen, and gas booster compressors operating under continuous high pressures.</p>
-              <Link href="/services" className="service-link">View Industrial Projects →</Link>
-            </div>
-          </div>
-
-          <div className="service-card">
-            <div className="service-img-wrapper">
-              <img src="/images/liners-bushes.jpg" alt="Compressor Overhaul" />
-            </div>
-            <div className="service-content">
-              <h3>Turnkey Compressor Overhaul</h3>
-              <p>Complete workshop refurbishment, crankshaft dynamic balancing, line boring, and pressure testing with guaranteed performance restoration.</p>
-              <Link href="/services" className="service-link">Learn About Overhaul →</Link>
-            </div>
-          </div>
-
-          <div className="service-card">
-            <div className="service-img-wrapper">
-              <img src="/images/piston-rings.jpg" alt="Reverse Engineering" />
-            </div>
-            <div className="service-content">
-              <h3>Reverse Engineering of Obsolete Spares</h3>
-              <p>Fabrication of out-of-production compressor spares directly from worn samples or 2D/3D CAD models with metallurgical chemical analysis.</p>
-              <Link href="/productsourcing" className="service-link">Explore Sourcing Support →</Link>
-            </div>
-          </div>
-
-          <div className="service-card">
-            <div className="service-img-wrapper">
-              <img src="/images/seals-kits.jpg" alt="Preventative Maintenance" />
-            </div>
-            <div className="service-content">
-              <h3>Engineering Audits & Preventative Kits</h3>
-              <p>Scheduled overhaul maintenance kits bundled with liners, pistons, rings, valves, and gaskets tailored to compressor running hours.</p>
-              <Link href="/services" className="service-link">View Maintenance Packages →</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. EXPRESS DELIVERY & GLOBAL LOGISTICS STRIP */}
+      {/* 3. EXPRESS DELIVERY & GLOBAL LOGISTICS STRIP */}
       <section style={{ 
         background: `
           radial-gradient(circle at 85% 30%, rgba(2, 132, 199, 0.2) 0%, transparent 55%),
