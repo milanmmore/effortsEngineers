@@ -65,7 +65,7 @@ describe("API Endpoints", () => {
     const res = await request(app).post("/api/auth/register").send({
       name: "Milan",
       email: "new@example.com",
-      password: "secret",
+      password: "Secret@123",
     });
     expect(res.status).toBe(201);
     expect(res.body.token).toBeDefined();

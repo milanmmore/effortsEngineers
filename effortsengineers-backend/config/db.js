@@ -11,7 +11,7 @@ import pkg from "pg";
 const { Pool } = pkg;
 
 const pool = new Pool(
-  process.env.DATABASE_URL
+  process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("localhost")
     ? {
         connectionString: process.env.DATABASE_URL,
         ssl: { rejectUnauthorized: false },
@@ -21,7 +21,7 @@ const pool = new Pool(
         port: Number(process.env.DB_PORT) || 5433,   // ✅ default to 5433
         user: process.env.DB_USER || "postgres",
         password: String(process.env.DB_PASSWORD),   // ✅ ensure string
-        database: process.env.DB_NAME,               // ✅ use DB_NAME from .env.test
+        database: process.env.DB_NAME || "effortsengineers",
       }
 );
 

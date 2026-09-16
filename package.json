@@ -2,7 +2,9 @@
   "name": "effortsengineers",
   "version": "1.0.0",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "next build",
+    "db:init": "node scripts/init-db.js"
   },
   "dependencies": {
     "express": "^4.18.2",
