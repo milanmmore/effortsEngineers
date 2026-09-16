@@ -83,7 +83,9 @@ export const createInquiry = asyncHandler(async (req, res) => {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [rfqId, name, email, phone, company, brand, model, message, "new"]
     );
+    console.log(`[DB] Successfully inserted inquiry ${rfqId} into database table inquiries`);
   } catch (err) {
+    console.error(`[DB ERROR] Failed to insert inquiry ${rfqId}:`, err.message);
     // Graceful fallback to memory store if table not yet created in PostgreSQL
     memoryInquiries.unshift(inquiryRecord);
   }

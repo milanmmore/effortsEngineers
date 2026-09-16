@@ -62,3 +62,16 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS inquiries (
+  id SERIAL PRIMARY KEY,
+  rfq_number VARCHAR(50) UNIQUE NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150),
+  phone VARCHAR(50),
+  company VARCHAR(150),
+  brand VARCHAR(100),
+  model VARCHAR(100),
+  message TEXT,
+  status VARCHAR(50) DEFAULT 'new',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
