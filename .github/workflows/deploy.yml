@@ -1,37 +1,63 @@
-name: Deploy Next.js to GitHub Pages
+name: Deploy Documentation to GitHub Pages
 
 on:
   push:
     branches:
+      - dev
       - main
+      - feature/frontend-v1.0.2
+    paths:
+      - 'README.md'
+      - 'PROJECT_PLAN.md'
+      - 'docs/**'
+      - 'index.html'
+      - '_sidebar.md'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: 24.13.0   # or 20, depending on your Next.js version
+          fetch-depth: 0
 
-      - name: Install dependencies
+      - name: Prepare Documentation for GitHub Pages
         run: |
-          cd effortsengineers-frontend
-          npm install
+          mkdir -p _site
+          # Copy homepage (README.md) and main docs
+          cp README.md _site/README.md
+          cp PROJECT_PLAN.md _site/PROJECT_PLAN.md
+          cp index.html _site/index.html
+          cp _sidebar.md _site/_sidebar.md
+          cp .nojekyll _site/.nojekyll
+          
+          # Copy Master Excel test suite if present
+          if [ -f Efforts_Engineers_Master_Test_Suite.xlsx ]; then
+            cp Efforts_Engineers_Master_Test_Suite.xlsx _site/Efforts_Engineers_Master_Test_Suite.xlsx
+          fi
+          
+          # Copy docs folder recursively
+          if [ -d docs ]; then
+            cp -r docs _site/docs
+          fi
 
-      - name: Build Next.js (static export)
-        run: |
-          cd effortsengineers-frontend
-          npm run build
-        # Because next.config.js has output: 'export',
-        # this will generate the static site into effortsengineers-frontend/out
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: effortsengineers-frontend/out
-          keep_files: false
+          publish_dir: ./_site
+          publish_branch: gh-pages
+          force_orphan: false
+          commit_message: "docs: deploy documentation site from ${{ github.sha }}"
