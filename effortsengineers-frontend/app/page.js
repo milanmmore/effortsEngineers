@@ -307,7 +307,6 @@ export default function HomePage() {
       {/* 2. WHY CHOOSE US (AMOCON STYLE 3-COLUMN BADGES) */}
       <section className="section-shell" style={{ background: "#f0f9ff" }}>
         <div className="section-header">
-          <span className="eyebrow">The Efforts Advantage</span>
           <h2 className="section-title"><b>Why Choose</b> Efforts Engineers?</h2>
           <p className="section-desc">
             Combining 30+ years of metallurgic expertise with modern CNC machining and express logistics to eliminate industrial plant downtime.
