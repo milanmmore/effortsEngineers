@@ -45,6 +45,48 @@ const COMPRESSOR_KNOWLEDGE = [
   },
 ];
 
+// Domain product catalog reference for AI responses
+const CATALOG_ITEMS = [
+  // Carrier Spares
+  { name: "Suction & Discharge Valve Plate", brand: "Carrier", partNo: "C-VAL-101", category: "valve" },
+  { name: "Discharge Valve Assembly Complete", brand: "Carrier", partNo: "C-VAL-102", category: "valve" },
+  { name: "Valve Spring & Guide Pin Pack", brand: "Carrier", partNo: "C-VAL-103", category: "valve" },
+  { name: "Connecting Rod - 5F / 5H", brand: "Carrier", partNo: "C-ROD-201", category: "rod" },
+  { name: "Cylinder Sleeve / Liner - 5H", brand: "Carrier", partNo: "C-LIN-301", category: "liner" },
+  { name: "Piston Assembly Complete", brand: "Carrier", partNo: "C-PST-401", category: "piston" },
+
+  // Grasso Spares
+  { name: "Cylinder Liner - RC11 / RC12", brand: "Grasso", partNo: "GRA-RC11-042", category: "liner" },
+  { name: "Cylinder Liner - RC9", brand: "Grasso", partNo: "GRA-RC9-021", category: "liner" },
+  { name: "Suction / Discharge Valve Plate Set", brand: "Grasso", partNo: "GRA-VAL-101", category: "valve" },
+  { name: "Valve Spring Pack", brand: "Grasso", partNo: "GRA-VAL-102", category: "valve" },
+  { name: "Piston Ring Set (PTFE & CI)", brand: "Grasso", partNo: "GRA-RNG-201", category: "ring" },
+  { name: "Connecting Rod Assembly", brand: "Grasso", partNo: "GRA-ROD-301", category: "rod" },
+
+  // Bitzer Spares
+  { name: "Valve Reed Plate Set - 4N / 4P / 6F", brand: "Bitzer", partNo: "BIT-VAL-101", category: "valve" },
+  { name: "Valve Spring & Retainer Set", brand: "Bitzer", partNo: "BIT-VAL-102", category: "valve" },
+  { name: "Piston Ring Set - 4N / 4P / 6F", brand: "Bitzer", partNo: "BIT-4N-382", category: "ring" },
+  { name: "Piston Assembly Complete - 4G / 6G", brand: "Bitzer", partNo: "BIT-4G-550", category: "piston" },
+  { name: "Connecting Rod Assembly", brand: "Bitzer", partNo: "BIT-ROD-101", category: "rod" },
+
+  // Kirloskar Spares
+  { name: "Connecting Rod Assembly - KC6 / KCX", brand: "Kirloskar", partNo: "KIR-KC6-098", category: "rod" },
+  { name: "Crankshaft Bush & Main Bearing Set", brand: "Kirloskar", partNo: "KIR-KC-BRG10", category: "bearing" },
+  { name: "Suction & Discharge Valve Assembly", brand: "Kirloskar", partNo: "KIR-VAL-101", category: "valve" },
+  { name: "Cylinder Liner - KC Series", brand: "Kirloskar", partNo: "KIR-LIN-101", category: "liner" },
+  { name: "Mechanical Shaft Seal", brand: "Kirloskar", partNo: "KIR-SL-201", category: "seal" },
+
+  // Sabroe Spares
+  { name: "Overhaul Gasket & Seal Kit - CMO 14/28", brand: "Sabroe", partNo: "SAB-CMO-GSK9", category: "gasket" },
+  { name: "Mechanical Shaft Seal Assembly - SMC", brand: "Sabroe", partNo: "SAB-SMC-SL22", category: "seal" },
+  { name: "Suction / Discharge Valve Plate Pack", brand: "Sabroe", partNo: "SAB-VAL-101", category: "valve" },
+
+  // Bock & Daikin Spares
+  { name: "Cylinder Liner - Bock F3 / F4 / F5", brand: "Bock", partNo: "BCK-F4-441", category: "liner" },
+  { name: "Valve Reed Plate Set - Daikin C75 / C58", brand: "Daikin", partNo: "DAI-C75-VLV", category: "valve" },
+];
+
 export const processChatMessage = asyncHandler(async (req, res) => {
   const { message, history } = req.body;
 
@@ -54,7 +96,60 @@ export const processChatMessage = asyncHandler(async (req, res) => {
 
   const lower = message.toLowerCase();
 
-  // Find best match in knowledge base
+  // 1. Detect Brand and Component type for Catalog Search
+  const brands = ["carrier", "grasso", "bitzer", "kirloskar", "sabroe", "bock", "daikin", "vilter", "mycom"];
+  const detectedBrand = brands.find((b) => lower.includes(b));
+
+  const componentKeywords = [
+    { key: "valve", synonyms: ["valve", "reed", "plate", "spring"] },
+    { key: "liner", synonyms: ["liner", "sleeve", "cylinder liner"] },
+    { key: "piston", synonyms: ["piston", "piston pin", "gudgeon"] },
+    { key: "ring", synonyms: ["ring", "piston ring"] },
+    { key: "rod", synonyms: ["rod", "connecting rod", "conrod"] },
+    { key: "seal", synonyms: ["seal", "gasket", "shaft seal", "o-ring"] },
+    { key: "bearing", synonyms: ["bearing", "bush", "bushing", "crankshaft bush"] },
+  ];
+
+  const detectedComponent = componentKeywords.find((c) =>
+    c.synonyms.some((syn) => lower.includes(syn))
+  );
+
+  // If user is inquiring about specific brand/part catalog items
+  if (detectedBrand || (detectedComponent && (lower.includes("show") || lower.includes("find") || lower.includes("parts") || lower.includes("spares")))) {
+    let matchedItems = CATALOG_ITEMS.filter((item) => {
+      const matchBrand = detectedBrand ? item.brand.toLowerCase() === detectedBrand : true;
+      const matchComp = detectedComponent ? item.category === detectedComponent.key : true;
+      return matchBrand && matchComp;
+    });
+
+    // Fallback if brand matched but no specific component type matched
+    if (matchedItems.length === 0 && detectedBrand) {
+      matchedItems = CATALOG_ITEMS.filter((item) => item.brand.toLowerCase() === detectedBrand);
+    }
+
+    if (matchedItems.length > 0) {
+      const brandName = detectedBrand ? detectedBrand.charAt(0).toUpperCase() + detectedBrand.slice(1) : "Compressor";
+      const partType = detectedComponent ? detectedComponent.key + " " : "";
+
+      const partsList = matchedItems
+        .map((p) => `- ${p.name} (Part #${p.partNo})`)
+        .join("\n");
+
+      const replyText = `Here are ${brandName} compressor ${partType}spares we supply:\n${partsList}\n\nWould you like a quotation?`;
+
+      return res.json({
+        reply: replyText,
+        timestamp: new Date().toISOString(),
+        suggestions: [
+          "Request Instant Quote",
+          "Check Ready Stock",
+          "WhatsApp Engineer",
+        ],
+      });
+    }
+  }
+
+  // 2. Fall back to domain knowledge base
   let matchedResponse = null;
   for (const item of COMPRESSOR_KNOWLEDGE) {
     if (item.keywords.some((kw) => lower.includes(kw))) {
