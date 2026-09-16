@@ -8,13 +8,13 @@ export default function AIChatbot() {
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "Hello! I am the **Efforts AI Spares Assistant**. How can I help with your industrial refrigeration or air compressor requirements today?",
+      text: "👋 Welcome to Efforts Engineers!\nLooking for Air & Gas Compressor Spare Parts?\nAsk me about products, availability, or request a quote.",
       suggestions: [
+        "Show me Carrier compressor valve spares",
         "Grasso RC11 Spares",
         "Bitzer 4N / 6F Stock",
-        "Kirloskar Spares",
         "Request Instant Quotation",
-        "Express 24h Delivery",
+        "WhatsApp Engineer",
       ],
     },
   ]);
@@ -42,8 +42,13 @@ export default function AIChatbot() {
     setInputText("");
     setIsTyping(true);
 
-    // If user asks to quote or open quote builder
-    if (textToSend.toLowerCase().includes("quote") || textToSend.toLowerCase().includes("rfq")) {
+    // If user clicks / asks to request a quote or open quote builder
+    const lower = textToSend.toLowerCase();
+    if (
+      lower === "request instant quote" ||
+      lower === "request instant quotation" ||
+      lower === "open quote builder"
+    ) {
       setTimeout(() => {
         setMessages((prev) => [
           ...prev,
@@ -55,7 +60,7 @@ export default function AIChatbot() {
         ]);
         setIsTyping(false);
         setIsDrawerOpen(true);
-      }, 500);
+      }, 400);
       return;
     }
 
@@ -67,22 +72,25 @@ export default function AIChatbot() {
         {
           sender: "ai",
           text: replyData.reply,
-          suggestions: replyData.suggestions || ["Check Other Spares", "Request Instant Quote"],
+          suggestions: replyData.suggestions || ["Request Instant Quote", "Check Ready Stock", "WhatsApp Engineer"],
         },
       ]);
     } catch (err) {
-      // Intelligent local client fallback if backend is offline
-      let fallbackReply = "We stock replacement spares for **Kirloskar, Grasso, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, and Mycom** compressors with ready inventory in Pune. Express 24-48h dispatch available worldwide.";
-      const lower = textToSend.toLowerCase();
-
-      if (lower.includes("grasso")) {
-        fallbackReply = "For **Grasso RC9, RC11, and RC12** compressors, we stock precision cylinder liners, PTFE piston rings, unloader sleeves, and suction/discharge valve plates. Ready for 24-hour express dispatch.";
+      // Intelligent local catalog search fallback if backend API is not running
+      let fallbackReply = "";
+      
+      if (lower.includes("carrier") && (lower.includes("valve") || lower.includes("spares") || lower.includes("parts"))) {
+        fallbackReply = `Here are Carrier compressor valve spares we supply:\n- Valve Assembly (Part #C-VAL-101)\n- Valve Plate (Part #C-VAL-102)\n- Valve Spring (Part #C-VAL-103)\n\nWould you like a quotation?`;
+      } else if (lower.includes("grasso") && (lower.includes("valve") || lower.includes("spares") || lower.includes("parts"))) {
+        fallbackReply = `Here are Grasso compressor spares we supply:\n- Cylinder Liner - RC11 / RC12 (Part #GRA-RC11-042)\n- Suction / Discharge Valve Plate (Part #GRA-VAL-101)\n- Valve Spring Pack (Part #GRA-VAL-102)\n- Piston Ring Set (Part #GRA-RNG-201)\n\nWould you like a quotation?`;
       } else if (lower.includes("bitzer")) {
-        fallbackReply = "For **Bitzer 4N, 4P, 4T, 6F, 4G, 6G** units, we supply connecting rods, valve reed plates, and complete overhaul gasket sets with 1-year replacement guarantee.";
+        fallbackReply = `Here are Bitzer compressor spares we supply:\n- Valve Reed Plate Set (Part #BIT-VAL-101)\n- Piston Ring Set - 4N/4P/6F (Part #BIT-4N-382)\n- Connecting Rod Assembly (Part #BIT-ROD-101)\n\nWould you like a quotation?`;
       } else if (lower.includes("kirloskar")) {
-        fallbackReply = "For **Kirloskar KC and KCX series**, we hold ready inventory of cylinder liners, crankshaft bushes, piston assemblies, and mechanical seals.";
+        fallbackReply = `Here are Kirloskar compressor spares we supply:\n- Suction & Discharge Valve Assembly (Part #KIR-VAL-101)\n- Connecting Rod Assembly - KC6/KCX (Part #KIR-KC6-098)\n- Crankshaft Bush & Main Bearing Set (Part #KIR-KC-BRG10)\n\nWould you like a quotation?`;
       } else if (lower.includes("delivery") || lower.includes("stock") || lower.includes("dispatch")) {
         fallbackReply = "Over **10,000+ line items** ready in Pune. Breakdown orders are dispatched within 24 hours via express courier/air cargo.";
+      } else {
+        fallbackReply = "We stock replacement spares for **Kirloskar, Grasso, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, and Mycom** compressors with ready inventory in Pune. Express 24-48h dispatch available worldwide.";
       }
 
       setMessages((prev) => [
@@ -90,7 +98,7 @@ export default function AIChatbot() {
         {
           sender: "ai",
           text: fallbackReply,
-          suggestions: ["Request Instant Quote", "WhatsApp Engineer", "Explore Products"],
+          suggestions: ["Request Instant Quote", "Check Ready Stock", "WhatsApp Engineer"],
         },
       ]);
     } finally {
