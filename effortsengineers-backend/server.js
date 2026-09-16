@@ -1,4 +1,6 @@
 import dotenv from "dotenv";
+dotenv.config();
+
 import { pathToFileURL } from "node:url";
 import express from "express";
 import cors from "cors";
@@ -17,8 +19,6 @@ import inquiriesRoutes from "./routes/inquiries.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
-
-dotenv.config();
 
 const app = express();
 

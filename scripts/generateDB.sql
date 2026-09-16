@@ -1,74 +1,132 @@
--- Run with psql as a role allowed to create databases.
-SELECT 'CREATE DATABASE effortsengineers'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'effortsengineers')\gexec
+-- generateDB.sql for effortsegineers
 
-\connect effortsengineers
+-- Drop existing tables for a clean slate
+DROP TABLE IF EXISTS quotations CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS inventory CASCADE;
+DROP TABLE IF EXISTS dashboard CASCADE;
+DROP TABLE IF EXISTS catalog CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS clients CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 
--- Catalog table
-CREATE TABLE IF NOT EXISTS catalog (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    price NUMERIC(10,2) NOT NULL,
-    stock INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Products table
+CREATE TABLE products (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  price NUMERIC(10,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Clients table
-CREATE TABLE IF NOT EXISTS clients (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    phone VARCHAR(20),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE clients (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150),
+  phone VARCHAR(20),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Quotations table
-CREATE TABLE IF NOT EXISTS quotations (
-    id SERIAL PRIMARY KEY,
-    client_id INT NOT NULL,
-    catalog_id INT NOT NULL,
-    quantity INT NOT NULL,
-    status VARCHAR(50) DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES clients(id),
-    FOREIGN KEY (catalog_id) REFERENCES catalog(id)
+CREATE TABLE quotations (
+  id SERIAL PRIMARY KEY,
+  client_id INT REFERENCES clients(id),
+  product_id INT REFERENCES products(id),
+  quantity INT NOT NULL,
+  total NUMERIC(10,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Orders table
-CREATE TABLE IF NOT EXISTS orders (
-    id SERIAL PRIMARY KEY,
-    client_id INT NOT NULL,
-    quotation_id INT,
-    total_amount NUMERIC(12,2),
-    status VARCHAR(50) DEFAULT 'processing',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES clients(id),
-    FOREIGN KEY (quotation_id) REFERENCES quotations(id)
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  quotation_id INT REFERENCES quotations(id),
+  status VARCHAR(50) DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Inventory table (linked to catalog)
-CREATE TABLE IF NOT EXISTS inventory (
-    id SERIAL PRIMARY KEY,
-    catalog_id INT NOT NULL,
-    quantity INT NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (catalog_id) REFERENCES catalog(id)
+-- Inventory table
+CREATE TABLE inventory (
+  id SERIAL PRIMARY KEY,
+  product_id INT REFERENCES products(id),
+  quantity INT NOT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Dashboard data (for forecasting, KPIs)
-CREATE TABLE IF NOT EXISTS dashboard (
-    id SERIAL PRIMARY KEY,
-    metric_name VARCHAR(255) NOT NULL,
-    metric_value NUMERIC(12,2),
-    recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Dashboard table
+CREATE TABLE dashboard (
+  id SERIAL PRIMARY KEY,
+  metric_name VARCHAR(100) NOT NULL,
+  metric_value NUMERIC(10,2),
+  recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Authentication table
-CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
-    role VARCHAR(50) DEFAULT 'client',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Catalog table
+CREATE TABLE catalog (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  price NUMERIC(10,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Users table
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  role VARCHAR(20) DEFAULT 'client',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Seed admin user (for Jest setup)
+INSERT INTO users (id, name, email, password_hash, role)
+VALUES (999, 'Admin User', 'admin@example.com', 'hashedpassword', 'admin')
+ON CONFLICT (id) DO NOTHING;
+
+-- Seed sample clients
+INSERT INTO clients (name, email, phone)
+VALUES
+('Acme Corp', 'contact@acme.com', '9876543210'),
+('Global Traders', 'info@globaltraders.com', '9123456780')
+ON CONFLICT DO NOTHING;
+
+-- Seed sample products
+INSERT INTO products (name, description, price)
+VALUES
+('Steel Rod', 'High quality steel rod', 1200.00),
+('Copper Wire', 'Industrial grade copper wire', 800.00),
+('Aluminium Sheet', 'Lightweight aluminium sheet', 1500.00)
+ON CONFLICT DO NOTHING;
+
+-- Seed sample catalog
+INSERT INTO catalog (name, description, price)
+VALUES
+('Catalog Item A', 'Sample catalog entry A', 500.00),
+('Catalog Item B', 'Sample catalog entry B', 750.00)
+ON CONFLICT DO NOTHING;
+
+-- Seed dashboard metrics
+INSERT INTO dashboard (metric_name, metric_value)
+VALUES
+('Monthly Sales', 250000.00),
+('Pending Orders', 5),
+('Inventory Value', 500000.00)
+ON CONFLICT DO NOTHING;
+
+-- Inquiries table
+CREATE TABLE IF NOT EXISTS inquiries (
+  id SERIAL PRIMARY KEY,
+  rfq_number VARCHAR(50) UNIQUE NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150),
+  phone VARCHAR(50),
+  company VARCHAR(150),
+  brand VARCHAR(100),
+  model VARCHAR(100),
+  message TEXT,
+  status VARCHAR(50) DEFAULT 'new',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
