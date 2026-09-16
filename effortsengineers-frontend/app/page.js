@@ -85,6 +85,9 @@ export default function HomePage() {
               <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber hero-btn">
                 📋 Open Quote Builder
               </button>
+              <Link href="/contact" className="btn btn-outline-white hero-btn">
+                Send Drawing or Part Ref →
+              </Link>
             </div>
 
             {/* Stats Counter Strip */}
@@ -349,38 +352,7 @@ export default function HomePage() {
       </section>
 
 
-      {/* 5. HIGH-IMPACT RFQ CTA STRIP */}
-      <section style={{ 
-        background: `
-          radial-gradient(circle at 80% 30%, rgba(2, 132, 199, 0.22) 0%, transparent 55%),
-          radial-gradient(circle at 20% 70%, rgba(14, 165, 233, 0.1) 0%, transparent 45%),
-          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-          linear-gradient(135deg, #09121f 0%, #0f1a2e 50%, #152238 100%)
-        `,
-        backgroundSize: "100% 100%, 100% 100%, 48px 48px, 48px 48px, 100% 100%",
-        color: "white", 
-        padding: "80px 0.5in", 
-        textAlign: "center" 
-      }}>
-        <div style={{ maxWidth: "880px", margin: "auto" }}>
-          <span className="eyebrow" style={{ color: "#38bdf8", marginBottom: "14px" }}>Immediate Engineering Assistance</span>
-          <h2 style={{ color: "white", fontSize: "clamp(2.2rem, 4vw, 3rem)", marginBottom: "18px", lineHeight: 1.15, fontWeight: 800 }}>
-            Have an Urgent Compressor Spare Requirement?
-          </h2>
-          <p style={{ fontSize: "1.2rem", color: "#e0f2fe", marginBottom: "35px", lineHeight: 1.7, maxWidth: "780px", margin: "0 auto 35px" }}>
-            Our engineering desk is on standby. Request an instant automated quotation, browse our 10,000+ line items catalog, or connect with a technical specialist on WhatsApp.
-          </p>
-          <div style={{ display: "flex", gap: "18px", justifyContent: "center", flexWrap: "wrap" }}>
-            <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber" style={{ fontSize: "1.05rem", padding: "14px 28px" }}>
-              📋 Open Quote Builder
-            </button>
-            <Link href="/contact" className="btn btn-outline-white" style={{ fontSize: "1.05rem", padding: "14px 28px" }}>
-              Send Drawing or Part Ref →
-            </Link>
-          </div>
-        </div>
-      </section>
+
     </main>
   );
 }
