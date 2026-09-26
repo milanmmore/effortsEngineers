@@ -3,7 +3,7 @@ import {
   getOrdersOverview,
   getInventoryLevels,
   getSalesForecast,
-} from "../controllers/dashboard.Controller.js";
+} from "../controllers/dashboard.controller.js";
 import { requireAuth, requireRole } from "../middleware/auth.js";
 
 const router = express.Router();
