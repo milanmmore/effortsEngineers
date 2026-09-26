@@ -1,5 +1,5 @@
 import express from "express";
-import { listInventory, updateStock } from "../controllers/inventory.Controller.js";
+import { listInventory, updateStock } from "../controllers/inventory.controller.js";
 import { requireAuth, requireRole } from "../middleware/auth.js";
 
 const router = express.Router();

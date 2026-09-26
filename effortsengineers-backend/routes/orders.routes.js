@@ -6,7 +6,7 @@ import {
   createOrder,
   updateOrder,
   deleteOrder,
-} from "../controllers/orders.Controller.js";
+} from "../controllers/orders.controller.js";
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
