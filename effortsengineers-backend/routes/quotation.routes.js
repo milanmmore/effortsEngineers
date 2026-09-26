@@ -5,7 +5,7 @@ import {
   getQuotation,
   createQuotation,
   updateQuotationStatus,
-} from "../controllers/quotation.Controller.js";
+} from "../controllers/quotation.controller.js";
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
