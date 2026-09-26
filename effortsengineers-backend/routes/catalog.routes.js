@@ -5,7 +5,7 @@ import {
   createCatalogItem,
   updateCatalogItem,
   deleteCatalogItem,
-} from "../controllers/catalog.Controller.js";
+} from "../controllers/catalog.controller.js";
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
