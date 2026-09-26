@@ -4,7 +4,7 @@ import {
   browseCatalog,
   requestQuotation,
   viewClientDashboard,
-} from "../controllers/client.controller.js";
+} from "../controllers/client.Controller.js";
 import { requireAuth } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
