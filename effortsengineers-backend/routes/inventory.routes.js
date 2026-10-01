@@ -6,7 +6,7 @@ import {
   updateInventoryItem,
   deleteInventoryItem,
   updateStock,   // <-- now available
-} from "../controllers/inventory.Controller.js";
+} from "../controllers/inventory.controller.js";
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
