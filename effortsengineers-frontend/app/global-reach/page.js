@@ -8,7 +8,7 @@ export default function GlobalReachPage() {
   const certificates = [
     {
       id: "CERT-ISO-9001",
-      title: "ISO 9001:2015 Quality Management",
+      title: "Associated with Manufacturers with ISO 9001 Certification Quality Management",
       category: "Quality Management System",
       issuer: "TUV / International Accreditation Forum",
       validity: "Active • Audited Annually",

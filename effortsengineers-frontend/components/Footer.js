@@ -16,7 +16,7 @@ export default function Footer() {
             </p>
             <div style={{ marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #334155" }}>
-                ISO 9001:2015 Certified
+                Associated with Manufacturers with ISO 9001 Certification Certified
               </span>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#34d399", border: "1px solid #334155" }}>
                 1-Year Zero-Defect Guarantee

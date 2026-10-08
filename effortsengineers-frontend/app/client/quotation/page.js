@@ -155,7 +155,7 @@ export default function QuotationPage() {
 
           <div style={{ textAlign: "right" }}>
             <span className="badge badge-in-stock" style={{ marginBottom: "8px" }}>
-              ISO 9001:2015 Certified
+              Associated with Manufacturers with ISO 9001 Certification Certified
             </span>
             <h3 style={{ margin: "6px 0 0", color: "var(--primary)", fontSize: "1.4rem" }}>
               PROFORMA QUOTATION
