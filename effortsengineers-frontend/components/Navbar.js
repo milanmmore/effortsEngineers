@@ -66,7 +66,11 @@ export default function Navbar() {
         <div className="nav-inner">
           <Link href="/" className="brand-mark">
             <div className="brand-logo-icon">
-              <img src={logo.src} alt="Efforts Engineers logo" />
+              <img 
+              src={logo.src} 
+              alt="Efforts Engineers logo" 
+              className="nav-logo-image" 
+              />
             </div>
             <div className="brand-text-col">
               <span className="brand-title">EFFORTS <span>ENGINEERS</span></span>
