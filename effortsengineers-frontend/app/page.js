@@ -70,7 +70,7 @@ export default function HomePage() {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> ISO 9001:2015 Certified • 30+ Years Engineering • 45+ Export Countries
+              <span>★</span> Associated with Manufacturers with ISO 9001 Certification Certified • 30+ Years Engineering • 45+ Export Countries
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>

@@ -21,7 +21,7 @@ export default function AboutPage() {
     {
       year: 2011,
       title: "ISO 9001 Certification & Direct Exports",
-      description: "Achieved ISO 9001:2015 Quality Management certification and commenced direct overseas dispatches to cold storage chains in the UAE, Saudi Arabia, Oman, and Southeast Asia.",
+      description: "Achieved Associated with Manufacturers with ISO 9001 Certification Quality Management certification and commenced direct overseas dispatches to cold storage chains in the UAE, Saudi Arabia, Oman, and Southeast Asia.",
       highlight: "Formed dedicated international export packaging wing.",
     },
     {

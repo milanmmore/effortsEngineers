@@ -17,7 +17,7 @@ This modernized platform delivers:
 - **Real-Time Live Stock Visibility:** Rapid stock lookups with transparent availability tiers (*In Stock 24-48h Dispatch*, *Low Stock*, *Sourced to Order*).
 - **Automated Quotation Builder:** Reactive slide-out RFQ cart calculating line items, subtotals, and commercial specifications.
 - **Client & Admin Portals:** Self-service tracking, formal printable quotations (with letterhead, GSTIN, IEC, and HSN codes), and AI-driven inventory forecasting.
-- **Global Compliance Hub:** One-click downloads for ISO 9001:2015, Material Test Reports (MTR 3.1), and Zero-Defect declarations.
+- **Global Compliance Hub:** One-click downloads for Associated with Manufacturers with ISO 9001 Certification, Material Test Reports (MTR 3.1), and Zero-Defect declarations.
 - **24/7 Technical Assistance:** AI Chatbot domain assistant and instant WhatsApp escalation desk.
 
 ---

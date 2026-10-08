@@ -33,7 +33,7 @@ const COMPRESSOR_KNOWLEDGE = [
   },
   {
     keywords: ["warranty", "guarantee", "quality", "iso", "certificate", "defect"],
-    response: "All Efforts Engineers spares are backed by our **1-Year Zero-Defect Replacement Warranty** and manufactured under ISO 9001:2015 quality standards. Every batch comes with dimensional inspection reports and 100% material traceability.",
+    response: "All Efforts Engineers spares are backed by our **1-Year Zero-Defect Replacement Warranty** and manufactured under Associated with Manufacturers with ISO 9001 Certification quality standards. Every batch comes with dimensional inspection reports and 100% material traceability.",
   },
   {
     keywords: ["high discharge temperature", "discharge temp", "overheating"],
