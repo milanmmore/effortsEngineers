@@ -7,41 +7,52 @@ export default function AboutPage() {
 
   const timelineEvents = [
     {
-      year: 1994,
-      title: "Founding in Pune Engineering Hub",
-      description: "Established as a specialized mechanical engineering workshop dedicated to servicing high-pressure industrial refrigeration compressors in Maharashtra's booming agro & dairy sectors.",
-      highlight: "In-house precision boring & metallurgical honing capability.",
-    },
-    {
-      year: 2002,
-      title: "Product Line Expansion (Kirloskar & Grasso)",
-      description: "Standardized our proprietary tooling for centrifugal casting of cylinder liners and forging of connecting rods compatible with Kirloskar KC and Grasso RC compressor families.",
-      highlight: "Over 500+ standard spares added to ready stock.",
-    },
-    {
-      year: 2011,
-      title: "ISO 9001 Certification & Direct Exports",
-      description: "Achieved ISO 9001:2015 Quality Management certification and commenced direct overseas dispatches to cold storage chains in the UAE, Saudi Arabia, Oman, and Southeast Asia.",
-      highlight: "Formed dedicated international export packaging wing.",
-    },
-    {
-      year: 2018,
-      title: "Advanced CNC & 3D Reverse Engineering",
-      description: "Inaugurated our modern MIDC Bhosari facility equipped with multi-axis CNC turn-mill centers, precision cylindrical grinding, and high-accuracy Coordinate Measuring Machines (CMM).",
-      highlight: "Sub-micron dimensional tolerances and digital CAD/CAM profiling.",
-    },
-    {
-      year: 2024,
-      title: "Global Export Reach Across 45+ Countries",
-      description: "Expanded our client base across Europe, Africa, and Latin America, establishing long-term supply agreements with leading marine fleet operators and petrochemical complexes.",
-      highlight: "10,000+ line items maintained in central Pune warehouse.",
-    },
-    {
-      year: 2026,
-      title: "Digital Live Stock & AI Quoting Platform",
-      description: "Launched the next-generation digital ecosystem for Efforts Engineers: featuring real-time warehouse inventory visibility, automated RFQ builder, downloadable quotes, and 24/7 AI chatbot assistance.",
-      highlight: "Zero downtime customer self-service and express dispatch within 24h.",
-    },
+      year: 1986,
+    title: "Founded in Pune, India",
+    description:
+      "Established in Pune as a specialized mechanical engineering workshop, focusing on servicing high-pressure industrial refrigeration compressors for Maharashtra's growing agro and dairy industries.",
+    highlight: "Our journey began with specialized refrigeration compressor servicing.",
+  },
+  {
+    year: "2006–2007",
+    title: "Product Line Expansion (Kirloskar & Grasso)",
+    description:
+      "Expanded our capabilities with standardized proprietary tooling for centrifugal casting of cylinder liners and forging of connecting rods compatible with Kirloskar KC and Grasso RC compressor families.",
+    highlight:
+      "Expanded precision engineering capabilities for Kirloskar KC and Grasso RC compressor families.",
+  },
+  {
+    year: 2009,
+    title: "Entering Global Markets",
+    description:
+      "Expanded into international markets, establishing export operations across Saudi Arabia, Oman and Southeast Asia.",
+    highlight:
+      "Established export operations across the Middle East and Southeast Asia.",
+  },
+  {
+    year: 2019,
+    title: "Scaling International Exports",
+    description:
+      "Strengthened our global supply capabilities, exporting up to 20 full filter containers of refrigeration compressor spare parts, including ammonia valve components and related industrial spares.",
+    highlight:
+      "Exported up to 20 full filter containers of refrigeration compressor spare parts.",
+  },
+  {
+    year: 2024,
+    title: "Global Reach",
+    description:
+      "Expanded our international presence, supplying industrial refrigeration spare parts and components across 15–20 countries worldwide.",
+    highlight:
+      "Serving customers across 15–20 countries worldwide.",
+  },
+  {
+    year: 2026,
+    title: "Digital Inventory & AI Quoting Platform",
+    description:
+      "Launched the next-generation digital ecosystem for Efforts Engineers, featuring real-time inventory visibility, automated RFQ creation, downloadable quotations and 24/7 AI-powered chatbot assistance.",
+    highlight:
+      "Real-time inventory, automated quotations and 24/7 AI-powered assistance.",
+  },
   ];
 
   const industries = [

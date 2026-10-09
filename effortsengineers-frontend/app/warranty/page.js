@@ -191,7 +191,7 @@ export default function WarrantyPage() {
               &quot;Zero Compromise On Metallurgical Integrity.&quot;
             </h3>
             <p style={{ color: "#cbd5e1", fontSize: "0.95rem", lineHeight: 1.65, marginBottom: "20px" }}>
-              Every component supplied by Efforts Engineers is manufactured under strict ISO 9001:2015 process controls. We conduct 100% dimensional inspection, ultrasonic flaw detection, and surface hardness testing on all critical dynamic spares.
+              Every component supplied by Efforts Engineers is manufactured under strict Associated with Manufacturers with ISO 9001 Certification process controls. We conduct 100% dimensional inspection, ultrasonic flaw detection, and surface hardness testing on all critical dynamic spares.
             </p>
             <p style={{ color: "#cbd5e1", fontSize: "0.95rem", lineHeight: 1.65 }}>
               Our 1-year replacement warranty is not merely a document—it is our binding operational commitment that you receive world-class performance on every compressor revolution.

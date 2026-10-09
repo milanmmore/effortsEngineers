@@ -16,7 +16,7 @@ export default function Footer() {
             </p>
             <div style={{ marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #334155" }}>
-                ISO 9001:2015 Certified
+                Associated with Manufacturers with ISO 9001 Certification Certified
               </span>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#34d399", border: "1px solid #334155" }}>
                 1-Year Zero-Defect Guarantee
@@ -59,11 +59,12 @@ export default function Footer() {
             <h4>Headquarters & Plant</h4>
             <p style={{ marginBottom: "12px" }}>
               📍 <strong>Corporate Office:</strong><br />
-              Efforts Engineers, Erandwane, Pune - 411004, Maharashtra, India.
+              Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra – 411016
+
             </p>
             <p style={{ marginBottom: "12px" }}>
-              🏭 <strong>Manufacturing Plant:</strong><br />
-              Plot 48, MIDC Bhosari Industrial Area, Pune - 411026.
+              🏭 <strong>Assembly & Workshop:</strong><br />
+              Shop No. 11, Shirole Park,Senapati Bapat Rd, Shivajinagar, Pune – 411016
             </p>
             <p style={{ margin: "4px 0" }}>
               📞 <strong>Tel:</strong> <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.phone}</a>

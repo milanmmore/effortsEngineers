@@ -154,7 +154,7 @@ npm start
 | Test ID | Feature Area | Description / Steps | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **TC-FE-GLO-01** | Export Corridors Map & Stats | Open `/global-reach` | Displays export coverage across 45+ countries (Middle East, SE Asia, Africa, Europe, Americas). | ✅ PASS |
-| **TC-FE-GLO-02** | Certificate Hub & Download | Click preview/download on ISO 9001:2015 or Zero-Defect Declaration | Opens certificate modal with certificate details and triggers clean PDF download. | ✅ PASS |
+| **TC-FE-GLO-02** | Certificate Hub & Download | Click preview/download on Associated with Manufacturers with ISO 9001 Certification or Zero-Defect Declaration | Opens certificate modal with certificate details and triggers clean PDF download. | ✅ PASS |
 | **TC-FE-GLO-03** | Packaging Standards | Verify Sea-worthy preservation section | Outlines VCI anti-corrosion barrier packaging and ISPM-15 certified heat-treated crating. | ✅ PASS |
 
 ---

@@ -52,7 +52,7 @@ export default function Navbar() {
         <div className="announcement-inner">
           <div className="announcement-left">
             <span className="announcement-badge">Express Dispatch</span>
-            <span>⚡ Ready Stock 24-48h Delivery Across India & 45+ Export Countries | ISO 9001:2015</span>
+            <span>⚡ Ready Stock 24-48h Delivery Across India & 45+ Export Countries </span>
           </div>
           <div className="announcement-right">
             <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>📞 {CONTACT_CONFIG.phone}</a>

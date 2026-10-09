@@ -70,7 +70,7 @@ export default function HomePage() {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> ISO 9001:2015 Certified • 30+ Years Engineering • 45+ Export Countries
+              <span>★</span> Associated with Manufacturers with ISO 9001 Certification Certified • 30+ Years Engineering • 45+ Export Countries
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>
@@ -276,7 +276,7 @@ export default function HomePage() {
             <div style={{ display: "grid", gap: "16px", fontSize: "1rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
                 <span>Western & Central India (Mumbai, Gujarat, Pune)</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>12 - 24 Hours</strong>
+                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>24 - 48 Hours</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
                 <span>North & South India Metro Hubs (Delhi, Chennai, BLR)</span>
@@ -310,13 +310,13 @@ export default function HomePage() {
           <div className="testimonial-card">
             <div className="star-rating">★★★★★</div>
             <p className="testimonial-quote">
-              &quot;During peak mango freezing season, our Grasso RC12 had a catastrophic valve and liner failure. Efforts Engineers dispatched complete replacement liners and ring sets within 18 hours. Saved us from immense product loss.&quot;
+              &quot;We procured a KC 93 crankshaft and bearing set from Efforts Engineers, and the parts performed extremely well in our compressor. The quality and fit were excellent, and the entire experience was smooth. Efforts Engineers is now our go-to source for compressor spare parts.&quot;
             </p>
             <div className="client-profile">
-              <div className="client-avatar">RK</div>
+              <div className="client-avatar">VC</div>
               <div className="client-meta">
-                <h5>Ramesh Kulkarni</h5>
-                <span>VP Operations, Konkan Cold Storage Ltd</span>
+                <h5>Mr. Vijaykumar Chavan </h5>
+                <span>Fisheries Refrigerigeration HOD</span>
               </div>
             </div>
           </div>
@@ -324,27 +324,27 @@ export default function HomePage() {
           <div className="testimonial-card">
             <div className="star-rating">★★★★★</div>
             <p className="testimonial-quote">
-              &quot;Finding reliable connecting rods and bushes for older Carrier 5H series compressors used to take weeks. Efforts Engineers not only had them in ready stock but also provided full dimensional inspection reports and 1-year guarantee.&quot;
+              &quot; We regularly procure Sabroe SMC 116 and SMC 108 compressor parts from Efforts Engineers. It is always a pleasure to contact Mr. Saurabh Salvi, who understands the requirement quickly and consistently helps us find the right solution. He is truly a problem solver when it comes to compressor spares&quot;
             </p>
             <div className="client-profile">
-              <div className="client-avatar">AN</div>
+              <div className="client-avatar">AK</div>
               <div className="client-meta">
-                <h5>Capt. Arvind Nair</h5>
-                <span>Technical Superintendent, Marine Reefer Services</span>
+                <h5>Mr. Ashish Kumbhare </h5>
+                <span>Dairy & Ice Cream Division Utility Head </span>
               </div>
             </div>
           </div>
 
           <div className="testimonial-card">
-            <div className="star-rating">★★★★★</div>
+            <div className="star-rating">★★★★</div>
             <p className="testimonial-quote">
-              &quot;We have been sourcing Kirloskar and Bitzer spares from Efforts Engineers for over 8 years across our chemical processing facilities. The metallurgical consistency and precision tolerances are equal to original OEM parts.&quot;
+              &quot;We contact Efforts Engineers for all our Carrier compressor spares. Their product knowledge, responsiveness and commitment to delivery are impressive. Most importantly, they understand the urgency of our requirements and deliver critical compressor spares in record time. A dependable partner we can count on.&quot;
             </p>
             <div className="client-profile">
-              <div className="client-avatar">SM</div>
+              <div className="client-avatar">MJ</div>
               <div className="client-meta">
-                <h5>Sanjay Mehta</h5>
-                <span>Head of Maintenance, Petrochem Intermediates</span>
+                <h5>Mr. Manoj Jogi </h5>
+                <span>Ice Cream Plant Maintenance Head</span>
               </div>
             </div>
           </div>
