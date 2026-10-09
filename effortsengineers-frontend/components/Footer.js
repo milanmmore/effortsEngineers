@@ -59,11 +59,12 @@ export default function Footer() {
             <h4>Headquarters & Plant</h4>
             <p style={{ marginBottom: "12px" }}>
               📍 <strong>Corporate Office:</strong><br />
-              Efforts Engineers, Erandwane, Pune - 411004, Maharashtra, India.
+              Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra – 411016
+
             </p>
             <p style={{ marginBottom: "12px" }}>
-              🏭 <strong>Manufacturing Plant:</strong><br />
-              Plot 48, MIDC Bhosari Industrial Area, Pune - 411026.
+              🏭 <strong>Assembly & Workshop:</strong><br />
+              Shop No. 11, Shirole Park,Senapati Bapat Rd, Shivajinagar, Pune – 411016
             </p>
             <p style={{ margin: "4px 0" }}>
               📞 <strong>Tel:</strong> <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.phone}</a>
