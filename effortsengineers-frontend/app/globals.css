@@ -939,19 +939,9 @@ h1, h2, h3, h4, h5, h6 {
 .product-card-bottom {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   border-top: 1px solid var(--line);
   padding-top: 16px;
-}
-.product-price-est {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--navy);
-}
-.product-price-est span {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-dim);
 }
 
 /* QUOTATION BUILDER DRAWER */
