@@ -289,9 +289,6 @@ function ProductsContent() {
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
                 <div className="product-card-bottom">
-                  <div className="product-price-est">
-                    ₹{item.price.toLocaleString()} <span>/ est. unit</span>
-                  </div>
                   <button
                     onClick={() => addItem(item)}
                     className="btn btn-primary"
