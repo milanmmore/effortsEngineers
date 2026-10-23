@@ -1,196 +1,77 @@
 "use client";
-import React, { useContext, useEffect, useState, useMemo, Suspense } from "react";
+import React, { useContext, useEffect, useMemo, useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
-
-const ALL_PRODUCTS = [
-  {
-    id: "EE-PRD-01",
-    name: "Cylinder Liner - Grasso RC11 / RC12",
-    brand: "Grasso",
-    category: "Cylinder Liners",
-    oem_no: "GRA-RC11-042",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 18,
-    image: "/images/liners-bushes.jpg",
-    description: "Centrifugally cast alloy iron liner with plateau-honed bore for optimal oil film retention and low blow-by.",
-  },
-  {
-    id: "EE-PRD-02",
-    name: "Cylinder Liner - Grasso RC9",
-    brand: "Grasso",
-    category: "Cylinder Liners",
-    oem_no: "GRA-RC9-021",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 12,
-    image: "/images/liners-bushes.jpg",
-    description: "Centrifugally cast sleeve diamond-turned for precision fit into cylinder jacket under deep freeze thermal cycles.",
-  },
-  {
-    id: "EE-PRD-03",
-    name: "Piston Ring Set - Bitzer 4N / 4P / 6F",
-    brand: "Bitzer",
-    category: "Piston Rings",
-    oem_no: "BIT-4N-382",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 35,
-    image: "/images/piston-rings.jpg",
-    description: "Includes high-ductility compression rings and conformable oil scraper rings with spring expanders.",
-  },
-  {
-    id: "EE-PRD-04",
-    name: "Piston Assembly Complete - Bitzer 4G / 6G",
-    brand: "Bitzer",
-    category: "Pistons",
-    oem_no: "BIT-4G-550",
-    stock_status: "Low Stock (3 units left)",
-    stock_type: "low-stock",
-    stock_qty: 3,
-    image: "/images/compressor-parts.jpg",
-    description: "Low-expansion eutectic silicon aluminium alloy piston with precision gudgeon pin and circlips.",
-  },
-  {
-    id: "EE-PRD-05",
-    name: "Connecting Rod Assembly - Kirloskar KC6 / KCX",
-    brand: "Kirloskar",
-    category: "Connecting Rods",
-    oem_no: "KIR-KC6-098",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 14,
-    image: "/images/connecting-rods.jpg",
-    description: "Drop-forged high-tensile steel rod balanced end-to-end, pre-fitted with leaded bronze small-end bushing.",
-  },
-  {
-    id: "EE-PRD-06",
-    name: "Crankshaft Bush & Main Bearing Set - Kirloskar KC",
-    brand: "Kirloskar",
-    category: "Bearings & Bushes",
-    oem_no: "KIR-KC-BRG10",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 22,
-    image: "/images/liners-bushes.jpg",
-    description: "Centrifugally cast phosphor bronze main journal bush machined to exacting running clearance.",
-  },
-  {
-    id: "EE-PRD-07",
-    name: "Suction & Discharge Valve Plate - Carrier 5H",
-    brand: "Carrier",
-    category: "Valves & Reeds",
-    oem_no: "CAR-5H-772",
-    stock_status: "Low Stock (4 units left)",
-    stock_type: "low-stock",
-    stock_qty: 4,
-    image: "/images/compressor-parts.jpg",
-    description: "Manufactured from hardened Swedish flapper steel lapped flat to within 2 light bands for zero gas blowback.",
-  },
-  {
-    id: "EE-PRD-08",
-    name: "Connecting Rod - Carrier 5F",
-    brand: "Carrier",
-    category: "Connecting Rods",
-    oem_no: "CAR-5F-114",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 8,
-    image: "/images/connecting-rods.jpg",
-    description: "High-integrity marine reefer connecting rod with precision ground crankpin journal bore.",
-  },
-  {
-    id: "EE-PRD-09",
-    name: "Complete Overhaul Gasket & Seal Kit - Sabroe CMO 14/28",
-    brand: "Sabroe",
-    category: "Seals & Gaskets",
-    oem_no: "SAB-CMO-GSK9",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 25,
-    image: "/images/seals-kits.jpg",
-    description: "100% non-asbestos composite head gaskets, suction/discharge manifold seals, and oil sump gaskets.",
-  },
-  {
-    id: "EE-PRD-10",
-    name: "Mechanical Shaft Seal Assembly - Sabroe SMC",
-    brand: "Sabroe",
-    category: "Seals & Gaskets",
-    oem_no: "SAB-SMC-SL22",
-    stock_status: "Made to Order (3-5 days)",
-    stock_type: "order",
-    stock_qty: 0,
-    image: "/images/seals-kits.jpg",
-    description: "Bellows-type carbon against tungsten carbide faces for zero refrigerant loss under high backpressure.",
-  },
-  {
-    id: "EE-PRD-11",
-    name: "Cylinder Liner - Bock F3 / F4 / F5",
-    brand: "Bock",
-    category: "Cylinder Liners",
-    oem_no: "BCK-F4-441",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 11,
-    image: "/images/liners-bushes.jpg",
-    description: "Close-grained pearlitic cast iron sleeve with uniform wall thickness and fine honed internal bore.",
-  },
-  {
-    id: "EE-PRD-12",
-    name: "Valve Reed Plate Set - Daikin C75 / C58",
-    brand: "Daikin",
-    category: "Valves & Reeds",
-    oem_no: "DAI-C75-VLV",
-    stock_status: "In Stock (Ready for 24h Dispatch)",
-    stock_type: "in-stock",
-    stock_qty: 15,
-    image: "/images/compressor-parts.jpg",
-    description: "Fatigue-resistant stainless spring steel reeds designed for high-cycle marine air conditioning duty.",
-  },
-];
 
 function ProductsContent() {
   const { addItem, setIsDrawerOpen } = useContext(QuoteContext);
   const searchParams = useSearchParams();
   const initialBrand = searchParams?.get("brand") || "All";
 
-  const [products, setProducts] = useState(ALL_PRODUCTS);
+  const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrand, setSelectedBrand] = useState(initialBrand);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
-  // Fetch from backend API if available, fallback to rich catalog
   useEffect(() => {
     API.get("/catalog")
-      .then((res) => {
-        if (res.data && Array.isArray(res.data) && res.data.length > 0) {
-          // Merge with rich product visual details
-          const merged = res.data.map((item, idx) => ({
-            ...ALL_PRODUCTS[idx % ALL_PRODUCTS.length],
-            ...item,
-            stock_status: item.stock_quantity > 5 ? "In Stock (Ready for 24h Dispatch)" : (item.stock_quantity > 0 ? "Low Stock" : "Sourced to Order"),
-            stock_type: item.stock_quantity > 5 ? "in-stock" : (item.stock_quantity > 0 ? "low-stock" : "order"),
-          }));
-          setProducts(merged);
+      .then(({ data }) => {
+        if (!Array.isArray(data)) {
+          throw new Error("Catalog response was not a product list.");
         }
+
+        setProducts(data.map((item) => {
+          const stockQuantity = Number(item.stock_quantity) || 0;
+          const stockStatus = stockQuantity > 4
+            ? "In Stock (Ready for 24h Dispatch)"
+            : stockQuantity > 0
+              ? `Low Stock (${stockQuantity} ${stockQuantity === 1 ? "unit" : "units"} left)`
+              : "Sourced to Order (3-5 days)";
+
+          return {
+            ...item,
+            brand: item.brand || "",
+            category: item.category || "",
+            oem_no: item.oem_no || "",
+            description: item.description || "",
+            image: item.image_url || "/images/compressor-parts.jpg",
+            stock_qty: stockQuantity,
+            stock_status: stockStatus,
+            stock_type: stockQuantity > 4
+              ? "in-stock"
+              : stockQuantity > 0
+                ? "low-stock"
+                : "order",
+          };
+        }));
       })
-      .catch(() => {
-        // Keep default ALL_PRODUCTS
-      });
+      .catch((error) => {
+        console.error("Failed to load product catalog:", error);
+        setLoadError("Unable to load products. Please try again later.");
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
-  const brandsList = ["All", "Grasso", "Bitzer", "Kirloskar", "Carrier", "Sabroe", "Bock", "Daikin"];
-  const categoryList = ["All", "Cylinder Liners", "Piston Rings", "Pistons", "Connecting Rods", "Valves & Reeds", "Seals & Gaskets", "Bearings & Bushes"];
+  const brandsList = useMemo(
+    () => ["All", ...new Set(products.map((item) => item.brand).filter(Boolean))],
+    [products]
+  );
+  const categoryList = useMemo(
+    () => ["All", ...new Set(products.map((item) => item.category).filter(Boolean))],
+    [products]
+  );
 
   const filteredProducts = useMemo(() => {
+    const normalizedSearch = searchTerm.toLowerCase();
     return products.filter((item) => {
       const matchSearch =
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.oem_no.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.brand.toLowerCase().includes(searchTerm.toLowerCase());
+        item.name.toLowerCase().includes(normalizedSearch) ||
+        item.oem_no.toLowerCase().includes(normalizedSearch) ||
+        item.brand.toLowerCase().includes(normalizedSearch);
       const matchBrand = selectedBrand === "All" || item.brand.toLowerCase() === selectedBrand.toLowerCase();
       const matchCategory = selectedCategory === "All" || item.category === selectedCategory;
       return matchSearch && matchBrand && matchCategory;
@@ -199,7 +80,6 @@ function ProductsContent() {
 
   return (
     <main className="section-shell">
-      {/* Page Header */}
       <div className="section-header">
         <span className="eyebrow">Inventory Catalog</span>
         <h1 className="section-title"><b>Live Stock</b> Compressor Spare Parts</h1>
@@ -209,7 +89,6 @@ function ProductsContent() {
         <div className="separator-line" />
       </div>
 
-      {/* Toolbar: Search + Filters */}
       <div className="catalog-toolbar">
         <div className="search-input-wrap">
           <input
@@ -221,15 +100,15 @@ function ProductsContent() {
         </div>
 
         <div className="filter-selects">
-          <select value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
-            {brandsList.map((b) => (
-              <option key={b} value={b}>Brand: {b}</option>
+          <select value={brandsList.includes(selectedBrand) ? selectedBrand : "All"} onChange={(e) => setSelectedBrand(e.target.value)}>
+            {brandsList.map((brand) => (
+              <option key={brand} value={brand}>Brand: {brand}</option>
             ))}
           </select>
 
-          <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            {categoryList.map((c) => (
-              <option key={c} value={c}>Category: {c}</option>
+          <select value={categoryList.includes(selectedCategory) ? selectedCategory : "All"} onChange={(e) => setSelectedCategory(e.target.value)}>
+            {categoryList.map((category) => (
+              <option key={category} value={category}>Category: {category}</option>
             ))}
           </select>
 
@@ -239,7 +118,6 @@ function ProductsContent() {
         </div>
       </div>
 
-      {/* Stock Legend Bar */}
       <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", marginBottom: "25px", fontSize: "0.85rem", alignItems: "center" }}>
         <span style={{ fontWeight: 700, color: "var(--navy)" }}>Live Stock Status:</span>
         <span className="badge badge-in-stock">🟢 In Stock (Same-Day / 24h Dispatch)</span>
@@ -250,10 +128,13 @@ function ProductsContent() {
         </span>
       </div>
 
-      {/* Product Grid */}
-      {filteredProducts.length === 0 ? (
+      {isLoading ? (
+        <p role="status" style={{ textAlign: "center", padding: "40px" }}>Loading products...</p>
+      ) : loadError ? (
+        <p role="alert" style={{ textAlign: "center", padding: "40px" }}>{loadError}</p>
+      ) : filteredProducts.length === 0 ? (
         <div style={{ textAlign: "center", padding: "60px 20px", background: "white", borderRadius: "12px", border: "1px solid var(--line)" }}>
-          <h3>No matching spare parts found.</h3>
+          <h3>{products.length === 0 ? "No products are available yet." : "No matching spare parts found."}</h3>
           <p style={{ color: "var(--text-muted)", maxWidth: "500px", margin: "10px auto 20px" }}>
             We stock over 10,000 components that may not all be listed online. Send your compressor drawing or sample reference for rapid sourcing.
           </p>
@@ -270,10 +151,10 @@ function ProductsContent() {
                 <span className={`badge badge-${item.stock_type} stock-floating-pill`}>
                   {item.stock_status}
                 </span>
-                <span className="brand-floating-tag">{item.brand}</span>
+                {item.brand && <span className="brand-floating-tag">{item.brand}</span>}
               </div>
               <div className="product-info">
-                <span className="product-oem-no">REF: {item.oem_no}</span>
+                {item.oem_no && <span className="product-oem-no">REF: {item.oem_no}</span>}
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
                 <div className="product-card-bottom">
@@ -291,7 +172,6 @@ function ProductsContent() {
         </div>
       )}
 
-      {/* Bottom Sourcing Banner */}
       <div style={{ marginTop: "60px", background: "var(--navy)", color: "white", borderRadius: "16px", padding: "40px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "20px" }}>
         <div>
           <h3 style={{ color: "white", marginBottom: "8px" }}>Looking For an Obsolete or Hard-To-Find Component?</h3>
