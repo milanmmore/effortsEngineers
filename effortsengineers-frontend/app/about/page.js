@@ -120,6 +120,13 @@ export default function AboutPage() {
             <Link href="/global-reach" className="btn btn-outline">
               View Verified Certifications →
             </Link>
+            <a
+              href="/brochure.pdf"
+              download="Efforts-Engineers-Brochure.pdf"
+              className="btn btn-outline"
+            >
+              Download Brochure ↓
+            </a>
           </div>
         </div>
 

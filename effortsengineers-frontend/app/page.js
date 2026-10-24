@@ -88,6 +88,13 @@ export default function HomePage() {
               <Link href="/contact" className="btn btn-outline-white hero-btn">
                 Send Drawing or Part Ref →
               </Link>
+              <a
+                href="/brochure.pdf"
+                download="Efforts-Engineers-Brochure.pdf"
+                className="btn btn-outline-white hero-btn"
+              >
+                Download Brochure ↓
+              </a>
             </div>
 
             {/* Stats Counter Strip */}
