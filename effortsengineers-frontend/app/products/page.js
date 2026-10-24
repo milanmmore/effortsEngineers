@@ -5,6 +5,17 @@ import { useSearchParams } from "next/navigation";
 import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
 
+const ADDITIONAL_PRODUCT_CATEGORIES = [
+  {
+    name: "A.C. & Refrigeration Accessories",
+    examples: "Solenoid valves, cutouts, safety valves, and gauges.",
+  },
+  {
+    name: "Hardware Material",
+    examples: "Bolts, nuts, hosepipes, and springs.",
+  },
+];
+
 function ProductsContent() {
   const { addItem, setIsDrawerOpen } = useContext(QuoteContext);
   const searchParams = useSearchParams();
@@ -61,7 +72,13 @@ function ProductsContent() {
     [products]
   );
   const categoryList = useMemo(
-    () => ["All", ...new Set(products.map((item) => item.category).filter(Boolean))],
+    () => [
+      "All",
+      ...new Set([
+        ...products.map((item) => item.category).filter(Boolean),
+        ...ADDITIONAL_PRODUCT_CATEGORIES.map(({ name }) => name),
+      ]),
+    ],
     [products]
   );
 
@@ -88,6 +105,27 @@ function ProductsContent() {
         </p>
         <div className="separator-line" />
       </div>
+
+      <section aria-labelledby="additional-categories-title" style={{ marginBottom: "32px" }}>
+        <h2 id="additional-categories-title" style={{ fontSize: "1.35rem", marginBottom: "16px" }}>
+          Accessories & Hardware
+        </h2>
+        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
+          {ADDITIONAL_PRODUCT_CATEGORIES.map(({ name, examples }) => (
+            <article key={name} className="why-card" style={{ padding: "22px" }}>
+              <h3 style={{ margin: "0 0 8px", fontSize: "1.05rem" }}>{name}</h3>
+              <p style={{ margin: "0 0 14px" }}>{examples}</p>
+              <button
+                type="button"
+                className="btn btn-outline"
+                onClick={() => setSelectedCategory(name)}
+              >
+                Browse this category →
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <div className="catalog-toolbar">
         <div className="search-input-wrap">

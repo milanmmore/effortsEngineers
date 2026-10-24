@@ -4,6 +4,7 @@ import Link from "next/link";
 import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
 import { sendEmailNotification } from "@/lib/emailService";
+import brandRanges from "@/config/brandRanges";
 
 export default function HomePage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
@@ -167,6 +168,14 @@ export default function HomePage() {
                       <option value="Daikin">Daikin (C55, C75)</option>
                       <option value="Vilter">Vilter (440, 450)</option>
                       <option value="Mycom">Mycom</option>
+                      <option value="York">York</option>
+                      <option value="Copeland">Copeland</option>
+                      <option value="Trane">Trane</option>
+                      <option value="Ingersoll Rand">Ingersoll Rand</option>
+                      <option value="Atlas Copco">Atlas Copco</option>
+                      <option value="CPT">CPT</option>
+                      <option value="Accel Sabroe">Accel Sabroe</option>
+                      <option value="Voltas">Voltas</option>
                       <option value="Other">Other Make</option>
                     </select>
                   </label>
@@ -243,6 +252,48 @@ export default function HomePage() {
               State-of-the-art multi-axis CNC lathes, precision cylindrical grinding, and CMM inspection ensuring micron-level dimensional accuracy and zero defect rate.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="section-shell" id="brand-ranges">
+        <div className="section-header">
+          <span className="eyebrow">Compressor Compatibility</span>
+          <h2 className="section-title"><b>Brands and Detailed</b> Model Ranges</h2>
+          <p className="section-desc">
+            Browse the compressor makes and models we support. For availability and compatibility, send us the exact model and part reference.
+          </p>
+          <div className="separator-line" />
+        </div>
+        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+          {brandRanges.map(({ brand, series }) => (
+            <article key={brand} className="why-card" style={{ padding: "26px" }}>
+              <h3 style={{ margin: "0 0 12px", fontSize: "1.1rem" }}>{brand}</h3>
+              <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "0.9rem" }}>
+                {series.map((range) => <li key={range} style={{ marginBottom: "8px" }}>{range}</li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: "28px" }}>
+          <Link href="/productsourcing#brand-ranges" className="btn btn-outline">
+            View Sourcing & Compatibility Details →
+          </Link>
+        </div>
+      </section>
+
+      <section className="section-shell" id="annual-supply-contract" style={{ background: "#f0f9ff" }}>
+        <div className="section-header">
+          <span className="eyebrow">Long-Term Compressor Spares Supply</span>
+          <h2 className="section-title"><b>Annual Supply</b> Contracts</h2>
+          <p className="section-desc">
+            Need a dependable supply partner for your compressor fleet? We can discuss an annual contract for compressor spares tailored to your requirements.
+          </p>
+          <div className="separator-line" />
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <Link href="/contact" className="btn btn-primary">
+            Enquire About an Annual Supply Contract →
+          </Link>
         </div>
       </section>
 

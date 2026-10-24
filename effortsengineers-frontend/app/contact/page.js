@@ -179,6 +179,14 @@ export default function ContactPage() {
                     <option value="Daikin">Daikin (C55, C58, C75)</option>
                     <option value="Vilter">Vilter (440, 450, 450XL)</option>
                     <option value="Mycom">Mycom (A, B, WB series)</option>
+                    <option value="York">York</option>
+                    <option value="Copeland">Copeland</option>
+                    <option value="Trane">Trane</option>
+                    <option value="Ingersoll Rand">Ingersoll Rand</option>
+                    <option value="Atlas Copco">Atlas Copco</option>
+                    <option value="CPT">CPT</option>
+                    <option value="Accel Sabroe">Accel Sabroe</option>
+                    <option value="Voltas">Voltas</option>
                     <option value="Other">Other / Bespoke Model</option>
                   </select>
                 </label>
