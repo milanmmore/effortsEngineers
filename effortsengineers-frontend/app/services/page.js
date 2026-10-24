@@ -37,6 +37,11 @@ export default function ServicesPage() {
       title: "Preventative Maintenance Overhaul Kits",
       description: "Customized running-hour spares bundles (10,000h / 25,000h) assembled specifically for your compressor fleet to streamline scheduled plant shutdowns.",
     },
+    {
+      icon: "📦",
+      title: "Annual Compressor Spares Supply Contracts",
+      description: "Discuss an annual supply contract for compressor spares, tailored to your organization’s requirements and supported makes.",
+    },
   ];
 
   const caseStudies = [
@@ -166,4 +171,3 @@ export default function ServicesPage() {
     </main>
   );
 }
-

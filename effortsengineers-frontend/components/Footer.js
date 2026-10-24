@@ -36,6 +36,14 @@ export default function Footer() {
               <li><Link href="/products?brand=Bock">Bock (F3, F4, F5, F16)</Link></li>
               <li><Link href="/products?brand=Daikin">Daikin (C55, C58, C75)</Link></li>
               <li><Link href="/products?brand=Vilter">Vilter (440, 450, 450XL)</Link></li>
+              <li><Link href="/productsourcing#brand-ranges">York</Link></li>
+              <li><Link href="/productsourcing#brand-ranges">Copeland</Link></li>
+              <li><Link href="/productsourcing#brand-ranges">Trane</Link></li>
+              <li><Link href="/productsourcing#brand-ranges">Ingersoll Rand</Link></li>
+              <li><Link href="/productsourcing#brand-ranges">Atlas Copco</Link></li>
+              <li><Link href="/productsourcing#brand-ranges">CPT</Link></li>
+              <li><Link href="/productsourcing#brand-ranges">Accel Sabroe</Link></li>
+              <li><Link href="/productsourcing#brand-ranges">Voltas</Link></li>
             </ul>
           </div>
 
@@ -86,6 +94,15 @@ export default function Footer() {
           <div style={{ fontSize: "0.78rem", color: "#64748b" }}>
             *Disclaimer: All manufacturer names, symbols, numbers, and descriptions are used solely for reference and identification purposes.
           </div>
+          <a
+            href="https://www.facebook.com/effortsengg/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit Efforts Engineers on Facebook"
+            style={{ color: "#38bdf8", fontWeight: 600 }}
+          >
+            Facebook
+          </a>
         </div>
       </div>
     </footer>

@@ -179,6 +179,14 @@ export default function ContactPage() {
                     <option value="Daikin">Daikin (C55, C58, C75)</option>
                     <option value="Vilter">Vilter (440, 450, 450XL)</option>
                     <option value="Mycom">Mycom (A, B, WB series)</option>
+                    <option value="York">York</option>
+                    <option value="Copeland">Copeland</option>
+                    <option value="Trane">Trane</option>
+                    <option value="Ingersoll Rand">Ingersoll Rand</option>
+                    <option value="Atlas Copco">Atlas Copco</option>
+                    <option value="CPT">CPT</option>
+                    <option value="Accel Sabroe">Accel Sabroe</option>
+                    <option value="Voltas">Voltas</option>
                     <option value="Other">Other / Bespoke Model</option>
                   </select>
                 </label>
@@ -322,9 +330,14 @@ export default function ContactPage() {
                 </p>
               </div>
               <div>
-                <strong style={{ color: "var(--navy)" }}>📞 Phone Hotlines:</strong>
+                <strong style={{ color: "var(--navy)" }}>👤 Contact Person:</strong>
                 <p style={{ margin: "4px 0 0", color: "var(--text-muted)" }}>
-                  Sales: <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "var(--primary)", fontWeight: 700 }}>{CONTACT_CONFIG.phone}</a><br />
+                  Mr. Saurabh S Salvi
+                </p>
+                <p style={{ margin: "4px 0 0", color: "var(--text-muted)" }}>
+                  Phone: <a href="tel:+912025678102" style={{ color: "var(--primary)", fontWeight: 700 }}>+91-20-25678102</a>
+                  {" / "}
+                  <a href="tel:+912025678972" style={{ color: "var(--primary)", fontWeight: 700 }}>+91-20-25678972</a><br />
                   Breakdown Hotline: <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} style={{ color: "var(--primary)", fontWeight: 700 }}>{CONTACT_CONFIG.whatsapp}</a>
                 </p>
               </div>
@@ -335,8 +348,8 @@ export default function ContactPage() {
                     {CONTACT_CONFIG.primaryEmail}
                   </a>
                   <span style={{ margin: "0 8px", color: "var(--text-muted)" }}>|</span>
-                  <a href={`mailto:${CONTACT_CONFIG.secondaryEmail}`} style={{ color: "var(--primary)", fontWeight: 700 }}>
-                    {CONTACT_CONFIG.secondaryEmail}
+                  <a href="mailto:saurabh@effortsengineers.in" style={{ color: "var(--primary)", fontWeight: 700 }}>
+                    saurabh@effortsengineers.in
                   </a>
                 </p>
               </div>
