@@ -280,7 +280,7 @@ export default function ContactPage() {
               Need an instant answer on stock availability or part interchangeability? Chat directly with our technical team on WhatsApp.
             </p>
             <a
-              href="https://wa.me/919096026622?text=Hello%20Efforts%20Engineers,%20I%20have%20an%20urgent%20compressor%20spare%20part%20requirement."
+              href="https://wa.me/919096001010?text=Hello%20Efforts%20Engineers,%20I%20have%20an%20urgent%20compressor%20spare%20part%20requirement."
               target="_blank"
               rel="noreferrer"
               className="btn btn-primary"

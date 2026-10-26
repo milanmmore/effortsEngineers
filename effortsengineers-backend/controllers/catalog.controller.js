@@ -6,7 +6,9 @@ import ApiError from "../utils/ApiError.js";
 export const listCatalog = asyncHandler(async (req, res) => {
   const result = await db.query(
     `SELECT id, name, description, price, brand, category, oem_no,
-            stock_quantity, image_url, created_at
+            stock_quantity, stock_status, image_url, series, part_number,
+            photo_id, file_name, compatible_models, material_size, photo_status,
+            photo_source, photo_view, alt_text, page_url, remarks, created_at
      FROM products
      ORDER BY created_at DESC`
   );
@@ -17,7 +19,9 @@ export const getCatalogItem = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const result = await db.query(
     `SELECT id, name, description, price, brand, category, oem_no,
-            stock_quantity, image_url, created_at
+            stock_quantity, stock_status, image_url, series, part_number,
+            photo_id, file_name, compatible_models, material_size, photo_status,
+            photo_source, photo_view, alt_text, page_url, remarks, created_at
      FROM products
      WHERE id = $1`,
     [id]
@@ -36,6 +40,19 @@ export const createCatalogItem = asyncHandler(async (req, res) => {
     oem_no = null,
     stock_quantity = 0,
     image_url = null,
+    stock_status = null,
+    series = null,
+    part_number = null,
+    photo_id = null,
+    file_name = null,
+    compatible_models = null,
+    material_size = null,
+    photo_status = null,
+    photo_source = null,
+    photo_view = null,
+    alt_text = null,
+    page_url = null,
+    remarks = null,
   } = req.body;
   if (!name || price === undefined || price === null) {
     throw new ApiError(400, "name and price are required");
@@ -57,11 +74,20 @@ export const createCatalogItem = asyncHandler(async (req, res) => {
 
   const result = await db.query(
     `INSERT INTO products
-       (name, description, price, brand, category, oem_no, stock_quantity, image_url)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       (name, description, price, brand, category, oem_no, stock_quantity, image_url,
+        stock_status, series, part_number, photo_id, file_name, compatible_models,
+        material_size, photo_status, photo_source, photo_view, alt_text, page_url, remarks)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16,
+             $17, $18, $19, $20, $21)
      RETURNING id, name, description, price, brand, category, oem_no,
-               stock_quantity, image_url, created_at`,
-    [name, description, price, brand, category, oem_no, stock_quantity, image_url]
+               stock_quantity, stock_status, image_url, series, part_number,
+               photo_id, file_name, compatible_models, material_size, photo_status,
+               photo_source, photo_view, alt_text, page_url, remarks, created_at`,
+    [
+      name, description, price, brand, category, oem_no, stock_quantity, image_url,
+      stock_status, series, part_number, photo_id, file_name, compatible_models,
+      material_size, photo_status, photo_source, photo_view, alt_text, page_url, remarks,
+    ]
   );
   res.status(201).json(result.rows[0]);
 });
@@ -77,6 +103,19 @@ export const updateCatalogItem = asyncHandler(async (req, res) => {
     oem_no,
     stock_quantity,
     image_url,
+    stock_status,
+    series,
+    part_number,
+    photo_id,
+    file_name,
+    compatible_models,
+    material_size,
+    photo_status,
+    photo_source,
+    photo_view,
+    alt_text,
+    page_url,
+    remarks,
   } = req.body;
   if (
     stock_quantity !== undefined &&
@@ -93,11 +132,30 @@ export const updateCatalogItem = asyncHandler(async (req, res) => {
      SET name = $1, description = $2, price = $3, brand = COALESCE($4, brand),
          category = COALESCE($5, category), oem_no = COALESCE($6, oem_no),
          stock_quantity = COALESCE($7, stock_quantity),
-         image_url = COALESCE($8, image_url)
-     WHERE id = $9
+         image_url = COALESCE($8, image_url),
+         stock_status = COALESCE($9, stock_status),
+         series = COALESCE($10, series),
+         part_number = COALESCE($11, part_number),
+         photo_id = COALESCE($12, photo_id),
+         file_name = COALESCE($13, file_name),
+         compatible_models = COALESCE($14, compatible_models),
+         material_size = COALESCE($15, material_size),
+         photo_status = COALESCE($16, photo_status),
+         photo_source = COALESCE($17, photo_source),
+         photo_view = COALESCE($18, photo_view),
+         alt_text = COALESCE($19, alt_text),
+         page_url = COALESCE($20, page_url),
+         remarks = COALESCE($21, remarks)
+     WHERE id = $22
      RETURNING id, name, description, price, brand, category, oem_no,
-               stock_quantity, image_url, created_at`,
-    [name, description, price, brand, category, oem_no, stock_quantity, image_url, id]
+               stock_quantity, stock_status, image_url, series, part_number,
+               photo_id, file_name, compatible_models, material_size, photo_status,
+               photo_source, photo_view, alt_text, page_url, remarks, created_at`,
+    [
+      name, description, price, brand, category, oem_no, stock_quantity, image_url,
+      stock_status, series, part_number, photo_id, file_name, compatible_models,
+      material_size, photo_status, photo_source, photo_view, alt_text, page_url, remarks, id,
+    ]
   );
   if (result.rows.length === 0) throw new ApiError(404, "Product not found");
   res.json(result.rows[0]);

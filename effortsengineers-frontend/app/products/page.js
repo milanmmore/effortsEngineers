@@ -36,25 +36,30 @@ function ProductsContent() {
         }
 
         setProducts(data.map((item) => {
-          const stockQuantity = Number(item.stock_quantity) || 0;
-          const stockStatus = stockQuantity > 4
-            ? "In Stock (Ready for 24h Dispatch)"
-            : stockQuantity > 0
-              ? `Low Stock (${stockQuantity} ${stockQuantity === 1 ? "unit" : "units"} left)`
-              : "Sourced to Order (3-5 days)";
+          const stockQuantity = Number(item.stock_quantity);
+          const hasStockQuantity = Number.isFinite(stockQuantity) && stockQuantity > 0;
+          const stockStatus = item.stock_status?.trim() || (
+            hasStockQuantity
+              ? `${stockQuantity} ${stockQuantity === 1 ? "unit" : "units"} listed`
+              : "Availability on request"
+          );
 
           return {
             ...item,
+            name: item.name || "",
             brand: item.brand || "",
             category: item.category || "",
             oem_no: item.oem_no || "",
+            part_number: item.part_number || "",
+            series: item.series || "",
+            compatible_models: item.compatible_models || "",
+            material_size: item.material_size || "",
             description: item.description || "",
             image: item.image_url || "/images/compressor-parts.jpg",
-            stock_qty: stockQuantity,
             stock_status: stockStatus,
-            stock_type: stockQuantity > 4
+            stock_type: /in stock|available/i.test(stockStatus)
               ? "in-stock"
-              : stockQuantity > 0
+              : /low stock/i.test(stockStatus)
                 ? "low-stock"
                 : "order",
           };
@@ -88,6 +93,9 @@ function ProductsContent() {
       const matchSearch =
         item.name.toLowerCase().includes(normalizedSearch) ||
         item.oem_no.toLowerCase().includes(normalizedSearch) ||
+        item.part_number.toLowerCase().includes(normalizedSearch) ||
+        item.series.toLowerCase().includes(normalizedSearch) ||
+        item.compatible_models.toLowerCase().includes(normalizedSearch) ||
         item.brand.toLowerCase().includes(normalizedSearch);
       const matchBrand = selectedBrand === "All" || item.brand.toLowerCase() === selectedBrand.toLowerCase();
       const matchCategory = selectedCategory === "All" || item.category === selectedCategory;
@@ -99,9 +107,9 @@ function ProductsContent() {
     <main className="section-shell">
       <div className="section-header">
         <span className="eyebrow">Inventory Catalog</span>
-        <h1 className="section-title"><b>Live Stock</b> Compressor Spare Parts</h1>
+        <h1 className="section-title"><b>Product</b> Catalog</h1>
         <p className="section-desc">
-          Browse real-time ready stock of precision engineered parts compatible with leading industrial compressors. Add parts directly to your automated quotation builder.
+          Browse compressor spare parts and compatibility details from our catalog. Contact us to confirm current availability and pricing.
         </p>
         <div className="separator-line" />
       </div>
@@ -157,12 +165,11 @@ function ProductsContent() {
       </div>
 
       <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", marginBottom: "25px", fontSize: "0.85rem", alignItems: "center" }}>
-        <span style={{ fontWeight: 700, color: "var(--navy)" }}>Live Stock Status:</span>
-        <span className="badge badge-in-stock">🟢 In Stock (Same-Day / 24h Dispatch)</span>
-        <span className="badge badge-low-stock">🟡 Low Stock (1-4 Units Remaining)</span>
-        <span className="badge badge-order">🔵 Sourced to Order (3-5 Days)</span>
+        <span style={{ fontWeight: 700, color: "var(--navy)" }}>
+          Availability and pricing are confirmed on request.
+        </span>
         <span style={{ marginLeft: "auto", color: "var(--text-muted)", fontWeight: 600 }}>
-          Showing {filteredProducts.length} of {products.length} parts
+          Showing {filteredProducts.length} of {products.length} products
         </span>
       </div>
 
@@ -185,16 +192,34 @@ function ProductsContent() {
           {filteredProducts.map((item) => (
             <div key={item.id} className="product-card-modern">
               <div className="product-thumb">
-                <img src={item.image} alt={item.name} />
+                <img src={item.image} alt={item.alt_text || item.name} />
                 <span className={`badge badge-${item.stock_type} stock-floating-pill`}>
                   {item.stock_status}
                 </span>
                 {item.brand && <span className="brand-floating-tag">{item.brand}</span>}
               </div>
               <div className="product-info">
-                {item.oem_no && <span className="product-oem-no">REF: {item.oem_no}</span>}
+                {(item.part_number || item.oem_no) && (
+                  <span className="product-oem-no">PART NO: {item.part_number || item.oem_no}</span>
+                )}
                 <h3>{item.name}</h3>
-                <p>{item.description}</p>
+                {item.description && <p>{item.description}</p>}
+                {(item.series || item.category || item.compatible_models || item.material_size) && (
+                  <dl style={{ margin: "0 0 16px", fontSize: "0.85rem" }}>
+                    {item.series && (
+                      <div><dt style={{ display: "inline", fontWeight: 700 }}>Series: </dt><dd style={{ display: "inline", margin: 0 }}>{item.series}</dd></div>
+                    )}
+                    {item.category && (
+                      <div><dt style={{ display: "inline", fontWeight: 700 }}>Category: </dt><dd style={{ display: "inline", margin: 0 }}>{item.category}</dd></div>
+                    )}
+                    {item.compatible_models && (
+                      <div><dt style={{ display: "inline", fontWeight: 700 }}>Compatible models: </dt><dd style={{ display: "inline", margin: 0 }}>{item.compatible_models}</dd></div>
+                    )}
+                    {item.material_size && (
+                      <div><dt style={{ display: "inline", fontWeight: 700 }}>Material / size: </dt><dd style={{ display: "inline", margin: 0 }}>{item.material_size}</dd></div>
+                    )}
+                  </dl>
+                )}
                 <div className="product-card-bottom">
                   <button
                     onClick={() => addItem(item)}

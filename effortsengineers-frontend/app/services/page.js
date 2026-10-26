@@ -163,7 +163,7 @@ export default function ServicesPage() {
           <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber">
             📋 Request Turnkey Overhaul Quote
           </button>
-          <a href="https://wa.me/919096026622" target="_blank" rel="noreferrer" className="btn btn-outline-white">
+          <a href="https://wa.me/919096001010" target="_blank" rel="noreferrer" className="btn btn-outline-white">
             💬 WhatsApp Engineering Desk
           </a>
         </div>

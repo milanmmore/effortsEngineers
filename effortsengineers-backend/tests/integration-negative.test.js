@@ -30,7 +30,7 @@ beforeEach(() => {
   // Default JWT mock
   jwtModule.verifyToken.mockImplementation((token) => {
     if (token === "admin-token") return { id: 99, email: "admin@example.com", role: "admin" };
-    if (token === "user-token") return { id: 1, email: "milan@example.com", role: "user" };
+    if (token === "user-token") return { id: 1, email: "saurabh@example.com", role: "user" };
     throw new Error("Invalid token");
   });
 });
