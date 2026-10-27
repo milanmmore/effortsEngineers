@@ -52,7 +52,7 @@ export default function Navbar() {
         <div className="announcement-inner">
           <div className="announcement-left">
             <span className="announcement-badge">Express Dispatch</span>
-            <span>⚡ Ready Stock 24-48h Delivery Across India & 45+ Export Countries </span>
+            <span>⚡ Ready Stock 24-48h Delivery Across India & 15+ Export Countries </span>
           </div>
           <div className="announcement-right">
             <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>📞 {CONTACT_CONFIG.phone}</a>
@@ -154,7 +154,7 @@ export default function Navbar() {
                   <span className="dropdown-item-icon">🏢</span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">About Us</span>
-                    <span className="dropdown-item-desc">40+ years heritage, plant &amp; certifications</span>
+                    <span className="dropdown-item-desc">Engineering heritage since 1986, plant &amp; certifications</span>
                   </div>
                 </Link>
                 <Link

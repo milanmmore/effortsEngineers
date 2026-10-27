@@ -41,17 +41,17 @@ export default function AboutPage() {
     year: 2024,
     title: "Global Reach",
     description:
-      "Expanded our international presence, supplying industrial refrigeration spare parts and components across 15–20 countries worldwide.",
+      "Expanded our international presence, supplying industrial refrigeration spare parts and components to customers across 45+ countries worldwide.",
     highlight:
-      "Serving customers across 15–20 countries worldwide.",
+      "Serving customers across 45+ countries worldwide.",
   },
   {
     year: 2026,
-    title: "Digital Inventory & AI Quoting Platform",
+    title: "Digital Catalog & Customer Support Tools",
     description:
-      "Launched the next-generation digital ecosystem for Efforts Engineers, featuring real-time inventory visibility, automated RFQ creation, downloadable quotations and 24/7 AI-powered chatbot assistance.",
+      "Added a database-backed product catalog with stock levels, RFQ creation tools, downloadable quotations, and a website chatbot for product and quotation questions.",
     highlight:
-      "Real-time inventory, automated quotations and 24/7 AI-powered assistance.",
+      "Online product catalog, RFQ tools, downloadable quotations, and chatbot support.",
   },
   ];
 
@@ -92,7 +92,7 @@ export default function AboutPage() {
     <main className="section-shell">
       {/* Header */}
       <div className="section-header">
-        <span className="eyebrow">Over Three Decades of Engineering Precision</span>
+        <span className="eyebrow">Engineering Precision Since 1986</span>
         <h1 className="section-title"><b>Company Story</b> & Industrial Heritage</h1>
         <p className="section-desc">
           How Efforts Engineers transformed from a precision Pune workshop into a global benchmark for industrial compressor spare parts and turnkey overhaul engineering.
@@ -111,7 +111,7 @@ export default function AboutPage() {
             <strong>Efforts Engineers</strong> has supplied precision-engineered Ammonia Compressor Spare Parts suitable for <strong>Grasso, Kirloskar, and Sabroe Compressors</strong>, alongside critical accessories like <strong>Ammonia Valves and Expansion Valves</strong>, to esteemed industrial and government clients across India for over <strong>40 years</strong>, now exporting internationally.
           </p>
           <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.75, marginBottom: "22px" }}>
-            Over the last 30+ years, <strong>M/s Efforts Engineers</strong> has steadily progressed from a trusted local supplier into a leading exporter of refrigeration compressor spares. Today, Efforts Engineers is recognized as a prominent supplier & exporter of a wide range of <strong>Air & Gas Compressor Spare Parts & Accessories</strong>, operating from our manufacturing and warehousing facility in Pune, Maharashtra.
+            Since 1986, <strong>M/s Efforts Engineers</strong> has steadily progressed from a trusted local supplier into an exporter of refrigeration compressor spares. Today, Efforts Engineers supplies a wide range of <strong>Air & Gas Compressor Spare Parts & Accessories</strong> from our manufacturing and warehousing facility in Pune, Maharashtra.
           </p>
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
             <Link href="/products" className="btn btn-primary">
@@ -149,7 +149,7 @@ export default function AboutPage() {
       <section style={{ background: "white", borderRadius: "16px", border: "1px solid var(--line)", padding: "50px 30px", marginBottom: "70px", boxShadow: "var(--shadow-sm)" }}>
         <div className="section-header" style={{ marginBottom: "35px" }}>
           <span className="eyebrow">Our Milestones</span>
-          <h2 className="section-title"><b>Interactive Timeline:</b> 1994 to 2026</h2>
+          <h2 className="section-title"><b>Interactive Timeline:</b> 1986 to Present</h2>
           <p className="section-desc">
             Click on any milestone year below to explore key phases in our engineering evolution.
           </p>

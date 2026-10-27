@@ -71,7 +71,7 @@ export default function HomePage() {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> Associated with Manufacturers with ISO 9001 Certification Certified • 30+ Years Engineering • 45+ Export Countries
+              <span>★</span> Associated Manufacturers with ISO 9001-Standardized Quality Systems • Engineering Since 1986 • 15+ Export Countries
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>
@@ -223,7 +223,7 @@ export default function HomePage() {
         <div className="section-header">
           <h2 className="section-title"><b>Why Choose</b> Efforts Engineers?</h2>
           <p className="section-desc">
-            Combining 30+ years of metallurgic expertise with modern CNC machining and express logistics to eliminate industrial plant downtime.
+            Combining four decades of metallurgic expertise with modern CNC machining and express logistics to help reduce industrial plant downtime.
           </p>
           <div className="separator-line" />
         </div>

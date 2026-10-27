@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict bUlaNVFwkYjfZrJreTbniju0jZvHJ2HQGGtnRlXS7T812gUsFQQmVRmGzvTWVmu
+\restrict kKdGh7xEjgyUpSKpcDWqm3HafhDg7SDIEhngjPh9kJwAQn4pOQmZbrYlqAtLKQh
 
 -- Dumped from database version 18.6
 -- Dumped by pg_dump version 18.6
@@ -233,7 +233,12 @@ CREATE TABLE public.products (
     name character varying(100) NOT NULL,
     description text,
     price numeric(10,2),
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    brand character varying(100),
+    category character varying(100),
+    oem_no character varying(100),
+    stock_quantity integer DEFAULT 0 NOT NULL,
+    image_url text
 );
 
 
@@ -448,10 +453,10 @@ COPY public.orders (id, quotation_id, status, created_at) FROM stdin;
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.products (id, name, description, price, created_at) FROM stdin;
-1	Steel Rod	High quality steel rod	1200.00	2026-09-12 22:07:49.32986
-2	Copper Wire	Industrial grade copper wire	800.00	2026-09-12 22:07:49.32986
-3	Aluminium Sheet	Lightweight aluminium sheet	1500.00	2026-09-12 22:07:49.32986
+COPY public.products (id, name, description, price, created_at, brand, category, oem_no, stock_quantity, image_url) FROM stdin;
+1	Steel Rod	High quality steel rod	1200.00	2026-09-12 22:07:49.32986	\N	\N	\N	0	\N
+2	Copper Wire	Industrial grade copper wire	800.00	2026-09-12 22:07:49.32986	\N	\N	\N	0	\N
+3	Aluminium Sheet	Lightweight aluminium sheet	1500.00	2026-09-12 22:07:49.32986	\N	\N	\N	0	\N
 \.
 
 
@@ -668,5 +673,5 @@ ALTER TABLE ONLY public.quotations
 -- PostgreSQL database dump complete
 --
 
-\unrestrict bUlaNVFwkYjfZrJreTbniju0jZvHJ2HQGGtnRlXS7T812gUsFQQmVRmGzvTWVmu
+\unrestrict kKdGh7xEjgyUpSKpcDWqm3HafhDg7SDIEhngjPh9kJwAQn4pOQmZbrYlqAtLKQh
 

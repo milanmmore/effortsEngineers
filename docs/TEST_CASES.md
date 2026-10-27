@@ -121,7 +121,7 @@ npm start
 ### 4.2 Home & Industrial Hero (`app/page.js`)
 | Test ID | Feature Area | Description / Steps | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **TC-FE-HOM-01** | Hero Trust Counter | Inspect Hero section | Displays metrics: **10,000+ Ready Stock Spares**, **45+ Export Countries**, **24-48h Express Dispatch**, **1-Year Zero-Defect Guarantee**. | ✅ PASS |
+| **TC-FE-HOM-01** | Hero Trust Counter | Inspect Hero section | Displays metrics: **10,000+ Ready Stock Spares**, **15+ Export Countries**, **24-48h Express Dispatch**, **1-Year Zero-Defect Guarantee**. | ✅ PASS |
 | **TC-FE-HOM-02** | Breakdown Assistance RFQ Card | Fill out compressor model, part required, urgency in Hero RFQ card | Submits and routes to quotation flow with prefilled parameters. | ✅ PASS |
 | **TC-FE-HOM-03** | Brand Compatibility Badges | Click on Kirloskar, Grasso, or Bitzer badges | Directs to `/products?brand=<Brand>` with catalog filtered accordingly. | ✅ PASS |
 | **TC-FE-HOM-04** | Services & Applications Grid | Verify 6-card industrial applications section | Displays Cold Storage, Marine HVAC, Petrochemical Gas, Turnkey Overhaul, and Obsolete Parts Reverse Engineering. | ✅ PASS |

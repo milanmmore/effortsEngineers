@@ -22,7 +22,7 @@ beforeEach(() => {
       return {
         rows: [{
           id: 1,
-          email: "milan@example.com",
+          email: "saurabh@effortsengineers.in",
           password_hash: await bcrypt.hash("Secret@123", 10),
         }],
       };
@@ -40,7 +40,7 @@ beforeEach(() => {
 
   jwtModule.verifyToken.mockImplementation((token) => {
     if (token === "admin-token") return { id: 99, email: "admin@example.com", role: "admin" };
-    if (token === "user-token") return { id: 1, email: "milan@example.com", role: "user" };
+    if (token === "user-token") return { id: 1, email: "saurabh@effortsengineers.in", role: "user" };
     throw new Error("Invalid token");
   });
 });
@@ -58,7 +58,7 @@ test("full user flow: register → login → create order → admin stats", asyn
   // Register
   const regRes = await request(app).post("/api/auth/register").send({
     name: "Milan",
-    email: "milan@example.com",
+    email: "saurabh@effortsengineers.in",
     password: "Secret@123",
   });
   expect(regRes.status).toBe(201);
@@ -66,7 +66,7 @@ test("full user flow: register → login → create order → admin stats", asyn
 
   // Login
   const loginRes = await request(app).post("/api/auth/login").send({
-    email: "milan@example.com",
+    email: "saurabh@effortsengineers.in",
     password: "Secret@123",
   });
   expect(loginRes.status).toBe(200);

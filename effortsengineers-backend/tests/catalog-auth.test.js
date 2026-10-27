@@ -39,6 +39,10 @@ beforeEach(() => {
           oem_no: params[5],
           stock_quantity: params[6],
           image_url: params[7],
+          stock_status: params[8],
+          series: params[9],
+          part_number: params[10],
+          photo_id: params[11],
           created_at: new Date(),
         }],
       };
@@ -46,7 +50,7 @@ beforeEach(() => {
     if (sql.startsWith("UPDATE products")) {
       return {
         rows: [{
-          id: params[8],
+          id: params[21],
           name: params[0],
           description: params[1],
           price: params[2],
@@ -55,6 +59,10 @@ beforeEach(() => {
           oem_no: params[5],
           stock_quantity: params[6],
           image_url: params[7],
+          stock_status: params[8],
+          series: params[9],
+          part_number: params[10],
+          photo_id: params[11],
           created_at: new Date(),
         }],
       };
@@ -70,7 +78,13 @@ beforeEach(() => {
           category: "Cylinder Liners",
           oem_no: "GRA-RC11-042",
           stock_quantity: 18,
+          stock_status: "In Stock",
           image_url: "/images/liners-bushes.jpg",
+          series: "RC Series",
+          part_number: "GRA-RC11-042",
+          photo_id: "GRA-RC11-LIN-01",
+          compatible_models: "RC11",
+          material_size: "Cast iron",
           created_at: new Date(),
         }],
       };
@@ -100,6 +114,10 @@ test("admin can create catalog item", async () => {
       oem_no: "GRA-RC11-042",
       stock_quantity: 18,
       image_url: "/images/liners-bushes.jpg",
+      stock_status: "In Stock",
+      series: "RC Series",
+      part_number: "GRA-RC11-042",
+      photo_id: "GRA-RC11-LIN-01",
     });
 
   expect(res.status).toBe(201);
@@ -110,6 +128,10 @@ test("admin can create catalog item", async () => {
     oem_no: "GRA-RC11-042",
     stock_quantity: 18,
     image_url: "/images/liners-bushes.jpg",
+    stock_status: "In Stock",
+    series: "RC Series",
+    part_number: "GRA-RC11-042",
+    photo_id: "GRA-RC11-LIN-01",
   });
 });
 
@@ -145,6 +167,10 @@ test("admin can update catalog product details", async () => {
       oem_no: "BIT-4N-382",
       stock_quantity: 10,
       image_url: "/images/piston-rings.jpg",
+      stock_status: "Low Stock",
+      series: "4N Series",
+      part_number: "BIT-4N-382",
+      photo_id: "BIT-4N-PRG-02",
     });
 
   expect(res.status).toBe(200);

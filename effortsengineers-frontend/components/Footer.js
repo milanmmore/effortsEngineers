@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Efforts Engineers</h4>
             <p>
-              Established over three decades ago in Pune, Efforts Engineers is a premier manufacturer and global exporter of high-precision replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors.
+              Established in Pune in 1986, Efforts Engineers supplies replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors.
             </p>
             <div style={{ marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #334155" }}>
@@ -51,7 +51,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Quick Links</h4>
             <ul>
-              <li><Link href="/products">Live Stock Catalog</Link></li>
+              <li><Link href="/products">Product Catalog</Link></li>
               <li><Link href="/services">Consultancy & Industrial Projects</Link></li>
               <li><Link href="/global-reach">Global Reach & Logistics</Link></li>
               <li><Link href="/global-reach#certificates">Downloadable Certificates</Link></li>

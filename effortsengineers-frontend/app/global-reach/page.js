@@ -8,11 +8,11 @@ export default function GlobalReachPage() {
   const certificates = [
     {
       id: "CERT-ISO-9001",
-      title: "Associated with Manufacturers with ISO 9001 Certification Quality Management",
+      title: "Associated Manufacturers with ISO 9001-Standardized Quality Systems",
       category: "Quality Management System",
-      issuer: "TUV / International Accreditation Forum",
-      validity: "Active • Audited Annually",
-      description: "Certifies our adherence to rigorous quality standards in design, manufacturing, inspection, and supply of industrial compressor spares.",
+      issuer: "The relevant associated manufacturer",
+      validity: "Certification status is manufacturer-specific",
+      description: "Our associated manufacturers maintain quality systems standardized to ISO 9001. This refers to the manufacturers' systems and does not claim that Efforts Engineers itself is ISO 9001 certified.",
       fileSize: "1.4 MB • PDF",
     },
     {
@@ -47,8 +47,8 @@ export default function GlobalReachPage() {
       title: "ISPM-15 Sea-Worthy Packaging Compliance",
       category: "Export Phytosanitary & Packaging",
       issuer: "Plant Quarantine Division of India",
-      validity: "Certified Treatment",
-      description: "Certifies that all wooden pallets and export crates undergo certified heat treatment (HT) and methyl bromide fumigation for international sea/air freight.",
+      validity: "Treatment method is specified by the applicable packaging certificate",
+      description: "ISPM-15 compliant wood packaging is treated using an approved method, such as heat treatment or methyl bromide fumigation, as specified by the applicable certificate.",
       fileSize: "1.1 MB • PDF",
     },
     {
@@ -102,7 +102,7 @@ export default function GlobalReachPage() {
         </div>
         <div className="export-stat-box">
           <dt>ISO 9001</dt>
-          <dd>Certified Quality System</dd>
+          <dd>Associated Manufacturers' Quality Systems</dd>
         </div>
       </dl>
 
@@ -148,7 +148,7 @@ export default function GlobalReachPage() {
           <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: "10px", fontSize: "0.92rem" }}>
             <li>🛡️ <strong>1. Micro-film Rust Preventative Oil:</strong> Hydrophobic anti-corrosion coating applied to all machined contact surfaces.</li>
             <li>📦 <strong>2. VCI Barrier Bag Vacuum Sealing:</strong> Vapor Corrosion Inhibitor packaging protecting metals from moisture for up to 36 months.</li>
-            <li>🌲 <strong>3. ISPM-15 Heat-Treated Wooden Boxes:</strong> Fumigated, heavy-duty timber crates reinforced with steel strapping to withstand maritime handling.</li>
+            <li>🌲 <strong>3. ISPM-15 Compliant Wooden Boxes:</strong> Treated using an approved method, such as heat treatment or methyl bromide fumigation, as specified by the applicable certificate. Heavy-duty timber crates are reinforced with steel strapping for maritime handling.</li>
           </ul>
           <button onClick={() => alert("Packaging specification guide downloaded.")} className="btn btn-outline">
             📄 Download Packaging Specs Guide (PDF)
@@ -267,4 +267,3 @@ export default function GlobalReachPage() {
     </main>
   );
 }
-
