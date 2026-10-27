@@ -17,24 +17,28 @@ export default function CatalogPage() {
           throw new Error("Catalog response was not a product list.");
         }
         setProducts(data.map((product) => {
-          const stockQuantity = Number(product.stock_quantity) || 0;
-          const stock = stockQuantity > 4
-            ? `In Stock (${stockQuantity} units)`
-            : stockQuantity > 0
-              ? `Low Stock (${stockQuantity} ${stockQuantity === 1 ? "unit" : "units"})`
-              : "Sourced to Order";
-          const stockType = stockQuantity > 4
+          const stockQuantity = Number(product.stock_quantity);
+          const hasStockQuantity = Number.isFinite(stockQuantity) && stockQuantity > 0;
+          const stock = product.stock_status?.trim() || (
+            hasStockQuantity
+              ? `${stockQuantity} ${stockQuantity === 1 ? "unit" : "units"} listed`
+              : "Availability on request"
+          );
+          const stockType = /in stock|available/i.test(stock)
             ? "in-stock"
-            : stockQuantity > 0
+            : /low stock/i.test(stock)
               ? "low-stock"
               : "order";
+          const price = product.price === null || product.price === undefined || product.price === ""
+            ? null
+            : Number(product.price);
 
           return {
             ...product,
             brand: product.brand || "",
             oem_no: product.oem_no || "",
             description: product.description || "",
-            price: Number(product.price) || 0,
+            price: Number.isFinite(price) ? price : null,
             stock,
             stockType,
           };
@@ -54,7 +58,7 @@ export default function CatalogPage() {
           <span className="eyebrow" style={{ color: "var(--primary)" }}>Warehouse Inventory</span>
           <h1 style={{ fontSize: "2rem", margin: 0 }}>Client Spare Parts Catalog</h1>
           <p style={{ color: "var(--text-muted)", margin: "4px 0 0" }}>
-            Add standard replacement compressor spares directly to your quotation cart.
+            Browse product details and request a quotation for compressor spares.
           </p>
         </div>
         <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber">
@@ -73,28 +77,37 @@ export default function CatalogPage() {
           <table className="quote-table" style={{ margin: 0 }}>
             <thead>
               <tr>
-                <th>Part Reference</th>
-                <th>Description</th>
+                <th>Part Number</th>
+                <th>Product Details</th>
                 <th>Brand</th>
-                <th>Base Rate</th>
-                <th>Warehouse Stock</th>
+                <th>Price</th>
+                <th>Availability</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {products.map((product) => (
                 <tr key={product.id}>
-                  <td><code>{product.oem_no || `EE-PART-${product.id}`}</code></td>
+                  <td><code>{product.part_number || product.oem_no || `EE-PART-${product.id}`}</code></td>
                   <td>
                     <strong>{product.name}</strong>
                     <div style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>{product.description}</div>
+                    <div style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
+                      {[product.series, product.category, product.compatible_models]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </div>
                   </td>
                   <td>
                     <span className="brand-badge-card" style={{ padding: "2px 8px", fontSize: "0.75rem" }}>
                       {product.brand || "—"}
                     </span>
                   </td>
-                  <td><strong>₹{product.price.toLocaleString()}</strong></td>
+                  <td>
+                    <strong>
+                      {product.price === null ? "Price on request" : `₹${product.price.toLocaleString()}`}
+                    </strong>
+                  </td>
                   <td><span className={`badge badge-${product.stockType}`}>{product.stock}</span></td>
                   <td style={{ textAlign: "center" }}>
                     <button
