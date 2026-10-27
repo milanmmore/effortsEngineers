@@ -20,6 +20,8 @@ export default function QuoteBuilderDrawer() {
 
   if (!isDrawerOpen) return null;
 
+  const hasUnpricedItems = items.some((item) => item.price === null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (items.length === 0) return alert("Please add at least one spare part to your quotation request.");
@@ -39,7 +41,9 @@ export default function QuoteBuilderDrawer() {
         phone: formData.phone,
         urgency: formData.urgency,
         notes: formData.notes,
-        estimated_total: `INR ₹${totalEstimated.toLocaleString("en-IN")}`,
+        estimated_total: hasUnpricedItems
+          ? "Pricing to be confirmed"
+          : `INR ₹${totalEstimated.toLocaleString("en-IN")}`,
         items_requested: items.map(it => `${it.name} (Qty: ${it.quantity}, Make: ${it.brand || 'OEM'})`).join("; "),
         submitted_at: new Date().toLocaleString(),
       },
@@ -108,7 +112,10 @@ export default function QuoteBuilderDrawer() {
               <p style={{ margin: "4px 0", fontSize: "0.85rem" }}><strong>Client:</strong> {submittedQuote.customer.name} ({submittedQuote.customer.company || "N/A"})</p>
               <p style={{ margin: "4px 0", fontSize: "0.85rem" }}><strong>Contact:</strong> {submittedQuote.customer.email || submittedQuote.customer.phone}</p>
               <p style={{ margin: "4px 0", fontSize: "0.85rem" }}><strong>Urgency:</strong> {submittedQuote.customer.urgency}</p>
-              <p style={{ margin: "4px 0", fontSize: "0.85rem" }}><strong>Est. Total:</strong> ₹{submittedQuote.total.toLocaleString()}</p>
+              <p style={{ margin: "4px 0", fontSize: "0.85rem" }}>
+                <strong>{submittedQuote.total > 0 ? "Listed-price subtotal:" : "Pricing:"}</strong>{" "}
+                {submittedQuote.total > 0 ? `₹${submittedQuote.total.toLocaleString()}` : "To be confirmed"}
+              </p>
             </div>
             <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
               <Link href="/client/quotation" className="btn btn-primary" onClick={() => setIsDrawerOpen(false)}>
@@ -142,7 +149,9 @@ export default function QuoteBuilderDrawer() {
                           <h4>{item.name}</h4>
                           <p>Ref: {item.oem_no}</p>
                           <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--navy)" }}>
-                            ₹{item.price.toLocaleString()} / unit
+                            {item.price === null
+                              ? "Price on request"
+                              : `₹${item.price.toLocaleString()} / unit`}
                           </span>
                         </div>
                         <div className="drawer-item-actions">
@@ -222,8 +231,12 @@ export default function QuoteBuilderDrawer() {
             {items.length > 0 && (
               <div className="drawer-footer">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Estimated Base Rate:</span>
-                  <strong style={{ fontSize: "1.25rem", color: "var(--navy)" }}>₹{totalEstimated.toLocaleString()}</strong>
+                  <span style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
+                    {hasUnpricedItems ? "Pricing:" : "Listed-price subtotal:"}
+                  </span>
+                  <strong style={{ fontSize: "1.25rem", color: "var(--navy)" }}>
+                    {hasUnpricedItems ? "Confirmed in quote" : `₹${totalEstimated.toLocaleString()}`}
+                  </strong>
                 </div>
                 <button
                   type="submit"
@@ -247,4 +260,3 @@ export default function QuoteBuilderDrawer() {
     </div>
   );
 }
-

@@ -29,11 +29,28 @@ export function QuoteProvider({ children }) {
   }, [items]);
 
   const addItem = (product) => {
+    const price = Number(product.price);
+    const listedPrice = product.price === null || product.price === undefined || product.price === ""
+      ? null
+      : Number.isFinite(price)
+        ? price
+        : null;
+
     setItems((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id
+            ? {
+                ...item,
+                name: product.name,
+                brand: product.brand || "Industrial Grade",
+                oem_no: product.part_number || product.oem_no || `EE-PART-${product.id}`,
+                price: listedPrice,
+                stock_status: product.stock_status || "Availability on request",
+                quantity: item.quantity + 1,
+              }
+            : item
         );
       }
       return [
@@ -42,10 +59,10 @@ export function QuoteProvider({ children }) {
           id: product.id,
           name: product.name,
           brand: product.brand || "Industrial Grade",
-          oem_no: product.oem_no || `EE-PART-${product.id}`,
-          price: Number(product.price) || 1200,
+          oem_no: product.part_number || product.oem_no || `EE-PART-${product.id}`,
+          price: listedPrice,
           quantity: 1,
-          stock_status: product.stock_status || "In Stock (Ready to Dispatch)",
+          stock_status: product.stock_status || "Availability on request",
         },
       ];
     });
@@ -96,4 +113,3 @@ export function QuoteProvider({ children }) {
     </QuoteContext.Provider>
   );
 }
-

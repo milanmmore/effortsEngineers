@@ -181,7 +181,7 @@ function ProductsContent() {
         <div style={{ textAlign: "center", padding: "60px 20px", background: "white", borderRadius: "12px", border: "1px solid var(--line)" }}>
           <h3>{products.length === 0 ? "No products are available yet." : "No matching spare parts found."}</h3>
           <p style={{ color: "var(--text-muted)", maxWidth: "500px", margin: "10px auto 20px" }}>
-            We stock over 10,000 components that may not all be listed online. Send your compressor drawing or sample reference for rapid sourcing.
+            Our team can source a wide range of components that may not all be listed online. Send your compressor drawing or sample reference for assistance.
           </p>
           <Link href="/contact" className="btn btn-primary">
             Submit Custom Part Requirement →

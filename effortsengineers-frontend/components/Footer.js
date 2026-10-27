@@ -51,7 +51,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Quick Links</h4>
             <ul>
-              <li><Link href="/products">Live Stock Catalog</Link></li>
+              <li><Link href="/products">Product Catalog</Link></li>
               <li><Link href="/services">Consultancy & Industrial Projects</Link></li>
               <li><Link href="/global-reach">Global Reach & Logistics</Link></li>
               <li><Link href="/global-reach#certificates">Downloadable Certificates</Link></li>
