@@ -15,8 +15,8 @@ const memoryInquiries = [
     model: "RC11",
     part_name: "Cylinder Liner & Piston Ring Set",
     quantity: 4,
-    urgency: "Immediate Breakdown (24h)",
-    message: "Urgent breakdown at Gujarat cold facility. Need ready stock dispatch.",
+    urgency: "Immediate breakdown — requested priority handling",
+    message: "Urgent breakdown at Gujarat cold facility. Please confirm availability and dispatch estimate.",
     status: "new",
     created_at: new Date(Date.now() - 3600000 * 4).toISOString(),
   },
@@ -109,4 +109,3 @@ export const listInquiries = asyncHandler(async (req, res) => {
   }
   res.json(memoryInquiries);
 });
-

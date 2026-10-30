@@ -12,7 +12,7 @@ const DEFAULT_ADMIN_QUOTES = [
     company: "Konkan Cold Storage Ltd",
     contact: "+91 98230 45671 (ramesh@konkancold.in)",
     brand: "Grasso",
-    urgency: "Immediate Breakdown (24h Express)",
+    urgency: "Immediate breakdown — requested priority handling",
     items: "Cylinder Liner - Grasso RC11 (4x), Piston Ring Sets (4x)",
     total: 42800,
     status: "pending",
@@ -26,7 +26,7 @@ const DEFAULT_ADMIN_QUOTES = [
     company: "Apex Agro Foods",
     contact: "+91 94220 11984 (s.verma@apexagro.in)",
     brand: "Bitzer",
-    urgency: "Urgent (48 hours)",
+    urgency: "Urgent — request expedited handling",
     items: "Valve Reed Plates - Bitzer 4N (6x), Head Gaskets (2x)",
     total: 14400,
     status: "pending",
@@ -239,7 +239,7 @@ export default function AdminQuotationsPage() {
                 Technical Remark / Discount Justification
                 <textarea
                   rows="2"
-                  placeholder="e.g. Applied 5% bulk discount. Priority air dispatch guaranteed within 24h."
+                  placeholder="e.g. Applied 5% bulk discount. Estimated dispatch subject to stock and carrier availability."
                   value={adminRemark}
                   onChange={(e) => setAdminRemark(e.target.value)}
                   style={{ padding: "10px 12px", border: "1px solid var(--line)", borderRadius: "6px", fontFamily: "inherit" }}
@@ -259,4 +259,3 @@ export default function AdminQuotationsPage() {
     </AdminLayout>
   );
 }
-

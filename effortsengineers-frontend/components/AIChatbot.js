@@ -55,7 +55,7 @@ export default function AIChatbot() {
           {
             sender: "ai",
             text: "Opening our **Quotation Builder** for you right away. You can select products from the catalog or submit custom compressor specifications!",
-            suggestions: ["Check Ready Stock", "Talk on WhatsApp", "ISO Certificates"],
+            suggestions: ["Ask About Availability", "Talk on WhatsApp", "Supplier Documents"],
           },
         ]);
         setIsTyping(false);
@@ -72,7 +72,7 @@ export default function AIChatbot() {
         {
           sender: "ai",
           text: replyData.reply,
-          suggestions: replyData.suggestions || ["Request Instant Quote", "Check Ready Stock", "WhatsApp Engineer"],
+          suggestions: replyData.suggestions || ["Request a Quote", "Ask About Availability", "WhatsApp Engineer"],
         },
       ]);
     } catch (err) {
@@ -88,9 +88,9 @@ export default function AIChatbot() {
       } else if (lower.includes("kirloskar")) {
         fallbackReply = `Here are Kirloskar compressor spares we supply:\n- Suction & Discharge Valve Assembly (Part #KIR-VAL-101)\n- Connecting Rod Assembly - KC6/KCX (Part #KIR-KC6-098)\n- Crankshaft Bush & Main Bearing Set (Part #KIR-KC-BRG10)\n\nWould you like a quotation?`;
       } else if (lower.includes("delivery") || lower.includes("stock") || lower.includes("dispatch")) {
-        fallbackReply = "Over **10,000+ line items** ready in Pune. Breakdown orders are dispatched within 24 hours via express courier/air cargo.";
+        fallbackReply = "Ask us to confirm current availability and dispatch options. Estimates depend on stock, order processing, carrier schedules, destination, and customs.";
       } else {
-        fallbackReply = "We stock replacement spares for **Kirloskar, Grasso, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, and Mycom** compressors with ready inventory in Pune. Express 24-48h dispatch available worldwide.";
+        fallbackReply = "We source replacement spares for **Kirloskar, Grasso, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, and Mycom** compressors. Contact us to confirm current availability, dispatch options, and delivery estimates for your destination.";
       }
 
       setMessages((prev) => [
@@ -98,7 +98,7 @@ export default function AIChatbot() {
         {
           sender: "ai",
           text: fallbackReply,
-          suggestions: ["Request Instant Quote", "Check Ready Stock", "WhatsApp Engineer"],
+          suggestions: ["Request a Quote", "Ask About Availability", "WhatsApp Engineer"],
         },
       ]);
     } finally {
@@ -195,4 +195,3 @@ export default function AIChatbot() {
     </>
   );
 }
-

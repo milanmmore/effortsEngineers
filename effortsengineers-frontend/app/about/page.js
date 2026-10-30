@@ -8,18 +8,18 @@ export default function AboutPage() {
   const timelineEvents = [
     {
       year: 1986,
-    title: "Founded in Pune, India",
+    title: "Established in Pune, India",
     description:
-      "Established in Pune as a specialized mechanical engineering workshop, focusing on servicing high-pressure industrial refrigeration compressors for Maharashtra's growing agro and dairy industries.",
-    highlight: "Our journey began with specialized refrigeration compressor servicing.",
+      "Efforts Engineers began operations in Pune, serving customers with industrial refrigeration compressor parts and related support.",
+    highlight: "Our journey began in Pune in 1986.",
   },
   {
     year: "2006–2007",
-    title: "Product Line Expansion (Kirloskar & Grasso)",
+    title: "Product Range Expansion (Kirloskar & Grasso)",
     description:
-      "Expanded our capabilities with standardized proprietary tooling for centrifugal casting of cylinder liners and forging of connecting rods compatible with Kirloskar KC and Grasso RC compressor families.",
+      "Expanded the range of Kirloskar KC and Grasso RC compatible compressor parts available through our sourcing network.",
     highlight:
-      "Expanded precision engineering capabilities for Kirloskar KC and Grasso RC compressor families.",
+      "Broadened sourcing support for Kirloskar KC and Grasso RC compressor families.",
   },
   {
     year: 2009,
@@ -33,17 +33,17 @@ export default function AboutPage() {
     year: 2019,
     title: "Scaling International Exports",
     description:
-      "Strengthened our global supply capabilities, exporting up to 20 full filter containers of refrigeration compressor spare parts, including ammonia valve components and related industrial spares.",
+      "Strengthened our global supply capabilities, supporting export and logistics coordination for refrigeration compressor spare parts across international customer requirements.",
     highlight:
-      "Exported up to 20 full filter containers of refrigeration compressor spare parts.",
+      "Supporting global export coordination for refrigeration compressor spare parts.",
   },
   {
     year: 2024,
     title: "Global Reach",
     description:
-      "Expanded our international presence, supplying industrial refrigeration spare parts and components to customers across 45+ countries worldwide.",
+      "Expanded our international presence, supplying industrial refrigeration spare parts and components to customers across 15+ export destinations worldwide.",
     highlight:
-      "Serving customers across 45+ countries worldwide.",
+      "Serving customers across 15+ export destinations worldwide.",
   },
   {
     year: 2026,
@@ -95,7 +95,7 @@ export default function AboutPage() {
         <span className="eyebrow">Engineering Precision Since 1986</span>
         <h1 className="section-title"><b>Company Story</b> & Industrial Heritage</h1>
         <p className="section-desc">
-          How Efforts Engineers transformed from a precision Pune workshop into a global benchmark for industrial compressor spare parts and turnkey overhaul engineering.
+          Since 1986, Efforts Engineers has sourced industrial compressor spare parts and coordinated engineering support for customers in India and across export destinations.
         </p>
         <div className="separator-line" />
       </div>
@@ -108,10 +108,10 @@ export default function AboutPage() {
             Precision Built Around Zero Industrial Downtime.
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.75, marginBottom: "16px" }}>
-            <strong>Efforts Engineers</strong> has supplied precision-engineered Ammonia Compressor Spare Parts suitable for <strong>Grasso, Kirloskar, and Sabroe Compressors</strong>, alongside critical accessories like <strong>Ammonia Valves and Expansion Valves</strong>, to esteemed industrial and government clients across India for over <strong>40 years</strong>, now exporting internationally.
+            Since <strong>1986</strong>, <strong>Efforts Engineers</strong> has supplied precision-engineered Ammonia Compressor Spare Parts suitable for <strong>Grasso, Kirloskar, and Sabroe Compressors</strong>, alongside critical accessories like <strong>Ammonia Valves and Expansion Valves</strong>, to industrial and government clients across India and selected export markets.
           </p>
           <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.75, marginBottom: "22px" }}>
-            Since 1986, <strong>M/s Efforts Engineers</strong> has steadily progressed from a trusted local supplier into an exporter of refrigeration compressor spares. Today, Efforts Engineers supplies a wide range of <strong>Air & Gas Compressor Spare Parts & Accessories</strong> from our manufacturing and warehousing facility in Pune, Maharashtra.
+            Since 1986, <strong>M/s Efforts Engineers</strong> has steadily progressed from a trusted local supplier into a sourcing partner for refrigeration compressor spares. Today, Efforts Engineers coordinates supply of <strong>Air & Gas Compressor Spare Parts & Accessories</strong> through its supplier network in Pune and beyond.
           </p>
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
             <Link href="/products" className="btn btn-primary">
@@ -133,13 +133,13 @@ export default function AboutPage() {
         <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", boxShadow: "var(--shadow-xl)" }}>
           <img
             src="/images/connecting-rods.jpg"
-            alt="Connecting rods manufacturing"
+            alt="Connecting rods for compressor applications"
             style={{ width: "100%", height: "420px", objectFit: "cover", display: "block" }}
           />
           <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(15,23,42,0.9), transparent)", padding: "25px", color: "white" }}>
-            <h4 style={{ color: "white", margin: "0 0 6px" }}>In-House Precision Inspection</h4>
+            <h4 style={{ color: "white", margin: "0 0 6px" }}>Inspection Documentation</h4>
             <p style={{ margin: 0, fontSize: "0.85rem", color: "#cbd5e1" }}>
-              Every single component is verified using digital CMM and dynamic balancing before dispatch.
+              Inspection and material documentation can be confirmed with our team for the specified part and order.
             </p>
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function AboutPage() {
       <section style={{ background: "white", borderRadius: "16px", border: "1px solid var(--line)", padding: "50px 30px", marginBottom: "70px", boxShadow: "var(--shadow-sm)" }}>
         <div className="section-header" style={{ marginBottom: "35px" }}>
           <span className="eyebrow">Our Milestones</span>
-          <h2 className="section-title"><b>Interactive Timeline:</b> 1986 to Present</h2>
+          <h2 className="section-title"><b>Interactive Timeline:</b> 1986 to 2026</h2>
           <p className="section-desc">
             Click on any milestone year below to explore key phases in our engineering evolution.
           </p>
@@ -240,28 +240,28 @@ export default function AboutPage() {
         <div>
           <span className="eyebrow" style={{ color: "#38bdf8" }}>Zero Defect Standard</span>
           <h2 style={{ color: "white", fontSize: "2rem", marginBottom: "16px" }}>
-            Precision Quality Assurance & Metallurgy Lab
+            Sourcing & Quality Coordination
           </h2>
           <p style={{ color: "#cbd5e1", lineHeight: 1.65, fontSize: "0.95rem", marginBottom: "20px" }}>
-            All replacement parts leaving our facility undergo rigorous non-destructive and dimensional testing against original OEM drawings. Our metrology room maintains controlled temperature and humidity for exact measurements.
+            We coordinate product requirements with suppliers and manufacturing partners. Applicable inspection, test reports, and material documentation depend on the part and are confirmed in the quotation.
           </p>
           <Link href="/warranty" className="btn btn-amber">
-            Read Our 1-Year Zero-Defect Policy →
+            Review Warranty Terms →
           </Link>
         </div>
 
         <div style={{ display: "grid", gap: "12px", fontSize: "0.9rem" }}>
           <div style={{ background: "rgba(255,255,255,0.08)", padding: "12px 18px", borderRadius: "8px" }}>
-            🔬 <strong>Spectroscopic Chemical Analysis:</strong> Ensures alloy composition matches OEM grades.
+            🔬 <strong>Material Documentation:</strong> Availability of material reports is confirmed per part and supplier.
           </div>
           <div style={{ background: "rgba(255,255,255,0.08)", padding: "12px 18px", borderRadius: "8px" }}>
-            📐 <strong>CMM Coordinate Measuring:</strong> Verifies bore concentricity, roundness, and perpendicularity within 3 microns.
+            📐 <strong>Dimensional Inspection:</strong> Inspection requirements and records are confirmed for the selected component.
           </div>
           <div style={{ background: "rgba(255,255,255,0.08)", padding: "12px 18px", borderRadius: "8px" }}>
-            ⚙️ <strong>Dynamic Balancing:</strong> Crankshafts & connecting rods balanced to prevent severe high-RPM vibration.
+            ⚙️ <strong>Partner Capabilities:</strong> Balancing and other specialist services can be discussed for specific requirements.
           </div>
           <div style={{ background: "rgba(255,255,255,0.08)", padding: "12px 18px", borderRadius: "8px" }}>
-            🛡️ <strong>Hydraulic Pressure Testing:</strong> Liners and cylinder heads tested at 1.5x working pressure for zero porosity.
+            🛡️ <strong>Test Documentation:</strong> Any applicable test results are subject to supplier capability and order terms.
           </div>
         </div>
       </section>

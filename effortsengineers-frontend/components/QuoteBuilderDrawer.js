@@ -4,6 +4,7 @@ import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
 import Link from "next/link";
 import { sendEmailNotification } from "@/lib/emailService";
+import CONTACT_CONFIG from "@/config/contactConfig";
 
 export default function QuoteBuilderDrawer() {
   const { items, removeItem, updateQuantity, clearQuote, isDrawerOpen, setIsDrawerOpen, totalEstimated } = useContext(QuoteContext);
@@ -12,7 +13,7 @@ export default function QuoteBuilderDrawer() {
     email: "",
     phone: "",
     company: "",
-    urgency: "Standard (2-3 days)",
+    urgency: "Standard — timing to be confirmed",
     notes: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,11 +29,10 @@ export default function QuoteBuilderDrawer() {
     setIsSubmitting(true);
     let quoteId = `EE-QT-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    // 1. Send direct email to milanmmore@gmail.com
     sendEmailNotification({
       subject: `📋 New Formal RFQ Quote Request: ${formData.company || formData.name} (${items.length} parts)`,
       from_name: formData.name,
-      reply_to: formData.email || "milanmmore@gmail.com",
+      reply_to: formData.email || CONTACT_CONFIG.primaryEmail,
       data: {
         quote_id: quoteId,
         customer_name: formData.name,
@@ -106,7 +106,7 @@ export default function QuoteBuilderDrawer() {
             <div style={{ fontSize: "3rem", color: "var(--accent-green)", marginBottom: "12px" }}>✓</div>
             <h3 style={{ marginBottom: "8px" }}>Quotation Generated!</h3>
             <p style={{ color: "var(--text-muted)", fontSize: "0.92rem", marginBottom: "20px" }}>
-              Quotation Ref: <strong>{submittedQuote.id}</strong> has been registered. Our technical engineering desk will review and dispatch official pricing within 2 hours.
+              Quotation Ref: <strong>{submittedQuote.id}</strong> has been registered. Our team will review your request and follow up; response timing depends on the inquiry and business hours.
             </p>
             <div style={{ background: "var(--bg-page)", padding: "16px", borderRadius: "8px", textAlign: "left", marginBottom: "24px" }}>
               <p style={{ margin: "4px 0", fontSize: "0.85rem" }}><strong>Client:</strong> {submittedQuote.customer.name} ({submittedQuote.customer.company || "N/A"})</p>
@@ -211,9 +211,9 @@ export default function QuoteBuilderDrawer() {
                       onChange={(e) => setFormData({ ...formData, urgency: e.target.value })}
                       style={{ padding: "9px 12px", border: "1px solid var(--line)", borderRadius: "4px", fontSize: "0.88rem", background: "white" }}
                     >
-                      <option value="Immediate Breakdown (24h Express)">🚨 Immediate Breakdown (24h Express Dispatch)</option>
-                      <option value="Urgent (48 hours)">⚡ Urgent (48 hours)</option>
-                      <option value="Standard (2-3 days)">📅 Standard (2-3 days)</option>
+                      <option value="Immediate breakdown — requested priority handling">🚨 Immediate breakdown — request priority handling</option>
+                      <option value="Urgent — request expedited handling">⚡ Urgent — request expedited handling</option>
+                      <option value="Standard — timing to be confirmed">📅 Standard — timing to be confirmed</option>
                       <option value="Scheduled Annual Overhaul">🛠 Scheduled Annual Overhaul</option>
                     </select>
                     <textarea

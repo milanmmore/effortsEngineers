@@ -16,17 +16,17 @@ export default function ProductSourcingPage() {
     {
       step: "02",
       title: "Engineering Verification",
-      desc: "Our Pune metrology team verifies dimensional limits, metallurgy, and compatibility with original OEM clearances.",
+      desc: "We review the supplied references and coordinate compatibility, dimensional, and material checks with the relevant supplier or manufacturing partner.",
     },
     {
       step: "03",
-      title: "Rapid Sourcing / CNC Fabrication",
-      desc: "We either dispatch directly from our 10,000+ ready stock inventory or manufacture the part in our CNC turn-mill center within 3-5 days.",
+      title: "Sourcing / Partner Manufacturing",
+      desc: "We check availability with our supplier network or coordinate manufacturing through a suitable partner. Lead time is confirmed in the quotation.",
     },
     {
       step: "04",
       title: "Expedited Global Delivery",
-      desc: "Receive the certified component with MTC 3.1 chemical/mechanical test reports and a full 1-Year Zero-Defect Warranty.",
+      desc: "Inspection reports, material certificates, packaging, and any applicable warranty are confirmed per part and stated in the accepted quotation.",
     },
   ];
 
@@ -34,21 +34,21 @@ export default function ProductSourcingPage() {
     <main className="section-shell">
       <div className="section-header">
         <span className="eyebrow">Custom Parts & Hard-To-Find Spares</span>
-        <h1 className="section-title"><b>Specialized Product</b> Sourcing & Fabrication</h1>
+        <h1 className="section-title"><b>Specialized Product</b> Sourcing & Partner Services</h1>
         <p className="section-desc">
-          Can&apos;t find the exact compressor replacement part? Our Pune engineering wing sources and fabricates hard-to-find and discontinued spares for industrial plants worldwide.
+          Can&apos;t find the exact compressor replacement part? We can help source hard-to-find and discontinued spares and coordinate manufacturing through suitable partners.
         </p>
         <div className="separator-line" />
       </div>
 
       <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "50px", alignItems: "center", marginBottom: "70px" }}>
         <div>
-          <span className="eyebrow" style={{ color: "var(--primary)" }}>End-to-End Sourcing Network</span>
+          <span className="eyebrow" style={{ color: "var(--primary)" }}>Supplier & Manufacturing Partner Network</span>
           <h2 style={{ fontSize: "2rem", lineHeight: 1.2, marginBottom: "18px" }}>
             The Part You Need Is Just One Conversation Away.
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "1rem", lineHeight: 1.7, marginBottom: "16px" }}>
-            Over decades of operation, many older refrigeration and air compressors lose OEM spare support. Efforts Engineers bridges this gap. We procure and manufacture precision replacements to exact running clearances.
+            Over decades of operation, many older refrigeration and air compressors lose OEM spare support. Efforts Engineers bridges this gap by sourcing suitable replacements and coordinating partner manufacturing when required.
           </p>
           <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginTop: "25px" }}>
             <Link href="/contact" className="btn btn-primary">

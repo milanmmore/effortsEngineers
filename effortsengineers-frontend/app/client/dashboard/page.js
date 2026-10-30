@@ -66,13 +66,13 @@ export default function ClientDashboard() {
         <div style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--line)" }}>
           <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Warranty Covered Items</span>
           <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "var(--navy)", marginTop: "6px" }}>12</div>
-          <span style={{ fontSize: "0.78rem", color: "#065f46", fontWeight: 600 }}>100% Zero-Defect Protected</span>
+          <span style={{ fontSize: "0.78rem", color: "#065f46", fontWeight: 600 }}>Per applicable order warranty terms</span>
         </div>
 
         <div style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--line)" }}>
-          <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Express Delivery Tier</span>
-          <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "var(--primary)", marginTop: "6px" }}>Priority</div>
-          <span style={{ fontSize: "0.78rem", color: "var(--text-muted)", fontWeight: 600 }}>Same-Day Dispatch Eligible</span>
+          <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Dispatch Priority</span>
+          <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "var(--primary)", marginTop: "6px" }}>To Be Confirmed</div>
+          <span style={{ fontSize: "0.78rem", color: "var(--text-muted)", fontWeight: 600 }}>Timing confirmed per order</span>
         </div>
       </div>
 

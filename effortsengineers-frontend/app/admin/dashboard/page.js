@@ -119,7 +119,7 @@ export default function AdminDashboard() {
           </p>
         </div>
         <Link href="/admin/inventory" className="btn btn-primary" style={{ background: "#e11d48", borderColor: "#be123c", fontSize: "0.82rem", padding: "8px 16px" }}>
-          Reorder CNC Batch →
+          Review Reorder Items →
         </Link>
       </div>
 

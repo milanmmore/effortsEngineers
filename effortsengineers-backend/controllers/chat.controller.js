@@ -5,27 +5,27 @@ import asyncHandler from "../utils/asyncHandler.js";
 const COMPRESSOR_KNOWLEDGE = [
   {
     keywords: ["grasso", "rc9", "rc11", "rc12"],
-    response: "We stock ready spares for **Grasso RC9, RC11, and RC12** compressors. Components include precision honed cylinder liners, alloy cast pistons, PTFE & cast iron piston ring sets, suction/discharge valve plates, and complete overhaul gasket kits. Ready for express dispatch within 24-48 hours.",
+    response: "We can help source spares for **Grasso RC9, RC11, and RC12** compressors, including cylinder liners, pistons, piston ring sets, valve plates, and overhaul gasket kits. Please share the part reference so we can confirm compatibility, availability, pricing, and an estimated dispatch time.",
   },
   {
     keywords: ["bitzer", "4n", "4p", "4t", "6f", "4g", "6g"],
-    response: "Full range available for **Bitzer reciprocating compressors (4N, 4P, 4T, 6F, 4G, 6G)**. We supply connecting rods with pre-fitted bushes, high-grade valve reed plates, crankshaft assemblies, and cylinder head gaskets. All manufactured to tight OEM tolerances with 1-year replacement warranty.",
+    response: "We can help source parts for **Bitzer reciprocating compressors (4N, 4P, 4T, 6F, 4G, 6G)**, including connecting rods, valve reed plates, crankshaft assemblies, and cylinder head gaskets. Compatibility, availability, specifications, and any warranty terms are confirmed for the specific part and order.",
   },
   {
     keywords: ["kirloskar", "kc", "kcx", "bt", "tc"],
-    response: "As a Pune-based engineering firm, we maintain deep ready inventory for **Kirloskar KC, KCX, BT, and TC series** ammonia/freon compressors. In stock: cylinder liners, piston pins, crankshaft bushes, mechanical shaft seals, and valve assemblies with instant local & export dispatch.",
+    response: "We help source parts for **Kirloskar KC, KCX, BT, and TC series** ammonia/freon compressors, including cylinder liners, piston pins, crankshaft bushes, mechanical shaft seals, and valve assemblies. Please ask us to confirm current availability and dispatch estimates for your requirement.",
   },
   {
     keywords: ["carrier", "5f", "5h", "06d", "06e"],
-    response: "For **Carrier 5F and 5H series** industrial refrigeration & marine HVAC compressors, we offer connecting rod bearings, cylinder sleeves, oil pump gears, unloader piston assemblies, and valve plates with Class-standard metallurgical test certificates.",
+    response: "We can help source connecting rod bearings, cylinder sleeves, oil pump gears, unloader piston assemblies, and valve plates for **Carrier 5F and 5H series** compressors. Any inspection or material documentation depends on the supplier and must be confirmed for the order.",
   },
   {
     keywords: ["sabroe", "cmo", "cmo14", "cmo28", "smc"],
-    response: "We supply zero-defect replacement spares for **Sabroe CMO (14, 16, 18, 24, 26, 28) and SMC (65, 100, 180)** series: hardened crankshafts, precision machined piston assemblies, and discharge valve spring packs.",
+    response: "We can help source replacement spares for **Sabroe CMO (14, 16, 18, 24, 26, 28) and SMC (65, 100, 180)** series, including crankshafts, piston assemblies, and discharge valve spring packs. Specifications and availability are confirmed per requirement.",
   },
   {
     keywords: ["stock", "availability", "dispatch", "delivery", "urgent", "lead time"],
-    response: "Over **10,000+ line items** are held in ready stock at our Pune central warehouse. Critical breakdown orders are dispatched within **24 hours via express air cargo / courier** across India and to 45+ export destinations worldwide.",
+    response: "Availability and dispatch estimates depend on the part, confirmed stock, order processing, carrier schedules, destination, and customs clearance. Share the part number, quantity, and destination so we can check the current options.",
   },
   {
     keywords: ["quote", "quotation", "price", "rate", "cost", "rfq"],
@@ -33,7 +33,7 @@ const COMPRESSOR_KNOWLEDGE = [
   },
   {
     keywords: ["warranty", "guarantee", "quality", "iso", "certificate", "defect"],
-    response: "All Efforts Engineers spares are backed by our **1-Year Zero-Defect Replacement Warranty** and manufactured under Associated with Manufacturers with ISO 9001 Certification quality standards. Every batch comes with dimensional inspection reports and 100% material traceability.",
+    response: "Warranty coverage, period, eligibility, and remedies vary by product and apply only as stated in the accepted quotation or order documents. Inspection, material, and traceability records depend on the supplier and product; please ask us to confirm what is available. Any supplier certification applies to the named supplier, not Efforts Engineers.",
   },
   {
     keywords: ["high discharge temperature", "discharge temp", "overheating"],
@@ -41,7 +41,7 @@ const COMPRESSOR_KNOWLEDGE = [
   },
   {
     keywords: ["low oil pressure", "oil pressure", "lube"],
-    response: "Low oil pressure in reciprocating compressors is commonly linked to worn crankshaft journal bushes, worn oil pump gears, clogged suction strainer, or refrigerant foaming in the oil sump. We keep replacement oil pumps and bearing sets in ready stock.",
+    response: "Low oil pressure in reciprocating compressors can be linked to worn crankshaft journal bushes, worn oil pump gears, a clogged suction strainer, or refrigerant foaming in the oil sump. Ask us to confirm sourcing options for replacement oil pumps and bearing sets.",
   },
 ];
 
@@ -167,12 +167,11 @@ export const processChatMessage = asyncHandler(async (req, res) => {
     reply: matchedResponse,
     timestamp: new Date().toISOString(),
     suggestions: [
-      "Check Grasso RC11 Spares",
-      "Bitzer 4N / 6F Availability",
-      "Kirloskar Spares Stock",
-      "Request Instant Quotation",
+      "Ask About Grasso RC11 Spares",
+      "Ask About Bitzer 4N / 6F Availability",
+      "Ask About Kirloskar Spares",
+      "Request a Quotation",
       "Talk to Engineer on WhatsApp",
     ],
   });
 });
-

@@ -109,8 +109,8 @@ JWT_SECRET=supersecretkey123_effortsengineers_2026
    - `Global Reach` (`/global-reach`)
    - `Company & Support ▾` (`/about`, `/warranty`, `/contact`)
    - Plus action triggers: `Quote Builder` drawer & `Portal Login`.
-2. **Live Stock Catalog (`app/products/page.js`):**
-   - Real-time stock status pills: `🟢 In Stock (24-48h Dispatch)`, `🟡 Low Stock`, `🔵 Sourced to Order`.
+2. **Product Availability Catalog (`app/products/page.js`):**
+   - Catalog availability status pills; dispatch timing is confirmed per order.
    - Multi-criteria filtering by Brand (Grasso, Bitzer, Kirloskar, Carrier, Sabroe, Bock, Daikin) and Category.
    - Wrapped in `<Suspense>` boundary to guarantee zero CSR bailout during static prerendering.
 3. **Automated Quotation Builder Drawer (`components/QuoteBuilderDrawer.js`):**

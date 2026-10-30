@@ -16,10 +16,10 @@ export default function Footer() {
             </p>
             <div style={{ marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #334155" }}>
-                Associated with Manufacturers with ISO 9001 Certification Certified
+                Supplier documentation available on request
               </span>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#34d399", border: "1px solid #334155" }}>
-                1-Year Zero-Defect Guarantee
+                Warranty terms as stated in the accepted quotation
               </span>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default function Footer() {
               <li><Link href="/services">Consultancy & Industrial Projects</Link></li>
               <li><Link href="/global-reach">Global Reach & Logistics</Link></li>
               <li><Link href="/global-reach#certificates">Downloadable Certificates</Link></li>
-              <li><Link href="/warranty">1-Year Warranty & RMA Claim</Link></li>
+              <li><Link href="/warranty">Warranty Terms & Support</Link></li>
               <li><Link href="/about">Company Story & Timeline</Link></li>
               <li><Link href="/client/dashboard">Customer Portal & Order Tracking</Link></li>
               <li><Link href="/contact">Inquiry & RFQ Desk</Link></li>
@@ -67,15 +67,15 @@ export default function Footer() {
             <h4>Headquarters & Plant</h4>
             <p style={{ marginBottom: "12px" }}>
               📍 <strong>Corporate Office:</strong><br />
-              Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra – 411016
+              {CONTACT_CONFIG.address}
 
             </p>
             <p style={{ marginBottom: "12px" }}>
               🏭 <strong>Assembly & Workshop:</strong><br />
-              Shop No. 11, Shirole Park,Senapati Bapat Rd, Shivajinagar, Pune – 411016
+              {CONTACT_CONFIG.workshopAddress}
             </p>
             <p style={{ margin: "4px 0" }}>
-              📞 <strong>Tel:</strong> <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.phone}</a>
+              📞 <strong>Phone / WhatsApp:</strong> <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.phone}</a>
             </p>
             <p style={{ margin: "4px 0" }}>
               ✉️ <strong>Email:</strong> <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.primaryEmail}</a>

@@ -12,14 +12,13 @@ const { Pool } = pkg;
 
 const databaseUrl = process.env.DATABASE_URL;
 const isProduction = process.env.NODE_ENV === "production";
-
-if (isProduction && !databaseUrl) {
-  throw new Error("DATABASE_URL must be configured for the production backend.");
-}
-
-if (databaseUrl && !/^postgres(?:ql)?:\/\//i.test(databaseUrl)) {
-  throw new Error("DATABASE_URL must be a PostgreSQL connection URL.");
-}
+const isValidDatabaseUrl =
+  !databaseUrl || /^postgres(?:ql)?:\/\//i.test(databaseUrl);
+const databaseConfigurationError = !isValidDatabaseUrl
+  ? "DATABASE_URL must be a PostgreSQL connection URL."
+  : isProduction && !databaseUrl
+    ? "DATABASE_URL must be configured for the production backend."
+    : null;
 
 const isLocalUrl =
   !databaseUrl ||
@@ -30,18 +29,20 @@ const isLocalUrl =
 const useSsl = !isLocalUrl && process.env.DB_SSL !== "false";
 
 const pool = new Pool(
-  databaseUrl && !isLocalUrl
+  databaseUrl && !isLocalUrl && isValidDatabaseUrl
     ? {
         connectionString: databaseUrl,
         ssl: useSsl ? { rejectUnauthorized: false } : false,
       }
-    : {
-        host: process.env.DB_HOST || "localhost",
-        port: Number(process.env.DB_PORT) || 5433,
-        user: process.env.DB_USER || "postgres",
-        password: String(process.env.DB_PASSWORD ?? ""),
-        database: process.env.DB_NAME || "effortsengineers",
-      }
+    : isProduction
+      ? {}
+      : {
+          host: process.env.DB_HOST || "localhost",
+          port: Number(process.env.DB_PORT) || 5433,
+          user: process.env.DB_USER || "postgres",
+          password: String(process.env.DB_PASSWORD ?? ""),
+          database: process.env.DB_NAME || "effortsengineers",
+        }
 );
 
 if (!isProduction) {
@@ -51,6 +52,10 @@ if (!isProduction) {
     user: process.env.DB_USER,
     database: process.env.DB_NAME,
   });
+}
+
+if (databaseConfigurationError) {
+  console.error(databaseConfigurationError);
 }
 
 pool.on("error", (err) => {
@@ -64,7 +69,17 @@ pool.on("error", (err) => {
 
 // Default export so controllers can `import db from "../config/db.js"`
 export default {
-  query: (text, params) => pool.query(text, params),
-  getClient: () => pool.connect(),
+  query: (text, params) => {
+    if (databaseConfigurationError) {
+      return Promise.reject(new Error(databaseConfigurationError));
+    }
+    return pool.query(text, params);
+  },
+  getClient: () => {
+    if (databaseConfigurationError) {
+      return Promise.reject(new Error(databaseConfigurationError));
+    }
+    return pool.connect();
+  },
   pool,
 };

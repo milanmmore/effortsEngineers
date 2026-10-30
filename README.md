@@ -2,23 +2,22 @@
 
 [![Backend Test Suite](https://img.shields.io/badge/Backend%20Tests-19%20Passed%20(100%25)-success?style=flat-square&logo=jest)](docs/TEST_CASES.md)
 [![Frontend Prerender](https://img.shields.io/badge/Next.js%2016-21%20Pages%20Prerendered-blue?style=flat-square&logo=next.js)](effortsengineers-frontend)
-[![Quality Standard](https://img.shields.io/badge/Quality-ISO%209001%3A2015-orange?style=flat-square)](app/global-reach)
 [![Node.js Version](https://img.shields.io/badge/Node.js-%3E%3D20.0.0-green?style=flat-square&logo=node.js)](package.json)
 
 ---
 
 ## 📌 Executive Overview
 
-**Efforts Engineers** (Pune, India) is an established precision engineering manufacturer and exporter specializing in replacement spare parts and overhaul services for industrial refrigeration, air, and gas compressors.
+**Efforts Engineers** (Pune, India) is an established supplier and sourcing partner for replacement spare parts and coordinated overhaul services for industrial refrigeration, air, and gas compressors.
 
-For over 40 years, Efforts Engineers has supplied high-integrity spares suitable for **Grasso, Kirloskar, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, Mycom, and York** compressors to cold storage operators, marine fleets, and petrochemical plants across India and 45+ export nations.
+Since 1986, Efforts Engineers has supplied high-integrity spares suitable for **Grasso, Kirloskar, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, Mycom, and York** compressors to cold storage operators, marine fleets, and petrochemical plants across India and 15+ export nations.
 
 This modernized platform delivers:
-- **Real-Time Live Stock Visibility:** Rapid stock lookups with transparent availability tiers (*In Stock 24-48h Dispatch*, *Low Stock*, *Sourced to Order*).
+- **Product Catalog:** Browse listed compressor spares and request confirmation of current availability, pricing, and dispatch estimates.
 - **Automated Quotation Builder:** Reactive slide-out RFQ cart calculating line items, subtotals, and commercial specifications.
 - **Client & Admin Portals:** Self-service tracking, formal printable quotations (with letterhead, GSTIN, IEC, and HSN codes), and AI-driven inventory forecasting.
-- **Global Compliance Hub:** One-click downloads for Associated with Manufacturers with ISO 9001 Certification, Material Test Reports (MTR 3.1), and Zero-Defect declarations.
-- **24/7 Technical Assistance:** AI Chatbot domain assistant and instant WhatsApp escalation desk.
+- **Supplier Documentation:** Quality-system documents and material or inspection records can be requested; availability varies by supplier, product, and order.
+- **Technical Assistance:** AI chatbot and WhatsApp contact options.
 
 ---
 
@@ -51,7 +50,7 @@ EffortsEngineers/
 │   │   ├── client/                  # Client portal (dashboard, orders, quotation sheet)
 │   │   ├── admin/                   # Admin portal (inventory, orders, forecasting)
 │   │   ├── products/                # Catalog with Suspense-wrapped search
-│   │   ├── global-reach/            # Export corridors & certificate download hub
+│   │   ├── global-reach/            # Export corridors & supplier documentation
 │   │   └── globals.css              # Industrial technical design system & responsive rules
 │   ├── components/                  # Navbar (4-menu architecture), QuoteDrawer, AIChatbot
 │   ├── context/                     # AuthContext & QuoteContext state providers

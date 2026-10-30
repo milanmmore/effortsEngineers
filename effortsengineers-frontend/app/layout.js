@@ -9,7 +9,15 @@ import './globals.css';
 
 export const metadata = {
   title: 'Efforts Engineers | Industrial Compressor Spares & Engineering Overhaul',
-  description: 'Precision replacement spare parts for Grasso, Bitzer, Kirloskar, Carrier, Sabroe, Bock, and Daikin compressors. Ready stock, 24h express dispatch, 1-year warranty.',
+  description: 'Sourcing replacement spare parts for Grasso, Bitzer, Kirloskar, Carrier, Sabroe, Bock, and Daikin compressors. Availability, dispatch estimates, and warranty terms are confirmed per order.',
+  metadataBase: new URL('https://effortsengineers.in'),
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({ children }) {
