@@ -38,7 +38,10 @@ app.get("/api/health", async (req, res) => {
     await db.query("SELECT 1");
     res.json({ status: "ok", db: "connected" });
   } catch (err) {
-    console.error("Health check failed:", err.message);
+    console.error("Health check failed:", {
+      code: err.code,
+      message: err.message,
+    });
     res.status(500).json({ status: "error", db: "disconnected" });
   }
 });
