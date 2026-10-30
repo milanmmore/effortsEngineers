@@ -51,8 +51,8 @@ export default function Navbar() {
       <div className="top-announcement-bar">
         <div className="announcement-inner">
           <div className="announcement-left">
-            <span className="announcement-badge">Express Dispatch</span>
-            <span>⚡ Ready Stock 24-48h Delivery Across India & 15+ Export Countries </span>
+            <span className="announcement-badge">Dispatch Estimates</span>
+            <span>⚡ Ask About Availability & Dispatch Estimates Across India & 15+ Export Destinations </span>
           </div>
           <div className="announcement-right">
             <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>📞 {CONTACT_CONFIG.phone}</a>

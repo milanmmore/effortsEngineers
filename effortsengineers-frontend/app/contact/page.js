@@ -16,7 +16,7 @@ export default function ContactPage() {
     model: "",
     part_name: "",
     quantity: 1,
-    urgency: "Immediate Breakdown (24h Express)",
+    urgency: "Immediate breakdown — requested priority handling",
     message: "",
   });
 
@@ -29,11 +29,10 @@ export default function ContactPage() {
     setIsSubmitting(true);
     const autoRfq = `EE-RFQ-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    // 1. Send direct email to milanmmore@gmail.com
     sendEmailNotification({
       subject: `📩 Technical RFQ Inquiry: ${formData.brand} - ${formData.part_name || formData.model}`,
       from_name: formData.name,
-      reply_to: formData.email || "milanmmore@gmail.com",
+      reply_to: formData.email || CONTACT_CONFIG.primaryEmail,
       data: {
         rfq_number: autoRfq,
         customer_name: formData.name,
@@ -80,7 +79,7 @@ export default function ContactPage() {
         <div style={{ background: "white", borderRadius: "16px", border: "1px solid var(--line)", padding: "40px", boxShadow: "var(--shadow-sm)" }}>
           <h2 style={{ fontSize: "1.6rem", marginBottom: "8px" }}>Send a Technical Requirement / RFQ</h2>
           <p style={{ color: "var(--text-muted)", fontSize: "0.92rem", marginBottom: "25px" }}>
-            Fill out the details below. For urgent breakdown inquiries, our team responds within 2-4 hours with price and stock status.
+            Fill out the details below. For urgent breakdown inquiries, our team aims to respond within 2 hours during business hours with price and stock status.
           </p>
 
           {submitted ? (
@@ -103,7 +102,7 @@ export default function ContactPage() {
                     model: "",
                     part_name: "",
                     quantity: 1,
-                    urgency: "Immediate Breakdown (24h Express)",
+                    urgency: "Immediate breakdown — requested priority handling",
                     message: "",
                   });
                 }}
@@ -233,9 +232,9 @@ export default function ContactPage() {
                   onChange={(e) => setFormData({ ...formData, urgency: e.target.value })}
                   style={{ padding: "11px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.9rem", background: "white" }}
                 >
-                  <option value="Immediate Breakdown (24h Express)">🚨 Immediate Plant Breakdown (24h Same-Day Express Dispatch)</option>
-                  <option value="Urgent (48 hours)">⚡ Urgent (48 hours)</option>
-                  <option value="Standard (3-5 days)">📅 Standard (3-5 days)</option>
+                  <option value="Immediate breakdown — requested priority handling">🚨 Immediate breakdown — request priority dispatch (subject to confirmation)</option>
+                  <option value="Urgent — request expedited handling">⚡ Urgent — request expedited handling</option>
+                  <option value="Standard — timing to be confirmed">📅 Standard — timing to be confirmed</option>
                   <option value="Scheduled Annual Overhaul">🛠 Scheduled Annual Overhaul / Annual Rate Contract</option>
                 </select>
               </label>
@@ -280,7 +279,7 @@ export default function ContactPage() {
               Need an instant answer on stock availability or part interchangeability? Chat directly with our technical team on WhatsApp.
             </p>
             <a
-              href="https://wa.me/919096001010?text=Hello%20Efforts%20Engineers,%20I%20have%20an%20urgent%20compressor%20spare%20part%20requirement."
+              href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}?text=Hello%20Efforts%20Engineers,%20I%20have%20an%20urgent%20compressor%20spare%20part%20requirement.`}
               target="_blank"
               rel="noreferrer"
               className="btn btn-primary"
@@ -320,13 +319,13 @@ export default function ContactPage() {
               <div>
                 <strong style={{ color: "var(--navy)" }}>📍 Corporate Headquarters:</strong>
                 <p style={{ margin: "4px 0 0", color: "var(--text-muted)" }}>
-                  Efforts Engineers, Erandwane, Pune - 411004, Maharashtra, India.
+                  {CONTACT_CONFIG.address}
                 </p>
               </div>
               <div>
                 <strong style={{ color: "var(--navy)" }}>🏭 Manufacturing & Overhaul Plant:</strong>
                 <p style={{ margin: "4px 0 0", color: "var(--text-muted)" }}>
-                  Plot 48, MIDC Industrial Area, Bhosari, Pune - 411026.
+                  {CONTACT_CONFIG.workshopAddress}
                 </p>
               </div>
               <div>
@@ -338,7 +337,7 @@ export default function ContactPage() {
                   Phone: <a href="tel:+912025678102" style={{ color: "var(--primary)", fontWeight: 700 }}>+91-20-25678102</a>
                   {" / "}
                   <a href="tel:+912025678972" style={{ color: "var(--primary)", fontWeight: 700 }}>+91-20-25678972</a><br />
-                  Breakdown Hotline: <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} style={{ color: "var(--primary)", fontWeight: 700 }}>{CONTACT_CONFIG.whatsapp}</a>
+                  Phone / WhatsApp: <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} style={{ color: "var(--primary)", fontWeight: 700 }}>{CONTACT_CONFIG.whatsapp}</a>
                 </p>
               </div>
               <div>
@@ -348,8 +347,8 @@ export default function ContactPage() {
                     {CONTACT_CONFIG.primaryEmail}
                   </a>
                   <span style={{ margin: "0 8px", color: "var(--text-muted)" }}>|</span>
-                  <a href="mailto:saurabh@effortsengineers.in" style={{ color: "var(--primary)", fontWeight: 700 }}>
-                    saurabh@effortsengineers.in
+                  <a href={`mailto:${CONTACT_CONFIG.secondaryEmail}`} style={{ color: "var(--primary)", fontWeight: 700 }}>
+                    {CONTACT_CONFIG.secondaryEmail}
                   </a>
                 </p>
               </div>

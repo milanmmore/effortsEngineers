@@ -5,6 +5,7 @@ import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
 import { sendEmailNotification } from "@/lib/emailService";
 import brandRanges from "@/config/brandRanges";
+import CONTACT_CONFIG from "@/config/contactConfig";
 
 export default function HomePage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
@@ -14,7 +15,7 @@ export default function HomePage() {
   const [rfqContact, setRfqContact] = useState("");
   const [rfqBrand, setRfqBrand] = useState("Grasso");
   const [rfqPart, setRfqPart] = useState("");
-  const [rfqUrgency, setRfqUrgency] = useState("Immediate Breakdown (24h)");
+  const [rfqUrgency, setRfqUrgency] = useState("Breakdown — priority requested");
   const [rfqSubmitted, setRfqSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedRfqId, setSubmittedRfqId] = useState("");
@@ -25,11 +26,10 @@ export default function HomePage() {
     const isEmail = rfqContact.includes("@");
     const autoRfqId = `EE-RFQ-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    // 1. Send direct email to milanmmore@gmail.com
     sendEmailNotification({
       subject: `🚨 Urgent RFQ: ${rfqBrand} - ${rfqPart} (${rfqUrgency})`,
       from_name: rfqName || "Website Visitor",
-      reply_to: isEmail ? rfqContact : "milanmmore@gmail.com",
+      reply_to: isEmail ? rfqContact : CONTACT_CONFIG.primaryEmail,
       data: {
         rfq_id: autoRfqId,
         customer_or_plant_name: rfqName,
@@ -71,13 +71,13 @@ export default function HomePage() {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> Associated Manufacturers with ISO 9001-Standardized Quality Systems • Engineering Since 1986 • 15+ Export Countries
+              <span>★</span> Supplier Network • Serving Customers Since 1986 • 15+ Export Destinations
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>
             </h1>
             <p className="hero-subtitle">
-              OEM-standard replacement spare parts, precision overhaul services, and 24-48h ready stock delivery for industrial refrigeration, cold chain, marine HVAC, and process gas compressors.
+              Replacement spare parts and coordinated overhaul services for industrial refrigeration, cold chain, marine HVAC, and process gas compressors. Availability and dispatch estimates are confirmed per order.
             </p>
             <div className="hero-cta-row">
               <Link href="/products" className="btn btn-primary hero-btn">
@@ -101,20 +101,20 @@ export default function HomePage() {
             {/* Stats Counter Strip */}
             <dl className="hero-stats-strip">
               <div className="hero-stat-item">
-                <dt>10,000+</dt>
-                <dd>Ready Stock Spares</dd>
+                <dt>Since 1986</dt>
+                <dd>Compressor Spares Sourcing</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>45+</dt>
+                <dt>15+</dt>
                 <dd>Export Destinations</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>24-48h</dt>
-                <dd>Express Dispatch</dd>
+                <dt>By Order</dt>
+                <dd>Dispatch Estimate</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>1 Year</dt>
-                <dd>Zero-Defect Guarantee</dd>
+                <dt>Warranty</dt>
+                <dd>Terms Per Quotation</dd>
               </div>
             </dl>
           </div>
@@ -124,7 +124,7 @@ export default function HomePage() {
             <div className="rfq-card-header">
               <span className="eyebrow" style={{ color: "var(--primary)" }}>Fast Breakdown Assistance</span>
               <h3>Get Rapid Spares Quotation</h3>
-              <p>Share your compressor details for pricing and ready stock status within 2 hours.</p>
+              <p>Share your compressor details and our team will review pricing and availability. Response timing depends on inquiry details and business hours.</p>
             </div>
 
             {rfqSubmitted ? (
@@ -137,7 +137,7 @@ export default function HomePage() {
                   </div>
                 )}
                 <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
-                  Our sales engineer is checking live stock for <strong>{rfqBrand}</strong> spares. We will contact you at <strong>{rfqContact}</strong> immediately.
+                  Our team will review availability for <strong>{rfqBrand}</strong> spares and follow up at <strong>{rfqContact}</strong>.
                 </p>
                 <button className="btn btn-outline" onClick={() => setRfqSubmitted(false)} style={{ marginTop: "10px" }}>
                   Submit Another Part
@@ -182,8 +182,8 @@ export default function HomePage() {
                   <label>
                     Urgency Level
                     <select value={rfqUrgency} onChange={(e) => setRfqUrgency(e.target.value)}>
-                      <option value="Immediate Breakdown (24h)">🚨 Breakdown (24h)</option>
-                      <option value="Urgent (48h)">⚡ Urgent (48h)</option>
+                      <option value="Breakdown — priority requested">🚨 Breakdown — request priority handling</option>
+                      <option value="Urgent — expedited handling requested">⚡ Urgent — request expedited handling</option>
                       <option value="Planned Maintenance">📅 Planned Overhaul</option>
                     </select>
                   </label>
@@ -223,7 +223,7 @@ export default function HomePage() {
         <div className="section-header">
           <h2 className="section-title"><b>Why Choose</b> Efforts Engineers?</h2>
           <p className="section-desc">
-            Combining four decades of metallurgic expertise with modern CNC machining and express logistics to help reduce industrial plant downtime.
+            Since 1986, our compressor-spares sourcing experience and logistics coordination have helped customers address industrial plant requirements.
           </p>
           <div className="separator-line" />
         </div>
@@ -233,23 +233,23 @@ export default function HomePage() {
             <div className="why-icon-box">💰</div>
             <h4>Economical & Direct</h4>
             <p>
-              Direct-from-manufacturer pricing without middleman margins. High-grade replacement spares engineered to OEM tolerances at up to 40% cost savings.
+              We source replacement spares through our supplier network. Pricing and any cost savings depend on the part specification, availability, and quotation.
             </p>
           </div>
 
           <div className="why-card">
             <div className="why-icon-box">⚡</div>
-            <h4>Ready Stock & Express Delivery</h4>
+            <h4>Availability & Dispatch Estimates</h4>
             <p>
-              Over 10,000+ line items ready in our Pune hub. Same-day dispatch with 24-hour delivery for critical plant breakdown emergencies across India & worldwide.
+              Ask us to confirm current availability and dispatch options. Delivery estimates depend on stock, order confirmation, carrier schedules, destination, and customs.
             </p>
           </div>
 
           <div className="why-card">
             <div className="why-icon-box">🏭</div>
-            <h4>In-House CNC Manufacturing</h4>
+            <h4>Manufacturing Through Partners</h4>
             <p>
-              State-of-the-art multi-axis CNC lathes, precision cylindrical grinding, and CMM inspection ensuring micron-level dimensional accuracy and zero defect rate.
+              We coordinate with manufacturing partners for suitable CNC machining and inspection. Capabilities and inspection documentation are confirmed for each requirement.
             </p>
           </div>
         </div>
@@ -313,42 +313,45 @@ export default function HomePage() {
       }}>
         <div style={{ maxWidth: "100%", margin: "auto", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "50px", alignItems: "center" }}>
           <div>
-            <span className="eyebrow" style={{ color: "#38bdf8", marginBottom: "14px" }}>Express Logistics Guarantee</span>
+            <span className="eyebrow" style={{ color: "#38bdf8", marginBottom: "14px" }}>Express Logistics</span>
             <h2 style={{ color: "white", fontSize: "clamp(2.2rem, 3.8vw, 3rem)", lineHeight: 1.15, marginBottom: "18px", fontWeight: 800 }}>
-              Zero Downtime Dispatch Within 24-48 Hours.
+              Dispatch Options for Urgent Requirements.
             </h2>
             <p style={{ color: "#cbd5e1", fontSize: "1.18rem", lineHeight: 1.65, marginBottom: "28px" }}>
               We understand that a compressor stoppage means thousands of dollars in lost inventory and plant disruption. Our Pune central logistics hub is connected directly to major air cargo hubs, national express corridors, and Nhava Sheva (JNPT) sea port.
             </p>
             <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: "14px", color: "#e2e8f0", fontSize: "1.05rem" }}>
-              <li>✓ <strong>Air Express Courier:</strong> Priority air cargo partnerships for same-day/next-day plant arrival.</li>
+              <li>✓ <strong>Air Express Courier:</strong> Priority options may be available; dispatch and arrival depend on stock, carrier schedules, and destination.</li>
               <li>✓ <strong>Export VCI Packaging:</strong> Anti-corrosion vacuum barrier sealing + ISPM-15 heat-treated crates.</li>
-              <li>✓ <strong>Direct Port Proximity:</strong> Rapid customs clearance for ocean container freight across 45+ countries.</li>
+              <li>✓ <strong>Direct Port Proximity:</strong> Rapid customs clearance for ocean container freight to 15+ export destinations.</li>
             </ul>
             <Link href="/global-reach" className="btn btn-primary" style={{ padding: "14px 28px", fontSize: "1.02rem" }}>
               Explore Our Global Export Network →
             </Link>
           </div>
           <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: "16px", padding: "38px", backdropFilter: "blur(6px)", boxShadow: "0 20px 40px rgba(0,0,0,0.35)" }}>
-            <h3 style={{ color: "white", marginBottom: "20px", fontSize: "1.4rem", fontWeight: 700 }}>📍 Guaranteed Delivery Timelines from Pune Hub</h3>
+            <h3 style={{ color: "white", marginBottom: "20px", fontSize: "1.4rem", fontWeight: 700 }}>📍 Indicative Transit Estimates from Pune</h3>
             <div style={{ display: "grid", gap: "16px", fontSize: "1rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
                 <span>Western & Central India (Mumbai, Gujarat, Pune)</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>24 - 48 Hours</strong>
+                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 24 - 48 Hours</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
                 <span>North & South India Metro Hubs (Delhi, Chennai, BLR)</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>24 - 48 Hours</strong>
+                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 24 - 48 Hours</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
                 <span>Middle East & Gulf Hubs (Dubai, Dammam, Doha)</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>2 - 3 Days (Air)</strong>
+                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 2 - 3 Days (Air)</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Europe, Africa & Southeast Asia</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>3 - 5 Days (Air)</strong>
+                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 3 - 5 Days (Air)</strong>
               </div>
             </div>
+            <p style={{ color: "#cbd5e1", fontSize: "0.8rem", margin: "16px 0 0" }}>
+              Estimates are not guarantees and may exclude order processing, carrier delays, customs clearance, and local delivery.
+            </p>
           </div>
         </div>
       </section>
@@ -374,7 +377,7 @@ export default function HomePage() {
               <div className="client-avatar">VC</div>
               <div className="client-meta">
                 <h5>Mr. Vijaykumar Chavan </h5>
-                <span>Fisheries Refrigerigeration HOD</span>
+                <span>Fisheries Refrigeration HOD</span>
               </div>
             </div>
           </div>

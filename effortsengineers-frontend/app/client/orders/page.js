@@ -51,9 +51,9 @@ export default function ClientOrdersPage() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "25px", flexWrap: "wrap", gap: "15px" }}>
         <div>
           <span className="eyebrow" style={{ color: "var(--primary)" }}>Consignment Tracking</span>
-          <h1 style={{ fontSize: "2rem", margin: 0 }}>Orders & Express Dispatches</h1>
+          <h1 style={{ fontSize: "2rem", margin: 0 }}>Orders & Dispatch Status</h1>
           <p style={{ color: "var(--text-muted)", margin: "4px 0 0" }}>
-            Monitor real-time courier dispatch status, tracking AWB references, and registered 1-year warranty codes.
+            Review order and courier updates, tracking references, and any warranty terms stated in your order documents.
           </p>
         </div>
         <Link href="/client/quotation" className="btn btn-outline">
@@ -125,4 +125,3 @@ export default function ClientOrdersPage() {
     </ClientLayout>
   );
 }
-

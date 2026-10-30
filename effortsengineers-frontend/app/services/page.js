@@ -2,6 +2,7 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { QuoteContext } from "@/context/QuoteContext";
+import CONTACT_CONFIG from "@/config/contactConfig";
 
 export default function ServicesPage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
@@ -20,12 +21,12 @@ export default function ServicesPage() {
     {
       icon: "⚙️",
       title: "Reverse Engineering of Discontinued Spares",
-      description: "Precision 3D scanning, coordinate measuring, and metallurgical chemical spectroscopy to replicate discontinued OEM parts with identical or superior alloy grades.",
+      description: "We help document discontinued part requirements and coordinate suitable reverse-engineering or manufacturing services through external specialists.",
     },
     {
       icon: "🛠️",
-      title: "Turnkey Workshop Compressor Overhaul",
-      description: "Complete in-house remanufacturing of bare-shaft compressors including cylinder line boring, crankshaft journal micro-grinding, dynamic balancing, and nitrogen pressure leak testing.",
+      title: "Compressor Overhaul Coordination",
+      description: "We can help scope overhaul requirements and coordinate suitable external workshop services. Scope, capability, and schedule are confirmed per project.",
     },
     {
       icon: "🌊",
@@ -51,7 +52,7 @@ export default function ServicesPage() {
       location: "Kutch, Gujarat • Large Seafood & Agro Freezing Facility",
       compressor: "Grasso RC11 (8-Cylinder Reciprocating)",
       problem: "Severe oil carryover into the evaporator coils, high discharge temperatures exceeding 135°C, and a 28% drop in refrigeration capacity during peak season.",
-      solution: "Conducted cylinder bore ovality inspection, replaced all 8 cylinder liners with plateau-honed alloy cast sleeves, installed conformable PTFE-faced ring packs, and renewed suction/discharge valve assemblies.",
+      solution: "Coordinated replacement liners, ring packs, and valve assemblies with the customer and relevant suppliers; final work scope and results depend on the specific project.",
       result: "Restored volumetric capacity to 98% of design baseline, lowered operating discharge temperature to 112°C, and cut facility power consumption by 14.5% within the first month.",
     },
     {
@@ -60,7 +61,7 @@ export default function ServicesPage() {
       location: "Nhava Sheva (JNPT), Mumbai • Container Cargo Vessel",
       compressor: "Carrier 5H120 Marine HVAC Compressor",
       problem: "Connecting rod bearing seizure occurred 36 hours prior to container vessel departure, threatening perishable refrigerated cargo containers.",
-      solution: "Efforts Engineers dispatched ready-stock forged connecting rods, crankshaft bush sets, and Swedish steel valve discs via priority courier within 6 hours. Provided technical guidance to shipboard chief engineer.",
+      solution: "Coordinated sourcing of connecting rods, crankshaft bush sets, and valve discs with the customer and logistics providers. Dispatch and delivery timing depend on availability, carrier schedules, and port requirements.",
       result: "Vessel completed compressor reassembly and trial run 8 hours ahead of departure schedule, averting costly demurrage fees.",
     },
     {
@@ -69,8 +70,8 @@ export default function ServicesPage() {
       location: "Middle East Industrial Petrochemical Complex",
       compressor: "Sabroe Vintage SMC 180 Reciprocating Gas Unit",
       problem: "OEM discontinued spare parts supply for this vintage gas compressor, causing a critical hydrogen-offgas process line shutdown.",
-      solution: "Received worn valve plates and piston pin samples. Carried out spectroscopic chemical composition analysis and CNC machined 12 sets in corrosion-resistant alloy steel with certified MTC 3.1 reports.",
-      result: "The reverse-engineered components achieved over 18,000 continuous operating hours with zero failure incidents.",
+      solution: "Coordinated assessment and partner sourcing for replacement valve plates and piston pins. Manufacturing capability, material, and test documentation are confirmed for each order.",
+      result: "Operating life and performance depend on the final design, materials, installation, and service conditions; no future operating-life outcome is guaranteed.",
     },
   ];
 
@@ -81,7 +82,7 @@ export default function ServicesPage() {
         <span className="eyebrow">Technical Advisory & Project Delivery</span>
         <h1 className="section-title"><b>Engineering Consultancy</b> & Industrial Projects</h1>
         <p className="section-desc">
-          Beyond supplying parts, our mechanical engineers diagnose compressor reliability issues, execute complex overhauls, and reverse-engineer specialized industrial spares.
+          In addition to sourcing parts, we help customers assess compressor requirements and coordinate specialist services through external engineering and manufacturing partners.
         </p>
         <div className="separator-line" />
       </div>
@@ -102,10 +103,10 @@ export default function ServicesPage() {
       {/* Industrial Projects & Case Studies */}
       <section style={{ borderTop: "1px solid var(--line)", paddingTop: "60px" }}>
         <div className="section-header">
-          <span className="eyebrow">Proven Field Track Record</span>
+          <span className="eyebrow">Project Examples</span>
           <h2 className="section-title"><b>Featured Industrial</b> Projects & Overhauls</h2>
           <p className="section-desc">
-            Explore how Efforts Engineers resolved severe plant downtime and restored critical compressor efficiency.
+            The examples below describe project-specific work and reported outcomes. Results depend on equipment, installation, and operating conditions and are not guaranteed for other projects.
           </p>
           <div className="separator-line" />
         </div>
@@ -144,7 +145,7 @@ export default function ServicesPage() {
                 </div>
 
                 <div style={{ background: "var(--green-light)", padding: "16px", borderRadius: "8px", borderLeft: "4px solid var(--accent-green)" }}>
-                  <h5 style={{ margin: "0 0 6px", color: "#065f46" }}>Verified Results:</h5>
+                  <h5 style={{ margin: "0 0 6px", color: "#065f46" }}>Project Outcome:</h5>
                   <p style={{ margin: 0, fontSize: "0.88rem", color: "#065f46", fontWeight: 600 }}>{cs.result}</p>
                 </div>
               </div>
@@ -163,7 +164,7 @@ export default function ServicesPage() {
           <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber">
             📋 Request Turnkey Overhaul Quote
           </button>
-          <a href="https://wa.me/919096001010" target="_blank" rel="noreferrer" className="btn btn-outline-white">
+          <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" className="btn btn-outline-white">
             💬 WhatsApp Engineering Desk
           </a>
         </div>

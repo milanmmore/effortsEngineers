@@ -23,7 +23,7 @@ const DEFAULT_QUOTES = [
       { name: "Suction & Discharge Valve Assembly", oem_no: "GRA-RC11-VLV", hsn: "84818090", qty: 4, rate: 4500 },
       { name: "Overhaul Gasket & Seal Pack (Ammonia Grade)", oem_no: "GRA-RC11-GSK", hsn: "84841000", qty: 1, rate: 3800 },
     ],
-    terms: "Ex-Works Pune Warehouse • Express Air Dispatch within 24 Hours • 1-Year Zero Defect Replacement Warranty Included",
+    terms: "Availability and dispatch estimate to be confirmed • Warranty terms apply only as stated in the accepted quotation or order",
   },
   {
     id: 1038,
@@ -39,7 +39,7 @@ const DEFAULT_QUOTES = [
       { name: "Connecting Rod Assembly - Carrier 5H120", oem_no: "CAR-5H-ROD", hsn: "84189900", qty: 2, rate: 8500 },
       { name: "Swedish Steel Valve Discs Set", oem_no: "CAR-5H-VLV", hsn: "84818090", qty: 4, rate: 1800 },
     ],
-    terms: "FOB Nhava Sheva (JNPT) / Delivery to Port Within 12 Hours • Material Test Reports (MTC 3.1) Attached",
+    terms: "Shipping terms, dispatch estimate, and material documentation to be confirmed for the accepted order",
   },
 ];
 
@@ -155,7 +155,7 @@ export default function QuotationPage() {
 
           <div style={{ textAlign: "right" }}>
             <span className="badge badge-in-stock" style={{ marginBottom: "8px" }}>
-              Associated with Manufacturers with ISO 9001 Certification Certified
+              Supplier documents may be available by request; any certification applies to the named supplier
             </span>
             <h3 style={{ margin: "6px 0 0", color: "var(--primary)", fontSize: "1.4rem" }}>
               PROFORMA QUOTATION
@@ -188,13 +188,13 @@ export default function QuotationPage() {
               Dispatch & Warranty Specifications:
             </span>
             <p style={{ margin: "4px 0", fontSize: "0.85rem" }}>
-              <strong>Dispatch Hub:</strong> Pune Central Engineering Warehouse
+              <strong>Dispatch Location:</strong> Pune, India (subject to confirmed availability)
             </p>
             <p style={{ margin: "2px 0", fontSize: "0.85rem" }}>
-              <strong>Lead Time:</strong> Ready Stock (24h Express Air Dispatch)
+              <strong>Lead Time:</strong> To be confirmed based on availability and destination
             </p>
             <p style={{ margin: "2px 0", fontSize: "0.85rem", color: "#065f46", fontWeight: 700 }}>
-              ✓ 1-Year Zero-Defect Replacement Guarantee Included
+              Warranty coverage, if offered, is subject to the accepted quotation terms
             </p>
           </div>
         </div>
@@ -250,9 +250,9 @@ export default function QuotationPage() {
         <div style={{ borderTop: "1px solid var(--line)", paddingTop: "20px", marginTop: "25px", display: "grid", gridTemplateColumns: "1.4fr 0.6fr", gap: "20px", alignItems: "flex-end" }}>
           <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
             <h5 style={{ margin: "0 0 6px", color: "var(--navy)", fontSize: "0.85rem" }}>Standard Terms & Conditions:</h5>
-            <p style={{ margin: "2px 0" }}>1. All spares are guaranteed 100% interchangeable with OEM parts.</p>
-            <p style={{ margin: "2px 0" }}>2. Full 12-month manufacturer replacement warranty against material/dimensional defect.</p>
-            <p style={{ margin: "2px 0" }}>3. Consignment packed in VCI anti-corrosion barrier wrapping with wooden crating.</p>
+            <p style={{ margin: "2px 0" }}>1. Part compatibility must be confirmed against the supplied model and specifications.</p>
+            <p style={{ margin: "2px 0" }}>2. Warranty coverage, period, eligibility, and remedies are only as stated in the accepted quotation or order documents.</p>
+            <p style={{ margin: "2px 0" }}>3. Packaging and preservation requirements are confirmed for each shipment.</p>
             <p style={{ margin: "2px 0" }}>4. Payment terms: 100% against proforma / dispatch approval or authorized PO terms.</p>
           </div>
 

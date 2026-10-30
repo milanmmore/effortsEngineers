@@ -121,7 +121,7 @@ npm start
 ### 4.2 Home & Industrial Hero (`app/page.js`)
 | Test ID | Feature Area | Description / Steps | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **TC-FE-HOM-01** | Hero Trust Counter | Inspect Hero section | Displays metrics: **10,000+ Ready Stock Spares**, **15+ Export Countries**, **24-48h Express Dispatch**, **1-Year Zero-Defect Guarantee**. | ✅ PASS |
+| **TC-FE-HOM-01** | Hero Trust Counter | Inspect Hero section | Displays business history, **15+ Export Destinations**, order-confirmed dispatch estimates, and warranty terms subject to quotation. | ✅ PASS |
 | **TC-FE-HOM-02** | Breakdown Assistance RFQ Card | Fill out compressor model, part required, urgency in Hero RFQ card | Submits and routes to quotation flow with prefilled parameters. | ✅ PASS |
 | **TC-FE-HOM-03** | Brand Compatibility Badges | Click on Kirloskar, Grasso, or Bitzer badges | Directs to `/products?brand=<Brand>` with catalog filtered accordingly. | ✅ PASS |
 | **TC-FE-HOM-04** | Services & Applications Grid | Verify 6-card industrial applications section | Displays Cold Storage, Marine HVAC, Petrochemical Gas, Turnkey Overhaul, and Obsolete Parts Reverse Engineering. | ✅ PASS |
@@ -133,7 +133,7 @@ npm start
 | Test ID | Feature Area | Description / Steps | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **TC-FE-PRD-01** | Static Prerendering (SSG) | Build `/products` with Turbopack | `useSearchParams()` wrapped in `<Suspense>` boundary; zero CSR bailout errors during static build. | ✅ PASS |
-| **TC-FE-PRD-02** | Live Stock Status Badges | Inspect catalog item cards | Renders clear status pills: `🟢 In Stock (Ready for 24h Dispatch)`, `🟡 Low Stock`, or `🔵 Sourced to Order`. | ✅ PASS |
+| **TC-FE-PRD-02** | Stock Status Badges | Inspect catalog item cards | Renders the availability status received from the catalog; dispatch timing is confirmed per order. | ✅ PASS |
 | **TC-FE-PRD-03** | Multi-attribute Filters | Filter by Brand (e.g. "Bitzer") and Category (e.g. "Piston Rings") | List dynamically narrows to matching components without page reload. | ✅ PASS |
 | **TC-FE-PRD-04** | Live Text Search | Type OEM part number (e.g. "BIT-4N-382") or "Cylinder Liner" | Results filter instantly matching name, OEM reference, or description. | ✅ PASS |
 | **TC-FE-PRD-05** | Add to Quote Interaction | Click "+ Add to Quote" on any product card | Item added to `QuoteContext`; badge count in Navbar increments immediately; toast notification triggers. | ✅ PASS |
@@ -153,8 +153,8 @@ npm start
 ### 4.5 Global Reach & Compliance Hub (`app/global-reach/page.js`)
 | Test ID | Feature Area | Description / Steps | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **TC-FE-GLO-01** | Export Corridors Map & Stats | Open `/global-reach` | Displays export coverage across 45+ countries (Middle East, SE Asia, Africa, Europe, Americas). | ✅ PASS |
-| **TC-FE-GLO-02** | Certificate Hub & Download | Click preview/download on Associated with Manufacturers with ISO 9001 Certification or Zero-Defect Declaration | Opens certificate modal with certificate details and triggers clean PDF download. | ✅ PASS |
+| **TC-FE-GLO-01** | Export Corridors Map & Stats | Open `/global-reach` | Displays export coverage across 15+ countries (Middle East, SE Asia, Africa, Europe, Americas). | ✅ PASS |
+| **TC-FE-GLO-02** | Supplier Documentation | Review supplier quality and warranty documentation | Describes manufacturer-specific quality documentation and warranty terms without implying Efforts Engineers is ISO-certified or guaranteeing a remedy. | ✅ PASS |
 | **TC-FE-GLO-03** | Packaging Standards | Verify Sea-worthy preservation section | Outlines VCI anti-corrosion barrier packaging and ISPM-15 certified heat-treated crating. | ✅ PASS |
 
 ---
@@ -162,18 +162,18 @@ npm start
 ### 4.6 About Us & Heritage Timeline (`app/about/page.js`)
 | Test ID | Feature Area | Description / Steps | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **TC-FE-ABT-01** | Heritage Copy Verification | Review company history overview | Displays exact legacy text: "Efforts Engineers has supplied Ammonia Compressor Spare Parts suitable for Grasso, Kirloskars, Sabroe Compressors... for over 40 years, now exporting internationally." | ✅ PASS |
-| **TC-FE-ABT-02** | Milestone Timeline | Inspect milestones (1994 to 2026) | Shows founding, ISO 9001 expansion, CNC precision wing, 45+ export nations, and digital platform launch. | ✅ PASS |
-| **TC-FE-ABT-03** | Facility & Quality Metrology | Review manufacturing specs | Highlights CNC turn-mill centers, Mitutoyo CMM inspection, and hydrostatic test rigs up to 45 bar. | ✅ PASS |
+| **TC-FE-ABT-01** | Heritage Copy Verification | Review company history overview | States the business has operated since 1986 and supplies compressor spares across India and internationally. | ✅ PASS |
+| **TC-FE-ABT-02** | Milestone Timeline | Inspect milestones (1986 to 2026) | Shows company history, sourcing range expansion, export growth, and digital platform launch. | ✅ PASS |
+| **TC-FE-ABT-03** | Supplier & Product Documentation | Review sourcing and quality information | Explains supplier-based sourcing and that inspection/material documentation varies by product and order. | ✅ PASS |
 
 ---
 
 ### 4.7 Warranty, Claims & FAQs (`app/warranty/page.js`)
 | Test ID | Feature Area | Description / Steps | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **TC-FE-WAR-01** | Warranty Policy Terms | Verify 1-Year Zero-Defect Guarantee | Outlines OEM material specifications, coverage scope, and immediate replacement guarantee. | ✅ PASS |
-| **TC-FE-WAR-02** | Serial Number / Consignment Lookup | Enter consignment or invoice ID into lookup tool | Simulates verification of part serial number, dispatch date, and active warranty status. | ✅ PASS |
-| **TC-FE-WAR-03** | Online RMA Claim Form | Complete claim form with part details and defect description | Form validates input fields and generates RMA claim confirmation reference. | ✅ PASS |
+| **TC-FE-WAR-01** | Warranty Policy Terms | Review warranty page | States warranty coverage and remedies are product-specific and subject to accepted quotation/order terms. | ✅ PASS |
+| **TC-FE-WAR-02** | Order Reference Inquiry | Enter consignment or invoice ID into lookup tool | Clearly explains that the page cannot verify order records and asks the customer to contact the team. | ✅ PASS |
+| **TC-FE-WAR-03** | Warranty Inquiry Preparation Form | Complete the local form with part details and issue description | Makes clear that the form does not submit a claim; directs the customer to contact the team. | ✅ PASS |
 | **TC-FE-WAR-04** | Collapsible FAQ Accordion | Click FAQ items | Accordion items expand/collapse smoothly showing answers on lead times, metallurgy, and export documentation. | ✅ PASS |
 
 ---
@@ -214,4 +214,3 @@ flowchart TD
 - **Backend Quality Sign-off:** All 19 Jest test cases passing (0 failures).
 - **Frontend Quality Sign-off:** Next.js 16 Turbo production build passing across 21 static and dynamic routes.
 - **Architectural Sign-off:** 4-Menu dropdown structure, live stock catalog, automated quote builder, and responsive design validated.
-

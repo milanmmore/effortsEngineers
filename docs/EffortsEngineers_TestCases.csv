@@ -66,12 +66,12 @@ Frontend,TC-FE-NAV-06,Navigation,UI / Links,P2 - High,Verify Top Announcement Ba
 2. Click email link
 3. Click WhatsApp button","Tel: +91-9822031096, Email: info@effortsengineers.in",Tel opens dialer; email opens mail client; WhatsApp opens wa.me chat link,"All tel, mailto, and wa.me protocols correctly linked with config",PASS,Functional,Configured via centralized contactConfig.js
 Frontend,TC-FE-HOM-01,Home / Hero,UI / Metrics,P1 - Critical,Verify Hero Trust Stats Banner,Homepage loaded,1. Inspect Hero header section,URL: /,"Live counters visible:
-• 10,000+ Ready Stock Spares
-• 45+ Export Countries
-• 24-48h Express Dispatch
-• 1-Year Zero-Defect Guarantee",All 4 trust metrics rendered with industrial styling,PASS,Next.js Prerendered,Key Amocon-style trust indicators
+• Since 1986 compressor spares sourcing
+• 15+ Export Countries
+• Dispatch estimate confirmed per order
+• Warranty terms per quotation",Hero metrics rendered with order-specific dispatch and warranty qualifications,PASS,Next.js Prerendered,Accurate company and order terms
 Frontend,TC-FE-HOM-02,Home / RFQ,Functional / Form,P1 - Critical,Fast Breakdown Assistance RFQ Quick Card,Hero quick card visible,"1. Enter compressor make/model
-2. Select breakdown urgency (24h Express)
+2. Select requested priority handling
 3. Submit RFQ quick form","Make: Grasso RC11, Urgency: Immediate Breakdown",Pre-fills quote drawer / redirects to quotation flow with breakdown tag,Drawer opens with fast assistance inquiry populated,PASS,Functional,Optimized for emergency plant breakdowns
 Frontend,TC-FE-HOM-03,Home / Brands,Navigation / Filter,P2 - High,Brand Compatibility Filter Badges,Brand strip visible on homepage,"1. Click brand badge: 'Grasso' or 'Bitzer'
 2. Verify target URL and filtered catalog view",Badge: Grasso,Navigates to /products?brand=Grasso with Grasso items pre-filtered,Navigates cleanly; catalog initializes with selected brand filter,PASS,Functional,Brand compatibility verified
@@ -79,8 +79,8 @@ Frontend,TC-FE-HOM-04,Home / Services,UI / Content,P2 - High,Industrial Applicat
 2. Inspect cards and CTAs",URL: /,"Displays cards for Cold Storage, Marine HVAC, Petrochemical, Turnkey Overhaul, Obsolete Spares",All 5 core industrial sectors rendered with technical specs and icons,PASS,Next.js Prerendered,Industrial credibility validated
 Frontend,TC-FE-PRD-01,Products,Performance / Build,P1 - Critical,Static Prerendering of /products with Suspense,Next.js 16 build executed,"1. Run npm run build
 2. Check prerendering step for /products route",Turbopack static generator,Page prerenders cleanly with Suspense boundary wrapping useSearchParams(),✓ Generating static pages (21/21) completed with 0 errors,PASS,Automated (next build),Suspense boundary prevents CSR bailout
-Frontend,TC-FE-PRD-02,Products,UI / Stock,P1 - Critical,Live Stock Indicators on Product Cards,Catalog loaded on /products,1. Inspect stock badges on individual cards,Products catalog,"Display clear stock pills:
-• 🟢 In Stock (Ready for 24h Dispatch)
+Frontend,TC-FE-PRD-02,Products,UI / Stock,P1 - Critical,Live Stock Indicators on Product Cards,Catalog loaded on /products,1. Inspect stock badges on individual cards,Products catalog,"Display availability stock pills:
+• 🟢 In Stock (dispatch timing confirmed per order)
 • 🟡 Low Stock (<5 units)
 • 🔵 Sourced to Order",Stock badges render dynamically according to inventory status,PASS,Functional,Gives buyers real-time inventory clarity
 Frontend,TC-FE-PRD-03,Products,Functional / Search,P1 - Critical,Multi-Criteria Catalog Search & Filter,/products page loaded,"1. Filter by Brand: 'Bitzer'
@@ -95,8 +95,8 @@ Frontend,TC-FE-QOT-02,Quote Builder,Functional / RFQ,P1 - Critical,Direct RFQ Su
 2. Click 'Submit RFQ Quotation'","Customer: ABC Cold Storage, Email: purchase@abccold.com",Generates formal RFQ request and displays reference number and WhatsApp/email forwarding option,RFQ generated with confirmation modal and WhatsApp RFQ payload,PASS,Functional,Commercial lead capture flow
 Frontend,TC-FE-GLO-01,Global Reach,UI / Export,P2 - High,Global Export Network & Shipping Hub,Load /global-reach,"1. Review export corridors and shipping ports
 2. Inspect transit timeline matrix",URL: /global-reach,"Highlights 15+ export countries, air/sea freight logistics, and Nhava Sheva (JNPT) hub",Full export network and port capabilities rendered,PASS,Next.js Prerendered,Showcases global supply chain maturity
-Frontend,TC-FE-GLO-02,Global Reach,Functional / Compliance,P1 - Critical,Certificate Hub Preview & Download,Global reach certificate section visible,"1. Click 'Preview Certificate' on Associated with Manufacturers with ISO 9001 Certification
-2. Click 'Download PDF'",Certificate: Associated with Manufacturers with ISO 9001 Certification,Opens certificate preview modal with accreditation details; download triggers cleanly,Modal displays certificate details; PDF download initiates,PASS,Functional,Accreditation and quality evidence
+Frontend,TC-FE-GLO-02,Global Reach,Functional / Documentation,P1 - Critical,Supplier Documentation Details,Global reach documentation section visible,"1. View details for supplier quality or warranty documentation
+2. Ask about document availability",Supplier-specific quality documentation,Shows that availability and scope vary by supplier and order; directs customers to contact the team,Documentation details render without implying downloads or Efforts Engineers certification,PASS,Functional,Order-specific documentation information
 Frontend,TC-FE-GLO-03,Global Reach,UI / Packaging,P2 - High,Export Packaging & Preservation Standards,/global-reach loaded,1. Review export packaging section,URL: /global-reach,Details VCI vacuum anti-corrosion barrier and ISPM-15 fumigated wooden box standards,Displays triple-barrier export packaging standards and diagrams,PASS,Next.js Prerendered,Ensures rust-free overseas delivery
 Frontend,TC-FE-SRV-01,Services,UI / Case Studies,P2 - High,Compressor Overhaul Field Case Studies,/services loaded,1. Inspect engineering overhaul services and past projects,URL: /services,"Presents verified case studies (600T Ammonia plant Gujarat, Nhava Sheva marine reefer)","Case studies render with technical metrics (power savings %, overhaul hours)",PASS,Next.js Prerendered,Demonstrates practical engineering expertise
 Frontend,TC-FE-SRV-02,Custom Sourcing,Functional / Upload,P2 - High,Obsolete Parts Reverse Engineering RFQ,/productsourcing loaded,"1. Fill worn sample part description
@@ -104,12 +104,12 @@ Frontend,TC-FE-SRV-02,Custom Sourcing,Functional / Upload,P2 - High,Obsolete Par
 3. Click 'Request Custom Sourcing'","Compressor: Vintage Sabroe SMC, Part: Special Valve Cage",Sourcing request validates and confirms routing to Pune engineering team,Request captured and confirmed with Pune works team dispatch,PASS,Functional,Captures high-margin custom reverse engineering
 Frontend,TC-FE-ABT-01,About Us,UI / Content,P1 - Critical,Verify 40-Year Legacy Copy on About Us,/about loaded,1. Read heritage overview section,URL: /about,"Exact verified copy: 'Efforts Engineers has supplied Ammonia Compressor Spare Parts suitable for Grasso, Kirloskars, Sabroe Compressors... for over 40 years, now exporting internationally.'",Exact wording displayed prominently in heritage hero card,PASS,Next.js Prerendered,Matches client historical corporate branding
 Frontend,TC-FE-ABT-02,About Us,UI / Timeline,P2 - High,Verify Interactive Company Milestone Timeline,/about loaded,"1. Scroll to Milestone Timeline section
-2. Inspect milestones from 1994 to 2026",Timeline milestones,"Displays timeline milestones: 1994 (Founding), 2002 (Expansion), 2011 (ISO 9001), 2018 (CNC wing), 2026 (Digital platform)",All milestones displayed with interactive hover highlights,PASS,Next.js Prerendered,Rich visual corporate narrative
-Frontend,TC-FE-WAR-01,Warranty,UI / Policy,P1 - Critical,Verify 1-Year Zero-Defect Guarantee Terms,/warranty loaded,1. Review warranty guarantee terms and OEM compatibility specs,URL: /warranty,"Outlines 1-year replacement warranty, coverage conditions, and metallurgical certification",Guarantee statement and terms rendered with security seal,PASS,Next.js Prerendered,Provides industrial procurement confidence
-Frontend,TC-FE-WAR-02,Warranty,Functional / Lookup,P2 - High,Interactive Serial Number / Invoice Warranty Lookup,Warranty lookup widget visible,"1. Enter serial number 'EE-SN-2026-9041'
-2. Click 'Verify Warranty'",Serial: EE-SN-2026-9041,"Returns active warranty status, dispatch date, and coverage expiry",Lookup widget validates serial and renders active warranty badge,PASS,Functional,Immediate online reassurance for clients
-Frontend,TC-FE-WAR-03,Warranty,Functional / RMA,P2 - High,Online RMA Warranty Claim Submission,Warranty claim form loaded,"1. Enter invoice number, part ID, defect description
-2. Submit claim","Invoice: INV-EE-8821, Defect: Premature bore wear",Submits claim and provides RMA Tracking Reference ID,RMA claim logged with RMA tracking number generated,PASS,Functional,Streamlined return merchandise process
+2. Inspect milestones from 1986 to 2026",Timeline milestones,"Displays company history, sourcing range expansion, export growth, and digital platform launch",All milestones displayed with interactive hover highlights,PASS,Next.js Prerendered,Company history and sourcing narrative
+Frontend,TC-FE-WAR-01,Warranty,UI / Policy,P1 - Critical,Review Product Warranty Terms,/warranty loaded,1. Review warranty terms,URL: /warranty,"Explains that coverage and remedies depend on the accepted quotation or order",No universal replacement or defect-free guarantee is stated,PASS,Next.js Prerendered,Accurate order-specific terms
+Frontend,TC-FE-WAR-02,Warranty,Functional / Lookup,P2 - High,Order Reference Inquiry,Warranty inquiry widget visible,"1. Enter invoice or part reference
+2. Request contact instructions",Reference entered,"Explains that order records cannot be verified automatically and asks the customer to contact the team",No fabricated active warranty status is shown,PASS,Functional,Clear lookup limitations
+Frontend,TC-FE-WAR-03,Warranty,Functional / Inquiry,P2 - High,Warranty Inquiry Preparation,Warranty inquiry form loaded,"1. Enter invoice number, part ID, issue description
+2. Prepare inquiry details","Invoice: INV-EE-8821, Issue: Premature bore wear",Clearly states that form data is not saved or sent and that customer must contact the team,No false RMA or claim submission confirmation is shown,PASS,Functional,Transparent warranty inquiry flow
 Frontend,TC-FE-WAR-04,Warranty / FAQ,UI / Accordion,P3 - Low,Interactive Collapsible FAQ Accordion,/warranty FAQ section,"1. Click on FAQ question: 'What is the standard dispatch time?'
 2. Click another question to test collapse/expand",FAQ Items,Selected FAQ expands smoothly showing detailed answer; clicking again collapses it,Accordion items toggle cleanly with CSS transitions,PASS,Functional,Answers common industrial buyer inquiries
 Frontend,TC-FE-AI-01,AI Chatbot,UI / AI Widget,P1 - Critical,AI Chatbot Default Industrial Greeting,Page loaded with AIChatbot component,"1. Click floating Chatbot button to open widget

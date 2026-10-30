@@ -4,15 +4,17 @@
  * Reads from environment variables with robust defaults.
  */
 
+const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP || "+91 90960 01010";
+
 export const CONTACT_CONFIG = {
-  phone: process.env.NEXT_PUBLIC_PHONE || "+91 20 2567 8102",
-  phoneRaw: process.env.NEXT_PUBLIC_PHONE_RAW || "912025678102",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP || "+91 90960 01010",
-  whatsappRaw: process.env.NEXT_PUBLIC_WHATSAPP_RAW || "919096001010",
-  primaryEmail: process.env.NEXT_PUBLIC_PRIMARY_EMAIL || "efforts.engineers@hotmail.com",
-  secondaryEmail: process.env.NEXT_PUBLIC_SECONDARY_EMAIL || "saurabh@effortsengineers.in",
-  address: process.env.NEXT_PUBLIC_ADDRESS || "Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India",
+  phone: whatsapp,
+  phoneRaw: whatsapp.replace(/\D/g, ""),
+  whatsapp,
+  whatsappRaw: whatsapp.replace(/\D/g, ""),
+  primaryEmail: process.env.NEXT_PUBLIC_PRIMARY_EMAIL || "sales@effortsengineers.in",
+  secondaryEmail: process.env.NEXT_PUBLIC_SECONDARY_EMAIL || "info@effortsengineers.in",
+  address: process.env.NEXT_PUBLIC_ADDRESS || "Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra – 411016",
+  workshopAddress: "Shop No. 11, Shirole Park, Senapati Bapat Rd, Shivajinagar, Pune – 411016",
 };
 
 export default CONTACT_CONFIG;
-
