@@ -53,7 +53,7 @@ describe("API Endpoints", () => {
   test("health endpoint returns ok", async () => {
     const res = await request(app).get("/api/health");
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ status: "ok" });
+    expect(res.body).toEqual({ status: "ok", db: "connected" });
   });
 
   test("register fails with missing fields", async () => {

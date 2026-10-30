@@ -11,6 +11,16 @@ import pkg from "pg";
 const { Pool } = pkg;
 
 const databaseUrl = process.env.DATABASE_URL;
+const isProduction = process.env.NODE_ENV === "production";
+
+if (isProduction && !databaseUrl) {
+  throw new Error("DATABASE_URL must be configured for the production backend.");
+}
+
+if (databaseUrl && !/^postgres(?:ql)?:\/\//i.test(databaseUrl)) {
+  throw new Error("DATABASE_URL must be a PostgreSQL connection URL.");
+}
+
 const isLocalUrl =
   !databaseUrl ||
   databaseUrl.includes("localhost") ||
@@ -34,7 +44,7 @@ const pool = new Pool(
       }
 );
 
-if (process.env.NODE_ENV !== "production") {
+if (!isProduction) {
   console.log("DB config:", {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -44,9 +54,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 pool.on("error", (err) => {
-  console.error("Unexpected PostgreSQL error", err);
+  console.error("Unexpected PostgreSQL error", {
+    code: err.code,
+    message: err.message,
+  });
   // Don't crash the API in production on a dropped idle connection.
-  if (process.env.NODE_ENV !== "production") process.exit(1);
+  if (!isProduction) process.exit(1);
 });
 
 // Default export so controllers can `import db from "../config/db.js"`
