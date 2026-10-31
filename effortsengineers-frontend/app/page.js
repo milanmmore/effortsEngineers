@@ -71,7 +71,7 @@ export default function HomePage() {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> Supplier Network • Serving Customers Since 1986 • 15+ Export Destinations
+              <span>★</span> Supplier Network • {CONTACT_CONFIG.yearsInBusinessText} • 15+ Export Destinations
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>
@@ -101,7 +101,7 @@ export default function HomePage() {
             {/* Stats Counter Strip */}
             <dl className="hero-stats-strip">
               <div className="hero-stat-item">
-                <dt>Since 1986</dt>
+                <dt>{CONTACT_CONFIG.yearsInBusinessShort}</dt>
                 <dd>Compressor Spares Sourcing</dd>
               </div>
               <div className="hero-stat-item">
@@ -223,7 +223,7 @@ export default function HomePage() {
         <div className="section-header">
           <h2 className="section-title"><b>Why Choose</b> Efforts Engineers?</h2>
           <p className="section-desc">
-            Since 1986, our compressor-spares sourcing experience and logistics coordination have helped customers address industrial plant requirements.
+            Efforts Engineers is since 1986. Our compressor-spares sourcing experience and logistics coordination have helped customers address industrial plant requirements.
           </p>
           <div className="separator-line" />
         </div>
