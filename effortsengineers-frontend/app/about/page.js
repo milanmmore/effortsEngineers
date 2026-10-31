@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import CONTACT_CONFIG from "@/config/contactConfig";
 
 export default function AboutPage() {
   const [activeYear, setActiveYear] = useState(2026);
@@ -92,10 +93,10 @@ export default function AboutPage() {
     <main className="section-shell">
       {/* Header */}
       <div className="section-header">
-        <span className="eyebrow">Engineering Precision Since 1986</span>
+        <span className="eyebrow">{CONTACT_CONFIG.yearsInBusinessText}</span>
         <h1 className="section-title"><b>Company Story</b> & Industrial Heritage</h1>
         <p className="section-desc">
-          Since 1986, Efforts Engineers has sourced industrial compressor spare parts and coordinated engineering support for customers in India and across export destinations.
+          Efforts Engineers is since 1986. We have sourced industrial compressor spare parts and coordinated engineering support for customers in India and across export destinations.
         </p>
         <div className="separator-line" />
       </div>
@@ -108,10 +109,10 @@ export default function AboutPage() {
             Precision Built Around Zero Industrial Downtime.
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.75, marginBottom: "16px" }}>
-            Since <strong>1986</strong>, <strong>Efforts Engineers</strong> has supplied precision-engineered Ammonia Compressor Spare Parts suitable for <strong>Grasso, Kirloskar, and Sabroe Compressors</strong>, alongside critical accessories like <strong>Ammonia Valves and Expansion Valves</strong>, to industrial and government clients across India and selected export markets.
+            <strong>Efforts Engineers is since 1986.</strong> We have supplied precision-engineered Ammonia Compressor Spare Parts suitable for <strong>Grasso, Kirloskar, and Sabroe Compressors</strong>, alongside critical accessories like <strong>Ammonia Valves and Expansion Valves</strong>, to industrial and government clients across India and selected export markets.
           </p>
           <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.75, marginBottom: "22px" }}>
-            Since 1986, <strong>M/s Efforts Engineers</strong> has steadily progressed from a trusted local supplier into a sourcing partner for refrigeration compressor spares. Today, Efforts Engineers coordinates supply of <strong>Air & Gas Compressor Spare Parts & Accessories</strong> through its supplier network in Pune and beyond.
+            <strong>Efforts Engineers is since 1986.</strong> We have steadily progressed from a trusted local supplier into a sourcing partner for refrigeration compressor spares. Today, Efforts Engineers coordinates supply of <strong>Air & Gas Compressor Spare Parts & Accessories</strong> through its supplier network in Pune and beyond.
           </p>
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
             <Link href="/products" className="btn btn-primary">
