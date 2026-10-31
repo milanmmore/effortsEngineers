@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
-import componentsImage from "@/images/componenets.jpeg";
 
 const ADDITIONAL_PRODUCT_CATEGORIES = [
   {
@@ -56,7 +55,7 @@ function ProductsContent() {
             compatible_models: item.compatible_models || "",
             material_size: item.material_size || "",
             description: item.description || "",
-            image: item.image_url || componentsImage.src,
+            image: item.image_url || `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/images/components.jpeg`,
             stock_status: stockStatus,
             stock_type: /in stock|available/i.test(stockStatus)
               ? "in-stock"
