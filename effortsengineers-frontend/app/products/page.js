@@ -55,7 +55,7 @@ function ProductsContent() {
             compatible_models: item.compatible_models || "",
             material_size: item.material_size || "",
             description: item.description || "",
-            image: item.image_url || "/images/compressor-parts.jpg",
+            image: item.image_url || "/images/components.jpeg",
             stock_status: stockStatus,
             stock_type: /in stock|available/i.test(stockStatus)
               ? "in-stock"

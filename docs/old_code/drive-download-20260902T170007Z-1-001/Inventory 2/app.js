@@ -1,7 +1,7 @@
 /* Efforts Engineers — Inventory Control Dashboard */
 
 const STORAGE_KEY = 'inventory-state-v1';
-const ALERT_EMAIL = 'efforts.engineers@hotmail.com';
+const ALERT_EMAIL = 'saurabh@effortsengineers.in';
 const LOW_STOCK_THRESHOLD = 1; // stock <= this is "critical"
 
 let STATE = {
