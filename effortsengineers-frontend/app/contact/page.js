@@ -5,8 +5,12 @@ import { QuoteContext } from "@/context/QuoteContext";
 import { sendEmailNotification } from "@/lib/emailService";
 import CONTACT_CONFIG from "@/config/contactConfig";
 
+const MAX_ATTACHMENT_SIZE = 5 * 1024 * 1024;
+const ALLOWED_ATTACHMENT_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+
 export default function ContactPage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
+  const [attachmentFile, setAttachmentFile] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,43 +27,96 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [rfqNumber, setRfqNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const autoRfq = `EE-RFQ-${Math.floor(1000 + Math.random() * 9000)}`;
+    setSubmitError("");
 
-    sendEmailNotification({
-      subject: `📩 Technical RFQ Inquiry: ${formData.brand} - ${formData.part_name || formData.model}`,
-      from_name: formData.name,
-      reply_to: formData.email || CONTACT_CONFIG.primaryEmail,
-      data: {
-        rfq_number: autoRfq,
-        customer_name: formData.name,
-        company: formData.company,
-        email: formData.email,
-        phone: formData.phone,
-        brand: formData.brand,
-        model: formData.model,
-        part_name: formData.part_name,
-        quantity: formData.quantity,
-        urgency: formData.urgency,
-        message: formData.message,
-        submitted_at: new Date().toLocaleString(),
-      },
-    }).catch((err) => console.warn("Direct email dispatch note:", err));
-
-    // 2. Fallback / Backend
     try {
-      const res = await API.post("/inquiries", formData);
-      setRfqNumber(res.data?.rfqId || autoRfq);
+      let attachmentUrl = "";
+      if (attachmentFile) {
+        const uploadData = new FormData();
+        uploadData.append("image", attachmentFile);
+
+        const uploadResponse = await API.post("/uploads/images", uploadData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        attachmentUrl = new URL(
+          uploadResponse.data.image.url,
+          API.defaults.baseURL
+        ).toString();
+      }
+
+      const inquiryResponse = await API.post("/inquiries", {
+        ...formData,
+        attachment_url: attachmentUrl
+          ? new URL(attachmentUrl).pathname
+          : "",
+      });
+      const rfqNumber = inquiryResponse.data?.rfqId;
+      if (!rfqNumber) {
+        throw new Error("The inquiry service did not return a reference number.");
+      }
+
+      const emailResult = await sendEmailNotification({
+        subject: `Technical RFQ Inquiry: ${formData.brand} - ${formData.part_name || formData.model}`,
+        from_name: formData.name,
+        reply_to: formData.email || CONTACT_CONFIG.primaryEmail,
+        data: {
+          rfq_number: rfqNumber,
+          customer_name: formData.name,
+          company: formData.company,
+          email: formData.email,
+          phone: formData.phone,
+          brand: formData.brand,
+          model: formData.model,
+          part_name: formData.part_name,
+          quantity: formData.quantity,
+          urgency: formData.urgency,
+          message: formData.message,
+          attached_image: attachmentUrl || "None",
+          submitted_at: new Date().toLocaleString(),
+        },
+      });
+      if (!emailResult.success) {
+        console.error("Inquiry email notification failed:", emailResult.error || emailResult.message);
+      }
+
+      setRfqNumber(rfqNumber);
       setSubmitted(true);
     } catch (err) {
-      setRfqNumber(autoRfq);
-      setSubmitted(true);
+      console.error("Failed to submit contact inquiry:", err);
+      setSubmitError(
+        err.response?.data?.message ||
+          err.message ||
+          "Unable to submit your inquiry. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleAttachmentChange = (event) => {
+    const file = event.target.files?.[0] || null;
+    setSubmitError("");
+
+    if (file && !ALLOWED_ATTACHMENT_TYPES.has(file.type)) {
+      setAttachmentFile(null);
+      event.target.value = "";
+      setSubmitError("Choose a JPEG, PNG, or WebP image.");
+      return;
+    }
+
+    if (file && file.size > MAX_ATTACHMENT_SIZE) {
+      setAttachmentFile(null);
+      event.target.value = "";
+      setSubmitError("The image must be 5 MB or smaller.");
+      return;
+    }
+
+    setAttachmentFile(file);
   };
 
   return (
@@ -105,6 +162,8 @@ export default function ContactPage() {
                     urgency: "Immediate breakdown — requested priority handling",
                     message: "",
                   });
+                  setAttachmentFile(null);
+                  setSubmitError("");
                 }}
               >
                 Submit Another Inquiry
@@ -112,6 +171,11 @@ export default function ContactPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: "grid", gap: "16px" }}>
+              {submitError && (
+                <p role="alert" style={{ margin: 0, padding: "12px 14px", border: "1px solid #fca5a5", borderRadius: "6px", color: "#991b1b", background: "#fef2f2" }}>
+                  {submitError}
+                </p>
+              )}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
                 <label style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem", fontWeight: 700 }}>
                   Contact Name *
@@ -248,6 +312,20 @@ export default function ContactPage() {
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   style={{ padding: "11px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.9rem", fontFamily: "inherit" }}
                 />
+              </label>
+
+              <label style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem", fontWeight: 700 }}>
+                Attach Nameplate Photo or Part Drawing (optional)
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handleAttachmentChange}
+                  style={{ padding: "10px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.9rem" }}
+                />
+                <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontWeight: 400 }}>
+                  JPEG, PNG, or WebP; maximum 5 MB.
+                  {attachmentFile ? ` Selected: ${attachmentFile.name}` : ""}
+                </span>
               </label>
 
               <button

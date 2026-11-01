@@ -163,11 +163,14 @@ Refer to [`docs/project_plan/deployment-workflow-spec.md`](docs/project_plan/dep
 | `POST` | `/api/auth/login` | User login & token authentication | `users` | ✅ **Implemented & Passing** |
 | `GET` | `/api/catalog` | Public product catalog fetch | `products` | ✅ **Implemented & Passing** |
 | `POST` | `/api/catalog` | Admin product creation | `products` | ✅ **Implemented & Passing** |
+| `POST` | `/api/uploads/images` | Public image upload (`multipart/form-data`, field `image`); stores validated images in backend `images/` and returns a `/uploads/images/...` URL | Filesystem | ✅ **Implemented & Tested** |
 | `GET` | `/api/quotations` | Admin fetch of customer RFQs | `quotations` | ✅ **Implemented & Passing** |
 | `POST` | `/api/quotation` | Submit quotation request | `quotations` | ✅ **Implemented & Passing** |
 | `POST` | `/api/orders` | Place new customer order | `orders` | ✅ **Implemented & Passing** |
 | `GET` | `/api/admin/inventory` | Live inventory stock review | `products` | ✅ **Implemented & Passing** |
 | `GET` | `/api/admin/dashboard/forecast` | AI demand forecasting stats | `quotations`, `orders` | ✅ **Implemented & Passing** |
+
+Image uploads accept JPEG, PNG, and WebP files up to 5 MB, with a limit of 10 uploads per IP address per 15 minutes. Set `IMAGE_UPLOAD_DIR` to a persistent mounted directory in deployments where the application filesystem is ephemeral.
 
 ### System Architecture Visuals
 - Horizontal Topology: [`docs/architecture-horizontal.png`](docs/architecture-horizontal.png)

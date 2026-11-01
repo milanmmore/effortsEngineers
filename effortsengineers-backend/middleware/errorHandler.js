@@ -7,9 +7,21 @@ export const notFound = (req, res, next) => {
 };
 
 export const errorHandler = (err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
+  const statusCode =
+    err.statusCode ||
+    (err.name === "MulterError"
+      ? err.code === "LIMIT_FILE_SIZE"
+        ? 413
+        : 400
+      : 500);
+  const message =
+    err.name === "MulterError" && err.code === "LIMIT_FILE_SIZE"
+      ? "Image exceeds the 5 MB upload limit."
+      : err.name === "MulterError"
+        ? "Invalid image upload."
+        : err.message || "Internal Server Error";
   res.status(statusCode).json({
-    message: err.message || "Internal Server Error",
+    message,
     stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
   });
 };
