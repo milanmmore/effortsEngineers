@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import EnquiryForm from "@/components/EnquiryForm";
 
 export default function GlobalReachPage() {
   const [selectedCert, setSelectedCert] = useState(null);
@@ -237,6 +238,9 @@ export default function GlobalReachPage() {
           </div>
         </div>
       )}
+      <div style={{ marginTop: "60px" }}>
+        <EnquiryForm source="Global reach page" title="Ask About an Export Requirement" />
+      </div>
     </main>
   );
 }

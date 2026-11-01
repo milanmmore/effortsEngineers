@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { QuoteContext } from "@/context/QuoteContext";
 import brandRanges from "@/config/brandRanges";
+import EnquiryForm from "@/components/EnquiryForm";
+import CONTACT_CONFIG from "@/config/contactConfig";
 
 export default function ProductSourcingPage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
@@ -25,8 +27,8 @@ export default function ProductSourcingPage() {
     },
     {
       step: "04",
-      title: "Expedited Global Delivery",
-      desc: "Inspection reports, material certificates, packaging, and any applicable warranty are confirmed per part and stated in the accepted quotation.",
+      title: "Delivery & Documentation",
+      desc: "Dispatch estimates, available inspection or material records, packaging, and any applicable warranty are confirmed for the part and stated in the accepted quotation.",
     },
   ];
 
@@ -48,7 +50,7 @@ export default function ProductSourcingPage() {
             The Part You Need Is Just One Conversation Away.
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "1rem", lineHeight: 1.7, marginBottom: "16px" }}>
-            Over decades of operation, many older refrigeration and air compressors lose OEM spare support. Efforts Engineers bridges this gap by sourcing suitable replacements and coordinating partner manufacturing when required.
+            {CONTACT_CONFIG.yearsInBusinessText}. We source replacement and compatible parts through a supplier network and can coordinate partner manufacturing when required. Products are not represented as OEM-branded unless explicitly stated in the quotation.
           </p>
           <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginTop: "25px" }}>
             <Link href="/contact" className="btn btn-primary">
@@ -99,7 +101,7 @@ export default function ProductSourcingPage() {
           <div className="separator-line" />
         </div>
 
-        <div className="services-grid" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
           {steps.map((s, idx) => (
             <div key={idx} className="why-card" style={{ padding: "26px" }}>
               <span style={{ fontSize: "2rem", fontWeight: 800, color: "var(--primary)", fontFamily: "Space Grotesk" }}>
@@ -111,6 +113,9 @@ export default function ProductSourcingPage() {
           ))}
         </div>
       </section>
+      <div style={{ marginTop: "60px" }}>
+        <EnquiryForm source="Product sourcing page" title="Submit a Sourcing Requirement" />
+      </div>
     </main>
   );
 }

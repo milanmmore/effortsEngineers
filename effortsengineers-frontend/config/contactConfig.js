@@ -6,16 +6,21 @@
 
 const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP || "+91 90960 01010";
 const yearsInBusinessText = "Efforts Engineers is since 1986";
+const businessAddress =
+  process.env.NEXT_PUBLIC_ADDRESS ||
+  "Shop No. 10 & 11, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India";
+const primaryEmail =
+  process.env.NEXT_PUBLIC_PRIMARY_EMAIL || "sales@effortsengineers.in";
 
 export const CONTACT_CONFIG = {
   phone: whatsapp,
   phoneRaw: whatsapp.replace(/\D/g, ""),
   whatsapp,
   whatsappRaw: whatsapp.replace(/\D/g, ""),
-  primaryEmail: process.env.NEXT_PUBLIC_PRIMARY_EMAIL || "sales@effortsengineers.in",
-  secondaryEmail: process.env.NEXT_PUBLIC_SECONDARY_EMAIL || "info@effortsengineers.in",
-  address: process.env.NEXT_PUBLIC_ADDRESS || "Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India",
-  workshopAddress: "Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India",
+  primaryEmail,
+  secondaryEmail: process.env.NEXT_PUBLIC_SECONDARY_EMAIL || primaryEmail,
+  address: businessAddress,
+  workshopAddress: businessAddress,
   yearsInBusinessText,
   yearsInBusinessShort: yearsInBusinessText,
 };

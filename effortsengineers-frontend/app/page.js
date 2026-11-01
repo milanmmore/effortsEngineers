@@ -223,7 +223,7 @@ export default function HomePage() {
         <div className="section-header">
           <h2 className="section-title"><b>Why Choose</b> Efforts Engineers?</h2>
           <p className="section-desc">
-            Efforts Engineers is since 1986. Our compressor-spares sourcing experience and logistics coordination have helped customers address industrial plant requirements.
+            {CONTACT_CONFIG.yearsInBusinessText}. We source compressor spares and coordinate logistics for industrial plant requirements.
           </p>
           <div className="separator-line" />
         </div>

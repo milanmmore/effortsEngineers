@@ -154,7 +154,7 @@ export default function Navbar() {
                   <span className="dropdown-item-icon">🏢</span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">About Us</span>
-                    <span className="dropdown-item-desc">{CONTACT_CONFIG.yearsInBusinessText}. Plant &amp; certifications</span>
+                    <span className="dropdown-item-desc">{CONTACT_CONFIG.yearsInBusinessText}. Compressor-parts sourcing</span>
                   </div>
                 </Link>
                 <Link

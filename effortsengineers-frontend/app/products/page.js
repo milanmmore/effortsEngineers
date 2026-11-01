@@ -1,9 +1,10 @@
 "use client";
-import React, { useContext, useEffect, useMemo, useState, Suspense } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
+import EnquiryForm from "@/components/EnquiryForm";
 
 const ADDITIONAL_PRODUCT_CATEGORIES = [
   {
@@ -28,49 +29,59 @@ function ProductsContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
 
-  useEffect(() => {
-    API.get("/catalog")
-      .then(({ data }) => {
-        if (!Array.isArray(data)) {
-          throw new Error("Catalog response was not a product list.");
-        }
+  const loadProducts = useCallback(async () => {
+    setIsLoading(true);
+    setLoadError("");
+    try {
+      const { data } = await API.get("/catalog", { timeout: 30000 });
+      if (!Array.isArray(data)) {
+        throw new Error("Catalog response was not a product list.");
+      }
 
-        setProducts(data.map((item) => {
-          const stockQuantity = Number(item.stock_quantity);
-          const hasStockQuantity = Number.isFinite(stockQuantity) && stockQuantity > 0;
-          const stockStatus = item.stock_status?.trim() || (
-            hasStockQuantity
-              ? `${stockQuantity} ${stockQuantity === 1 ? "unit" : "units"} listed`
-              : "Availability on request"
-          );
+      setProducts(data.map((item) => {
+        const stockQuantity = Number(item.stock_quantity);
+        const hasStockQuantity = Number.isFinite(stockQuantity) && stockQuantity > 0;
+        const stockStatus = item.stock_status?.trim() || (
+          hasStockQuantity
+            ? `${stockQuantity} ${stockQuantity === 1 ? "unit" : "units"} listed`
+            : "Availability on request"
+        );
 
-          return {
-            ...item,
-            name: item.name || "",
-            brand: item.brand || "",
-            category: item.category || "",
-            oem_no: item.oem_no || "",
-            part_number: item.part_number || "",
-            series: item.series || "",
-            compatible_models: item.compatible_models || "",
-            material_size: item.material_size || "",
-            description: item.description || "",
-            image: item.image_url || `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/images/components.jpeg`,
-            stock_status: stockStatus,
-            stock_type: /in stock|available/i.test(stockStatus)
-              ? "in-stock"
-              : /low stock/i.test(stockStatus)
-                ? "low-stock"
-                : "order",
-          };
-        }));
-      })
-      .catch((error) => {
-        console.error("Failed to load product catalog:", error);
-        setLoadError("Unable to load products. Please try again later.");
-      })
-      .finally(() => setIsLoading(false));
+        return {
+          ...item,
+          name: item.name || "",
+          brand: item.brand || "",
+          category: item.category || "",
+          oem_no: item.oem_no || "",
+          part_number: item.part_number || "",
+          series: item.series || "",
+          compatible_models: item.compatible_models || "",
+          material_size: item.material_size || "",
+          description: item.description || "",
+          image: item.image_url || `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/images/components.jpeg`,
+          stock_status: stockStatus,
+          stock_type: /in stock|available/i.test(stockStatus)
+            ? "in-stock"
+            : /low stock/i.test(stockStatus)
+              ? "low-stock"
+              : "order",
+        };
+      }));
+    } catch (error) {
+      console.error("Failed to load product catalog:", error);
+      setLoadError(
+        error.code === "ECONNABORTED"
+          ? "The catalog request timed out. Check your connection and try again."
+          : "Unable to load products. Check your connection and try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
 
   const brandsList = useMemo(
     () => ["All", ...new Set(products.map((item) => item.brand).filter(Boolean))],
@@ -176,7 +187,12 @@ function ProductsContent() {
       {isLoading ? (
         <p role="status" style={{ textAlign: "center", padding: "40px" }}>Loading products...</p>
       ) : loadError ? (
-        <p role="alert" style={{ textAlign: "center", padding: "40px" }}>{loadError}</p>
+        <div role="alert" style={{ textAlign: "center", padding: "40px" }}>
+          <p>{loadError}</p>
+          <button type="button" className="btn btn-primary" onClick={loadProducts}>
+            Retry loading catalog
+          </button>
+        </div>
       ) : filteredProducts.length === 0 ? (
         <div style={{ textAlign: "center", padding: "60px 20px", background: "white", borderRadius: "12px", border: "1px solid var(--line)" }}>
           <h3>{products.length === 0 ? "No products are available yet." : "No matching spare parts found."}</h3>
@@ -246,13 +262,16 @@ function ProductsContent() {
           Talk to a Sourcing Engineer →
         </Link>
       </div>
+      <div style={{ marginTop: "60px" }}>
+        <EnquiryForm source="Product catalog" title="Ask About a Compressor Spare Part" />
+      </div>
     </main>
   );
 }
 
 export default function ProductsPage() {
   return (
-    <Suspense fallback={<div className="section-shell" style={{ padding: "40px", textAlign: "center" }}>Loading catalog...</div>}>
+    <Suspense fallback={<div className="section-shell" style={{ padding: "40px", textAlign: "center" }}>Preparing product catalog...</div>}>
       <ProductsContent />
     </Suspense>
   );

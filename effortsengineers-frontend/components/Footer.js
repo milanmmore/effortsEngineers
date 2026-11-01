@@ -62,17 +62,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Contact & Factory Address */}
+          {/* Column 4: Business Contact */}
           <div className="footer-col">
-            <h4>Headquarters & Plant</h4>
+            <h4>Business Contact</h4>
             <p style={{ marginBottom: "12px" }}>
-              📍 <strong>Corporate Office:</strong><br />
+              📍 <strong>Office & Workshop:</strong><br />
               {CONTACT_CONFIG.address}
-
-            </p>
-            <p style={{ marginBottom: "12px" }}>
-              🏭 <strong>Assembly & Workshop:</strong><br />
-              {CONTACT_CONFIG.workshopAddress}
             </p>
             <p style={{ margin: "4px 0" }}>
               📞 <strong>Phone / WhatsApp:</strong> <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.phone}</a>
@@ -80,9 +75,7 @@ export default function Footer() {
             <p style={{ margin: "4px 0" }}>
               ✉️ <strong>Email:</strong> <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.primaryEmail}</a>
             </p>
-            <p style={{ margin: "4px 0" }}>
-              💬 <strong>WhatsApp:</strong> <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#34d399" }}>{CONTACT_CONFIG.whatsapp}</a>
-            </p>
+            <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#34d399" }}>Message us on WhatsApp</a>
           </div>
         </div>
 

@@ -1,23 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
+import EnquiryForm from "@/components/EnquiryForm";
 
 export default function WarrantyPage() {
-  const [serialQuery, setSerialQuery] = useState("");
-  const [serialResult, setSerialResult] = useState(null);
-  const [claimSubmitted, setClaimSubmitted] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
-
-  const handleVerify = (e) => {
-    e.preventDefault();
-    if (!serialQuery.trim()) return;
-    setSerialResult(serialQuery.trim().toUpperCase());
-  };
-
-  const handleClaimSubmit = (e) => {
-    e.preventDefault();
-    setClaimSubmitted(true);
-  };
 
   const faqs = [
     {
@@ -34,7 +20,7 @@ export default function WarrantyPage() {
     },
     {
       q: "Are installation guidelines required to maintain warranty validity?",
-      a: "Yes. Standard industrial installation practices must be followed (e.g., proper lube oil priming, correct torque specs on cylinder head & rod bolts, and cleanliness of refrigeration piping to prevent foreign metallic debris from scoring liners).",
+      a: "Any installation, maintenance, and operating conditions relevant to warranty coverage are stated in the applicable quotation or order documents. Please contact us if you need clarification before installation.",
     },
   ];
 
@@ -77,123 +63,21 @@ export default function WarrantyPage() {
         </div>
       </div>
 
-      {/* Interactive Serial Warranty Check Tool */}
-      <section style={{ background: "white", borderRadius: "16px", border: "1px solid var(--line)", padding: "40px", marginBottom: "60px", boxShadow: "var(--shadow-sm)" }}>
-        <div style={{ maxWidth: "680px", margin: "auto", textAlign: "center" }}>
-          <span className="eyebrow" style={{ color: "var(--primary)" }}>Warranty Inquiry</span>
-          <h2 style={{ fontSize: "1.8rem", marginBottom: "12px" }}>Ask About Coverage by Order Reference</h2>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.92rem", marginBottom: "25px" }}>
-            Enter your invoice, quotation, or part reference. This form does not access order records; contact our team to verify applicable terms.
+      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "32px", marginBottom: "60px" }}>
+        <div style={{ background: "var(--navy)", color: "white", borderRadius: "16px", padding: "35px" }}>
+          <span className="eyebrow" style={{ color: "#38bdf8" }}>Request a Warranty Review</span>
+          <h2 style={{ color: "white", fontSize: "1.5rem", marginBottom: "16px" }}>
+            Share Your Order and Product Details
+          </h2>
+          <p style={{ color: "#cbd5e1", fontSize: "0.95rem", lineHeight: 1.65, margin: 0 }}>
+            Include the invoice or quotation reference, part details, and a description of the issue. Our team will review your enquiry against the applicable order terms. Submitting an enquiry does not confirm warranty eligibility or a remedy.
           </p>
-
-          <form onSubmit={handleVerify} style={{ display: "flex", gap: "10px", maxWidth: "520px", margin: "0 auto 25px" }}>
-            <input
-              type="text"
-              required
-              placeholder="Enter invoice, quotation, or part reference"
-              value={serialQuery}
-              onChange={(e) => setSerialQuery(e.target.value)}
-              style={{ flex: 1, padding: "12px 16px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem" }}
-            />
-            <button type="submit" className="btn btn-primary">
-              Show Contact Instructions
-            </button>
-          </form>
-
-          {serialResult && (
-            <div style={{ background: "var(--bg-page)", border: "1px solid var(--line)", borderRadius: "10px", padding: "20px", textAlign: "left" }}>
-              <strong style={{ fontSize: "1.1rem", color: "var(--navy)" }}>Reference: {serialResult}</strong>
-              <p style={{ margin: "10px 0 0", fontSize: "0.9rem" }}>
-                Coverage cannot be verified automatically here. Contact us with this reference so we can review the applicable quotation or order terms.
-              </p>
-            </div>
-          )}
         </div>
-      </section>
-
-      {/* Online Warranty Claim RMA Form */}
-      <section style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "50px", marginBottom: "60px" }}>
-        <div style={{ background: "white", borderRadius: "16px", border: "1px solid var(--line)", padding: "35px", boxShadow: "var(--shadow-sm)" }}>
-          <span className="eyebrow" style={{ color: "var(--primary)" }}>Fast Track RMA</span>
-          <h2 style={{ fontSize: "1.6rem", marginBottom: "10px" }}>Prepare a Warranty Inquiry</h2>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: "25px" }}>
-            Provide the details you will need when contacting us. This page does not submit claims to our team.
-          </p>
-
-          {claimSubmitted ? (
-            <div style={{ background: "var(--green-light)", border: "1px solid #a7f3d0", padding: "30px", borderRadius: "12px", textAlign: "center" }}>
-              <div style={{ fontSize: "3rem", color: "#065f46", marginBottom: "12px" }}>✓</div>
-              <h3 style={{ color: "#065f46", marginBottom: "8px" }}>This Form Did Not Send Your Request</h3>
-              <p style={{ color: "#047857", fontSize: "0.95rem" }}>
-                No information from this form was saved or sent. Please contact us with your order reference; eligibility and next steps are subject to the applicable order terms.
-              </p>
-              <button className="btn btn-primary" onClick={() => setClaimSubmitted(false)} style={{ marginTop: "14px" }}>
-                Prepare Another Inquiry
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleClaimSubmit} style={{ display: "grid", gap: "14px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "0.82rem", fontWeight: 700 }}>
-                  Contact Name *
-                  <input required type="text" placeholder="Name" style={{ padding: "10px", border: "1px solid var(--line)", borderRadius: "4px" }} />
-                </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "0.82rem", fontWeight: 700 }}>
-                  Phone / WhatsApp *
-                  <input required type="tel" placeholder="+91 XXXXX XXXXX" style={{ padding: "10px", border: "1px solid var(--line)", borderRadius: "4px" }} />
-                </label>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "0.82rem", fontWeight: 700 }}>
-                  Invoice / Quotation Number *
-                  <input required type="text" placeholder="e.g. INV-1049" style={{ padding: "10px", border: "1px solid var(--line)", borderRadius: "4px" }} />
-                </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "0.82rem", fontWeight: 700 }}>
-                  Part Serial / Reference
-                  <input type="text" placeholder="e.g. GRA-RC11-LIN" style={{ padding: "10px", border: "1px solid var(--line)", borderRadius: "4px" }} />
-                </label>
-              </div>
-
-              <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "0.82rem", fontWeight: 700 }}>
-                Observed Symptom / Defect Description *
-                <textarea
-                  required
-                  rows="3"
-                  placeholder="Describe observed clearance discrepancy, premature wear, or operating condition..."
-                  style={{ padding: "10px", border: "1px solid var(--line)", borderRadius: "4px", fontFamily: "inherit" }}
-                />
-              </label>
-
-              <button type="submit" className="btn btn-primary" style={{ marginTop: "6px" }}>
-                Prepare Inquiry Details →
-              </button>
-            </form>
-          )}
-        </div>
-
-        {/* Quality Director Statement */}
-        <div style={{ background: "var(--navy)", color: "white", borderRadius: "16px", padding: "35px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <div>
-            <span className="eyebrow" style={{ color: "#38bdf8" }}>Product Support</span>
-            <h3 style={{ color: "white", fontSize: "1.5rem", marginBottom: "16px" }}>
-              &quot;Clear Product and Order Terms.&quot;
-            </h3>
-            <p style={{ color: "#cbd5e1", fontSize: "0.95rem", lineHeight: 1.65, marginBottom: "20px" }}>
-              Efforts Engineers sources products through a supplier network and does not manufacture parts in-house. Product inspection and material records depend on the supplier and are confirmed for each requirement.
-            </p>
-            <p style={{ color: "#cbd5e1", fontSize: "0.95rem", lineHeight: 1.65 }}>
-              Any warranty period, coverage, eligibility, and remedy are as stated in the accepted quotation or order documents.
-            </p>
-          </div>
-
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: "18px", marginTop: "25px" }}>
-            <strong style={{ color: "white" }}>Customer Support</strong>
-            <p style={{ margin: "2px 0 0", color: "#94a3b8", fontSize: "0.85rem" }}>
-              Efforts Engineers, Pune
-            </p>
-          </div>
-        </div>
+        <EnquiryForm
+          source="Warranty page"
+          title="Submit a Warranty Enquiry"
+          description="Include your invoice or quotation reference, part details, and a description of the issue. Warranty eligibility and any remedy depend on the accepted order terms."
+        />
       </section>
 
       {/* Warranty FAQ Accordion */}
