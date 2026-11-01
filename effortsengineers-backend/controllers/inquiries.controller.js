@@ -53,13 +53,38 @@ const memoryInquiries = [
 ];
 
 export const createInquiry = asyncHandler(async (req, res) => {
-  const { name, email, phone, company, brand, model, part_name, quantity, urgency, message } = req.body;
+  const {
+    name,
+    email,
+    phone,
+    company,
+    brand,
+    model,
+    part_name,
+    quantity,
+    urgency,
+    message,
+    attachment_url,
+  } = req.body;
 
   if (!name || (!email && !phone)) {
     throw new ApiError(400, "Name and either email or phone are required");
   }
 
+  if (
+    attachment_url &&
+    !/^\/uploads\/images\/[0-9a-f-]{36}\.(?:jpg|png|webp)$/i.test(attachment_url)
+  ) {
+    throw new ApiError(400, "Attachment URL must reference an uploaded image.");
+  }
+
   const rfqId = `EE-RFQ-${Math.floor(1000 + Math.random() * 9000)}`;
+  const inquiryMessage = [
+    message || "",
+    attachment_url ? `Attached image: ${attachment_url}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n\n");
   const inquiryRecord = {
     id: rfqId,
     name,
@@ -71,7 +96,8 @@ export const createInquiry = asyncHandler(async (req, res) => {
     part_name: part_name || "General Spares Requirement",
     quantity: Number(quantity) || 1,
     urgency: urgency || "Standard Delivery",
-    message: message || "",
+    message: inquiryMessage,
+    attachment_url: attachment_url || null,
     status: "new",
     created_at: new Date().toISOString(),
   };
@@ -81,7 +107,7 @@ export const createInquiry = asyncHandler(async (req, res) => {
     await db.query(
       `INSERT INTO inquiries (rfq_number, name, email, phone, company, brand, model, message, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-      [rfqId, name, email, phone, company, brand, model, message, "new"]
+      [rfqId, name, email, phone, company, brand, model, inquiryMessage, "new"]
     );
     console.log(`[DB] Successfully inserted inquiry ${rfqId} into database table inquiries`);
   } catch (err) {

@@ -19,6 +19,8 @@ import dashboardRoutes from "./routes/dashboard.routes.js";
 import inventoryRoutes from "./routes/inventory.routes.js";
 import inquiriesRoutes from "./routes/inquiries.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
+import uploadsRoutes from "./routes/uploads.routes.js";
+import { getImageUploadDirectory } from "./controllers/uploads.controller.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
@@ -32,6 +34,14 @@ app.use(
 );
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 app.use(express.json());
+app.use(
+  "/uploads/images",
+  express.static(getImageUploadDirectory(), {
+    dotfiles: "deny",
+    index: false,
+    setHeaders: (res) => res.setHeader("X-Content-Type-Options", "nosniff"),
+  })
+);
 
 app.get("/api/health", async (req, res) => {
   try {
@@ -56,6 +66,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/inventory", inventoryRoutes);
 app.use("/api/inquiries", inquiriesRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/uploads", uploadsRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
