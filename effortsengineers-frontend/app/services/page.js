@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { QuoteContext } from "@/context/QuoteContext";
 import CONTACT_CONFIG from "@/config/contactConfig";
+import EnquiryForm from "@/components/EnquiryForm";
 
 export default function ServicesPage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
@@ -98,6 +99,10 @@ export default function ServicesPage() {
             </p>
           </div>
         ))}
+      </div>
+
+      <div style={{ marginBottom: "70px" }}>
+        <EnquiryForm source="Services page" title="Enquire About Compressor Services" />
       </div>
 
       {/* Industrial Projects & Case Studies */}

@@ -39,6 +39,22 @@ test("uploads a valid PNG and serves it from the returned URL", async () => {
   expect(imageResponse.headers["x-content-type-options"]).toBe("nosniff");
 });
 
+test.each([
+  ["PDF", Buffer.from("%PDF-1.7\n"), "drawing.pdf", "application/pdf", ".pdf"],
+  ["DWG", Buffer.from("AC1027"), "drawing.dwg", "application/acad", ".dwg"],
+])("uploads and serves a valid %s drawing", async (_label, data, filename, contentType, extension) => {
+  const response = await request(app)
+    .post("/api/uploads/images")
+    .attach("image", data, { filename, contentType });
+
+  expect(response.status).toBe(201);
+  expect(response.body.file.filename).toMatch(new RegExp(`^[0-9a-f-]+\\${extension}$`));
+  createdImageFilenames.push(response.body.file.filename);
+
+  const fileResponse = await request(app).get(response.body.file.url);
+  expect(fileResponse.status).toBe(200);
+});
+
 test("rejects a file with an unsupported media type", async () => {
   const response = await request(app)
     .post("/api/uploads/images")
@@ -50,7 +66,7 @@ test("rejects a file with an unsupported media type", async () => {
   expect(response.status).toBe(400);
 });
 
-test("rejects a file whose content does not match its declared image type", async () => {
+test("rejects a file whose content does not match its declared type", async () => {
   const response = await request(app)
     .post("/api/uploads/images")
     .attach("image", Buffer.from("not a JPEG"), {
@@ -61,13 +77,13 @@ test("rejects a file whose content does not match its declared image type", asyn
   expect(response.status).toBe(400);
 });
 
-test("requires an image file", async () => {
+test("requires a file", async () => {
   const response = await request(app).post("/api/uploads/images");
 
   expect(response.status).toBe(400);
 });
 
-test("records an uploaded image URL with an inquiry", async () => {
+test("records an uploaded file URL with an inquiry", async () => {
   const attachmentUrl = `/uploads/images/${"123e4567-e89b-42d3-a456-426614174000"}.png`;
   const response = await request(app).post("/api/inquiries").send({
     name: "Test Customer",
@@ -77,7 +93,19 @@ test("records an uploaded image URL with an inquiry", async () => {
 
   expect(response.status).toBe(201);
   expect(response.body.inquiry.attachment_url).toBe(attachmentUrl);
-  expect(response.body.inquiry.message).toContain(`Attached image: ${attachmentUrl}`);
+  expect(response.body.inquiry.message).toContain(`Attached file: ${attachmentUrl}`);
+});
+
+test.each(["pdf", "dwg"])("accepts a stored .%s file as an inquiry attachment", async (extension) => {
+  const attachmentUrl = `/uploads/images/123e4567-e89b-42d3-a456-426614174000.${extension}`;
+  const response = await request(app).post("/api/inquiries").send({
+    name: "Test Customer",
+    email: "customer@example.com",
+    attachment_url: attachmentUrl,
+  });
+
+  expect(response.status).toBe(201);
+  expect(response.body.inquiry.attachment_url).toBe(attachmentUrl);
 });
 
 test("rejects inquiry attachment URLs that do not reference stored uploads", async () => {
@@ -90,7 +118,7 @@ test("rejects inquiry attachment URLs that do not reference stored uploads", asy
   expect(response.status).toBe(400);
 });
 
-test("rejects image uploads larger than 5 MB", async () => {
+test("rejects file uploads larger than 5 MB", async () => {
   const oversizedPng = Buffer.concat([
     Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
     Buffer.alloc(5 * 1024 * 1024),

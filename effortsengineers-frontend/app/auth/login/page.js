@@ -229,9 +229,6 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <div style={{ marginTop: "16px", background: "var(--bg-page)", padding: "12px", borderRadius: "6px", fontSize: "0.78rem", color: "var(--text-dim)", textAlign: "center" }}>
-          Demo Admin: <code>admin@example.com</code> | Client: <code>user@example.com</code>
-        </div>
       </div>
 
       {/* Forgot Password Modal Dialog */}

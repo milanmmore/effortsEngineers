@@ -10,7 +10,7 @@ export const getImageUploadDirectory = () =>
       path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "images")
   );
 
-const imageFormats = [
+const uploadFormats = [
   {
     extension: ".jpg",
     mimeType: "image/jpeg",
@@ -37,22 +37,42 @@ const imageFormats = [
       buffer.toString("ascii", 0, 4) === "RIFF" &&
       buffer.toString("ascii", 8, 12) === "WEBP",
   },
+  {
+    extension: ".pdf",
+    mimeType: "application/pdf",
+    matches: (buffer) => buffer.length >= 5 && buffer.toString("ascii", 0, 5) === "%PDF-",
+  },
+  {
+    extension: ".dwg",
+    mimeType: "application/acad",
+    matches: (buffer) => buffer.length >= 6 && /^AC\d{4}$/.test(buffer.toString("ascii", 0, 6)),
+  },
 ];
 
 export const uploadImage = async (req, res) => {
   if (!req.file) {
-    throw new ApiError(400, "An image file is required in the 'image' field.");
+    throw new ApiError(400, "A file is required in the 'image' field.");
   }
 
-  const imageFormat = imageFormats.find(({ matches }) => matches(req.file.buffer));
-  if (!imageFormat || imageFormat.mimeType !== req.file.mimetype) {
-    throw new ApiError(400, "The uploaded file is not a valid JPEG, PNG, or WebP image.");
+  const extension = path.extname(req.file.originalname).toLowerCase();
+  const uploadFormat = uploadFormats.find(
+    (format) => format.extension === extension && format.matches(req.file.buffer)
+  );
+  if (!uploadFormat) {
+    throw new ApiError(400, "The uploaded file content does not match a supported file type.");
+  }
+
+  if (
+    uploadFormat.extension !== ".dwg" &&
+    uploadFormat.mimeType !== req.file.mimetype
+  ) {
+    throw new ApiError(400, "The uploaded file content does not match its declared file type.");
   }
 
   const imageUploadDirectory = getImageUploadDirectory();
   await mkdir(imageUploadDirectory, { recursive: true });
 
-  const filename = `${randomUUID()}${imageFormat.extension}`;
+  const filename = `${randomUUID()}${uploadFormat.extension}`;
   await writeFile(path.join(imageUploadDirectory, filename), req.file.buffer, {
     flag: "wx",
     mode: 0o644,
@@ -60,10 +80,16 @@ export const uploadImage = async (req, res) => {
 
   res.status(201).json({
     success: true,
+    file: {
+      filename,
+      url: `/uploads/images/${filename}`,
+      mimeType: uploadFormat.mimeType,
+      size: req.file.size,
+    },
     image: {
       filename,
       url: `/uploads/images/${filename}`,
-      mimeType: imageFormat.mimeType,
+      mimeType: uploadFormat.mimeType,
       size: req.file.size,
     },
   });

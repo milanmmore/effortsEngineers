@@ -146,7 +146,7 @@ export default function QuotationPage() {
               Specialists in Industrial Refrigeration & Compressor Spare Parts
             </p>
             <p style={{ margin: "2px 0", fontSize: "0.78rem", color: "var(--text-muted)" }}>
-              📍 Plot 48, MIDC Bhosari, Pune - 411026, Maharashtra, India
+              📍 {CONTACT_CONFIG.address}
             </p>
             <p style={{ margin: "2px 0", fontSize: "0.78rem", color: "var(--text-muted)" }}>
               📞 {CONTACT_CONFIG.phone} | ✉️ {CONTACT_CONFIG.primaryEmail} | GSTIN: 27AABCE9912C1ZX

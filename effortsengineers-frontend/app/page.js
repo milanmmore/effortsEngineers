@@ -223,7 +223,7 @@ export default function HomePage() {
         <div className="section-header">
           <h2 className="section-title"><b>Why Choose</b> Efforts Engineers?</h2>
           <p className="section-desc">
-            Efforts Engineers is since 1986. Our compressor-spares sourcing experience and logistics coordination have helped customers address industrial plant requirements.
+            {CONTACT_CONFIG.yearsInBusinessText}. We source compressor spares and coordinate logistics for industrial plant requirements.
           </p>
           <div className="separator-line" />
         </div>
@@ -247,7 +247,7 @@ export default function HomePage() {
 
           <div className="why-card">
             <div className="why-icon-box">🏭</div>
-            <h4>Manufacturing Through Partners</h4>
+            <h4>Sourcing Through Partners</h4>
             <p>
               We coordinate with manufacturing partners for suitable CNC machining and inspection. Capabilities and inspection documentation are confirmed for each requirement.
             </p>
