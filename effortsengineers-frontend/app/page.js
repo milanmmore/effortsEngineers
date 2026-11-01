@@ -247,7 +247,7 @@ export default function HomePage() {
 
           <div className="why-card">
             <div className="why-icon-box">🏭</div>
-            <h4>Manufacturing Through Partners</h4>
+            <h4>Sourcing Through Partners</h4>
             <p>
               We coordinate with manufacturing partners for suitable CNC machining and inspection. Capabilities and inspection documentation are confirmed for each requirement.
             </p>

@@ -6,7 +6,14 @@ import CONTACT_CONFIG from "@/config/contactConfig";
 import { sendEmailNotification } from "@/lib/emailService";
 
 const MAX_ATTACHMENT_SIZE = 5 * 1024 * 1024;
-const ALLOWED_ATTACHMENT_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".pdf",
+  ".dwg",
+]);
 const COMPRESSOR_MAKES = [
   "Grasso",
   "Bitzer",
@@ -78,17 +85,18 @@ export default function EnquiryForm({
     const file = event.target.files?.[0] || null;
     setSubmitError("");
 
-    if (file && !ALLOWED_ATTACHMENT_TYPES.has(file.type)) {
+    const extension = file?.name.match(/\.[^.]+$/)?.[0].toLowerCase();
+    if (file && !ALLOWED_ATTACHMENT_EXTENSIONS.has(extension)) {
       setAttachmentFile(null);
       event.target.value = "";
-      setSubmitError("Choose a JPEG, PNG, or WebP image.");
+      setSubmitError("Choose a JPEG, PNG, WebP, PDF, or DWG file.");
       return;
     }
 
     if (file && file.size > MAX_ATTACHMENT_SIZE) {
       setAttachmentFile(null);
       event.target.value = "";
-      setSubmitError("The image must be 5 MB or smaller.");
+      setSubmitError("The file must be 5 MB or smaller.");
       return;
     }
 
@@ -110,7 +118,7 @@ export default function EnquiryForm({
           headers: { "Content-Type": "multipart/form-data" },
         });
         attachmentUrl = new URL(
-          uploadResponse.data.image.url,
+          uploadResponse.data.file.url,
           API.defaults.baseURL
         ).toString();
       }
@@ -143,6 +151,7 @@ export default function EnquiryForm({
           urgency: formData.urgency,
           destination_country: formData.destination_country,
           message: formData.message,
+          attached_file: attachmentUrl || "None",
           attached_image: attachmentUrl || "None",
           submitted_at: new Date().toLocaleString(),
         },
@@ -277,10 +286,10 @@ export default function EnquiryForm({
             </label>
 
             <label style={labelStyle}>
-              Attach Nameplate Photo or Part Drawing (optional)
-              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleAttachmentChange} style={inputStyle} />
+              Attach Nameplate Photo or Drawing (optional)
+              <input type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.dwg,image/jpeg,image/png,image/webp,application/pdf,application/acad" onChange={handleAttachmentChange} style={inputStyle} />
               <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontWeight: 400 }}>
-                JPEG, PNG, or WebP; maximum 5 MB.
+                JPEG, PNG, WebP, PDF, or DWG; maximum 5 MB.
                 {attachmentFile ? ` Selected: ${attachmentFile.name}` : ""}
               </span>
             </label>

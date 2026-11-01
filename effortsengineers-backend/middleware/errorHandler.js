@@ -16,9 +16,9 @@ export const errorHandler = (err, req, res, next) => {
       : 500);
   const message =
     err.name === "MulterError" && err.code === "LIMIT_FILE_SIZE"
-      ? "Image exceeds the 5 MB upload limit."
+      ? "File exceeds the 5 MB upload limit."
       : err.name === "MulterError"
-        ? "Invalid image upload."
+        ? "Invalid file upload."
         : err.message || "Internal Server Error";
   res.status(statusCode).json({
     message,

@@ -73,15 +73,15 @@ export const createInquiry = asyncHandler(async (req, res) => {
 
   if (
     attachment_url &&
-    !/^\/uploads\/images\/[0-9a-f-]{36}\.(?:jpg|png|webp)$/i.test(attachment_url)
+    !/^\/uploads\/images\/[0-9a-f-]{36}\.(?:jpg|jpeg|png|webp|pdf|dwg)$/i.test(attachment_url)
   ) {
-    throw new ApiError(400, "Attachment URL must reference an uploaded image.");
+    throw new ApiError(400, "Attachment URL must reference an uploaded file.");
   }
 
   const rfqId = `EE-RFQ-${Math.floor(1000 + Math.random() * 9000)}`;
   const inquiryMessage = [
     message || "",
-    attachment_url ? `Attached image: ${attachment_url}` : "",
+    attachment_url ? `Attached file: ${attachment_url}` : "",
   ]
     .filter(Boolean)
     .join("\n\n");

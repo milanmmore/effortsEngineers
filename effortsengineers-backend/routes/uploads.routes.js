@@ -5,17 +5,17 @@ import imageUpload from "../middleware/imageUpload.js";
 
 const router = express.Router();
 
-const imageUploadRateLimit = rateLimit({
+const fileUploadRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 10,
   standardHeaders: "draft-8",
   legacyHeaders: false,
-  message: { message: "Too many image uploads. Please try again later." },
+  message: { message: "Too many file uploads. Please try again later." },
 });
 
 router.post(
   "/images",
-  imageUploadRateLimit,
+  fileUploadRateLimit,
   imageUpload.single("image"),
   uploadImage
 );

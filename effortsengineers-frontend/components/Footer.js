@@ -66,14 +66,25 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Business Contact</h4>
             <p style={{ marginBottom: "12px" }}>
-              📍 <strong>Office & Workshop:</strong><br />
+              📍 <strong>Office:</strong><br />
               {CONTACT_CONFIG.address}
+            </p>
+            <p style={{ marginBottom: "12px" }}>
+              📍 <strong>Workshop / Sourcing Coordination:</strong><br />
+              {CONTACT_CONFIG.workshopAddress}
             </p>
             <p style={{ margin: "4px 0" }}>
               📞 <strong>Phone / WhatsApp:</strong> <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.phone}</a>
             </p>
             <p style={{ margin: "4px 0" }}>
-              ✉️ <strong>Email:</strong> <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.primaryEmail}</a>
+              ✉️ <strong>Email:</strong><br />
+              <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.primaryEmail}</a>
+              {CONTACT_CONFIG.secondaryEmail !== CONTACT_CONFIG.primaryEmail && (
+                <>
+                  <br />
+                  <a href={`mailto:${CONTACT_CONFIG.secondaryEmail}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.secondaryEmail}</a>
+                </>
+              )}
             </p>
             <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#34d399" }}>Message us on WhatsApp</a>
           </div>

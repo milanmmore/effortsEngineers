@@ -1,7 +1,22 @@
 import multer from "multer";
+import path from "node:path";
 import ApiError from "../utils/ApiError.js";
 
-const allowedMimeTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
+const allowedTypesByExtension = {
+  ".jpg": new Set(["image/jpeg"]),
+  ".jpeg": new Set(["image/jpeg"]),
+  ".png": new Set(["image/png"]),
+  ".webp": new Set(["image/webp"]),
+  ".pdf": new Set(["application/pdf"]),
+  ".dwg": new Set([
+    "application/acad",
+    "application/dwg",
+    "application/x-acad",
+    "application/x-dwg",
+    "image/vnd.dwg",
+    "application/octet-stream",
+  ]),
+};
 
 const imageUpload = multer({
   storage: multer.memoryStorage(),
@@ -11,8 +26,10 @@ const imageUpload = multer({
     fields: 0,
   },
   fileFilter: (req, file, callback) => {
-    if (!allowedMimeTypes.has(file.mimetype)) {
-      callback(new ApiError(400, "Only JPEG, PNG, and WebP images are allowed."));
+    const extension = path.extname(file.originalname).toLowerCase();
+    const allowedMimeTypes = allowedTypesByExtension[extension];
+    if (!allowedMimeTypes?.has(file.mimetype)) {
+      callback(new ApiError(400, "Only JPEG, PNG, WebP, PDF, and DWG files are allowed."));
       return;
     }
 
