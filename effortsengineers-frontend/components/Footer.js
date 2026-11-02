@@ -3,6 +3,25 @@ import React from "react";
 import Link from "next/link";
 import CONTACT_CONFIG from "@/config/contactConfig";
 
+const compatibleBrands = [
+  { brand: "Grasso", label: "Grasso (RC9, RC11, RC12)" },
+  { brand: "Bitzer", label: "Bitzer (4N, 4P, 4T, 6F, 4G)" },
+  { brand: "Kirloskar", label: "Kirloskar (KC, KCX, BT, TC)" },
+  { brand: "Carrier", label: "Carrier (5F, 5H, 06D, 06E)" },
+  { brand: "Sabroe", label: "Sabroe (CMO, SMC series)" },
+  { brand: "Bock", label: "Bock (F3, F4, F5, F16)" },
+  { brand: "Daikin", label: "Daikin (C55, C58, C75)" },
+  { brand: "Vilter", label: "Vilter (440, 450, 450XL)" },
+  { brand: "York", label: "York" },
+  { brand: "Copeland", label: "Copeland" },
+  { brand: "Trane", label: "Trane" },
+  { brand: "Ingersoll Rand", label: "Ingersoll Rand" },
+  { brand: "Atlas Copco", label: "Atlas Copco" },
+  { brand: "CPT", label: "CPT" },
+  { brand: "Accel Sabroe", label: "Accel Sabroe" },
+  { brand: "Voltas", label: "Voltas" },
+];
+
 export default function Footer() {
   return (
     <footer className="site-footer">
@@ -28,22 +47,11 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Compatible Brands</h4>
             <ul>
-              <li><Link href="/products?brand=Grasso">Grasso (RC9, RC11, RC12)</Link></li>
-              <li><Link href="/products?brand=Bitzer">Bitzer (4N, 4P, 4T, 6F, 4G)</Link></li>
-              <li><Link href="/products?brand=Kirloskar">Kirloskar (KC, KCX, BT, TC)</Link></li>
-              <li><Link href="/products?brand=Carrier">Carrier (5F, 5H, 06D, 06E)</Link></li>
-              <li><Link href="/products?brand=Sabroe">Sabroe (CMO, SMC series)</Link></li>
-              <li><Link href="/products?brand=Bock">Bock (F3, F4, F5, F16)</Link></li>
-              <li><Link href="/products?brand=Daikin">Daikin (C55, C58, C75)</Link></li>
-              <li><Link href="/products?brand=Vilter">Vilter (440, 450, 450XL)</Link></li>
-              <li><Link href="/productsourcing#brand-ranges">York</Link></li>
-              <li><Link href="/productsourcing#brand-ranges">Copeland</Link></li>
-              <li><Link href="/productsourcing#brand-ranges">Trane</Link></li>
-              <li><Link href="/productsourcing#brand-ranges">Ingersoll Rand</Link></li>
-              <li><Link href="/productsourcing#brand-ranges">Atlas Copco</Link></li>
-              <li><Link href="/productsourcing#brand-ranges">CPT</Link></li>
-              <li><Link href="/productsourcing#brand-ranges">Accel Sabroe</Link></li>
-              <li><Link href="/productsourcing#brand-ranges">Voltas</Link></li>
+              {compatibleBrands.map(({ brand, label }) => (
+                <li key={brand}>
+                  <Link href={`/products?brand=${encodeURIComponent(brand)}`}>{label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 

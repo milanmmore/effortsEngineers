@@ -56,14 +56,24 @@ export default function ContactPage() {
             ))}
             <p style={{ margin: "0 0 12px" }}>
               <strong>Phone / WhatsApp</strong><br />
-              <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>{CONTACT_CONFIG.phone}</a>
+              <a
+                href={`tel:${CONTACT_CONFIG.phoneRaw}`}
+                style={{ color: "var(--primary)", textDecoration: "underline", textUnderlineOffset: "3px" }}
+              >
+                {CONTACT_CONFIG.phone}
+              </a>
             </p>
             <p style={{ margin: 0 }}>
               <strong>Email</strong><br />
               {CONTACT_CONFIG.emails.map((email, index) => (
                 <React.Fragment key={email}>
                   {index > 0 && <br />}
-                  <a href={`mailto:${email}`}>{email}</a>
+                  <a
+                    href={`mailto:${email}`}
+                    style={{ color: "var(--primary)", textDecoration: "underline", textUnderlineOffset: "3px" }}
+                  >
+                    {email}
+                  </a>
                 </React.Fragment>
               ))}
             </p>

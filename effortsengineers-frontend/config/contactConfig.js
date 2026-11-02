@@ -5,7 +5,7 @@
  */
 
 const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP || "+91 90960 01010";
-const yearsInBusinessText = "Established in Pune in 1986";
+const yearsInBusinessText = "Established in 1986";
 const businessAddress =
   process.env.NEXT_PUBLIC_ADDRESS ||
   "Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India";

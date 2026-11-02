@@ -1,4 +1,5 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://effortsengineers.in";
+import { SITE_ORIGIN } from "@/config/siteOrigin";
+
 const isIndexingEnabled = process.env.NEXT_PUBLIC_INDEX_SITE === "true";
 
 const pageMetadata = {
@@ -104,11 +105,11 @@ export function getPageMetadata(pageKey) {
     title: page.title,
     description: page.description,
     alternates: {
-      canonical: new URL(page.path, siteUrl).toString(),
+      canonical: new URL(page.path, SITE_ORIGIN).toString(),
     },
     robots: {
-      index: isIndexingEnabled,
-      follow: isIndexingEnabled,
+      index: pageKey === "products" || isIndexingEnabled,
+      follow: pageKey === "products" || isIndexingEnabled,
     },
   };
 }

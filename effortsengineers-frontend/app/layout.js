@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import QuoteBuilderDrawer from '@/components/QuoteBuilderDrawer';
 import AIChatbot from '@/components/AIChatbot';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import { SITE_ORIGIN } from '@/config/siteOrigin';
 import './globals.css';
 
 const isIndexingEnabled = process.env.NEXT_PUBLIC_INDEX_SITE === 'true';
@@ -12,7 +13,7 @@ const isIndexingEnabled = process.env.NEXT_PUBLIC_INDEX_SITE === 'true';
 export const metadata = {
   title: 'Efforts Engineers | Industrial Compressor Spares & Engineering Overhaul',
   description: 'Sourcing replacement spare parts for Grasso, Bitzer, Kirloskar, Carrier, Sabroe, Bock, and Daikin compressors. Availability, dispatch estimates, and warranty terms are confirmed per order.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://effortsengineers.in'),
+  metadataBase: new URL(SITE_ORIGIN),
   alternates: {
     canonical: '/',
   },
