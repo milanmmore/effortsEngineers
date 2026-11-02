@@ -1,10 +1,10 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dev.effortsengineers.in";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://effortsengineers.in";
 const isIndexingEnabled = process.env.NEXT_PUBLIC_INDEX_SITE === "true";
 
 const pageMetadata = {
   about: {
     path: "/about",
-    title: "About Efforts Engineers | Compressor Spares Sourcing Since 1986",
+    title: "About Efforts Engineers | Established in Pune in 1986",
     description: "Learn about Efforts Engineers, a Pune-based supplier-network partner for industrial refrigeration and compressor spare parts.",
   },
   contact: {

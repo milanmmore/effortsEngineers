@@ -12,7 +12,7 @@ const isIndexingEnabled = process.env.NEXT_PUBLIC_INDEX_SITE === 'true';
 export const metadata = {
   title: 'Efforts Engineers | Industrial Compressor Spares & Engineering Overhaul',
   description: 'Sourcing replacement spare parts for Grasso, Bitzer, Kirloskar, Carrier, Sabroe, Bock, and Daikin compressors. Availability, dispatch estimates, and warranty terms are confirmed per order.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://dev.effortsengineers.in'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://effortsengineers.in'),
   alternates: {
     canonical: '/',
   },

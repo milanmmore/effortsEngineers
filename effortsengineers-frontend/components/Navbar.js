@@ -52,7 +52,7 @@ export default function Navbar() {
         <div className="announcement-inner">
           <div className="announcement-left">
             <span className="announcement-badge">Dispatch Estimates</span>
-            <span>⚡ Ask About Availability & Dispatch Estimates Across India & 15+ Export Destinations </span>
+            <span>⚡ Ask About Availability & Dispatch Estimates Across India and Export Markets </span>
           </div>
           <div className="announcement-right">
             <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>📞 {CONTACT_CONFIG.phone}</a>
@@ -70,7 +70,7 @@ export default function Navbar() {
             </div>
             <div className="brand-text-col">
               <span className="brand-title">EFFORTS <span>ENGINEERS</span></span>
-              <span className="brand-tagline">Compressor Spares & Overhaul</span>
+              <span className="brand-tagline">Compressor Spares & Service Coordination</span>
             </div>
           </Link>
 
@@ -112,7 +112,7 @@ export default function Navbar() {
                   <span className="dropdown-item-icon">⚙️</span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">Services &amp; Projects</span>
-                    <span className="dropdown-item-desc">Compressor overhaul, retrofitting &amp; repair</span>
+                    <span className="dropdown-item-desc">Service coordination through external partners</span>
                   </div>
                 </Link>
                 <Link
@@ -154,7 +154,7 @@ export default function Navbar() {
                   <span className="dropdown-item-icon">🏢</span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">About Us</span>
-                    <span className="dropdown-item-desc">{CONTACT_CONFIG.yearsInBusinessText}. Compressor-parts sourcing</span>
+                    <span className="dropdown-item-desc">{CONTACT_CONFIG.yearsInBusinessText} · Compressor-parts sourcing</span>
                   </div>
                 </Link>
                 <Link

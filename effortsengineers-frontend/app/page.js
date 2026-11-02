@@ -71,7 +71,7 @@ export default function HomePage() {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> Supplier Network • {CONTACT_CONFIG.yearsInBusinessText} • 15+ Export Destinations
+              <span>★</span> Supplier Network • {CONTACT_CONFIG.yearsInBusinessText} • Export Coordination
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>
@@ -102,11 +102,11 @@ export default function HomePage() {
             <dl className="hero-stats-strip">
               <div className="hero-stat-item">
                 <dt>{CONTACT_CONFIG.yearsInBusinessShort}</dt>
-                <dd>Compressor Spares Sourcing</dd>
+                <dd>Company History</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>15+</dt>
-                <dd>Export Destinations</dd>
+                <dt>Export</dt>
+                <dd>Coordination by Order</dd>
               </div>
               <div className="hero-stat-item">
                 <dt>By Order</dt>
@@ -122,8 +122,8 @@ export default function HomePage() {
           {/* Right Hero RFQ Card */}
           <div className="hero-rfq-card">
             <div className="rfq-card-header">
-              <span className="eyebrow" style={{ color: "var(--primary)" }}>Fast Breakdown Assistance</span>
-              <h3>Get Rapid Spares Quotation</h3>
+              <span className="eyebrow" style={{ color: "var(--primary)" }}>Breakdown Enquiry</span>
+              <h3>Submit a Spares Enquiry</h3>
               <p>Share your compressor details and our team will review pricing and availability. Response timing depends on inquiry details and business hours.</p>
             </div>
 
@@ -209,7 +209,7 @@ export default function HomePage() {
                   />
                 </label>
                 <button type="submit" className="btn btn-primary" style={{ marginTop: "6px" }} disabled={isSubmitting}>
-                  {isSubmitting ? "Submitting..." : "⚡ Submit Urgent RFQ →"}
+                  {isSubmitting ? "Submitting..." : "Submit Part Enquiry →"}
                 </button>
               </form>
             )}

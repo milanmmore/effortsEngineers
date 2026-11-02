@@ -62,17 +62,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Business Contact */}
+          {/* Column 4: Pune Locations & Contact */}
           <div className="footer-col">
-            <h4>Business Contact</h4>
-            <p style={{ marginBottom: "12px" }}>
-              📍 <strong>Office:</strong><br />
-              {CONTACT_CONFIG.address}
-            </p>
-            <p style={{ marginBottom: "12px" }}>
-              📍 <strong>Workshop / Sourcing Coordination:</strong><br />
-              {CONTACT_CONFIG.workshopAddress}
-            </p>
+            <h4>Pune Locations &amp; Contact</h4>
+            {CONTACT_CONFIG.locations.map((location) => (
+              <p key={location.id} style={{ marginBottom: "12px" }}>
+                📍 <strong>{location.shop} · {location.role}:</strong><br />
+                {location.address}
+              </p>
+            ))}
             <p style={{ margin: "4px 0" }}>
               📞 <strong>Phone / WhatsApp:</strong> <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.phone}</a>
             </p>

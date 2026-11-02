@@ -5,7 +5,7 @@
  */
 
 const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP || "+91 90960 01010";
-const yearsInBusinessText = "Serving industry since 1986";
+const yearsInBusinessText = "Established in Pune in 1986";
 const businessAddress =
   process.env.NEXT_PUBLIC_ADDRESS ||
   "Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India";
@@ -21,6 +21,20 @@ const emails = [primaryEmail, secondaryEmail].filter(
       (address) => address.trim().toLowerCase() === email.trim().toLowerCase()
     ) === index
 );
+const locations = [
+  {
+    id: "office",
+    shop: "Shop No. 10",
+    role: "Office",
+    address: businessAddress,
+  },
+  {
+    id: "workshop",
+    shop: "Shop No. 11",
+    role: "Workshop & Sourcing Coordination",
+    address: workshopAddress,
+  },
+];
 
 export const CONTACT_CONFIG = {
   phone: whatsapp,
@@ -32,8 +46,9 @@ export const CONTACT_CONFIG = {
   emails,
   address: businessAddress,
   workshopAddress,
+  locations,
   yearsInBusinessText,
-  yearsInBusinessShort: yearsInBusinessText,
+  yearsInBusinessShort: "Since 1986",
 };
 
 export default CONTACT_CONFIG;

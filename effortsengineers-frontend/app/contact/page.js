@@ -47,15 +47,13 @@ export default function ContactPage() {
           </section>
 
           <section style={{ background: "white", border: "1px solid var(--line)", borderRadius: "16px", padding: "26px", boxShadow: "var(--shadow-sm)" }}>
-            <h2 style={{ fontSize: "1.2rem", margin: "0 0 16px" }}>Business Contact</h2>
-            <p style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
-              <strong>Shop No. 10 · Office</strong><br />
-              {CONTACT_CONFIG.address}
-            </p>
-            <p style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
-              <strong>Shop No. 11 · Workshop &amp; Sourcing Coordination</strong><br />
-              {CONTACT_CONFIG.workshopAddress}
-            </p>
+            <h2 style={{ fontSize: "1.2rem", margin: "0 0 16px" }}>Pune Locations &amp; Contact</h2>
+            {CONTACT_CONFIG.locations.map((location) => (
+              <p key={location.id} style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
+                <strong>{location.shop} · {location.role}</strong><br />
+                {location.address}
+              </p>
+            ))}
             <p style={{ margin: "0 0 12px" }}>
               <strong>Phone / WhatsApp</strong><br />
               <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>{CONTACT_CONFIG.phone}</a>
