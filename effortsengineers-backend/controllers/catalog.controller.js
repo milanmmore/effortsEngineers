@@ -3,14 +3,24 @@ import db from "../config/db.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 
+// Canonical product column list shared by every catalog query.
+const PRODUCT_COLUMNS = [
+  "name", "description", "price", "brand", "category", "oem_no",
+  "stock_quantity", "stock_status", "image_url", "series", "part_number",
+  "photo_id", "file_name", "compatible_models", "material_size", "photo_status",
+  "photo_source", "photo_view", "alt_text", "page_url", "remarks",
+];
+
+// Columns returned by every catalog read/write.
+const PRODUCT_SELECT = ["id", ...PRODUCT_COLUMNS, "created_at"].join(", ");
+
+// Placeholder list ($1, $2, ...) for the given number of columns.
+const placeholders = (count) =>
+  Array.from({ length: count }, (_, i) => `$${i + 1}`).join(", ");
+
 export const listCatalog = asyncHandler(async (req, res) => {
   const result = await db.query(
-    `SELECT id, name, description, price, brand, category, oem_no,
-            stock_quantity, stock_status, image_url, series, part_number,
-            photo_id, file_name, compatible_models, material_size, photo_status,
-            photo_source, photo_view, alt_text, page_url, remarks, created_at
-     FROM products
-     ORDER BY created_at DESC`
+    `SELECT ${PRODUCT_SELECT} FROM products ORDER BY created_at DESC`
   );
   res.json(result.rows);
 });
@@ -18,12 +28,7 @@ export const listCatalog = asyncHandler(async (req, res) => {
 export const getCatalogItem = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const result = await db.query(
-    `SELECT id, name, description, price, brand, category, oem_no,
-            stock_quantity, stock_status, image_url, series, part_number,
-            photo_id, file_name, compatible_models, material_size, photo_status,
-            photo_source, photo_view, alt_text, page_url, remarks, created_at
-     FROM products
-     WHERE id = $1`,
+    `SELECT ${PRODUCT_SELECT} FROM products WHERE id = $1`,
     [id]
   );
   if (result.rows.length === 0) throw new ApiError(404, "Product not found");
@@ -73,16 +78,9 @@ export const createCatalogItem = asyncHandler(async (req, res) => {
   }
 
   const result = await db.query(
-    `INSERT INTO products
-       (name, description, price, brand, category, oem_no, stock_quantity, image_url,
-        stock_status, series, part_number, photo_id, file_name, compatible_models,
-        material_size, photo_status, photo_source, photo_view, alt_text, page_url, remarks)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16,
-             $17, $18, $19, $20, $21)
-     RETURNING id, name, description, price, brand, category, oem_no,
-               stock_quantity, stock_status, image_url, series, part_number,
-               photo_id, file_name, compatible_models, material_size, photo_status,
-               photo_source, photo_view, alt_text, page_url, remarks, created_at`,
+    `INSERT INTO products (${PRODUCT_COLUMNS.join(", ")})
+     VALUES (${placeholders(PRODUCT_COLUMNS.length)})
+     RETURNING ${PRODUCT_SELECT}`,
     [
       name, description, price, brand, category, oem_no, stock_quantity, image_url,
       stock_status, series, part_number, photo_id, file_name, compatible_models,
@@ -129,7 +127,8 @@ export const updateCatalogItem = asyncHandler(async (req, res) => {
 
   const result = await db.query(
     `UPDATE products
-     SET name = $1, description = $2, price = $3, brand = COALESCE($4, brand),
+     SET name = COALESCE($1, name), description = COALESCE($2, description),
+         price = COALESCE($3, price), brand = COALESCE($4, brand),
          category = COALESCE($5, category), oem_no = COALESCE($6, oem_no),
          stock_quantity = COALESCE($7, stock_quantity),
          image_url = COALESCE($8, image_url),
@@ -147,10 +146,7 @@ export const updateCatalogItem = asyncHandler(async (req, res) => {
          page_url = COALESCE($20, page_url),
          remarks = COALESCE($21, remarks)
      WHERE id = $22
-     RETURNING id, name, description, price, brand, category, oem_no,
-               stock_quantity, stock_status, image_url, series, part_number,
-               photo_id, file_name, compatible_models, material_size, photo_status,
-               photo_source, photo_view, alt_text, page_url, remarks, created_at`,
+     RETURNING ${PRODUCT_SELECT}`,
     [
       name, description, price, brand, category, oem_no, stock_quantity, image_url,
       stock_status, series, part_number, photo_id, file_name, compatible_models,

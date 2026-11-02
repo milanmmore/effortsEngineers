@@ -1,90 +1,17 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { QuoteContext } from "@/context/QuoteContext";
-import API from "@/lib/axiosClient";
 import Link from "next/link";
-import { sendEmailNotification } from "@/lib/emailService";
-import CONTACT_CONFIG from "@/config/contactConfig";
+import Field from "@/components/Field";
+import useQuoteSubmission from "@/hooks/useQuoteSubmission";
 
 export default function QuoteBuilderDrawer() {
   const { items, removeItem, updateQuantity, clearQuote, isDrawerOpen, setIsDrawerOpen, totalEstimated } = useContext(QuoteContext);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    urgency: "Standard — timing to be confirmed",
-    notes: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittedQuote, setSubmittedQuote] = useState(null);
+  const hasUnpricedItems = items.some((item) => item.price === null);
+  const { formData, updateField, isSubmitting, submittedQuote, submitError, submit: handleSubmit, resetSubmission } =
+    useQuoteSubmission({ items, totalEstimated, hasUnpricedItems, clearQuote });
 
   if (!isDrawerOpen) return null;
-
-  const hasUnpricedItems = items.some((item) => item.price === null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (items.length === 0) return alert("Please add at least one spare part to your quotation request.");
-    setIsSubmitting(true);
-    let quoteId = `EE-QT-${Math.floor(1000 + Math.random() * 9000)}`;
-
-    sendEmailNotification({
-      subject: `📋 New Formal RFQ Quote Request: ${formData.company || formData.name} (${items.length} parts)`,
-      from_name: formData.name,
-      reply_to: formData.email || CONTACT_CONFIG.primaryEmail,
-      data: {
-        quote_id: quoteId,
-        customer_name: formData.name,
-        company: formData.company,
-        email: formData.email,
-        phone: formData.phone,
-        urgency: formData.urgency,
-        notes: formData.notes,
-        estimated_total: hasUnpricedItems
-          ? "Pricing to be confirmed"
-          : `INR ₹${totalEstimated.toLocaleString("en-IN")}`,
-        items_requested: items.map(it => `${it.name} (Qty: ${it.quantity}, Make: ${it.brand || 'OEM'})`).join("; "),
-        submitted_at: new Date().toLocaleString(),
-      },
-    }).catch((err) => console.warn("Direct quote email notice:", err));
-
-    // 2. Also try backend API
-    try {
-      const payload = {
-        customer_name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        company: formData.company,
-        urgency: formData.urgency,
-        notes: formData.notes,
-        product_id: items[0]?.id || 1,
-        quantity: items.reduce((sum, it) => sum + it.quantity, 0),
-        items: items,
-        total: totalEstimated,
-      };
-
-      try {
-        const res = await API.post("/client/quotation", payload);
-        if (res.data?.id) quoteId = `EE-QT-${res.data.id}`;
-      } catch (err) {
-        // graceful fallback
-      }
-
-      setSubmittedQuote({
-        id: quoteId,
-        date: new Date().toLocaleDateString(),
-        customer: formData,
-        items: [...items],
-        total: totalEstimated,
-      });
-      clearQuote();
-    } catch (err) {
-      alert("Submission error: " + err.message);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="drawer-backdrop" onClick={() => setIsDrawerOpen(false)}>
@@ -121,7 +48,7 @@ export default function QuoteBuilderDrawer() {
               <Link href="/client/quotation" className="btn btn-primary" onClick={() => setIsDrawerOpen(false)}>
                 View / Print Official Quote →
               </Link>
-              <button className="btn btn-outline" onClick={() => setSubmittedQuote(null)}>
+              <button className="btn btn-outline" onClick={resetSubmission}>
                 New Request
               </button>
             </div>
@@ -173,55 +100,61 @@ export default function QuoteBuilderDrawer() {
                   {/* Customer Quick RFQ details */}
                   <form id="quote-form" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px", borderTop: "1px solid var(--line)", paddingTop: "18px" }}>
                     <h4 style={{ margin: 0, fontSize: "1rem" }}>Your Contact & Plant Details</h4>
-                    <input
+                    {submitError && (
+                      <p role="alert" style={{ margin: 0, padding: "9px 12px", borderRadius: "4px", background: "rgba(220, 38, 38, 0.08)", color: "var(--accent-red)", fontSize: "0.85rem" }}>
+                        {submitError}
+                      </p>
+                    )}
+                    <Field
                       type="text"
                       placeholder="Your Name *"
                       required
+                      name="name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      style={{ padding: "9px 12px", border: "1px solid var(--line)", borderRadius: "4px", fontSize: "0.88rem" }}
+                      onChange={(e) => updateField("name", e.target.value)}
                     />
-                    <input
+                    <Field
                       type="email"
                       placeholder="Official Email *"
                       required
+                      name="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      style={{ padding: "9px 12px", border: "1px solid var(--line)", borderRadius: "4px", fontSize: "0.88rem" }}
+                      onChange={(e) => updateField("email", e.target.value)}
                     />
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-                      <input
+                      <Field
                         type="tel"
                         placeholder="WhatsApp / Phone *"
                         required
+                        name="phone"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        style={{ padding: "9px 12px", border: "1px solid var(--line)", borderRadius: "4px", fontSize: "0.88rem" }}
+                        onChange={(e) => updateField("phone", e.target.value)}
                       />
-                      <input
+                      <Field
                         type="text"
                         placeholder="Company / Facility"
+                        name="company"
                         value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        style={{ padding: "9px 12px", border: "1px solid var(--line)", borderRadius: "4px", fontSize: "0.88rem" }}
+                        onChange={(e) => updateField("company", e.target.value)}
                       />
                     </div>
-                    <select
+                    <Field
+                      as="select"
                       value={formData.urgency}
-                      onChange={(e) => setFormData({ ...formData, urgency: e.target.value })}
-                      style={{ padding: "9px 12px", border: "1px solid var(--line)", borderRadius: "4px", fontSize: "0.88rem", background: "white" }}
+                      onChange={(e) => updateField("urgency", e.target.value)}
+                      style={{ background: "white" }}
                     >
                       <option value="Immediate breakdown — requested priority handling">🚨 Immediate breakdown — request priority handling</option>
                       <option value="Urgent — request expedited handling">⚡ Urgent — request expedited handling</option>
                       <option value="Standard — timing to be confirmed">📅 Standard — timing to be confirmed</option>
                       <option value="Scheduled Annual Overhaul">🛠 Scheduled Annual Overhaul</option>
-                    </select>
-                    <textarea
+                    </Field>
+                    <Field
+                      as="textarea"
                       placeholder="Specific Compressor serial, dimensions, or application notes..."
                       rows="2"
                       value={formData.notes}
-                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                      style={{ padding: "9px 12px", border: "1px solid var(--line)", borderRadius: "4px", fontSize: "0.88rem", fontFamily: "inherit" }}
+                      onChange={(e) => updateField("notes", e.target.value)}
                     />
                   </form>
                 </>

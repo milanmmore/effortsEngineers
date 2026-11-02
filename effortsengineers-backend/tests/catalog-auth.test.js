@@ -200,3 +200,59 @@ test("unauthenticated catalog create is rejected", async () => {
 
   expect(res.status).toBe(401);
 });
+
+test("admin partial update only changes supplied fields", async () => {
+  const querySpy = jest.spyOn(dbModule.default, "query");
+  const res = await request(app)
+    .put("/api/catalog/1")
+    .set("Authorization", "Bearer admin-token")
+    .send({ price: 150 });
+
+  expect(res.status).toBe(200);
+  const updateCall = querySpy.mock.calls.find(([sql]) => sql.startsWith("UPDATE products"));
+  expect(updateCall).toBeDefined();
+  // name/description/price are wrapped in COALESCE so omissions preserve stored values
+  expect(updateCall[0]).toMatch(/name = COALESCE\(\$1, name\)/);
+  expect(updateCall[0]).toMatch(/price = COALESCE\(\$3, price\)/);
+  expect(updateCall[1][0]).toBeUndefined();
+  expect(updateCall[1][2]).toBe(150);
+  expect(updateCall[1][21]).toBe("1");
+});
+
+test("admin update rejects invalid stock_quantity", async () => {
+  const invalidValues = [-1, 1.5, "abc", "   "];
+
+  for (const stock_quantity of invalidValues) {
+    const res = await request(app)
+      .put("/api/catalog/1")
+      .set("Authorization", "Bearer admin-token")
+      .send({ stock_quantity });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error?.message || res.body.message).toMatch(/stock_quantity/);
+  }
+});
+
+test("admin update returns 404 for unknown product", async () => {
+  jest.spyOn(dbModule.default, "query").mockImplementation(async (sql) => {
+    if (sql.startsWith("UPDATE products")) return { rows: [] };
+    return { rows: [] };
+  });
+
+  const res = await request(app)
+    .put("/api/catalog/99999")
+    .set("Authorization", "Bearer admin-token")
+    .send({ name: "Ghost Product" });
+
+  expect(res.status).toBe(404);
+});
+
+test("malformed authorization header is rejected", async () => {
+  const res = await request(app)
+    .put("/api/catalog/1")
+    .set("Authorization", "not-a-bearer-token")
+    .send({ name: "Header Test" });
+
+  expect(res.status).toBe(401);
+  expect(res.body.error?.message || res.body.message).toMatch(/Malformed authorization header/);
+});

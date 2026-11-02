@@ -6,7 +6,16 @@ export const requireAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return next(new ApiError(401, "No token provided"));
 
-  const token = authHeader.split(" ")[1];
+  const match = /^Bearer\s+(.+)$/.exec(authHeader);
+  if (!match) {
+    return next(new ApiError(401, "Malformed authorization header"));
+  }
+
+  const token = match[1].trim();
+  if (!token) {
+    return next(new ApiError(401, "Malformed authorization header"));
+  }
+
   try {
     req.user = verifyToken(token);
     next();
