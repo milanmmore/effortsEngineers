@@ -9,13 +9,13 @@ const pageMetadata = {
   },
   contact: {
     path: "/contact",
-    title: "Contact Efforts Engineers | Compressor Spare Parts Enquiries",
-    description: "Send an industrial compressor spare-parts enquiry, attach a nameplate photo or drawing, and contact Efforts Engineers in Pune.",
+    title: "Contact Efforts Engineers in Pune | Compressor Parts Enquiries",
+    description: "Contact our Pune team about compressor spare parts, sourcing, quotations, or engineering coordination. Share a model number, part reference, photo, or drawing.",
   },
   products: {
     path: "/products",
-    title: "Compressor Spare Parts Catalog | Efforts Engineers",
-    description: "Browse industrial compressor spare parts by make, model, series, and category. Confirm availability and pricing with Efforts Engineers.",
+    title: "Industrial Compressor Spare Parts Catalog | Efforts Engineers",
+    description: "Browse replacement compressor spare parts by brand, model, series, and part number. Request a quote to confirm availability, pricing, and delivery.",
   },
   globalReach: {
     path: "/global-reach",
@@ -29,8 +29,8 @@ const pageMetadata = {
   },
   services: {
     path: "/services",
-    title: "Compressor Overhaul Coordination & Engineering Support",
-    description: "Explore compressor spare-parts sourcing and coordination with external engineering and manufacturing partners.",
+    title: "Compressor Engineering & Overhaul Coordination | Efforts Engineers",
+    description: "Explore compressor assessment, reverse-engineering, and overhaul coordination arranged with external specialists. Project scope and capability are confirmed per enquiry.",
   },
   warranty: {
     path: "/warranty",

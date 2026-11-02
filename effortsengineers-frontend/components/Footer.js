@@ -54,7 +54,7 @@ export default function Footer() {
               <li><Link href="/products">Product Catalog</Link></li>
               <li><Link href="/services">Consultancy & Industrial Projects</Link></li>
               <li><Link href="/global-reach">Global Reach & Logistics</Link></li>
-              <li><Link href="/global-reach#certificates">Downloadable Certificates</Link></li>
+              <li><Link href="/contact">Request Order Documentation</Link></li>
               <li><Link href="/warranty">Warranty Terms & Support</Link></li>
               <li><Link href="/about">Company Story & Timeline</Link></li>
               <li><Link href="/client/dashboard">Customer Portal & Order Tracking</Link></li>
@@ -78,13 +78,12 @@ export default function Footer() {
             </p>
             <p style={{ margin: "4px 0" }}>
               ✉️ <strong>Email:</strong><br />
-              <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.primaryEmail}</a>
-              {CONTACT_CONFIG.secondaryEmail !== CONTACT_CONFIG.primaryEmail && (
-                <>
-                  <br />
-                  <a href={`mailto:${CONTACT_CONFIG.secondaryEmail}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.secondaryEmail}</a>
-                </>
-              )}
+              {CONTACT_CONFIG.emails.map((email, index) => (
+                <React.Fragment key={email}>
+                  {index > 0 && <br />}
+                  <a href={`mailto:${email}`} style={{ color: "#38bdf8" }}>{email}</a>
+                </React.Fragment>
+              ))}
             </p>
             <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#34d399" }}>Message us on WhatsApp</a>
           </div>

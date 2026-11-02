@@ -125,6 +125,25 @@ function ProductsContent() {
         <div className="separator-line" />
       </div>
 
+      <section aria-labelledby="shop-locations-title" style={{ marginBottom: "32px" }}>
+        <h2 id="shop-locations-title" style={{ fontSize: "1.35rem", marginBottom: "8px" }}>
+          Visit Our Pune Locations
+        </h2>
+        <p style={{ color: "var(--text-muted)", margin: "0 0 16px" }}>
+          Browse our shared product catalog and contact the right location for your enquiry.
+        </p>
+        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
+          <article className="why-card" style={{ padding: "22px" }}>
+            <h3 style={{ margin: "0 0 8px", fontSize: "1.05rem" }}>Shop No. 10 · Office</h3>
+            <p style={{ margin: 0 }}>{CONTACT_CONFIG.address}</p>
+          </article>
+          <article className="why-card" style={{ padding: "22px" }}>
+            <h3 style={{ margin: "0 0 8px", fontSize: "1.05rem" }}>Shop No. 11 · Workshop &amp; Sourcing</h3>
+            <p style={{ margin: 0 }}>{CONTACT_CONFIG.workshopAddress}</p>
+          </article>
+        </div>
+      </section>
+
       <section aria-labelledby="additional-categories-title" style={{ marginBottom: "32px" }}>
         <h2 id="additional-categories-title" style={{ fontSize: "1.35rem", marginBottom: "16px" }}>
           Accessories & Hardware

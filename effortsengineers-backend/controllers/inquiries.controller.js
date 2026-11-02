@@ -118,7 +118,7 @@ export const createInquiry = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     success: true,
-    message: "Inquiry / RFQ submitted successfully. Our engineering team will contact you within 2-4 hours.",
+    message: "Inquiry / RFQ submitted successfully. Our engineering team will review your request and follow up using the contact details provided.",
     rfqId,
     inquiry: inquiryRecord,
   });

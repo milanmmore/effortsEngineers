@@ -176,7 +176,7 @@ export default function Navbar() {
                   <span className="dropdown-item-icon">📞</span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">Contact Us</span>
-                    <span className="dropdown-item-desc">Direct RFQs, plant visits &amp; 24/7 hotline</span>
+                    <span className="dropdown-item-desc">Direct RFQs, sourcing coordination &amp; contact details</span>
                   </div>
                 </Link>
               </div>

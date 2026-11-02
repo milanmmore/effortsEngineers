@@ -49,11 +49,11 @@ export default function ContactPage() {
           <section style={{ background: "white", border: "1px solid var(--line)", borderRadius: "16px", padding: "26px", boxShadow: "var(--shadow-sm)" }}>
             <h2 style={{ fontSize: "1.2rem", margin: "0 0 16px" }}>Business Contact</h2>
             <p style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
-              <strong>Office</strong><br />
+              <strong>Shop No. 10 · Office</strong><br />
               {CONTACT_CONFIG.address}
             </p>
             <p style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
-              <strong>Workshop / Sourcing Coordination</strong><br />
+              <strong>Shop No. 11 · Workshop &amp; Sourcing Coordination</strong><br />
               {CONTACT_CONFIG.workshopAddress}
             </p>
             <p style={{ margin: "0 0 12px" }}>
@@ -62,13 +62,12 @@ export default function ContactPage() {
             </p>
             <p style={{ margin: 0 }}>
               <strong>Email</strong><br />
-              <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`}>{CONTACT_CONFIG.primaryEmail}</a>
-              {CONTACT_CONFIG.secondaryEmail !== CONTACT_CONFIG.primaryEmail && (
-                <>
-                  <br />
-                  <a href={`mailto:${CONTACT_CONFIG.secondaryEmail}`}>{CONTACT_CONFIG.secondaryEmail}</a>
-                </>
-              )}
+              {CONTACT_CONFIG.emails.map((email, index) => (
+                <React.Fragment key={email}>
+                  {index > 0 && <br />}
+                  <a href={`mailto:${email}`}>{email}</a>
+                </React.Fragment>
+              ))}
             </p>
           </section>
         </aside>
