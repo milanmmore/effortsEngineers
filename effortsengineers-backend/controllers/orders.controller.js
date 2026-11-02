@@ -44,6 +44,18 @@ export const updateOrder = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { quantity, status } = req.body;
 
+  if (!quantity || !status) {
+    throw new ApiError(400, "Missing required fields");
+  }
+
+  if (
+    (typeof quantity === "string" && quantity.trim() === "") ||
+    !Number.isInteger(Number(quantity)) ||
+    Number(quantity) <= 0
+  ) {
+    throw new ApiError(400, "quantity must be a positive integer");
+  }
+
   const result = await db.query(
     `UPDATE orders
      SET quantity = $1, status = $2

@@ -87,84 +87,99 @@ const CATALOG_ITEMS = [
   { name: "Valve Reed Plate Set - Daikin C75 / C58", brand: "Daikin", partNo: "DAI-C75-VLV", category: "valve" },
 ];
 
+const KNOWN_BRANDS = ["carrier", "grasso", "bitzer", "kirloskar", "sabroe", "bock", "daikin", "vilter", "mycom"];
+
+const COMPONENT_KEYWORDS = [
+  { key: "valve", synonyms: ["valve", "reed", "plate", "spring"] },
+  { key: "liner", synonyms: ["liner", "sleeve", "cylinder liner"] },
+  { key: "piston", synonyms: ["piston", "piston pin", "gudgeon"] },
+  { key: "ring", synonyms: ["ring", "piston ring"] },
+  { key: "rod", synonyms: ["rod", "connecting rod", "conrod"] },
+  { key: "seal", synonyms: ["seal", "gasket", "shaft seal", "o-ring"] },
+  { key: "bearing", synonyms: ["bearing", "bush", "bushing", "crankshaft bush"] },
+];
+
+const containsWord = (text, word) =>
+  new RegExp(`\\b${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`).test(text);
+
+// Detect a compressor make mentioned as a whole word in the message.
+export const detectBrand = (message = "") => {
+  const lower = message.toLowerCase();
+  return KNOWN_BRANDS.find((b) => containsWord(lower, b)) || null;
+};
+
+// Detect a component category mentioned in the message.
+export const detectComponent = (message = "") => {
+  const lower = message.toLowerCase();
+  return (
+    COMPONENT_KEYWORDS.find((c) =>
+      c.synonyms.some((syn) => containsWord(lower, syn))
+    ) || null
+  );
+};
+
+// Filter the reference catalog by optional brand/component.
+export const matchCatalog = ({ brand = null, component = null } = {}) => {
+  let matched = CATALOG_ITEMS.filter((item) => {
+    const matchBrand = brand ? item.brand.toLowerCase() === brand.toLowerCase() : true;
+    const matchComp = component ? item.category.toLowerCase() === component.toLowerCase() : true;
+    return matchBrand && matchComp;
+  });
+
+  if (matched.length === 0 && brand) {
+    matched = CATALOG_ITEMS.filter((item) => item.brand.toLowerCase() === brand.toLowerCase());
+  }
+  return matched;
+};
+
+// Look up a canned domain answer from the knowledge base.
+export const findKnowledgeReply = (message = "") => {
+  const lower = message.toLowerCase();
+  const entry = COMPRESSOR_KNOWLEDGE.find((item) =>
+    item.keywords.some((kw) => lower.includes(kw))
+  );
+  return entry ? entry.response : null;
+};
+
 export const processChatMessage = asyncHandler(async (req, res) => {
-  const { message, history } = req.body;
+  const { message } = req.body;
 
   if (!message || typeof message !== "string") {
     return res.status(400).json({ error: "Message is required" });
   }
 
   const lower = message.toLowerCase();
+  const detectedBrand = detectBrand(message);
+  const detectedComponent = detectComponent(message);
+  const isCatalogQuery =
+    detectedBrand ||
+    (detectedComponent &&
+      ["show", "find", "parts", "spares"].some((kw) => containsWord(lower, kw)));
 
-  // 1. Detect Brand and Component type for Catalog Search
-  const brands = ["carrier", "grasso", "bitzer", "kirloskar", "sabroe", "bock", "daikin", "vilter", "mycom"];
-  const detectedBrand = brands.find((b) => lower.includes(b));
-
-  const componentKeywords = [
-    { key: "valve", synonyms: ["valve", "reed", "plate", "spring"] },
-    { key: "liner", synonyms: ["liner", "sleeve", "cylinder liner"] },
-    { key: "piston", synonyms: ["piston", "piston pin", "gudgeon"] },
-    { key: "ring", synonyms: ["ring", "piston ring"] },
-    { key: "rod", synonyms: ["rod", "connecting rod", "conrod"] },
-    { key: "seal", synonyms: ["seal", "gasket", "shaft seal", "o-ring"] },
-    { key: "bearing", synonyms: ["bearing", "bush", "bushing", "crankshaft bush"] },
-  ];
-
-  const detectedComponent = componentKeywords.find((c) =>
-    c.synonyms.some((syn) => lower.includes(syn))
-  );
-
-  // If user is inquiring about specific brand/part catalog items
-  if (detectedBrand || (detectedComponent && (lower.includes("show") || lower.includes("find") || lower.includes("parts") || lower.includes("spares")))) {
-    let matchedItems = CATALOG_ITEMS.filter((item) => {
-      const matchBrand = detectedBrand ? item.brand.toLowerCase() === detectedBrand : true;
-      const matchComp = detectedComponent ? item.category === detectedComponent.key : true;
-      return matchBrand && matchComp;
-    });
-
-    // Fallback if brand matched but no specific component type matched
-    if (matchedItems.length === 0 && detectedBrand) {
-      matchedItems = CATALOG_ITEMS.filter((item) => item.brand.toLowerCase() === detectedBrand);
-    }
+  if (isCatalogQuery) {
+    const matchedItems = matchCatalog({ brand: detectedBrand, component: detectedComponent?.key });
 
     if (matchedItems.length > 0) {
-      const brandName = detectedBrand ? detectedBrand.charAt(0).toUpperCase() + detectedBrand.slice(1) : "Compressor";
+      const brandName = detectedBrand
+        ? detectedBrand.charAt(0).toUpperCase() + detectedBrand.slice(1)
+        : "Compressor";
       const partType = detectedComponent ? detectedComponent.key + " " : "";
-
-      const partsList = matchedItems
-        .map((p) => `- ${p.name} (Part #${p.partNo})`)
-        .join("\n");
-
-      const replyText = `Here are ${brandName} compressor ${partType}spares we supply:\n${partsList}\n\nWould you like a quotation?`;
+      const partsList = matchedItems.map((p) => `- ${p.name} (Part #${p.partNo})`).join("\n");
 
       return res.json({
-        reply: replyText,
+        reply: `Here are ${brandName} compressor ${partType}spares we supply:\n${partsList}\n\nWould you like a quotation?`,
         timestamp: new Date().toISOString(),
-        suggestions: [
-          "Request Instant Quote",
-          "Check Ready Stock",
-          "WhatsApp Engineer",
-        ],
+        suggestions: ["Request Instant Quote", "Check Ready Stock", "WhatsApp Engineer"],
       });
     }
   }
 
-  // 2. Fall back to domain knowledge base
-  let matchedResponse = null;
-  for (const item of COMPRESSOR_KNOWLEDGE) {
-    if (item.keywords.some((kw) => lower.includes(kw))) {
-      matchedResponse = item.response;
-      break;
-    }
-  }
-
-  if (!matchedResponse) {
-    matchedResponse =
-      "Thank you for contacting Efforts Engineers. We supply genuine-grade compatible replacement spares for all major industrial refrigeration & air compressors (Kirloskar, Grasso, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, Mycom). Please specify your **compressor make, model, and required parts**, or click **'Request a Quote'** to submit your specifications directly.";
-  }
+  const reply =
+    findKnowledgeReply(message) ||
+    "Thank you for contacting Efforts Engineers. We supply genuine-grade compatible replacement spares for all major industrial refrigeration & air compressors (Kirloskar, Grasso, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, Mycom). Please specify your **compressor make, model, and required parts**, or click **'Request a Quote'** to submit your specifications directly.";
 
   res.json({
-    reply: matchedResponse,
+    reply,
     timestamp: new Date().toISOString(),
     suggestions: [
       "Ask About Grasso RC11 Spares",

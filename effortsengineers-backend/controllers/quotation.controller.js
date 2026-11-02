@@ -3,6 +3,8 @@ import db from "../config/db.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 
+const ALLOWED_STATUSES = ["draft", "pending", "sent", "accepted", "rejected", "expired"];
+
 // GET /api/quotations
 export const listQuotations = asyncHandler(async (req, res) => {
   const result = await db.query("SELECT * FROM quotations ORDER BY created_at DESC");
@@ -46,6 +48,23 @@ export const updateQuotationStatus = asyncHandler(async (req, res) => {
 
   if (!status) {
     throw new ApiError(400, "status is required");
+  }
+
+  if (!ALLOWED_STATUSES.includes(String(status).toLowerCase())) {
+    throw new ApiError(
+      400,
+      `status must be one of: ${ALLOWED_STATUSES.join(", ")}`
+    );
+  }
+
+  if (
+    total !== undefined &&
+    total !== null &&
+    ((typeof total === "string" && total.trim() === "") ||
+      !Number.isFinite(Number(total)) ||
+      Number(total) < 0)
+  ) {
+    throw new ApiError(400, "total must be a non-negative number");
   }
 
   const result = await db.query(
