@@ -13,7 +13,8 @@ const workshopAddress =
   "Shop No. 11, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India";
 const primaryEmail =
   process.env.NEXT_PUBLIC_PRIMARY_EMAIL || "sales@effortsengineers.in";
-const secondaryEmail = process.env.NEXT_PUBLIC_SECONDARY_EMAIL || primaryEmail;
+const secondaryEmail =
+  process.env.NEXT_PUBLIC_SECONDARY_EMAIL || "efforts.engineers@gmail.com";
 const emails = [primaryEmail, secondaryEmail].filter(
   (email, index, addresses) =>
     email.trim() &&
