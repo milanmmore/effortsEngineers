@@ -47,28 +47,35 @@ export default function ContactPage() {
           </section>
 
           <section style={{ background: "white", border: "1px solid var(--line)", borderRadius: "16px", padding: "26px", boxShadow: "var(--shadow-sm)" }}>
-            <h2 style={{ fontSize: "1.2rem", margin: "0 0 16px" }}>Business Contact</h2>
-            <p style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
-              <strong>Office</strong><br />
-              {CONTACT_CONFIG.address}
-            </p>
-            <p style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
-              <strong>Workshop / Sourcing Coordination</strong><br />
-              {CONTACT_CONFIG.workshopAddress}
-            </p>
+            <h2 style={{ fontSize: "1.2rem", margin: "0 0 16px" }}>Pune Locations &amp; Contact</h2>
+            {CONTACT_CONFIG.locations.map((location) => (
+              <p key={location.id} style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
+                <strong>{location.shop} · {location.role}</strong><br />
+                {location.address}
+              </p>
+            ))}
             <p style={{ margin: "0 0 12px" }}>
               <strong>Phone / WhatsApp</strong><br />
-              <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>{CONTACT_CONFIG.phone}</a>
+              <a
+                href={`tel:${CONTACT_CONFIG.phoneRaw}`}
+                style={{ color: "var(--primary)", textDecoration: "underline", textUnderlineOffset: "3px" }}
+              >
+                {CONTACT_CONFIG.phone}
+              </a>
             </p>
             <p style={{ margin: 0 }}>
               <strong>Email</strong><br />
-              <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`}>{CONTACT_CONFIG.primaryEmail}</a>
-              {CONTACT_CONFIG.secondaryEmail !== CONTACT_CONFIG.primaryEmail && (
-                <>
-                  <br />
-                  <a href={`mailto:${CONTACT_CONFIG.secondaryEmail}`}>{CONTACT_CONFIG.secondaryEmail}</a>
-                </>
-              )}
+              {CONTACT_CONFIG.emails.map((email, index) => (
+                <React.Fragment key={email}>
+                  {index > 0 && <br />}
+                  <a
+                    href={`mailto:${email}`}
+                    style={{ color: "var(--primary)", textDecoration: "underline", textUnderlineOffset: "3px" }}
+                  >
+                    {email}
+                  </a>
+                </React.Fragment>
+              ))}
             </p>
           </section>
         </aside>

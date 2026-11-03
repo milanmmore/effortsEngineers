@@ -239,7 +239,7 @@ export default function AboutPage() {
       {/* Quality Assurance Standards Box */}
       <section style={{ background: "var(--navy)", color: "white", borderRadius: "16px", padding: "45px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", alignItems: "center" }}>
         <div>
-          <span className="eyebrow" style={{ color: "#38bdf8" }}>Zero Defect Standard</span>
+          <span className="eyebrow" style={{ color: "#38bdf8" }}>Supplier &amp; Order-Specific Quality</span>
           <h2 style={{ color: "white", fontSize: "2rem", marginBottom: "16px" }}>
             Sourcing & Quality Coordination
           </h2>

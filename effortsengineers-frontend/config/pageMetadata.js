@@ -1,21 +1,22 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dev.effortsengineers.in";
+import { SITE_ORIGIN } from "@/config/siteOrigin";
+
 const isIndexingEnabled = process.env.NEXT_PUBLIC_INDEX_SITE === "true";
 
 const pageMetadata = {
   about: {
     path: "/about",
-    title: "About Efforts Engineers | Compressor Spares Sourcing Since 1986",
+    title: "About Efforts Engineers | Established in Pune in 1986",
     description: "Learn about Efforts Engineers, a Pune-based supplier-network partner for industrial refrigeration and compressor spare parts.",
   },
   contact: {
     path: "/contact",
-    title: "Contact Efforts Engineers | Compressor Spare Parts Enquiries",
-    description: "Send an industrial compressor spare-parts enquiry, attach a nameplate photo or drawing, and contact Efforts Engineers in Pune.",
+    title: "Contact Efforts Engineers in Pune | Compressor Parts Enquiries",
+    description: "Contact our Pune team about compressor spare parts, sourcing, quotations, or engineering coordination. Share a model number, part reference, photo, or drawing.",
   },
   products: {
     path: "/products",
-    title: "Compressor Spare Parts Catalog | Efforts Engineers",
-    description: "Browse industrial compressor spare parts by make, model, series, and category. Confirm availability and pricing with Efforts Engineers.",
+    title: "Industrial Compressor Spare Parts Catalog | Efforts Engineers",
+    description: "Browse replacement compressor spare parts by brand, model, series, and part number. Request a quote to confirm availability, pricing, and delivery.",
   },
   globalReach: {
     path: "/global-reach",
@@ -29,8 +30,8 @@ const pageMetadata = {
   },
   services: {
     path: "/services",
-    title: "Compressor Overhaul Coordination & Engineering Support",
-    description: "Explore compressor spare-parts sourcing and coordination with external engineering and manufacturing partners.",
+    title: "Compressor Engineering & Overhaul Coordination | Efforts Engineers",
+    description: "Explore compressor assessment, reverse-engineering, and overhaul coordination arranged with external specialists. Project scope and capability are confirmed per enquiry.",
   },
   warranty: {
     path: "/warranty",
@@ -104,11 +105,11 @@ export function getPageMetadata(pageKey) {
     title: page.title,
     description: page.description,
     alternates: {
-      canonical: new URL(page.path, siteUrl).toString(),
+      canonical: new URL(page.path, SITE_ORIGIN).toString(),
     },
     robots: {
-      index: isIndexingEnabled,
-      follow: isIndexingEnabled,
+      index: pageKey === "products" || isIndexingEnabled,
+      follow: pageKey === "products" || isIndexingEnabled,
     },
   };
 }

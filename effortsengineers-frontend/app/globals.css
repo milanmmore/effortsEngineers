@@ -128,7 +128,7 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 100%;
   margin: 0 auto;
   padding: 0 20px;
-  height: 52px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -142,8 +142,8 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
 }
 .brand-logo-icon {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
@@ -1784,8 +1784,8 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
   }
   .brand-logo-icon {
-    width: 36px;
-    height: 36px;
+    width: 46px;
+    height: 46px;
   }
   .brand-title {
     font-size: 0.95rem;
@@ -1793,7 +1793,7 @@ h1, h2, h3, h4, h5, h6 {
   .nav-inner {
     padding: 0 12px;
     gap: 8px;
-    height: 64px;
+    height: 68px;
   }
   .nav-actions {
     gap: 6px;

@@ -8,12 +8,12 @@ export default function AIChatbot() {
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "👋 Welcome to Efforts Engineers!\nLooking for Air & Gas Compressor Spare Parts?\nAsk me about products, availability, or request a quote.",
+      text: "👋 Welcome to Efforts Engineers!\nLooking for compressor spare parts?\nAsk about catalog items or use the quote builder to send an enquiry. Current availability is confirmed by our team.",
       suggestions: [
         "Show me Carrier compressor valve spares",
         "Grasso RC11 Spares",
         "Bitzer 4N / 6F Stock",
-        "Request Instant Quotation",
+        "Open Quote Builder",
         "WhatsApp Engineer",
       ],
     },
@@ -54,7 +54,7 @@ export default function AIChatbot() {
           ...prev,
           {
             sender: "ai",
-            text: "Opening our **Quotation Builder** for you right away. You can select products from the catalog or submit custom compressor specifications!",
+            text: "Opening the quotation builder. You can select catalog products or submit a custom part enquiry.",
             suggestions: ["Ask About Availability", "Talk on WhatsApp", "Supplier Documents"],
           },
         ]);
@@ -76,22 +76,9 @@ export default function AIChatbot() {
         },
       ]);
     } catch (err) {
-      // Intelligent local catalog search fallback if backend API is not running
-      let fallbackReply = "";
-      
-      if (lower.includes("carrier") && (lower.includes("valve") || lower.includes("spares") || lower.includes("parts"))) {
-        fallbackReply = `Here are Carrier compressor valve spares we supply:\n- Valve Assembly (Part #C-VAL-101)\n- Valve Plate (Part #C-VAL-102)\n- Valve Spring (Part #C-VAL-103)\n\nWould you like a quotation?`;
-      } else if (lower.includes("grasso") && (lower.includes("valve") || lower.includes("spares") || lower.includes("parts"))) {
-        fallbackReply = `Here are Grasso compressor spares we supply:\n- Cylinder Liner - RC11 / RC12 (Part #GRA-RC11-042)\n- Suction / Discharge Valve Plate (Part #GRA-VAL-101)\n- Valve Spring Pack (Part #GRA-VAL-102)\n- Piston Ring Set (Part #GRA-RNG-201)\n\nWould you like a quotation?`;
-      } else if (lower.includes("bitzer")) {
-        fallbackReply = `Here are Bitzer compressor spares we supply:\n- Valve Reed Plate Set (Part #BIT-VAL-101)\n- Piston Ring Set - 4N/4P/6F (Part #BIT-4N-382)\n- Connecting Rod Assembly (Part #BIT-ROD-101)\n\nWould you like a quotation?`;
-      } else if (lower.includes("kirloskar")) {
-        fallbackReply = `Here are Kirloskar compressor spares we supply:\n- Suction & Discharge Valve Assembly (Part #KIR-VAL-101)\n- Connecting Rod Assembly - KC6/KCX (Part #KIR-KC6-098)\n- Crankshaft Bush & Main Bearing Set (Part #KIR-KC-BRG10)\n\nWould you like a quotation?`;
-      } else if (lower.includes("delivery") || lower.includes("stock") || lower.includes("dispatch")) {
-        fallbackReply = "Ask us to confirm current availability and dispatch options. Estimates depend on stock, order processing, carrier schedules, destination, and customs.";
-      } else {
-        fallbackReply = "We source replacement spares for **Kirloskar, Grasso, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, and Mycom** compressors. Contact us to confirm current availability, dispatch options, and delivery estimates for your destination.";
-      }
+      console.error("Product enquiry assistant request failed:", err);
+      const fallbackReply =
+        "I can help with general part enquiries, but I cannot verify live stock, confirm compatibility, or diagnose equipment here. Please use the catalog and contact our team to confirm details.";
 
       setMessages((prev) => [
         ...prev,
@@ -112,8 +99,8 @@ export default function AIChatbot() {
       <button
         className="chatbot-trigger-btn"
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="AI Assistant"
-        title="AI Assistant"
+        aria-label="Parts enquiry support"
+        title="Parts enquiry support"
       >
         {isOpen ? (
           <span style={{ fontSize: "1.1rem", fontWeight: 700, lineHeight: 1 }}>✕</span>
@@ -131,8 +118,8 @@ export default function AIChatbot() {
             <div className="chat-header-info">
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#10b981" }} />
               <div>
-                <h4>Efforts AI Assistant</h4>
-                <span>• Active Engineer Support</span>
+                <h4>Parts Enquiry Support</h4>
+                <span>• Catalog and contact guidance</span>
               </div>
             </div>
             <button
@@ -167,7 +154,7 @@ export default function AIChatbot() {
             ))}
             {isTyping && (
               <div className="chat-bubble chat-bubble-ai" style={{ fontStyle: "italic", color: "var(--text-muted)" }}>
-                Thinking & checking inventory...
+                Preparing a response...
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -182,7 +169,7 @@ export default function AIChatbot() {
           >
             <input
               type="text"
-              placeholder="Ask about compressor parts, models, stock..."
+              placeholder="Ask about compressor part enquiries..."
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
             />

@@ -1,20 +1,8 @@
 import axios from "axios";
-
-const configuredApiUrl = (
-	process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
-).trim();
-let apiUrl = configuredApiUrl;
-if (apiUrl.startsWith("//")) {
-	apiUrl = `https:${apiUrl}`;
-} else if (!/^https?:\/\//i.test(apiUrl)) {
-	const protocol = /^(localhost|127(?:\.\d{1,3}){3})(:\d+)?(?:\/|$)/i.test(apiUrl)
-		? "http"
-		: "https";
-	apiUrl = `${protocol}://${apiUrl}`;
-}
+import { API_BASE_URL } from "@/lib/apiBaseUrl";
 
 const API = axios.create({
-	baseURL: `${apiUrl.replace(/\/+$/, "")}/api`,
+	baseURL: API_BASE_URL,
 	headers: {
 		"Content-Type": "application/json",
 	},
