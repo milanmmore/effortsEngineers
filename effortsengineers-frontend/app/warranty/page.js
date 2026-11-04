@@ -1,10 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import EnquiryForm from "@/components/EnquiryForm";
+import WarrantyClaimForm from "@/components/WarrantyClaimForm";
 
 export default function WarrantyPage() {
-  const [activeFaq, setActiveFaq] = useState(null);
-
   const faqs = [
     {
       q: "What warranty applies to a supplied part?",
@@ -23,9 +19,20 @@ export default function WarrantyPage() {
       a: "Any installation, maintenance, and operating conditions relevant to warranty coverage are stated in the applicable quotation or order documents. Please contact us if you need clarification before installation.",
     },
   ];
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  };
+  const faqStructuredDataJson = JSON.stringify(faqStructuredData).replace(/</g, "\\u003c");
 
   return (
     <main className="section-shell">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqStructuredDataJson }} />
       {/* Header */}
       <div className="section-header">
         <span className="eyebrow">Product Support</span>
@@ -64,12 +71,7 @@ export default function WarrantyPage() {
       </div>
 
       <section style={{ maxWidth: "850px", margin: "0 auto 60px" }}>
-        <EnquiryForm
-          source="Warranty page"
-          title="Submit a Warranty Enquiry"
-          description="Provide the invoice or quotation number and describe the issue. We will review your enquiry against the applicable order terms; submission does not confirm eligibility or a remedy."
-          warranty
-        />
+        <WarrantyClaimForm />
       </section>
 
       {/* Warranty FAQ Accordion */}
@@ -82,17 +84,15 @@ export default function WarrantyPage() {
 
         <div className="faq-accordion">
           {faqs.map((f, idx) => (
-            <div key={idx} className="faq-item">
-              <div className="faq-header" onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}>
+            <details key={idx} className="faq-item">
+              <summary className="faq-header">
                 <span>{f.q}</span>
-                <span className="faq-icon">{activeFaq === idx ? "−" : "+"}</span>
+                <span className="faq-icon" aria-hidden="true">+</span>
+              </summary>
+              <div className="faq-body">
+                <p style={{ margin: 0 }}>{f.a}</p>
               </div>
-              {activeFaq === idx && (
-                <div className="faq-body">
-                  <p style={{ margin: 0 }}>{f.a}</p>
-                </div>
-              )}
-            </div>
+            </details>
           ))}
         </div>
       </section>

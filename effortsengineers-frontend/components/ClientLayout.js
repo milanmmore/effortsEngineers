@@ -23,12 +23,12 @@ export default function ClientLayout({ children }) {
               </li>
               <li>
                 <Link href="/client/quotation" className={isActive("/client/quotation") ? "active" : ""}>
-                  📄 Download Quotes
+                  📄 Quotation Records
                 </Link>
               </li>
               <li>
                 <Link href="/client/orders" className={isActive("/client/orders") ? "active" : ""}>
-                  🚚 Orders & Dispatches
+                  🚚 Orders
                 </Link>
               </li>
               <li>
@@ -38,7 +38,7 @@ export default function ClientLayout({ children }) {
               </li>
               <li>
                 <Link href="/warranty" className={isActive("/warranty") ? "active" : ""}>
-                  🛡️ Warranty Check
+                  🛡️ Warranty Claims
                 </Link>
               </li>
             </ul>

@@ -5,6 +5,7 @@ import { QuoteContext } from "@/context/QuoteContext";
 import brandRanges from "@/config/brandRanges";
 import CONTACT_CONFIG from "@/config/contactConfig";
 import EnquiryForm from "@/components/EnquiryForm";
+import HowItWorks from "@/components/HowItWorks";
 
 export default function HomePage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
@@ -104,9 +105,9 @@ export default function HomePage() {
         <div className="why-choose-grid">
           <div className="why-card">
             <div className="why-icon-box">💰</div>
-            <h4>Sourcing Through Our Network</h4>
+            <h4>Competitive Quotations</h4>
             <p>
-              We source replacement spares through our supplier network. Pricing and any cost savings depend on the part specification, availability, and quotation.
+              We source replacement spares through our supplier network and quote per requirement. Pricing depends on the part specification, availability and quantity.
             </p>
           </div>
 
@@ -170,6 +171,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <HowItWorks />
 
       {/* 3. EXPRESS DELIVERY & GLOBAL LOGISTICS STRIP */}
       <section style={{ 
@@ -191,12 +193,12 @@ export default function HomePage() {
               Dispatch Options for Urgent Requirements.
             </h2>
             <p style={{ color: "#cbd5e1", fontSize: "1.18rem", lineHeight: 1.65, marginBottom: "28px" }}>
-              We understand that a compressor stoppage means thousands of dollars in lost inventory and plant disruption. Our Pune central logistics hub is connected directly to major air cargo hubs, national express corridors, and Nhava Sheva (JNPT) sea port.
+              Our Pune base works with courier and freight partners for air, road and sea dispatch, including Mumbai air cargo and Nhava Sheva (JNPT) port.
             </p>
             <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: "14px", color: "#e2e8f0", fontSize: "1.05rem" }}>
               <li>✓ <strong>Air Express Courier:</strong> Priority options may be available; dispatch and arrival depend on stock, carrier schedules, and destination.</li>
-              <li>✓ <strong>Export Packaging Options:</strong> VCI and ISPM-15 wood packaging can be discussed where suitable and required; options are confirmed per shipment.</li>
-              <li>✓ <strong>Export Logistics Coordination:</strong> Shipping routes, customs documentation, and timing are confirmed for each destination and order.</li>
+              <li>✓ <strong>Export Packaging:</strong> VCI packaging and ISPM-15 heat-treated crates can be arranged where required; options are confirmed per shipment.</li>
+              <li>✓ <strong>Export Routes:</strong> Pune has road access to Mumbai air cargo and Nhava Sheva (JNPT) port. Shipping mode, customs clearance and transit time are confirmed per shipment and destination.</li>
             </ul>
             <Link href="/global-reach" className="btn btn-primary" style={{ padding: "14px 28px", fontSize: "1.02rem" }}>
               Explore Our Global Export Network →
@@ -225,59 +227,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. TESTIMONIALS & CLIENT VERIFICATION */}
+      {/* 7. CUSTOMER REFERENCES */}
       <section className="section-shell">
         <div className="section-header">
           <span className="eyebrow">Customer Trust</span>
-          <h2 className="section-title"><b>What Our</b> Clients Say</h2>
+          <h2 className="section-title"><b>Customer</b> References</h2>
           <p className="section-desc">
-            Read how engineering supervisors and plant heads rely on Efforts Engineers to maintain non-stop compressor operation.
+            Customer references and feedback are shared only with permission. Contact our team to discuss your compressor spare-parts requirement.
           </p>
           <div className="separator-line" />
-        </div>
-
-        <div className="testimonials-grid">
-          <div className="testimonial-card">
-            <div className="star-rating">★★★★★</div>
-            <p className="testimonial-quote">
-              &quot;We procured a KC 93 crankshaft and bearing set from Efforts Engineers, and the parts performed extremely well in our compressor. The quality and fit were excellent, and the entire experience was smooth. Efforts Engineers is now our go-to source for compressor spare parts.&quot;
-            </p>
-            <div className="client-profile">
-              <div className="client-avatar">VC</div>
-              <div className="client-meta">
-                <h5>Mr. Vijaykumar Chavan </h5>
-                <span>Fisheries Refrigeration HOD</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="testimonial-card">
-            <div className="star-rating">★★★★★</div>
-            <p className="testimonial-quote">
-              &quot;We regularly procure Sabroe SMC 116 and SMC 108 compressor parts from Efforts Engineers. It is always a pleasure to contact Mr. Saurabh Salvi, who understands the requirement quickly and consistently helps us find the right solution. He is truly a problem solver when it comes to compressor spares&quot;
-            </p>
-            <div className="client-profile">
-              <div className="client-avatar">AK</div>
-              <div className="client-meta">
-                <h5>Mr. Ashish Kumbhare </h5>
-                <span>Dairy & Ice Cream Division Utility Head </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="testimonial-card">
-            <div className="star-rating">★★★★</div>
-            <p className="testimonial-quote">
-              &quot;We contact Efforts Engineers for all our Carrier compressor spares. Their product knowledge, responsiveness and commitment to delivery are impressive. Most importantly, they understand the urgency of our requirements and deliver critical compressor spares in record time. A dependable partner we can count on.&quot;
-            </p>
-            <div className="client-profile">
-              <div className="client-avatar">MJ</div>
-              <div className="client-meta">
-                <h5>Mr. Manoj Jogi </h5>
-                <span>Ice Cream Plant Maintenance Head</span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

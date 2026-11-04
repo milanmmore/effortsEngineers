@@ -1,27 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import CONTACT_CONFIG from "@/config/contactConfig";
-
-const compatibleBrands = [
-  { brand: "Grasso", label: "Grasso (RC9, RC11, RC12)" },
-  { brand: "Bitzer", label: "Bitzer (4N, 4P, 4T, 6F, 4G)" },
-  { brand: "Kirloskar", label: "Kirloskar (KC, KCX, BT, TC)" },
-  { brand: "Carrier", label: "Carrier (5F, 5H, 06D, 06E)" },
-  { brand: "Sabroe", label: "Sabroe (CMO, SMC series)" },
-  { brand: "Bock", label: "Bock (F3, F4, F5, F16)" },
-  { brand: "Daikin", label: "Daikin (C55, C58, C75)" },
-  { brand: "Vilter", label: "Vilter (440, 450, 450XL)" },
-  { brand: "Mycom", label: "Mycom" },
-  { brand: "York", label: "York" },
-  { brand: "Copeland", label: "Copeland" },
-  { brand: "Trane", label: "Trane" },
-  { brand: "Ingersoll Rand", label: "Ingersoll Rand" },
-  { brand: "Atlas Copco", label: "Atlas Copco" },
-  { brand: "CPT", label: "CPT" },
-  { brand: "Accel Sabroe", label: "Accel Sabroe" },
-  { brand: "Voltas", label: "Voltas" },
-];
+import SITE_CONFIG from "@/config/site";
 
 export default function Footer() {
   return (
@@ -32,7 +12,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Efforts Engineers</h4>
             <p>
-              {CONTACT_CONFIG.yearsInBusinessText}. Efforts Engineers supplies replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors.
+              {SITE_CONFIG.yearsInBusinessText}. Efforts Engineers supplies replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors.
             </p>
             <div style={{ marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #334155" }}>
@@ -48,9 +28,9 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Compatible Brands</h4>
             <ul>
-              {compatibleBrands.map(({ brand, label }) => (
-                <li key={brand}>
-                  <Link href={`/products?brand=${encodeURIComponent(brand)}`}>{label}</Link>
+              {SITE_CONFIG.brands.map(({ name, label }) => (
+                <li key={name}>
+                  <Link href={`/products?brand=${encodeURIComponent(name)}`}>{label}</Link>
                 </li>
               ))}
             </ul>
@@ -74,7 +54,7 @@ export default function Footer() {
           {/* Column 4: Pune Locations & Contact */}
           <div className="footer-col">
             <h4>Pune Locations &amp; Contact</h4>
-            {CONTACT_CONFIG.locations.map((location) => (
+            {SITE_CONFIG.locations.map((location) => (
               <p key={location.id} style={{ marginBottom: "12px" }}>
                 📍 <strong>{location.shop} · {location.role}:</strong><br />
                 {location.address}<br />
@@ -82,18 +62,18 @@ export default function Footer() {
               </p>
             ))}
             <p style={{ margin: "4px 0" }}>
-              📞 <strong>Phone / WhatsApp:</strong> <a href={`tel:${CONTACT_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{CONTACT_CONFIG.phone}</a>
+              📞 <strong>Phone / WhatsApp:</strong> <a href={`tel:${SITE_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{SITE_CONFIG.phone}</a>
             </p>
             <p style={{ margin: "4px 0" }}>
               ✉️ <strong>Email:</strong><br />
-              {CONTACT_CONFIG.emails.map((email, index) => (
+              {SITE_CONFIG.emails.map((email, index) => (
                 <React.Fragment key={email}>
                   {index > 0 && <br />}
                   <a href={`mailto:${email}`} style={{ color: "#38bdf8" }}>{email}</a>
                 </React.Fragment>
               ))}
             </p>
-            <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#34d399" }}>Message us on WhatsApp</a>
+            <a href={`https://wa.me/${SITE_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#34d399" }}>Message us on WhatsApp</a>
           </div>
         </div>
 

@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import API from "@/lib/axiosClient";
 import CONTACT_CONFIG from "@/config/contactConfig";
+import SITE_CONFIG from "@/config/site";
 import { sendEmailNotification } from "@/lib/emailService";
 
 const MAX_ATTACHMENT_SIZE = 5 * 1024 * 1024;
@@ -14,27 +15,6 @@ const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
   ".pdf",
   ".dwg",
 ]);
-const COMPRESSOR_MAKES = [
-  "Grasso",
-  "Bitzer",
-  "Kirloskar",
-  "Carrier",
-  "Sabroe",
-  "Accel Sabroe",
-  "Bock",
-  "Daikin",
-  "Vilter",
-  "Mycom",
-  "York",
-  "Copeland",
-  "Trane",
-  "Ingersoll Rand",
-  "Atlas Copco",
-  "CPT",
-  "Voltas",
-  "Other",
-];
-
 const initialFormData = {
   name: "",
   email: "",
@@ -79,6 +59,22 @@ export default function EnquiryForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [rfqNumber, setRfqNumber] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedBrand = params.get("brand");
+    const requestedCategory = params.get("category");
+    const requestedSearch = params.get("search");
+    if (SITE_CONFIG.brands.some(({ name }) => name === requestedBrand)) {
+      setFormData((current) => ({ ...current, brand: requestedBrand }));
+    }
+    if (requestedCategory || requestedSearch) {
+      setFormData((current) => ({
+        ...current,
+        part_name: requestedCategory || requestedSearch,
+      }));
+    }
+  }, []);
 
   const updateField = (event) => {
     const { name, value } = event.target;
@@ -269,7 +265,7 @@ export default function EnquiryForm({
               <label style={labelStyle}>
                 Compressor Make{warranty ? "" : " *"}
                 <select name="brand" required={!warranty} value={formData.brand} onChange={updateField} style={inputStyle}>
-                  {COMPRESSOR_MAKES.map((make) => <option key={make} value={make}>{make}</option>)}
+                  {SITE_CONFIG.brands.map(({ name }) => <option key={name} value={name}>{name}</option>)}
                 </select>
               </label>
               <label style={labelStyle}>

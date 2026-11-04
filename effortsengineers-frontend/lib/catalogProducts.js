@@ -22,7 +22,7 @@ export function normalizeCatalogProducts(data) {
       compatible_models: item.compatible_models || "",
       material_size: item.material_size || "",
       description: item.description || "",
-      image: item.image_url || `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/images/components.jpeg`,
+      image: item.image_url || "",
       alt_text: item.alt_text || "",
       stock_status: stockStatus,
       stock_type: /in stock|available/i.test(stockStatus)

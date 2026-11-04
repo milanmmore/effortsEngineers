@@ -18,9 +18,16 @@ const PUBLIC_PRODUCT_COLUMNS = [
   "part_number", "compatible_models", "material_size", "alt_text",
 ];
 const PUBLIC_PRODUCT_SELECT = PUBLIC_PRODUCT_COLUMNS.join(", ");
+const PUBLIC_PAGE_SIZE = 24;
 
-const toPublicProduct = (product) =>
-  Object.fromEntries(PUBLIC_PRODUCT_COLUMNS.map((column) => [column, product[column]]));
+const toPublicProduct = (product) => ({
+  ...Object.fromEntries(PUBLIC_PRODUCT_COLUMNS.map((column) => [column, product[column]])),
+  compatible_models: (product.compatible_models || "")
+    .split(",")
+    .map((model) => model.trim())
+    .filter((model) => model && !/\bto add\b/i.test(model))
+    .join(", "),
+});
 
 // Placeholder list ($1, $2, ...) for the given number of columns.
 const placeholders = (count) =>
@@ -28,18 +35,84 @@ const placeholders = (count) =>
 
 export const listCatalog = asyncHandler(async (req, res) => {
   const brand = typeof req.query.brand === "string" ? req.query.brand.trim() : "";
-  const brandFilter = brand ? "WHERE LOWER(brand) = LOWER($1)" : "";
-  const result = await db.query(
-    `SELECT ${PUBLIC_PRODUCT_SELECT} FROM products ${brandFilter} ORDER BY created_at DESC`,
-    brand ? [brand] : []
+  const category = typeof req.query.category === "string" ? req.query.category.trim() : "";
+  const search = typeof req.query.q === "string" ? req.query.q.trim() : "";
+  if (search.length > 120) {
+    throw new ApiError(400, "q must be 120 characters or fewer.");
+  }
+  const filtered = Boolean(brand || category || search || req.query.page !== undefined);
+  const filters = [];
+  const values = [];
+  if (brand) {
+    values.push(brand);
+    filters.push(`LOWER(brand) = LOWER($${values.length})`);
+  }
+  if (category) {
+    values.push(category);
+    filters.push(`LOWER(category) = LOWER($${values.length})`);
+  }
+  if (search) {
+    values.push(`%${search}%`);
+    const searchParameter = `$${values.length}`;
+    filters.push(
+      `(name ILIKE ${searchParameter} OR part_number ILIKE ${searchParameter} OR series ILIKE ${searchParameter} OR compatible_models ILIKE ${searchParameter} OR brand ILIKE ${searchParameter})`
+    );
+  }
+  filters.unshift("is_published = TRUE");
+  const whereClause = `WHERE ${filters.join(" AND ")}`;
+
+  if (!filtered) {
+    const result = await db.query(
+      `SELECT ${PUBLIC_PRODUCT_SELECT} FROM products ${whereClause} ORDER BY created_at DESC`,
+      values
+    );
+    return res.json(result.rows.map(toPublicProduct));
+  }
+
+  const page = Number(req.query.page ?? 1);
+  if (!Number.isInteger(page) || page < 1) {
+    throw new ApiError(400, "page must be a positive integer.");
+  }
+
+  const countResult = await db.query(
+    `SELECT COUNT(*)::int AS total FROM products ${whereClause}`,
+    values
   );
-  res.json(result.rows.map(toPublicProduct));
+  const total = Number(countResult.rows[0]?.total) || 0;
+  const pageValues = [...values, PUBLIC_PAGE_SIZE, (page - 1) * PUBLIC_PAGE_SIZE];
+  const result = await db.query(
+    `SELECT ${PUBLIC_PRODUCT_SELECT} FROM products ${whereClause}
+     ORDER BY created_at DESC LIMIT $${pageValues.length - 1} OFFSET $${pageValues.length}`,
+    pageValues
+  );
+  res.json({
+    products: result.rows.map(toPublicProduct),
+    page,
+    pageSize: PUBLIC_PAGE_SIZE,
+    total,
+    totalPages: Math.ceil(total / PUBLIC_PAGE_SIZE),
+  });
+});
+
+export const getCatalogFilters = asyncHandler(async (_req, res) => {
+  const [brands, categories] = await Promise.all([
+    db.query(
+      "SELECT DISTINCT brand FROM products WHERE is_published = TRUE AND brand IS NOT NULL AND BTRIM(brand) <> '' ORDER BY brand"
+    ),
+    db.query(
+      "SELECT DISTINCT category FROM products WHERE is_published = TRUE AND category IS NOT NULL AND BTRIM(category) <> '' ORDER BY category"
+    ),
+  ]);
+  res.json({
+    brands: brands.rows.map(({ brand }) => brand),
+    categories: categories.rows.map(({ category }) => category),
+  });
 });
 
 export const getCatalogItem = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const result = await db.query(
-    `SELECT ${PUBLIC_PRODUCT_SELECT} FROM products WHERE id = $1`,
+    `SELECT ${PUBLIC_PRODUCT_SELECT} FROM products WHERE id = $1 AND is_published = TRUE`,
     [id]
   );
   if (result.rows.length === 0) throw new ApiError(404, "Product not found");

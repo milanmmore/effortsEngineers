@@ -27,7 +27,6 @@ const brandRanges = [
     ],
   },
   { brand: "Sabroe", series: sabroeSeries },
-  { brand: "Accel Sabroe", series: sabroeSeries },
   {
     brand: "Carrier & Voltas",
     series: [
@@ -74,20 +73,10 @@ const brandRanges = [
     series: ["Share the compressor model and part reference so we can confirm the applicable range."],
   },
   {
-    brand: "Copeland",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
-    brand: "Ingersoll Rand",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
-    brand: "Atlas Copco",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
-    brand: "CPT",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
+    brand: "Other makes",
+    series: [
+      "Copeland, Ingersoll Rand, Atlas Copco, and CPT: share the compressor model and part reference so we can confirm the applicable range.",
+    ],
   },
 ];
 

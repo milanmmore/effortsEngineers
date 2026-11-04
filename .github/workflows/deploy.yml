@@ -1,4 +1,4 @@
-name: Deploy Next.js to GitHub Pages
+name: Deploy frontend and backend to Railway
 
 on:
   push:
@@ -7,48 +7,64 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 concurrency:
-  group: 'pages'
-  cancel-in-progress: true
+  group: railway-production
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24.13.0
-          cache: 'npm'
-          cache-dependency-path: effortsengineers-frontend/package-lock.json
 
-      - name: Install dependencies
-        run: |
-          cd effortsengineers-frontend
-          npm install
+      - name: Install Railway CLI
+        run: npm install --global @railway/cli
 
-      - name: Build Next.js (static export)
-        run: |
-          cd effortsengineers-frontend
-          npm run build
-          touch out/.nojekyll
+      - name: Validate Railway deployment configuration
         env:
-          GITHUB_PAGES: 'true'
-          BASE_URL: 'https://www.effortsengineers.in'
-          ALLOW_INDEXING: 'true'
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_FRONTEND_SERVICE_ID: ${{ vars.RAILWAY_FRONTEND_SERVICE_ID }}
+          RAILWAY_BACKEND_SERVICE_ID: ${{ vars.RAILWAY_BACKEND_SERVICE_ID }}
+        run: |
+          for name in RAILWAY_TOKEN RAILWAY_PROJECT_ID RAILWAY_ENVIRONMENT_ID RAILWAY_FRONTEND_SERVICE_ID RAILWAY_BACKEND_SERVICE_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Required Railway setting $name is not configured."
+              exit 1
+            fi
+          done
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./effortsengineers-frontend/out
-          publish_branch: gh-pages
-          force_orphan: false
-          commit_message: "deploy: automated static export from ${{ github.sha }}"
+      - name: Deploy backend to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_BACKEND_SERVICE_ID: ${{ vars.RAILWAY_BACKEND_SERVICE_ID }}
+        run: |
+          railway up ./effortsengineers-backend \
+            --service "$RAILWAY_BACKEND_SERVICE_ID" \
+            --environment "$RAILWAY_ENVIRONMENT_ID" \
+            --project "$RAILWAY_PROJECT_ID" \
+            --ci
+
+      - name: Deploy frontend to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_FRONTEND_SERVICE_ID: ${{ vars.RAILWAY_FRONTEND_SERVICE_ID }}
+        run: |
+          railway up ./effortsengineers-frontend \
+            --service "$RAILWAY_FRONTEND_SERVICE_ID" \
+            --environment "$RAILWAY_ENVIRONMENT_ID" \
+            --project "$RAILWAY_PROJECT_ID" \
+            --ci

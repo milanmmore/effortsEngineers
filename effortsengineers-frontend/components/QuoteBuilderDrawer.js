@@ -18,7 +18,7 @@ export default function QuoteBuilderDrawer() {
       <div className="drawer-panel" onClick={(e) => e.stopPropagation()}>
         <div className="drawer-header">
           <div>
-            <h3>Quotation Builder</h3>
+            <h3>Quote Builder</h3>
             <span style={{ fontSize: "0.78rem", color: "#94a3b8" }}>
               {items.length} item{items.length === 1 ? "" : "s"} selected
             </span>
