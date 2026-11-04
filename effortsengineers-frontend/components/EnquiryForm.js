@@ -326,7 +326,7 @@ export default function EnquiryForm({
 
             <label style={labelStyle}>
               Attach Nameplate Photo or Drawing (optional)
-              <input type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.dwg,image/jpeg,image/png,image/webp,application/pdf,application/acad" onChange={handleAttachmentChange} style={inputStyle} />
+              <input name="attachment" type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.dwg,image/jpeg,image/png,image/webp,application/pdf,application/acad" onChange={handleAttachmentChange} style={inputStyle} />
               <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontWeight: 400 }}>
                 JPEG, PNG, WebP, PDF, or DWG; maximum 5 MB.
                 {attachmentFile ? ` Selected: ${attachmentFile.name}` : ""}

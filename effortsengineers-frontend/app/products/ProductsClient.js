@@ -6,6 +6,25 @@ import API from "@/lib/axiosClient";
 import { normalizeCatalogProducts } from "@/lib/catalogProducts";
 import { CONTACT_CONFIG } from "@/config/contactConfig";
 import EnquiryForm from "@/components/EnquiryForm";
+import brandRanges from "@/config/brandRanges";
+
+const BRANDS = [
+  "All",
+  ...new Set(
+    brandRanges.flatMap(({ brand }) =>
+      brand === "Carrier & Voltas" ? ["Carrier", "Voltas"] : [brand]
+    )
+  ),
+];
+
+function getProductDisplayName(item) {
+  let name = item.name.trim();
+  for (const prefix of [item.brand, item.series].filter(Boolean)) {
+    const escapedPrefix = prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    name = name.replace(new RegExp(`^${escapedPrefix}\\s*[-–—:]\\s*`, "i"), "");
+  }
+  return name || item.name;
+}
 
 const ADDITIONAL_PRODUCT_CATEGORIES = [
   {
@@ -18,21 +37,24 @@ const ADDITIONAL_PRODUCT_CATEGORIES = [
   },
 ];
 
-function ProductsContent({ initialProducts, initialCatalogLoaded, initialCatalogError }) {
+function ProductsContent() {
   const { addItem, setIsDrawerOpen } = useContext(QuoteContext);
 
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [isLoading, setIsLoading] = useState(!initialCatalogLoaded);
-  const [loadError, setLoadError] = useState(initialCatalogError);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
-  const loadProducts = useCallback(async () => {
+  const loadProducts = useCallback(async (brand = "All") => {
     setIsLoading(true);
     setLoadError("");
     try {
-      const { data } = await API.get("/catalog", { timeout: 30000 });
+      const { data } = await API.get("/catalog", {
+        timeout: 30000,
+        params: brand === "All" ? undefined : { brand },
+      });
       setProducts(normalizeCatalogProducts(data));
     } catch (error) {
       console.error("Failed to load product catalog:", error);
@@ -48,15 +70,13 @@ function ProductsContent({ initialProducts, initialCatalogLoaded, initialCatalog
 
   useEffect(() => {
     const requestedBrand = new URLSearchParams(window.location.search).get("brand");
-    if (requestedBrand) setSelectedBrand(requestedBrand);
-  }, []);
-
-  useEffect(() => {
-    if (!initialCatalogLoaded) loadProducts();
-  }, [initialCatalogLoaded, loadProducts]);
+    const brand = BRANDS.includes(requestedBrand) ? requestedBrand : "All";
+    setSelectedBrand(brand);
+    loadProducts(brand);
+  }, [loadProducts]);
 
   const brandsList = useMemo(
-    () => ["All", ...new Set(products.map((item) => item.brand).filter(Boolean))],
+    () => [...BRANDS, ...new Set(products.map((item) => item.brand).filter((brand) => !BRANDS.includes(brand)))],
     [products]
   );
   const categoryList = useMemo(
@@ -75,7 +95,6 @@ function ProductsContent({ initialProducts, initialCatalogLoaded, initialCatalog
     return products.filter((item) => {
       const matchSearch =
         item.name.toLowerCase().includes(normalizedSearch) ||
-        item.oem_no.toLowerCase().includes(normalizedSearch) ||
         item.part_number.toLowerCase().includes(normalizedSearch) ||
         item.series.toLowerCase().includes(normalizedSearch) ||
         item.compatible_models.toLowerCase().includes(normalizedSearch) ||
@@ -85,6 +104,17 @@ function ProductsContent({ initialProducts, initialCatalogLoaded, initialCatalog
       return matchSearch && matchBrand && matchCategory;
     });
   }, [products, searchTerm, selectedBrand, selectedCategory]);
+
+  const handleBrandChange = (event) => {
+    const brand = event.target.value;
+    setSelectedBrand(brand);
+    setSelectedCategory("All");
+    const url = new URL(window.location.href);
+    if (brand === "All") url.searchParams.delete("brand");
+    else url.searchParams.set("brand", brand);
+    window.history.replaceState({}, "", url);
+    loadProducts(brand);
+  };
 
   return (
     <main className="section-shell">
@@ -144,14 +174,14 @@ function ProductsContent({ initialProducts, initialCatalogLoaded, initialCatalog
         <div className="search-input-wrap">
           <input
             type="text"
-            placeholder="🔍 Search by part name, compressor model, or OEM ref (e.g. Grasso RC11, Bitzer 4N)..."
+            placeholder="🔍 Search by part name, compressor model, or part number..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
         <div className="filter-selects">
-          <select value={brandsList.includes(selectedBrand) ? selectedBrand : "All"} onChange={(e) => setSelectedBrand(e.target.value)}>
+          <select value={brandsList.includes(selectedBrand) ? selectedBrand : "All"} onChange={handleBrandChange}>
             {brandsList.map((brand) => (
               <option key={brand} value={brand}>Brand: {brand}</option>
             ))}
@@ -183,7 +213,7 @@ function ProductsContent({ initialProducts, initialCatalogLoaded, initialCatalog
       ) : loadError ? (
         <div role="alert" style={{ textAlign: "center", padding: "40px" }}>
           <p>{loadError}</p>
-          <button type="button" className="btn btn-primary" onClick={loadProducts}>
+          <button type="button" className="btn btn-primary" onClick={() => loadProducts(selectedBrand)}>
             Retry loading catalog
           </button>
         </div>
@@ -209,10 +239,10 @@ function ProductsContent({ initialProducts, initialCatalogLoaded, initialCatalog
                 {item.brand && <span className="brand-floating-tag">{item.brand}</span>}
               </div>
               <div className="product-info">
-                {(item.part_number || item.oem_no) && (
-                  <span className="product-oem-no">PART NO: {item.part_number || item.oem_no}</span>
+                {item.part_number && (
+                  <span className="product-oem-no">PART NO: {item.part_number}</span>
                 )}
-                <h3>{item.name}</h3>
+                <h3>{getProductDisplayName(item)}</h3>
                 {item.description && <p>{item.description}</p>}
                 {(item.series || item.category || item.compatible_models || item.material_size) && (
                   <dl style={{ margin: "0 0 16px", fontSize: "0.85rem" }}>
