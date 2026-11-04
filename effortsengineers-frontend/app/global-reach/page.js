@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import EnquiryForm from "@/components/EnquiryForm";
+import SITE_CONFIG from "@/config/site";
 
 export default function GlobalReachPage() {
   const [selectedCert, setSelectedCert] = useState(null);
@@ -56,7 +57,7 @@ export default function GlobalReachPage() {
         <span className="eyebrow">Worldwide Footprint & Supplier Documentation</span>
         <h1 className="section-title"><b>Global Reach</b> & Order Documentation</h1>
         <p className="section-desc">
-          Sourcing compressor spares for refrigeration and marine operations across 25+ listed export destination countries. Product documentation and shipment arrangements are confirmed by supplier, destination, and order.
+          Sourcing compressor spares for refrigeration and marine operations across {SITE_CONFIG.exportDestinationCount} listed export destination countries. Product documentation and shipment arrangements are confirmed by supplier, destination, and order.
         </p>
         <div className="separator-line" />
       </div>
@@ -64,7 +65,7 @@ export default function GlobalReachPage() {
       {/* Stats Grid */}
       <dl className="export-stats-grid">
         <div className="export-stat-box">
-          <dt>25+</dt>
+          <dt>{SITE_CONFIG.exportDestinationCount}</dt>
           <dd>Listed Destination Countries</dd>
         </div>
         <div className="export-stat-box">

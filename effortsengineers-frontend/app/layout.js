@@ -6,9 +6,26 @@ import QuoteBuilderDrawer from '@/components/QuoteBuilderDrawer';
 import AIChatbot from '@/components/AIChatbot';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { SITE_ORIGIN } from '@/config/siteOrigin';
+import SITE_CONFIG from '@/config/site';
 import './globals.css';
 
 const isIndexingEnabled = process.env.ALLOW_INDEXING === 'true';
+const localBusinessData = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Efforts Engineers',
+  url: SITE_ORIGIN,
+  telephone: SITE_CONFIG.phone,
+  email: SITE_CONFIG.primaryEmail,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Road, Shivajinagar',
+    addressLocality: 'Pune',
+    addressRegion: 'Maharashtra',
+    postalCode: '411016',
+    addressCountry: 'IN',
+  },
+};
 
 export const metadata = {
   title: 'Efforts Engineers | Industrial Compressor Spares & Engineering Overhaul',
@@ -27,6 +44,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessData).replace(/</g, '\\u003c') }}
+        />
         <AuthProvider>
           <QuoteProvider>
             <Navbar />

@@ -11,25 +11,21 @@ export default function ClientDashboard() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
   const [orders, setOrders] = useState([]);
   const [quotations, setQuotations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
-    // Attempt backend fetch
     API.get("/client/dashboard")
       .then((res) => {
-        if (res.data?.orders?.length) setOrders(res.data.orders);
-        if (res.data?.quotations?.length) setQuotations(res.data.quotations);
+        setOrders(Array.isArray(res.data?.orders) ? res.data.orders : []);
+        setQuotations(Array.isArray(res.data?.quotations) ? res.data.quotations : []);
       })
-      .catch(() => {
-        // Fallback demo data
-        setQuotations([
-          { id: 1042, rfq_number: "EE-QT-8912", created_at: "2026-02-28", total: 42800, status: "approved", items_summary: "Grasso RC11 Liner (4x), Piston Ring Sets (4x)" },
-          { id: 1038, rfq_number: "EE-QT-8704", created_at: "2026-02-15", total: 18500, status: "pending", items_summary: "Bitzer 4N Valve Reed Plates (2x), Head Gasket Kit" },
-          { id: 1029, rfq_number: "EE-QT-8450", created_at: "2026-01-20", total: 64200, status: "converted_to_order", items_summary: "Kirloskar KC6 Forged Rods (2x), Crankshaft Bushes" },
-        ]);
-        setOrders([
-          { id: 301, order_number: "EE-ORD-9921", date: "2026-02-20", status: "Dispatched", courier: "Blue Dart Express", tracking: "BLUEDART-8829104", est_delivery: "2026-02-22" },
-          { id: 298, order_number: "EE-ORD-9844", date: "2026-01-25", status: "Delivered", courier: "DHL Priority Air", tracking: "DHL-44029104", est_delivery: "2026-01-28" },
-        ]);
+      .catch((error) => {
+        console.error("Failed to load customer dashboard:", error);
+        setLoadError("Unable to load account information. Please try again later.");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [user]);
 
@@ -41,38 +37,27 @@ export default function ClientDashboard() {
           Welcome back, {user?.name || "Plant Engineer"}
         </h1>
         <p style={{ color: "var(--text-muted)", margin: 0 }}>
-          Manage your active compressor quotations, track emergency breakdown dispatches, and download warranty certificates.
+          Review quotation and order records linked to your account, or submit a warranty claim.
         </p>
       </div>
 
       {/* KPI Overview Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "18px", marginBottom: "35px" }}>
+      {loadError && <p role="alert" className="form-error">{loadError}</p>}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "18px", marginBottom: "35px" }}>
         <div style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--line)" }}>
-          <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Active Quotations</span>
+          <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Quotation Records</span>
           <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "var(--navy)", marginTop: "6px" }}>
-            {quotations.length || 3}
+            {isLoading ? "…" : quotations.length}
           </div>
-          <span style={{ fontSize: "0.78rem", color: "var(--primary)", fontWeight: 600 }}>1 Approved • Ready to Order</span>
+          <span style={{ fontSize: "0.78rem", color: "var(--text-muted)", fontWeight: 600 }}>From your account</span>
         </div>
 
         <div style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--line)" }}>
-          <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Active Orders</span>
+          <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Order Records</span>
           <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "var(--navy)", marginTop: "6px" }}>
-            {orders.length || 2}
+            {isLoading ? "…" : orders.length}
           </div>
-          <span style={{ fontSize: "0.78rem", color: "var(--accent-green)", fontWeight: 600 }}>1 En-Route (Express Air)</span>
-        </div>
-
-        <div style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--line)" }}>
-          <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Warranty Covered Items</span>
-          <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "var(--navy)", marginTop: "6px" }}>12</div>
-          <span style={{ fontSize: "0.78rem", color: "#065f46", fontWeight: 600 }}>Per applicable order warranty terms</span>
-        </div>
-
-        <div style={{ background: "white", padding: "20px", borderRadius: "12px", border: "1px solid var(--line)" }}>
-          <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", fontWeight: 700, textTransform: "uppercase" }}>Dispatch Priority</span>
-          <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "var(--primary)", marginTop: "6px" }}>To Be Confirmed</div>
-          <span style={{ fontSize: "0.78rem", color: "var(--text-muted)", fontWeight: 600 }}>Timing confirmed per order</span>
+          <span style={{ fontSize: "0.78rem", color: "var(--text-muted)", fontWeight: 600 }}>From your account</span>
         </div>
       </div>
 
@@ -82,22 +67,22 @@ export default function ClientDashboard() {
           + Request New Spares Quotation
         </button>
         <Link href="/client/quotation" className="btn btn-outline">
-          📄 Download Approved Quotations
+          📄 View Quotations
         </Link>
         <Link href="/client/orders" className="btn btn-outline">
-          🚚 Track Live Shipments
+          🚚 View Orders
         </Link>
         <Link href="/warranty" className="btn btn-outline">
-          🛡️ Verify Part Warranty
+          🛡️ Submit Warranty Claim
         </Link>
       </div>
 
       {/* Recent Quotations Table */}
       <div style={{ background: "white", borderRadius: "12px", border: "1px solid var(--line)", padding: "24px", marginBottom: "30px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-          <h3 style={{ margin: 0, fontSize: "1.2rem" }}>Recent Quotations & RFQs</h3>
+          <h3 style={{ margin: 0, fontSize: "1.2rem" }}>Recent Quotations</h3>
           <Link href="/client/quotation" style={{ color: "var(--primary)", fontSize: "0.85rem", fontWeight: 700 }}>
-            View All Quotes & Download PDF →
+            View Quotations →
           </Link>
         </div>
 
@@ -108,7 +93,7 @@ export default function ClientDashboard() {
                 <th>Quote Ref</th>
                 <th>Requested Date</th>
                 <th>Items Specification</th>
-                <th>Est. Base Rate</th>
+                <th>Quoted Total</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -116,22 +101,25 @@ export default function ClientDashboard() {
             <tbody>
               {quotations.map((q) => (
                 <tr key={q.id}>
-                  <td><strong>{q.rfq_number || `EE-QT-${q.id}`}</strong></td>
-                  <td>{q.created_at?.slice(0, 10) || "Recent"}</td>
-                  <td>{q.items_summary || `Product #${q.product_id || 1} (Qty: ${q.quantity || 1})`}</td>
-                  <td>₹{(Number(q.total) || 24000).toLocaleString()}</td>
+                  <td><strong>Record #{q.id}</strong></td>
+                  <td>{q.created_at ? new Date(q.created_at).toLocaleDateString() : "—"}</td>
+                  <td>{q.product_id ? `Product #${q.product_id}${q.quantity ? ` (Qty: ${q.quantity})` : ""}` : "See quotation details"}</td>
+                  <td>{q.total == null || !Number.isFinite(Number(q.total)) ? "To be confirmed" : `₹${Number(q.total).toLocaleString()}`}</td>
                   <td>
-                    <span className={`badge ${q.status === "approved" ? "badge-in-stock" : (q.status === "pending" ? "badge-low-stock" : "badge-primary")}`}>
-                      {q.status === "approved" ? "Approved & Locked" : (q.status === "pending" ? "Pending Engineering Review" : "Converted to Order")}
+                    <span className={`badge ${q.status === "approved" || q.status === "accepted" ? "badge-in-stock" : "badge-low-stock"}`}>
+                      {q.status || "Status not provided"}
                     </span>
                   </td>
                   <td>
                     <Link href="/client/quotation" className="btn btn-outline" style={{ padding: "4px 10px", fontSize: "0.75rem" }}>
-                      View / Download ⬇
+                      View summary
                     </Link>
                   </td>
                 </tr>
               ))}
+              {!isLoading && quotations.length === 0 && (
+                <tr><td colSpan="6">No quotations are currently linked to this account.</td></tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -140,7 +128,7 @@ export default function ClientDashboard() {
       {/* Recent Orders Tracking */}
       <div style={{ background: "white", borderRadius: "12px", border: "1px solid var(--line)", padding: "24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-          <h3 style={{ margin: 0, fontSize: "1.2rem" }}>Active Breakdown Dispatches & Orders</h3>
+          <h3 style={{ margin: 0, fontSize: "1.2rem" }}>Recent Orders</h3>
           <Link href="/client/orders" style={{ color: "var(--primary)", fontSize: "0.85rem", fontWeight: 700 }}>
             Track All Orders →
           </Link>
@@ -151,28 +139,27 @@ export default function ClientDashboard() {
             <thead>
               <tr>
                 <th>Order Ref</th>
+                <th>Quotation Ref</th>
                 <th>Order Date</th>
-                <th>Courier Partner</th>
-                <th>Air Waybill (AWB)</th>
                 <th>Status</th>
-                <th>Est. Arrival</th>
               </tr>
             </thead>
             <tbody>
               {orders.map((ord) => (
                 <tr key={ord.id}>
-                  <td><strong>{ord.order_number || `EE-ORD-${ord.id}`}</strong></td>
-                  <td>{ord.date || "Recent"}</td>
-                  <td>{ord.courier || "Blue Dart Express Air"}</td>
-                  <td><code>{ord.tracking || "BLUEDART-8829104"}</code></td>
+                  <td><strong>Record #{ord.id}</strong></td>
+                  <td>{ord.quotation_id ? `Quotation record #${ord.quotation_id}` : "—"}</td>
+                  <td>{ord.created_at ? new Date(ord.created_at).toLocaleDateString() : "—"}</td>
                   <td>
-                    <span className={`badge ${ord.status === "Delivered" ? "badge-in-stock" : "badge-order"}`}>
-                      {ord.status || "In Transit"}
+                    <span className={`badge ${ord.status?.toLowerCase() === "delivered" ? "badge-in-stock" : "badge-order"}`}>
+                      {ord.status || "Status not provided"}
                     </span>
                   </td>
-                  <td><strong>{ord.est_delivery || "Tomorrow 2:00 PM"}</strong></td>
                 </tr>
               ))}
+              {!isLoading && orders.length === 0 && (
+                <tr><td colSpan="4">No orders are currently linked to this account.</td></tr>
+              )}
             </tbody>
           </table>
         </div>

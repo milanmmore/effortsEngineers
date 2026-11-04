@@ -125,6 +125,22 @@ CREATE TABLE IF NOT EXISTS inquiries (
   status VARCHAR(50) DEFAULT 'new',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS warranty_claims (
+  id SERIAL PRIMARY KEY,
+  claim_number VARCHAR(50) UNIQUE NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  company VARCHAR(150),
+  email VARCHAR(254) NOT NULL,
+  phone VARCHAR(50),
+  invoice_reference VARCHAR(120) NOT NULL,
+  part VARCHAR(160),
+  serial VARCHAR(120),
+  issue TEXT NOT NULL,
+  attachment_url TEXT,
+  status VARCHAR(50) NOT NULL DEFAULT 'new',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
  
 -- -----------------------------------------------------------------------------
 -- PART 2: CATALOG STRUCTURE (from Efforts_Engineers_Parts_Photo_Master_Sheet.xlsx)

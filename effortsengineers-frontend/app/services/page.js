@@ -11,12 +11,12 @@ export default function ServicesPage() {
     {
       icon: "🔍",
       title: "Failure Assessment Coordination",
-      description: "Share failure symptoms and operating details for review. Where suitable, we can coordinate an assessment with an external specialist; methods, scope, and reporting depend on partner availability and are agreed before engagement.",
+      description: "We help document failures using photos, running hours, and failed-part details, then coordinate metallurgical or mechanical analysis through external laboratories and engineers. Scope, report format, and timeline are confirmed per case.",
     },
     {
       icon: "⚡",
       title: "Refrigeration Energy Assessment Coordination",
-      description: "We can discuss an energy or operating assessment and, where available, coordinate suitable external specialists. Site visits, measurements, scope, and fees are confirmed before any engagement.",
+      description: "We can coordinate an on-site plant energy assessment through partner engineers, covering compressor condition, compression ratios, and discharge temperatures. Scope and deliverables are confirmed per project.",
     },
     {
       icon: "⚙️",
@@ -36,7 +36,7 @@ export default function ServicesPage() {
     {
       icon: "📋",
       title: "Planned Maintenance Spare-Parts Enquiries",
-      description: "Share your compressor models and planned maintenance requirements for a parts enquiry. Compatibility, availability, and any proposed supply scope are confirmed in the quotation.",
+      description: "Running-hour spares bundles, for example 10,000 h or 25,000 h service intervals, can be put together for your compressor model. Contents are confirmed against your model and maintenance plan.",
     },
     {
       icon: "📦",

@@ -67,6 +67,15 @@ beforeEach(() => {
         }],
       };
     }
+    if (sql.includes("COUNT(*)")) {
+      return { rows: [{ total: 1 }] };
+    }
+    if (sql.includes("SELECT DISTINCT brand")) {
+      return { rows: [{ brand: "Grasso" }] };
+    }
+    if (sql.includes("SELECT DISTINCT category")) {
+      return { rows: [{ category: "Cylinder Liners" }] };
+    }
     if (sql.includes("FROM products")) {
       return {
         rows: [{
@@ -85,6 +94,7 @@ beforeEach(() => {
           photo_id: "GRA-RC11-LIN-01",
           compatible_models: "RC11",
           material_size: "Cast iron",
+          is_published: true,
           created_at: new Date(),
         }],
       };
@@ -165,9 +175,31 @@ test("catalog brand filter is applied by the database query", async () => {
   const res = await request(app).get("/api/catalog?brand=Grasso");
 
   expect(res.status).toBe(200);
-  const catalogCall = querySpy.mock.calls.find(([sql]) => sql.includes("FROM products"));
-  expect(catalogCall[0]).toMatch(/WHERE LOWER\(brand\) = LOWER\(\$1\)/);
-  expect(catalogCall[1]).toEqual(["Grasso"]);
+  const catalogCall = querySpy.mock.calls.find(([sql]) => sql.includes("LIMIT"));
+  expect(catalogCall[0]).toMatch(/WHERE is_published = TRUE AND LOWER\(brand\) = LOWER\(\$1\)/);
+  expect(catalogCall[0]).toMatch(/LIMIT \$2 OFFSET \$3/);
+  expect(catalogCall[1]).toEqual(["Grasso", 24, 0]);
+  expect(res.body).toMatchObject({ page: 1, pageSize: 24, total: 1, totalPages: 1 });
+  expect(res.body.products).toHaveLength(1);
+});
+
+test("catalog search is applied before pagination by the database query", async () => {
+  const querySpy = jest.spyOn(dbModule.default, "query");
+  const res = await request(app).get("/api/catalog?q=RC11&page=1");
+
+  expect(res.status).toBe(200);
+  const catalogCall = querySpy.mock.calls.find(([sql]) => sql.includes("LIMIT"));
+  expect(catalogCall[0]).toContain("compatible_models ILIKE $1");
+  expect(catalogCall[0]).toMatch(/LIMIT \$2 OFFSET \$3/);
+  expect(catalogCall[1]).toEqual(["%RC11%", 24, 0]);
+  expect(res.body.products).toHaveLength(1);
+});
+
+test("catalog search rejects queries longer than 120 characters", async () => {
+  const res = await request(app).get(`/api/catalog?q=${"x".repeat(121)}`);
+
+  expect(res.status).toBe(400);
+  expect(res.body.message || res.body.error?.message).toMatch(/120 characters or fewer/);
 });
 
 test("admin can update catalog product details", async () => {

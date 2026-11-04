@@ -1270,6 +1270,13 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.05rem;
   color: var(--navy);
   user-select: none;
+  list-style: none;
+}
+.faq-header::-webkit-details-marker {
+  display: none;
+}
+.faq-item[open] .faq-icon {
+  transform: rotate(45deg);
 }
 .faq-header:hover {
   color: var(--primary);
@@ -1575,6 +1582,16 @@ h1, h2, h3, h4, h5, h6 {
   }
   .site-nav, .site-footer, .chatbot-trigger-btn, .whatsapp-trigger-btn, .top-announcement-bar, .no-print {
     display: none !important;
+  }
+  .portal-shell {
+    display: block !important;
+  }
+  .portal-sidebar {
+    display: none !important;
+  }
+  .portal-content {
+    width: 100%;
+    padding: 0 !important;
   }
   .printable-quote-sheet {
     box-shadow: none;

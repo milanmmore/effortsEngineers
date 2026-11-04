@@ -20,6 +20,7 @@ import inventoryRoutes from "./routes/inventory.routes.js";
 import inquiriesRoutes from "./routes/inquiries.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
 import uploadsRoutes from "./routes/uploads.routes.js";
+import warrantyRoutes from "./routes/warranty.routes.js";
 import { getImageUploadDirectory } from "./controllers/uploads.controller.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
@@ -67,6 +68,7 @@ app.use("/api/inventory", inventoryRoutes);
 app.use("/api/inquiries", inquiriesRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/uploads", uploadsRoutes);
+app.use("/api/warranty", warrantyRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -31,6 +31,16 @@ describe("API Endpoints", () => {
       if (sql.includes("INSERT INTO users")) {
         return { rows: [{ id: 1, name: params[0], email: params[1], role: params[3] }] };
       }
+      if (sql.includes("INSERT INTO warranty_claims")) {
+        return {
+          rows: [{
+            id: 1,
+            claim_number: params[0],
+            status: "new",
+            created_at: new Date().toISOString(),
+          }],
+        };
+      }
       return { rows: [] };
     });
 
@@ -83,6 +93,41 @@ describe("API Endpoints", () => {
     const res = await request(app).get("/api/catalog");
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
+  });
+
+  test("warranty claim requires reference and issue, then returns a claim number", async () => {
+    const invalid = await request(app).post("/api/warranty/claims").send({
+      name: "Test Customer",
+      email: "customer@example.com",
+      invoice_reference: "INV-123",
+    });
+    expect(invalid.status).toBe(400);
+
+    const valid = await request(app).post("/api/warranty/claims").send({
+      name: "Test Customer",
+      company: "Example Plant",
+      email: "customer@example.com",
+      phone: "+91 90000 00000",
+      invoice_reference: "INV-123",
+      part: "Valve plate",
+      serial: "SN-456",
+      issue: "The supplied part has a visible crack.",
+    });
+
+    expect(valid.status).toBe(201);
+    expect(valid.body.claim.claim_number).toMatch(/^EE-WC-[0-9A-F]{8}$/);
+  });
+
+  test("warranty claim rejects honeypot submissions", async () => {
+    const response = await request(app).post("/api/warranty/claims").send({
+      name: "Bot",
+      email: "bot@example.com",
+      invoice_reference: "INV-123",
+      issue: "Spam",
+      website: "https://spam.example",
+    });
+
+    expect(response.status).toBe(400);
   });
 
   test("admin can create catalog item", async () => {

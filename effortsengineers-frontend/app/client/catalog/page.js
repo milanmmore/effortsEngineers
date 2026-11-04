@@ -62,7 +62,7 @@ export default function CatalogPage() {
           </p>
         </div>
         <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber">
-          📋 Review Quotation Cart
+          📋 Review Quote Builder
         </button>
       </div>
 

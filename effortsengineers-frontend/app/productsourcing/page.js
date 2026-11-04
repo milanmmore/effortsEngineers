@@ -5,32 +5,10 @@ import { QuoteContext } from "@/context/QuoteContext";
 import brandRanges from "@/config/brandRanges";
 import EnquiryForm from "@/components/EnquiryForm";
 import CONTACT_CONFIG from "@/config/contactConfig";
+import HowItWorks from "@/components/HowItWorks";
 
 export default function ProductSourcingPage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
-
-  const steps = [
-    {
-      step: "01",
-      title: "Share The Reference",
-      desc: "Provide the compressor manufacturer name, model number, part description, or upload a technical drawing / sample photograph.",
-    },
-    {
-      step: "02",
-      title: "Engineering Verification",
-      desc: "We review the supplied references and coordinate compatibility, dimensional, and material checks with the relevant supplier or manufacturing partner.",
-    },
-    {
-      step: "03",
-      title: "Sourcing / Partner Manufacturing",
-      desc: "We check availability with our supplier network or coordinate manufacturing through a suitable partner. Lead time is confirmed in the quotation.",
-    },
-    {
-      step: "04",
-      title: "Delivery & Documentation",
-      desc: "Dispatch estimates, available inspection or material records, packaging, and any applicable warranty are confirmed for the part and stated in the accepted quotation.",
-    },
-  ];
 
   return (
     <main className="section-shell">
@@ -57,7 +35,7 @@ export default function ProductSourcingPage() {
               Submit Sourcing Requirement →
             </Link>
             <button onClick={() => setIsDrawerOpen(true)} className="btn btn-outline">
-              Open Quotation Builder
+              Open Quote Builder
             </button>
           </div>
         </div>
@@ -93,26 +71,7 @@ export default function ProductSourcingPage() {
         </div>
       </section>
 
-      {/* 4 Steps Grid */}
-      <section style={{ marginBottom: "60px" }}>
-        <div className="section-header">
-          <span className="eyebrow">Our Sourcing Process</span>
-          <h2 className="section-title"><b>How We Procure</b> Your Demanding Parts</h2>
-          <div className="separator-line" />
-        </div>
-
-        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
-          {steps.map((s, idx) => (
-            <div key={idx} className="why-card" style={{ padding: "26px" }}>
-              <span style={{ fontSize: "2rem", fontWeight: 800, color: "var(--primary)", fontFamily: "Space Grotesk" }}>
-                {s.step}
-              </span>
-              <h4 style={{ marginTop: "12px", marginBottom: "8px" }}>{s.title}</h4>
-              <p style={{ fontSize: "0.88rem", margin: 0 }}>{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <HowItWorks />
       <div style={{ marginTop: "60px" }}>
         <EnquiryForm source="Product sourcing page" title="Submit a Sourcing Requirement" />
       </div>

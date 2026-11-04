@@ -1,7 +1,7 @@
-# 🚀 Deployment Workflow Spec
+# Railway Deployment Workflow
 
 **File:** deployment-workflow.png  
-**Purpose:** Show how the Efforts Engineers platform is deployed from GitHub to Render, managed PostgreSQL, and Vercel.
+**Purpose:** Describe how GitHub Actions deploys the frontend and backend services to Railway.
 
 ---
 
@@ -9,29 +9,32 @@
 
 1. **Source Control (GitHub)**
    - Codebase stored in GitHub repository.
-   - Branching strategy: `main` for production, `dev` for testing.
-   - GitHub Actions (optional) for CI/CD pipeline.
+   - A push to `main` or a manual workflow dispatch starts `.github/workflows/deploy.yml`.
 
-2. **Build & Test**
-   - Run `npm run build` for frontend (React).
-   - Run backend tests (Node.js + Express).
-   - Ensure PostgreSQL migrations are applied locally.
+2. **GitHub Actions Configuration**
+   - Configure the `RAILWAY_TOKEN` repository secret.
+   - Configure `RAILWAY_PROJECT_ID`, `RAILWAY_ENVIRONMENT_ID`, `RAILWAY_FRONTEND_SERVICE_ID`, and `RAILWAY_BACKEND_SERVICE_ID` repository variables.
+   - The workflow deploys the backend first and the frontend second using Railway CLI.
 
-3. **Deployment Targets**
-   - Deploy the backend service to Render from the protected `main` branch.
-   - Deploy the React production build to Vercel.
-   - Set environment variables in each platform; never upload `.env` files.
-   - Connect the backend to managed PostgreSQL over TLS.
+3. **Railway Services**
+   - Create separate Railway services for `effortsengineers-backend` and `effortsengineers-frontend`.
+   - Deploy each service from its corresponding repository directory.
+   - The backend starts with `npm start` (`node server.js`); the frontend starts with `npm start` (`next start`).
+   - Set service-specific runtime variables in Railway; never upload `.env` files.
+   - Configure the backend database URL and the frontend API URL for the selected Railway environment.
+   - Set frontend `ALLOW_INDEXING` and `BASE_URL` separately for development and production.
 
 4. **Domain & SSL**
-   - Point application DNS records to Vercel and Render.
-   - Enable HTTPS using the platform-managed certificates.
-   - Verify secure connections for both frontend and backend.
+   - Attach the appropriate frontend and backend domains to the Railway services.
+   - Configure DNS and verify Railway-managed HTTPS for each domain.
+   - Confirm the frontend can reach the backend through its configured API URL.
 
 5. **Monitoring**
-   - Use Render and Vercel health/uptime monitoring.
+   - Use Railway deployment logs and health checks.
    - Review platform logs and application error tracking.
-   - Monitor the managed PostgreSQL service and test backup restores.
+   - Monitor the Railway PostgreSQL service and test backup restores.
+
+The workflow deploys code but does not apply database migrations or verify live email delivery, DNS, search indexing, or customer data. Run tests before deployment and validate those external services separately.
 
 ---
 
@@ -39,14 +42,14 @@
 - **Theme:** Light background, clear arrows showing flow.
 - **Icons:**
   - GitHub logo for source control.
-  - React logo for frontend.
+  - Next.js logo for frontend.
   - Node.js logo for backend.
   - PostgreSQL elephant for database.
-   - Render, Vercel, and managed database service icons.
+  - Railway service and managed database icons.
 - **Layout:**
   - Left → GitHub
-  - Middle → Build/Test
-   - Right → Render + Vercel + managed PostgreSQL + SSL
+  - Middle → GitHub Actions / Railway CLI
+  - Right → Railway frontend + backend + PostgreSQL + SSL
   - Arrows showing progression.
 
 ---

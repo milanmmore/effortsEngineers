@@ -78,7 +78,7 @@ export default function AIChatbot() {
     } catch (err) {
       console.error("Product enquiry assistant request failed:", err);
       const fallbackReply =
-        "I can help with general part enquiries, but I cannot verify live stock, confirm compatibility, or diagnose equipment here. Please use the catalog and contact our team to confirm details.";
+        "Our website assistant can answer general questions about compressor symptoms and help you start an enquiry. Its answers are general guidance only and do not replace inspection by a qualified engineer or the manufacturer's manual. It cannot verify live stock or confirm compatibility.";
 
       setMessages((prev) => [
         ...prev,
