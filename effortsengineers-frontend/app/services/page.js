@@ -101,7 +101,10 @@ export default function ServicesPage() {
               <h3 style={{ margin: "0 0 8px", fontSize: "1.05rem" }}>
                 {location.shop} · {location.role}
               </h3>
-              <p style={{ margin: 0 }}>{location.address}</p>
+              <p style={{ margin: 0 }}>
+                {location.address}<br />
+                <a href={location.mapUrl} target="_blank" rel="noreferrer">View on Google Maps</a>
+              </p>
             </article>
           ))}
         </div>

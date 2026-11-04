@@ -1,67 +1,13 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { QuoteContext } from "@/context/QuoteContext";
-import API from "@/lib/axiosClient";
-import { sendEmailNotification } from "@/lib/emailService";
 import brandRanges from "@/config/brandRanges";
 import CONTACT_CONFIG from "@/config/contactConfig";
+import EnquiryForm from "@/components/EnquiryForm";
 
 export default function HomePage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
-
-  // Quick Hero RFQ state
-  const [rfqName, setRfqName] = useState("");
-  const [rfqContact, setRfqContact] = useState("");
-  const [rfqBrand, setRfqBrand] = useState("Grasso");
-  const [rfqPart, setRfqPart] = useState("");
-  const [rfqUrgency, setRfqUrgency] = useState("Breakdown — priority requested");
-  const [rfqSubmitted, setRfqSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittedRfqId, setSubmittedRfqId] = useState("");
-
-  const handleHeroRfq = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const isEmail = rfqContact.includes("@");
-    const autoRfqId = `EE-RFQ-${Math.floor(1000 + Math.random() * 9000)}`;
-
-    sendEmailNotification({
-      subject: `🚨 Urgent RFQ: ${rfqBrand} - ${rfqPart} (${rfqUrgency})`,
-      from_name: rfqName || "Website Visitor",
-      reply_to: isEmail ? rfqContact : CONTACT_CONFIG.primaryEmail,
-      data: {
-        rfq_id: autoRfqId,
-        customer_or_plant_name: rfqName,
-        contact_detail: rfqContact,
-        compressor_make: rfqBrand,
-        part_required: rfqPart,
-        urgency: rfqUrgency,
-        submitted_at: new Date().toLocaleString(),
-      },
-    }).catch((err) => console.warn("Direct email dispatch note:", err));
-
-    // 2. Also try backend API if available
-    try {
-      const res = await API.post("/inquiries", {
-        name: rfqName,
-        email: isEmail ? rfqContact : "",
-        phone: !isEmail ? rfqContact : "",
-        brand: rfqBrand,
-        part_name: rfqPart,
-        urgency: rfqUrgency,
-        message: `Hero Fast RFQ: Make ${rfqBrand}, Part: ${rfqPart}, Urgency: ${rfqUrgency}`,
-      });
-      setSubmittedRfqId(res.data?.rfqId || autoRfqId);
-      setRfqSubmitted(true);
-    } catch (err) {
-      console.warn("Backend API not reachable or error:", err.message);
-      setSubmittedRfqId(autoRfqId);
-      setRfqSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <main>
@@ -119,104 +65,31 @@ export default function HomePage() {
             </dl>
           </div>
 
-          {/* Right Hero RFQ Card */}
+          {/* Right Hero Enquiry Callout */}
           <div className="hero-rfq-card">
             <div className="rfq-card-header">
-              <span className="eyebrow" style={{ color: "var(--primary)" }}>Breakdown Enquiry</span>
-              <h3>Submit a Spares Enquiry</h3>
-              <p>Share your compressor details and our team will review pricing and availability. Response timing depends on inquiry details and business hours.</p>
+              <span className="eyebrow" style={{ color: "var(--primary)" }}>Parts Enquiries</span>
+              <h3>Need a Compressor Spare?</h3>
+              <p>Share the make, model, and part reference. We&apos;ll review your request and confirm availability, pricing, and dispatch estimates.</p>
             </div>
-
-            {rfqSubmitted ? (
-              <div style={{ padding: "20px 0", textAlign: "center" }}>
-                <div style={{ fontSize: "2.5rem", color: "var(--accent-green)", marginBottom: "10px" }}>✓</div>
-                <h4>Requirement Received!</h4>
-                {submittedRfqId && (
-                  <div style={{ display: "inline-block", background: "#f0fdf4", color: "#166534", border: "1px solid #bbf7d0", padding: "4px 12px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: 700, margin: "8px 0" }}>
-                    Reference: {submittedRfqId}
-                  </div>
-                )}
-                <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
-                  Our team will review availability for <strong>{rfqBrand}</strong> spares and follow up at <strong>{rfqContact}</strong>.
-                </p>
-                <button className="btn btn-outline" onClick={() => setRfqSubmitted(false)} style={{ marginTop: "10px" }}>
-                  Submit Another Part
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleHeroRfq} className="rfq-form-compact">
-                <label>
-                  Your Name / Plant Name *
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Ramesh Patel (Gujarat Cold Chain)"
-                    value={rfqName}
-                    onChange={(e) => setRfqName(e.target.value)}
-                  />
-                </label>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-                  <label>
-                    Compressor Make *
-                    <select value={rfqBrand} onChange={(e) => setRfqBrand(e.target.value)}>
-                      <option value="Grasso">Grasso (RC9, 11, 12)</option>
-                      <option value="Bitzer">Bitzer (4N, 4P, 6F)</option>
-                      <option value="Kirloskar">Kirloskar (KC, KCX)</option>
-                      <option value="Carrier">Carrier (5F, 5H)</option>
-                      <option value="Sabroe">Sabroe (CMO, SMC)</option>
-                      <option value="Bock">Bock (F3, F4, F5)</option>
-                      <option value="Daikin">Daikin (C55, C75)</option>
-                      <option value="Vilter">Vilter (440, 450)</option>
-                      <option value="Mycom">Mycom</option>
-                      <option value="York">York</option>
-                      <option value="Copeland">Copeland</option>
-                      <option value="Trane">Trane</option>
-                      <option value="Ingersoll Rand">Ingersoll Rand</option>
-                      <option value="Atlas Copco">Atlas Copco</option>
-                      <option value="CPT">CPT</option>
-                      <option value="Accel Sabroe">Accel Sabroe</option>
-                      <option value="Voltas">Voltas</option>
-                      <option value="Other">Other Make</option>
-                    </select>
-                  </label>
-                  <label>
-                    Urgency Level
-                    <select value={rfqUrgency} onChange={(e) => setRfqUrgency(e.target.value)}>
-                      <option value="Breakdown — priority requested">🚨 Breakdown — request priority handling</option>
-                      <option value="Urgent — expedited handling requested">⚡ Urgent — request expedited handling</option>
-                      <option value="Planned Maintenance">📅 Planned Overhaul</option>
-                    </select>
-                  </label>
-                </div>
-                <label>
-                  Part Name / OEM Reference *
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Cylinder Liner, Piston Rings, Valve Discs"
-                    value={rfqPart}
-                    onChange={(e) => setRfqPart(e.target.value)}
-                  />
-                </label>
-                <label>
-                  Phone / WhatsApp / Email *
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. +91 98230 XXXXX or email@company.com"
-                    value={rfqContact}
-                    onChange={(e) => setRfqContact(e.target.value)}
-                  />
-                </label>
-                <button type="submit" className="btn btn-primary" style={{ marginTop: "6px" }} disabled={isSubmitting}>
-                  {isSubmitting ? "Submitting..." : "Submit Part Enquiry →"}
-                </button>
-              </form>
-            )}
+            <Link href="#home-enquiry" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+              Send a Parts Enquiry →
+            </Link>
           </div>
         </div>
       </section>
 
+      <section id="home-enquiry" className="section-shell" style={{ background: "#f8fafc" }}>
+        <div className="section-header">
+          <span className="eyebrow">Parts Enquiry</span>
+          <h2 className="section-title"><b>Tell Us What</b> You Need</h2>
+          <p className="section-desc">
+            Share your contact details and compressor requirement. Standard, urgent, breakdown, and planned-overhaul requests are all welcome.
+          </p>
+          <div className="separator-line" />
+        </div>
+        <EnquiryForm source="Home page" title="Submit a Compressor Parts Enquiry" />
+      </section>
 
       {/* 2. WHY CHOOSE US (AMOCON STYLE 3-COLUMN BADGES) */}
       <section className="section-shell" style={{ background: "#f0f9ff" }}>
@@ -231,7 +104,7 @@ export default function HomePage() {
         <div className="why-choose-grid">
           <div className="why-card">
             <div className="why-icon-box">💰</div>
-            <h4>Economical & Direct</h4>
+            <h4>Sourcing Through Our Network</h4>
             <p>
               We source replacement spares through our supplier network. Pricing and any cost savings depend on the part specification, availability, and quotation.
             </p>
@@ -322,23 +195,19 @@ export default function HomePage() {
             </p>
             <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: "14px", color: "#e2e8f0", fontSize: "1.05rem" }}>
               <li>✓ <strong>Air Express Courier:</strong> Priority options may be available; dispatch and arrival depend on stock, carrier schedules, and destination.</li>
-              <li>✓ <strong>Export VCI Packaging:</strong> Anti-corrosion vacuum barrier sealing + ISPM-15 heat-treated crates.</li>
-              <li>✓ <strong>Direct Port Proximity:</strong> Rapid customs clearance for ocean container freight to 15+ export destinations.</li>
+              <li>✓ <strong>Export Packaging Options:</strong> VCI and ISPM-15 wood packaging can be discussed where suitable and required; options are confirmed per shipment.</li>
+              <li>✓ <strong>Export Logistics Coordination:</strong> Shipping routes, customs documentation, and timing are confirmed for each destination and order.</li>
             </ul>
             <Link href="/global-reach" className="btn btn-primary" style={{ padding: "14px 28px", fontSize: "1.02rem" }}>
               Explore Our Global Export Network →
             </Link>
           </div>
           <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: "16px", padding: "38px", backdropFilter: "blur(6px)", boxShadow: "0 20px 40px rgba(0,0,0,0.35)" }}>
-            <h3 style={{ color: "white", marginBottom: "20px", fontSize: "1.4rem", fontWeight: 700 }}>📍 Indicative Transit Estimates from Pune</h3>
+            <h3 style={{ color: "white", marginBottom: "20px", fontSize: "1.4rem", fontWeight: 700 }}>📍 Dispatch &amp; Transit Estimates</h3>
             <div style={{ display: "grid", gap: "16px", fontSize: "1rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
-                <span>Western & Central India (Mumbai, Gujarat, Pune)</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 24 - 48 Hours</strong>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
-                <span>North & South India Metro Hubs (Delhi, Chennai, BLR)</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 24 - 48 Hours</strong>
+                <span>India — all destinations</span>
+                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Confirmed per order</strong>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
                 <span>Middle East & Gulf Hubs (Dubai, Dammam, Doha)</span>
@@ -385,7 +254,7 @@ export default function HomePage() {
           <div className="testimonial-card">
             <div className="star-rating">★★★★★</div>
             <p className="testimonial-quote">
-              &quot; We regularly procure Sabroe SMC 116 and SMC 108 compressor parts from Efforts Engineers. It is always a pleasure to contact Mr. Saurabh Salvi, who understands the requirement quickly and consistently helps us find the right solution. He is truly a problem solver when it comes to compressor spares&quot;
+              &quot;We regularly procure Sabroe SMC 116 and SMC 108 compressor parts from Efforts Engineers. It is always a pleasure to contact Mr. Saurabh Salvi, who understands the requirement quickly and consistently helps us find the right solution. He is truly a problem solver when it comes to compressor spares&quot;
             </p>
             <div className="client-profile">
               <div className="client-avatar">AK</div>

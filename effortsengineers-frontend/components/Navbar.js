@@ -51,7 +51,6 @@ export default function Navbar() {
       <div className="top-announcement-bar">
         <div className="announcement-inner">
           <div className="announcement-left">
-            <span className="announcement-badge">Dispatch Estimates</span>
             <span>⚡ Ask About Availability & Dispatch Estimates Across India and Export Markets </span>
           </div>
           <div className="announcement-right">
@@ -165,7 +164,7 @@ export default function Navbar() {
                   <span className="dropdown-item-icon">🛡️</span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">Warranty &amp; FAQ</span>
-                    <span className="dropdown-item-desc">OEM standards, warranty terms &amp; answers</span>
+                    <span className="dropdown-item-desc">Order-specific warranty terms &amp; claim enquiries</span>
                   </div>
                 </Link>
                 <Link

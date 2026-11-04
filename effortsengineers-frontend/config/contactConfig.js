@@ -5,14 +5,16 @@
  */
 
 const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP || "+91 90960 01010";
-const yearsInBusinessText = "Established in 1986";
+const configuredBusinessAddress = (process.env.NEXT_PUBLIC_ADDRESS || "").trim();
 const businessAddress =
-  process.env.NEXT_PUBLIC_ADDRESS ||
-  "Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India";
+  configuredBusinessAddress && !configuredBusinessAddress.includes("411016")
+    ? configuredBusinessAddress.replace(/,\s*India$/i, " 411016, India")
+    : configuredBusinessAddress ||
+      "Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra 411016, India";
 const workshopAddress =
-  "Shop No. 11, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra, India";
+  "Shop No. 11, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra 411016, India";
 const primaryEmail =
-  process.env.NEXT_PUBLIC_PRIMARY_EMAIL || "sales@effortsengineers.in";
+  process.env.NEXT_PUBLIC_PRIMARY_EMAIL || "saurabh@effortsengineers.in";
 const secondaryEmail =
   process.env.NEXT_PUBLIC_SECONDARY_EMAIL || "efforts.engineers@gmail.com";
 const emails = [primaryEmail, secondaryEmail].filter(
@@ -28,12 +30,14 @@ const locations = [
     shop: "Shop No. 10",
     role: "Office",
     address: businessAddress,
+    mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(businessAddress)}`,
   },
   {
     id: "workshop",
     shop: "Shop No. 11",
     role: "Workshop & Sourcing Coordination",
     address: workshopAddress,
+    mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(workshopAddress)}`,
   },
 ];
 
@@ -48,8 +52,8 @@ export const CONTACT_CONFIG = {
   address: businessAddress,
   workshopAddress,
   locations,
-  yearsInBusinessText,
-  yearsInBusinessShort: "Since 1986",
+  yearsInBusinessText: "Serving industry since 1986",
+  yearsInBusinessShort: "Serving industry since 1986",
 };
 
 export default CONTACT_CONFIG;

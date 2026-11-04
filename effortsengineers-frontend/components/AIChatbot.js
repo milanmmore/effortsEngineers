@@ -131,6 +131,19 @@ export default function AIChatbot() {
           </div>
 
           <div className="chat-window-body">
+            <p
+              role="note"
+              style={{
+                margin: "0 0 12px",
+                padding: "8px 10px",
+                borderRadius: "6px",
+                background: "#fff7ed",
+                color: "#7c2d12",
+                fontSize: "0.76rem",
+              }}
+            >
+              Parts enquiry guidance only—not equipment diagnosis, operating instructions, or safety advice. Follow manufacturer guidance and consult a qualified service professional.
+            </p>
             {messages.map((msg, index) => (
               <div
                 key={index}

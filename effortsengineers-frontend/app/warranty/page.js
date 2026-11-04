@@ -63,20 +63,12 @@ export default function WarrantyPage() {
         </div>
       </div>
 
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "32px", marginBottom: "60px" }}>
-        <div style={{ background: "var(--navy)", color: "white", borderRadius: "16px", padding: "35px" }}>
-          <span className="eyebrow" style={{ color: "#38bdf8" }}>Request a Warranty Review</span>
-          <h2 style={{ color: "white", fontSize: "1.5rem", marginBottom: "16px" }}>
-            Share Your Order and Product Details
-          </h2>
-          <p style={{ color: "#cbd5e1", fontSize: "0.95rem", lineHeight: 1.65, margin: 0 }}>
-            Include the invoice or quotation reference, part details, and a description of the issue. Our team will review your enquiry against the applicable order terms. Submitting an enquiry does not confirm warranty eligibility or a remedy.
-          </p>
-        </div>
+      <section style={{ maxWidth: "850px", margin: "0 auto 60px" }}>
         <EnquiryForm
           source="Warranty page"
           title="Submit a Warranty Enquiry"
-          description="Include your invoice or quotation reference, part details, and a description of the issue. Warranty eligibility and any remedy depend on the accepted order terms."
+          description="Provide the invoice or quotation number and describe the issue. We will review your enquiry against the applicable order terms; submission does not confirm eligibility or a remedy."
+          warranty
         />
       </section>
 

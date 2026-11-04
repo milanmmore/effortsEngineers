@@ -30,7 +30,7 @@ const pageMetadata = {
   },
   services: {
     path: "/services",
-    title: "Compressor Engineering & Overhaul Coordination | Efforts Engineers",
+    title: "Compressor Services & Coordination | Efforts Engineers",
     description: "Explore compressor assessment, reverse-engineering, and overhaul coordination arranged with external specialists. Project scope and capability are confirmed per enquiry.",
   },
   warranty: {
