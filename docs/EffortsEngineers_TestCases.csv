@@ -66,7 +66,7 @@ Frontend,TC-FE-NAV-06,Navigation,UI / Links,P2 - High,Verify Top Announcement Ba
 2. Click email link
 3. Click WhatsApp button","Tel: +91-9822031096, Email: info@effortsengineers.in",Tel opens dialer; email opens mail client; WhatsApp opens wa.me chat link,"All tel, mailto, and wa.me protocols correctly linked with config",PASS,Functional,Configured via centralized contactConfig.js
 Frontend,TC-FE-HOM-01,Home / Hero,UI / Metrics,P1 - Critical,Verify Hero Trust Stats Banner,Homepage loaded,1. Inspect Hero header section,URL: /,"Live counters visible:
-• Since 1986 compressor spares sourcing
+• Serving industry since 1986 compressor spares sourcing
 • 15+ Export Countries
 • Dispatch estimate confirmed per order
 • Warranty terms per quotation",Hero metrics rendered with order-specific dispatch and warranty qualifications,PASS,Next.js Prerendered,Accurate company and order terms

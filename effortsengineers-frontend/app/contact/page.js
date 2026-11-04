@@ -51,7 +51,15 @@ export default function ContactPage() {
             {CONTACT_CONFIG.locations.map((location) => (
               <p key={location.id} style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
                 <strong>{location.shop} · {location.role}</strong><br />
-                {location.address}
+                {location.address}<br />
+                <a
+                  href={location.mapUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: "var(--primary)", textDecoration: "underline", textUnderlineOffset: "3px" }}
+                >
+                  View on Google Maps
+                </a>
               </p>
             ))}
             <p style={{ margin: "0 0 12px" }}>

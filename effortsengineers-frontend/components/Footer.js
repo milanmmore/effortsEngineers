@@ -12,6 +12,7 @@ const compatibleBrands = [
   { brand: "Bock", label: "Bock (F3, F4, F5, F16)" },
   { brand: "Daikin", label: "Daikin (C55, C58, C75)" },
   { brand: "Vilter", label: "Vilter (440, 450, 450XL)" },
+  { brand: "Mycom", label: "Mycom" },
   { brand: "York", label: "York" },
   { brand: "Copeland", label: "Copeland" },
   { brand: "Trane", label: "Trane" },
@@ -55,9 +56,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Quick Portals & Certificates */}
+          {/* Column 3: Quick Links & Documentation */}
           <div className="footer-col">
-            <h4>Quick Links</h4>
+            <h4>Quick Links &amp; Documentation</h4>
             <ul>
               <li><Link href="/products">Product Catalog</Link></li>
               <li><Link href="/services">Consultancy & Industrial Projects</Link></li>
@@ -76,7 +77,8 @@ export default function Footer() {
             {CONTACT_CONFIG.locations.map((location) => (
               <p key={location.id} style={{ marginBottom: "12px" }}>
                 📍 <strong>{location.shop} · {location.role}:</strong><br />
-                {location.address}
+                {location.address}<br />
+                <a href={location.mapUrl} target="_blank" rel="noreferrer" style={{ color: "#38bdf8" }}>View on Google Maps</a>
               </p>
             ))}
             <p style={{ margin: "4px 0" }}>

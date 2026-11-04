@@ -162,7 +162,7 @@ npm start
 ### 4.6 About Us & Heritage Timeline (`app/about/page.js`)
 | Test ID | Feature Area | Description / Steps | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **TC-FE-ABT-01** | Heritage Copy Verification | Review company history overview | States the business has operated since 1986 and supplies compressor spares across India and internationally. | ✅ PASS |
+| **TC-FE-ABT-01** | Heritage Copy Verification | Review company history overview | States the business has operated Serving industry since 1986 and supplies compressor spares across India and internationally. | ✅ PASS |
 | **TC-FE-ABT-02** | Milestone Timeline | Inspect milestones (1986 to 2026) | Shows company history, sourcing range expansion, export growth, and digital platform launch. | ✅ PASS |
 | **TC-FE-ABT-03** | Supplier & Product Documentation | Review sourcing and quality information | Explains supplier-based sourcing and that inspection/material documentation varies by product and order. | ✅ PASS |
 

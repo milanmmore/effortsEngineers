@@ -42,15 +42,15 @@ export default function AboutPage() {
     year: 2024,
     title: "Global Reach",
     description:
-      "Expanded our international presence, supplying industrial refrigeration spare parts and components to customers across 15+ export destinations worldwide.",
+      "Expanded our international presence, supplying industrial refrigeration spare parts and components to customers across 25+ listed export destination countries.",
     highlight:
-      "Serving customers across 15+ export destinations worldwide.",
+      "Serving customers across 25+ listed export destination countries.",
   },
   {
     year: 2026,
     title: "Digital Catalog & Customer Support Tools",
     description:
-      "Added a database-backed product catalog with stock levels, RFQ creation tools, downloadable quotations, and a website chatbot for product and quotation questions.",
+      "Added an online parts catalog, request-for-quotation tools, downloadable quotations, and a website chatbot for product and quotation questions. Availability is confirmed per order.",
     highlight:
       "Online product catalog, RFQ tools, downloadable quotations, and chatbot support.",
   },

@@ -56,7 +56,7 @@ export default function GlobalReachPage() {
         <span className="eyebrow">Worldwide Footprint & Supplier Documentation</span>
         <h1 className="section-title"><b>Global Reach</b> & Order Documentation</h1>
         <p className="section-desc">
-          Sourcing compressor spares for refrigeration and marine operations across 15+ export destinations. Product documentation and shipment arrangements are confirmed by supplier, destination, and order.
+          Sourcing compressor spares for refrigeration and marine operations across 25+ listed export destination countries. Product documentation and shipment arrangements are confirmed by supplier, destination, and order.
         </p>
         <div className="separator-line" />
       </div>
@@ -64,8 +64,8 @@ export default function GlobalReachPage() {
       {/* Stats Grid */}
       <dl className="export-stats-grid">
         <div className="export-stat-box">
-          <dt>15+</dt>
-          <dd>Export Destinations</dd>
+          <dt>25+</dt>
+          <dd>Listed Destination Countries</dd>
         </div>
         <div className="export-stat-box">
           <dt>By Order</dt>
@@ -128,9 +128,9 @@ export default function GlobalReachPage() {
             <li>📦 <strong>2. VCI Packaging:</strong> Available when appropriate and stated in the shipment arrangements.</li>
             <li>🌲 <strong>3. ISPM-15 Wood Packaging:</strong> Where required, treated by an approved method stated on the applicable certificate. Crating options are confirmed per shipment.</li>
           </ul>
-          <button onClick={() => alert("Packaging specification guide downloaded.")} className="btn btn-outline">
-            📄 Download Packaging Specs Guide (PDF)
-          </button>
+          <Link href="/contact" className="btn btn-outline">
+            📄 Ask About Packaging Documentation
+          </Link>
         </div>
         <div style={{ background: "var(--navy)", borderRadius: "16px", padding: "35px", color: "white" }}>
           <h3 style={{ color: "white", marginBottom: "12px", fontSize: "1.35rem" }}>🚢 Customs & Shipping Documents</h3>

@@ -19,7 +19,8 @@ const COMPRESSOR_MAKES = [
   "Bitzer",
   "Kirloskar",
   "Carrier",
-  "Sabroe / Accel Sabroe",
+  "Sabroe",
+  "Accel Sabroe",
   "Bock",
   "Daikin",
   "Vilter",
@@ -46,6 +47,8 @@ const initialFormData = {
   urgency: "Standard — timing to be confirmed",
   destination_country: "",
   message: "",
+  warranty_reference: "",
+  issue_description: "",
 };
 
 const inputStyle = {
@@ -69,6 +72,7 @@ export default function EnquiryForm({
   source = "Website enquiry",
   title = "Send a Technical Requirement / RFQ",
   description = "Share your compressor and part details. Availability, pricing, dispatch estimates, and applicable warranty terms are confirmed per order.",
+  warranty = false,
 }) {
   const [formData, setFormData] = useState(initialFormData);
   const [attachmentFile, setAttachmentFile] = useState(null);
@@ -124,8 +128,22 @@ export default function EnquiryForm({
       }
 
       const inquiryResponse = await API.post("/inquiries", {
-        ...formData,
-        message: [`Enquiry source: ${source}`, formData.message].filter(Boolean).join("\n\n"),
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        brand: formData.brand,
+        model: formData.model,
+        part_name: formData.part_name,
+        quantity: formData.quantity,
+        urgency: formData.urgency,
+        destination_country: formData.destination_country,
+        message: [
+          `Enquiry source: ${source}`,
+          warranty && `Invoice / Quotation Number: ${formData.warranty_reference}`,
+          warranty && `Issue Description: ${formData.issue_description}`,
+          formData.message && `${warranty ? "Additional Notes" : "Requirements / Notes"}: ${formData.message}`,
+        ].filter(Boolean).join("\n\n"),
         attachment_url: attachmentUrl ? new URL(attachmentUrl).pathname : "",
       });
       const reference = inquiryResponse.data?.rfqId;
@@ -134,7 +152,9 @@ export default function EnquiryForm({
       }
 
       const emailResult = await sendEmailNotification({
-        subject: `Technical RFQ: ${formData.brand} - ${formData.part_name || formData.model}`,
+        subject: warranty
+          ? `Warranty enquiry: ${formData.warranty_reference}`
+          : `Technical RFQ: ${formData.brand} - ${formData.part_name || formData.model}`,
         from_name: formData.name,
         reply_to: formData.email || CONTACT_CONFIG.primaryEmail,
         data: {
@@ -151,6 +171,8 @@ export default function EnquiryForm({
           urgency: formData.urgency,
           destination_country: formData.destination_country,
           message: formData.message,
+          warranty_reference: formData.warranty_reference,
+          issue_description: formData.issue_description,
           attached_file: attachmentUrl || "None",
           attached_image: attachmentUrl || "None",
           submitted_at: new Date().toLocaleString(),
@@ -245,8 +267,8 @@ export default function EnquiryForm({
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "14px" }}>
               <label style={labelStyle}>
-                Compressor Make *
-                <select name="brand" required value={formData.brand} onChange={updateField} style={inputStyle}>
+                Compressor Make{warranty ? "" : " *"}
+                <select name="brand" required={!warranty} value={formData.brand} onChange={updateField} style={inputStyle}>
                   {COMPRESSOR_MAKES.map((make) => <option key={make} value={make}>{make}</option>)}
                 </select>
               </label>
@@ -255,35 +277,52 @@ export default function EnquiryForm({
                 <input name="model" type="text" maxLength={120} value={formData.model} onChange={updateField} style={inputStyle} />
               </label>
               <label style={labelStyle}>
-                Part Name / Number *
-                <input name="part_name" type="text" required maxLength={160} value={formData.part_name} onChange={updateField} style={inputStyle} />
+                Part Name / Number{warranty ? "" : " *"}
+                <input name="part_name" type="text" required={!warranty} maxLength={160} value={formData.part_name} onChange={updateField} style={inputStyle} />
               </label>
-              <label style={labelStyle}>
-                Quantity
-                <input name="quantity" type="number" min="1" max="100000" required value={formData.quantity} onChange={updateField} style={inputStyle} />
-              </label>
+              {!warranty && (
+                <label style={labelStyle}>
+                  Quantity
+                  <input name="quantity" type="number" min="1" max="100000" required value={formData.quantity} onChange={updateField} style={inputStyle} />
+                </label>
+              )}
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "14px" }}>
-              <label style={labelStyle}>
-                Urgency
-                <select name="urgency" value={formData.urgency} onChange={updateField} style={inputStyle}>
-                  <option>Standard — timing to be confirmed</option>
-                  <option>Urgent — please advise options</option>
-                  <option>Breakdown — priority requested</option>
-                  <option>Scheduled maintenance</option>
-                </select>
-              </label>
-              <label style={labelStyle}>
-                Destination Country (if exporting)
-                <input name="destination_country" type="text" maxLength={100} value={formData.destination_country} onChange={updateField} style={inputStyle} />
-              </label>
-            </div>
+            {warranty ? (
+              <>
+                <label style={labelStyle}>
+                  Invoice / Quotation Number *
+                  <input name="warranty_reference" type="text" required maxLength={120} value={formData.warranty_reference} onChange={updateField} style={inputStyle} />
+                </label>
+                <label style={labelStyle}>
+                  Describe the issue *
+                  <textarea name="issue_description" rows="4" required maxLength={3000} value={formData.issue_description} onChange={updateField} style={{ ...inputStyle, fontFamily: "inherit" }} />
+                </label>
+              </>
+            ) : (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "14px" }}>
+                <label style={labelStyle}>
+                  Urgency
+                  <select name="urgency" value={formData.urgency} onChange={updateField} style={inputStyle}>
+                    <option>Standard — timing to be confirmed</option>
+                    <option>Urgent — please advise options</option>
+                    <option>Breakdown — priority requested</option>
+                    <option value="Scheduled maintenance">Planned Overhaul</option>
+                  </select>
+                </label>
+                <label style={labelStyle}>
+                  Destination Country (if exporting)
+                  <input name="destination_country" type="text" maxLength={100} value={formData.destination_country} onChange={updateField} style={inputStyle} />
+                </label>
+              </div>
+            )}
 
-            <label style={labelStyle}>
-              Technical Requirements / Notes
-              <textarea name="message" rows="4" maxLength={3000} value={formData.message} onChange={updateField} style={{ ...inputStyle, fontFamily: "inherit" }} />
-            </label>
+            {!warranty && (
+              <label style={labelStyle}>
+                Technical Requirements / Notes
+                <textarea name="message" rows="4" maxLength={3000} value={formData.message} onChange={updateField} style={{ ...inputStyle, fontFamily: "inherit" }} />
+              </label>
+            )}
 
             <label style={labelStyle}>
               Attach Nameplate Photo or Drawing (optional)
@@ -295,7 +334,15 @@ export default function EnquiryForm({
             </label>
 
             <button type="submit" disabled={isSubmitting} className="btn btn-primary" style={{ padding: "14px", fontSize: "1rem" }}>
-              {isSubmitting ? "Submitting Enquiry..." : "Submit Technical Enquiry / RFQ →"}
+              {isSubmitting
+                ? "Submitting Enquiry..."
+                : warranty
+                  ? "Submit Warranty Enquiry →"
+                  : formData.urgency === "Scheduled maintenance"
+                    ? "Submit Planned Overhaul Enquiry →"
+                    : formData.urgency === "Standard — timing to be confirmed"
+                      ? "Submit Enquiry / RFQ →"
+                      : "Submit Urgent RFQ →"}
             </button>
           </form>
         </>
