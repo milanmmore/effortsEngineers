@@ -136,6 +136,7 @@ test("admin can create catalog item", async () => {
 });
 
 test("catalog list and item endpoints return product details", async () => {
+  const querySpy = jest.spyOn(dbModule.default, "query");
   const listResponse = await request(app).get("/api/catalog");
   const itemResponse = await request(app).get("/api/catalog/1");
 
@@ -147,11 +148,26 @@ test("catalog list and item endpoints return product details", async () => {
       name: "Admin Product",
       brand: "Grasso",
       category: "Cylinder Liners",
-      oem_no: "GRA-RC11-042",
-      stock_quantity: 18,
       image_url: "/images/liners-bushes.jpg",
     });
+    expect(product).not.toHaveProperty("oem_no");
+    expect(product).not.toHaveProperty("stock_quantity");
+    expect(product).not.toHaveProperty("photo_id");
+    expect(product).not.toHaveProperty("created_at");
   }
+  const listCall = querySpy.mock.calls.find(([sql]) => sql.includes("FROM products"));
+  expect(listCall[0]).toMatch(/^SELECT id, name, description, brand, category, image_url, series, part_number, compatible_models, material_size, alt_text FROM products/i);
+  expect(listCall[0]).not.toMatch(/oem_no|stock_quantity|photo_status|photo_id|file_name|remarks|page_url|created_at,/i);
+});
+
+test("catalog brand filter is applied by the database query", async () => {
+  const querySpy = jest.spyOn(dbModule.default, "query");
+  const res = await request(app).get("/api/catalog?brand=Grasso");
+
+  expect(res.status).toBe(200);
+  const catalogCall = querySpy.mock.calls.find(([sql]) => sql.includes("FROM products"));
+  expect(catalogCall[0]).toMatch(/WHERE LOWER\(brand\) = LOWER\(\$1\)/);
+  expect(catalogCall[1]).toEqual(["Grasso"]);
 });
 
 test("admin can update catalog product details", async () => {

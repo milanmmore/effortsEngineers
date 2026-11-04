@@ -96,6 +96,31 @@ test("records an uploaded file URL with an inquiry", async () => {
   expect(response.body.inquiry.message).toContain(`Attached file: ${attachmentUrl}`);
 });
 
+test("submits an uploaded nameplate image with the inquiry", async () => {
+  const pngSignature = Buffer.from([
+    0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+  ]);
+  const uploadResponse = await request(app)
+    .post("/api/uploads/images")
+    .attach("image", pngSignature, {
+      filename: "nameplate.png",
+      contentType: "image/png",
+    });
+
+  expect(uploadResponse.status).toBe(201);
+  createdImageFilenames.push(uploadResponse.body.file.filename);
+
+  const inquiryResponse = await request(app).post("/api/inquiries").send({
+    name: "Nameplate Test Customer",
+    email: "customer@example.com",
+    attachment_url: uploadResponse.body.file.url,
+  });
+
+  expect(inquiryResponse.status).toBe(201);
+  expect(inquiryResponse.body.inquiry.attachment_url).toBe(uploadResponse.body.file.url);
+  expect(inquiryResponse.body.inquiry.message).toContain(uploadResponse.body.file.url);
+});
+
 test.each(["pdf", "dwg"])("accepts a stored .%s file as an inquiry attachment", async (extension) => {
   const attachmentUrl = `/uploads/images/123e4567-e89b-42d3-a456-426614174000.${extension}`;
   const response = await request(app).post("/api/inquiries").send({

@@ -41,6 +41,8 @@ jobs:
           touch out/.nojekyll
         env:
           GITHUB_PAGES: 'true'
+          BASE_URL: 'https://www.effortsengineers.in'
+          ALLOW_INDEXING: 'true'
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -50,4 +52,3 @@ jobs:
           publish_branch: gh-pages
           force_orphan: false
           commit_message: "deploy: automated static export from ${{ github.sha }}"
-

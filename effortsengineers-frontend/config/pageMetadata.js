@@ -1,7 +1,5 @@
 import { SITE_ORIGIN } from "@/config/siteOrigin";
 
-const isIndexingEnabled = process.env.NEXT_PUBLIC_INDEX_SITE === "true";
-
 const pageMetadata = {
   about: {
     path: "/about",
@@ -106,10 +104,6 @@ export function getPageMetadata(pageKey) {
     description: page.description,
     alternates: {
       canonical: new URL(page.path, SITE_ORIGIN).toString(),
-    },
-    robots: {
-      index: pageKey === "products" || isIndexingEnabled,
-      follow: pageKey === "products" || isIndexingEnabled,
     },
   };
 }

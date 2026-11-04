@@ -13,26 +13,37 @@ const PRODUCT_COLUMNS = [
 
 // Columns returned by every catalog read/write.
 const PRODUCT_SELECT = ["id", ...PRODUCT_COLUMNS, "created_at"].join(", ");
+const PUBLIC_PRODUCT_COLUMNS = [
+  "id", "name", "description", "brand", "category", "image_url", "series",
+  "part_number", "compatible_models", "material_size", "alt_text",
+];
+const PUBLIC_PRODUCT_SELECT = PUBLIC_PRODUCT_COLUMNS.join(", ");
+
+const toPublicProduct = (product) =>
+  Object.fromEntries(PUBLIC_PRODUCT_COLUMNS.map((column) => [column, product[column]]));
 
 // Placeholder list ($1, $2, ...) for the given number of columns.
 const placeholders = (count) =>
   Array.from({ length: count }, (_, i) => `$${i + 1}`).join(", ");
 
 export const listCatalog = asyncHandler(async (req, res) => {
+  const brand = typeof req.query.brand === "string" ? req.query.brand.trim() : "";
+  const brandFilter = brand ? "WHERE LOWER(brand) = LOWER($1)" : "";
   const result = await db.query(
-    `SELECT ${PRODUCT_SELECT} FROM products ORDER BY created_at DESC`
+    `SELECT ${PUBLIC_PRODUCT_SELECT} FROM products ${brandFilter} ORDER BY created_at DESC`,
+    brand ? [brand] : []
   );
-  res.json(result.rows);
+  res.json(result.rows.map(toPublicProduct));
 });
 
 export const getCatalogItem = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const result = await db.query(
-    `SELECT ${PRODUCT_SELECT} FROM products WHERE id = $1`,
+    `SELECT ${PUBLIC_PRODUCT_SELECT} FROM products WHERE id = $1`,
     [id]
   );
   if (result.rows.length === 0) throw new ApiError(404, "Product not found");
-  res.json(result.rows[0]);
+  res.json(toPublicProduct(result.rows[0]));
 });
 
 export const createCatalogItem = asyncHandler(async (req, res) => {
