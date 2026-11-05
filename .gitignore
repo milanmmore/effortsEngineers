@@ -29,3 +29,6 @@ Thumbs.db
 *.swp
 .vscode/
 .idea/
+
+# Local archive (keep non-essential files out of Git)
+_archive/

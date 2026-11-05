@@ -44,6 +44,10 @@ app.use(
   })
 );
 
+app.get("/robots.txt", (req, res) => {
+  res.type("text/plain").send("User-agent: *\nAllow: /\n");
+});
+
 app.get("/api/health", async (req, res) => {
   try {
     await db.query("SELECT 1");
