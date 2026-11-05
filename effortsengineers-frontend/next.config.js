@@ -1,24 +1,24 @@
 /** @type {import('next').NextConfig} */
+const isIndexingEnabled = process.env.ALLOW_INDEXING === 'true';
+
 const nextConfig = {
   images: {
     unoptimized: true,
   },
   async headers() {
-    if (process.env.ALLOW_INDEXING === 'true') {
-      return [];
-    }
-
-    return [
-      {
-        source: '/:path*',
-        headers: [
+    return isIndexingEnabled
+      ? []
+      : [
           {
-            key: 'X-Robots-Tag',
-            value: 'noindex, nofollow',
+            source: '/:path*',
+            headers: [
+              {
+                key: 'X-Robots-Tag',
+                value: 'noindex, nofollow',
+              },
+            ],
           },
-        ],
-      },
-    ];
+        ];
   },
   devIndicators: {
     buildActivity: false,
