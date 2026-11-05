@@ -192,6 +192,33 @@ export default function Navbar() {
                 Admin Panel
               </Link>
             )}
+
+            <button
+              type="button"
+              className="mobile-nav-action mobile-nav-quote"
+              onClick={() => {
+                closeAll();
+                setIsDrawerOpen(true);
+              }}
+            >
+              Quote Builder{items.length > 0 ? ` (${items.length})` : ""}
+            </button>
+            {user ? (
+              <button
+                type="button"
+                className="mobile-nav-action"
+                onClick={() => {
+                  closeAll();
+                  logout();
+                }}
+              >
+                Logout ({user.role})
+              </button>
+            ) : (
+              <Link href="/auth/login" className="mobile-nav-action" onClick={closeAll}>
+                Portal Login
+              </Link>
+            )}
           </div>
 
           {/* Action CTAs */}
@@ -225,6 +252,7 @@ export default function Navbar() {
             <button
               className="menu-toggle"
               aria-label="Toggle Navigation"
+              aria-expanded={isOpen}
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? "✕" : "☰"}

@@ -429,6 +429,9 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--navy);
   font-size: 1.1rem;
 }
+.mobile-nav-action {
+  display: none;
+}
 
 /* BUTTONS & BADGES */
 .btn {
@@ -1699,6 +1702,10 @@ h1, h2, h3, h4, h5, h6 {
   .menu-toggle {
     display: block;
   }
+  .nav-actions .quote-counter-btn,
+  .nav-actions > .nav-btn {
+    display: none;
+  }
   .nav-links {
     display: none;
     position: absolute;
@@ -1719,6 +1726,30 @@ h1, h2, h3, h4, h5, h6 {
   .nav-links a {
     width: 100%;
     padding: 10px 14px;
+  }
+  .nav-links .mobile-nav-action {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #334155;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+  }
+  .nav-links .mobile-nav-action:hover {
+    color: var(--primary);
+    background: #f0f9ff;
+  }
+  .nav-links .mobile-nav-quote {
+    margin-top: 4px;
+    border: 1px solid var(--line);
+    background: #f8fafc;
   }
   .nav-dropdown {
     width: 100%;
@@ -1759,6 +1790,21 @@ h1, h2, h3, h4, h5, h6 {
     height: auto;
     min-height: auto;
     padding: 30px 16px;
+  }
+  .home-logistics-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 28px !important;
+  }
+  .home-logistics-grid > div,
+  .home-logistics-estimates {
+    min-width: 0;
+  }
+  .home-logistics-estimates {
+    padding: 24px !important;
+  }
+  .home-logistics-estimate-row {
+    flex-wrap: wrap;
+    gap: 4px 12px;
   }
   .hero-cta-row {
     flex-wrap: wrap;
