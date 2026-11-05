@@ -186,7 +186,7 @@ export default function HomePage() {
         color: "white", 
         padding: "80px 0.5in" 
       }}>
-        <div style={{ maxWidth: "100%", margin: "auto", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "50px", alignItems: "center" }}>
+        <div className="home-logistics-grid" style={{ maxWidth: "100%", margin: "auto", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "50px", alignItems: "center" }}>
           <div>
             <span className="eyebrow" style={{ color: "#38bdf8", marginBottom: "14px" }}>Express Logistics</span>
             <h2 style={{ color: "white", fontSize: "clamp(2.2rem, 3.8vw, 3rem)", lineHeight: 1.15, marginBottom: "18px", fontWeight: 800 }}>
@@ -204,18 +204,18 @@ export default function HomePage() {
               Explore Our Global Export Network →
             </Link>
           </div>
-          <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: "16px", padding: "38px", backdropFilter: "blur(6px)", boxShadow: "0 20px 40px rgba(0,0,0,0.35)" }}>
+          <div className="home-logistics-estimates" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: "16px", padding: "38px", backdropFilter: "blur(6px)", boxShadow: "0 20px 40px rgba(0,0,0,0.35)" }}>
             <h3 style={{ color: "white", marginBottom: "20px", fontSize: "1.4rem", fontWeight: 700 }}>📍 Dispatch &amp; Transit Estimates</h3>
             <div style={{ display: "grid", gap: "16px", fontSize: "1rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
+              <div className="home-logistics-estimate-row" style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
                 <span>India — all destinations</span>
                 <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Confirmed per order</strong>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
+              <div className="home-logistics-estimate-row" style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
                 <span>Middle East & Gulf Hubs (Dubai, Dammam, Doha)</span>
                 <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 2 - 3 Days (Air)</strong>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div className="home-logistics-estimate-row" style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Europe, Africa & Southeast Asia</span>
                 <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 3 - 5 Days (Air)</strong>
               </div>
