@@ -15,6 +15,13 @@ test("unknown route returns 404", async () => {
   expect(res.status).toBe(404);
 });
 
+test("robots endpoint allows all user agents", async () => {
+  const res = await request(app).get("/robots.txt");
+  expect(res.status).toBe(200);
+  expect(res.headers["content-type"]).toMatch(/text\/plain/);
+  expect(res.text).toBe("User-agent: *\nAllow: /\n");
+});
+
 afterAll(async () => {
   await dbModule.default.pool.end();
 });

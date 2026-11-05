@@ -26,7 +26,7 @@ let modalTargetPartId = null; // part id currently open in edit/delete modal
 async function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
+     (raw) {
       const parsed = JSON.parse(raw);
       STATE = Object.assign(STATE, parsed);
       STATE.partOverrides = STATE.partOverrides || {};
