@@ -114,6 +114,18 @@ export const getCatalogFilters = asyncHandler(async (_req, res) => {
   });
 });
 
+export const getCatalogBrandRanges = asyncHandler(async (_req, res) => {
+  const result = await db.query(
+    `SELECT DISTINCT brand, series, compatible_models
+     FROM products
+     WHERE is_published = TRUE
+       AND brand IS NOT NULL
+       AND BTRIM(brand) <> ''
+     ORDER BY brand, series, compatible_models`
+  );
+  res.json(result.rows);
+});
+
 export const getCatalogItem = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const result = await db.query(

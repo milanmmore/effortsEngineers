@@ -2,6 +2,7 @@ import express from "express";
 import {
   listCatalog,
   getCatalogFilters,
+  getCatalogBrandRanges,
   getCatalogItem,
   createCatalogItem,
   updateCatalogItem,
@@ -12,6 +13,7 @@ import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 router.get("/", listCatalog);
+router.get("/ranges", getCatalogBrandRanges);
 router.get("/filters", getCatalogFilters);
 router.get("/:id", getCatalogItem);
 router.post("/", requireAuth, requireRole("admin"), createCatalogItem);

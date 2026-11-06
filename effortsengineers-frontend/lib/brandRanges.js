@@ -1,10 +1,10 @@
 const BRANDS_WITHOUT_CATALOG_ITEMS = ["Bitzer", "Bock", "Daikin"];
 
-export function buildBrandRanges(products) {
+export function buildBrandRanges(catalogRanges) {
   const brands = new Map();
 
-  for (const product of products) {
-    const brand = typeof product.brand === "string" ? product.brand.trim() : "";
+  for (const catalogRange of catalogRanges) {
+    const brand = typeof catalogRange.brand === "string" ? catalogRange.brand.trim() : "";
     if (!brand) continue;
 
     const key = brand.toLocaleLowerCase();
@@ -13,14 +13,17 @@ export function buildBrandRanges(products) {
     }
 
     const ranges = brands.get(key).ranges;
-    const series = typeof product.series === "string" ? product.series.trim() : "";
-    const compatibleModels = typeof product.compatible_models === "string"
-      ? product.compatible_models.trim()
+    const series = typeof catalogRange.series === "string" ? catalogRange.series.trim() : "";
+    const compatibleModels = typeof catalogRange.compatible_models === "string"
+      ? catalogRange.compatible_models.trim()
       : "";
 
     if (series) ranges.add(`Series: ${series}`);
     if (compatibleModels) ranges.add(`Compatible models: ${compatibleModels}`);
-    if (!series && !compatibleModels) {
+  }
+
+  for (const { brand, ranges } of brands.values()) {
+    if (ranges.size === 0) {
       ranges.add("Catalog listings are available; series and compatible models are not specified.");
     }
   }
