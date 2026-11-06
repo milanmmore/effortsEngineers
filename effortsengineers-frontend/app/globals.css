@@ -850,6 +850,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: 16px;
   align-items: center;
   justify-content: space-between;
+  min-width: 0;
 }
 .search-input-wrap {
   flex: 1;
@@ -858,6 +859,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .search-input-wrap input {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   padding: 11px 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
@@ -868,14 +872,47 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  min-width: 0;
 }
 .filter-selects select {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 10px 14px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: white;
   font-size: 0.88rem;
   font-weight: 600;
+}
+
+.catalog-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  min-width: 0;
+}
+.catalog-page-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.catalog-page-links a {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.catalog-page-links a[aria-current="page"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  font-weight: 700;
 }
 
 .catalog-grid {
@@ -1871,6 +1908,45 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
+  .catalog-toolbar,
+  .search-input-wrap,
+  .filter-selects {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .catalog-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-input-wrap {
+    flex: none;
+  }
+  .catalog-toolbar input,
+  .catalog-toolbar select,
+  .filter-selects > * {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .filter-selects select {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .catalog-pagination {
+    gap: 8px;
+  }
+  .catalog-pagination > .btn {
+    padding: 8px 10px;
+  }
+  .catalog-page-links {
+    gap: 4px;
+  }
+  .catalog-page-links a {
+    padding: 6px 9px;
+  }
   .product-detail-layout {
     grid-template-columns: 1fr;
     gap: 24px;

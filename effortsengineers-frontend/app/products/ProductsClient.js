@@ -40,6 +40,26 @@ function getCatalogPageHref(page, brand, category, query, totalPages = page) {
   return search ? `/products?${search}` : "/products";
 }
 
+function getVisibleCatalogPages(currentPage, totalPages) {
+  if (totalPages <= 5) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages = new Set([1, totalPages]);
+  for (let pageNumber = currentPage - 1; pageNumber <= currentPage + 1; pageNumber += 1) {
+    if (pageNumber > 1 && pageNumber < totalPages) pages.add(pageNumber);
+  }
+
+  const orderedPages = [...pages].sort((left, right) => left - right);
+  return orderedPages.flatMap((pageNumber, index) => {
+    const previousPage = orderedPages[index - 1];
+    return [
+      ...(previousPage && pageNumber - previousPage > 1 ? ["ellipsis"] : []),
+      pageNumber,
+    ];
+  });
+}
+
 function ProductsContent({
   initialCatalog,
   initialBrands = [],
@@ -335,7 +355,7 @@ function ProductsContent({
       )}
 
       {!isLoading && !loadError && totalPages > 1 && (
-        <nav aria-label="Catalog pages" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "14px", marginTop: "28px" }}>
+        <nav aria-label="Catalog pages" className="catalog-pagination">
           <a
             className="btn btn-outline"
             href={getCatalogPageHref(page - 1, selectedBrand, selectedCategory, searchTerm, totalPages)}
@@ -355,17 +375,20 @@ function ProductsContent({
           >
             Next
           </a>
-          <div className="catalog-page-links" aria-label="Choose catalog page" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map((catalogPage) => (
-              <a
-                key={catalogPage}
-                href={getCatalogPageHref(catalogPage, selectedBrand, selectedCategory, searchTerm, totalPages)}
-                aria-current={catalogPage === page ? "page" : undefined}
-                aria-label={`Catalog page ${catalogPage}`}
-                style={{ padding: "8px 12px", border: "1px solid var(--line)", borderRadius: "6px" }}
-              >
-                {catalogPage}
-              </a>
+          <div className="catalog-page-links" aria-label="Choose catalog page">
+            {getVisibleCatalogPages(page, totalPages).map((catalogPage, index) => (
+              catalogPage === "ellipsis" ? (
+                <span key={`ellipsis-${index}`} aria-hidden="true">…</span>
+              ) : (
+                <a
+                  key={catalogPage}
+                  href={getCatalogPageHref(catalogPage, selectedBrand, selectedCategory, searchTerm, totalPages)}
+                  aria-current={catalogPage === page ? "page" : undefined}
+                  aria-label={`Catalog page ${catalogPage}`}
+                >
+                  {catalogPage}
+                </a>
+              )
             ))}
           </div>
         </nav>

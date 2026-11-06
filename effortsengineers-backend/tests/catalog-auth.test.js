@@ -70,6 +70,11 @@ beforeEach(() => {
     if (sql.includes("COUNT(*)")) {
       return { rows: [{ total: 1 }] };
     }
+    if (sql.includes("SELECT DISTINCT brand, series, compatible_models")) {
+      return {
+        rows: [{ brand: "Grasso", series: "RC Series", compatible_models: "RC11" }],
+      };
+    }
     if (sql.includes("SELECT DISTINCT brand")) {
       return { rows: [{ brand: "Grasso" }] };
     }
@@ -177,6 +182,20 @@ test("catalog list and item endpoints return product details", async () => {
   const listCall = querySpy.mock.calls.find(([sql]) => sql.includes("LIMIT"));
   expect(listCall[0]).toMatch(/^SELECT id, name, description, brand, category, image_url, series, COALESCE\(NULLIF\(BTRIM\(part_number\)/i);
   expect(listCall[0]).not.toMatch(/stock_quantity|photo_status|photo_id|file_name|remarks|page_url|created_at,/i);
+});
+
+test("public catalog ranges returns distinct published brand/model combinations", async () => {
+  const querySpy = jest.spyOn(dbModule.default, "query");
+  const res = await request(app).get("/api/catalog/ranges");
+
+  expect(res.status).toBe(200);
+  expect(res.body).toEqual([
+    { brand: "Grasso", series: "RC Series", compatible_models: "RC11" },
+  ]);
+  expect(querySpy).toHaveBeenCalledWith(
+    expect.stringMatching(/SELECT DISTINCT brand, series, compatible_models/),
+  );
+  expect(querySpy.mock.calls.at(-1)[0]).toMatch(/is_published = TRUE/);
 });
 
 test("catalog pagination is enabled by default and placeholder wording is removed", async () => {

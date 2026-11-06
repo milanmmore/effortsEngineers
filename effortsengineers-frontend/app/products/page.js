@@ -3,6 +3,7 @@ import BrandRangesSection from "@/components/BrandRangesSection";
 import { SITE_ORIGIN } from "@/config/siteOrigin";
 import { API_BASE_URL } from "@/lib/apiBaseUrl";
 import SITE_CONFIG from "@/config/site";
+import { getServerBrandRanges } from "@/lib/serverBrandRanges";
 
 export const dynamic = "force-dynamic";
 
@@ -42,24 +43,27 @@ export default async function ProductsPage({ searchParams }) {
   if (initialCategory !== "All") catalogUrl.searchParams.set("category", initialCategory);
   if (initialQuery) catalogUrl.searchParams.set("q", initialQuery);
 
-  const [catalogResult, filtersResult] = await Promise.allSettled([
-    fetchJson(catalogUrl.toString()),
-    fetchJson(`${API_BASE_URL}/catalog/filters`),
+  const [[catalogOutcome, filtersOutcome], brandRangesResult] = await Promise.all([
+    Promise.allSettled([
+      fetchJson(catalogUrl.toString()),
+      fetchJson(`${API_BASE_URL}/catalog/filters`),
+    ]),
+    getServerBrandRanges(),
   ]);
-  const initialCatalog = catalogResult.status === "fulfilled" ? catalogResult.value : null;
-  const initialFilters = filtersResult.status === "fulfilled" ? filtersResult.value : null;
-  const initialError = catalogResult.status === "rejected"
+  const initialCatalog = catalogOutcome.status === "fulfilled" ? catalogOutcome.value : null;
+  const initialFilters = filtersOutcome.status === "fulfilled" ? filtersOutcome.value : null;
+  const initialError = catalogOutcome.status === "rejected"
     ? "The catalog is temporarily unavailable. Please retry loading products."
     : "";
-  const initialFilterWarning = filtersResult.status === "rejected"
+  const initialFilterWarning = filtersOutcome.status === "rejected"
     ? "Brand and category filters could not be loaded."
     : "";
 
-  if (catalogResult.status === "rejected") {
-    console.error("Failed to render initial product catalog:", catalogResult.reason);
+  if (catalogOutcome.status === "rejected") {
+    console.error("Failed to render initial product catalog:", catalogOutcome.reason);
   }
-  if (filtersResult.status === "rejected") {
-    console.error("Failed to render product catalog filters:", filtersResult.reason);
+  if (filtersOutcome.status === "rejected") {
+    console.error("Failed to render product catalog filters:", filtersOutcome.reason);
   }
 
   const listedProducts = initialCatalog?.products || [];
@@ -115,6 +119,8 @@ export default async function ProductsPage({ searchParams }) {
         eyebrow="Compressor Compatibility Guide"
         title={<><b>Browse Parts</b> by Brand and Model Family</>}
         description="Model series and compatible models are shown from catalog listings. Compatibility, specifications, availability, and pricing are confirmed for each enquiry."
+        brandRanges={brandRangesResult.brandRanges}
+        loadError={brandRangesResult.loadError}
       />
     </>
   );
