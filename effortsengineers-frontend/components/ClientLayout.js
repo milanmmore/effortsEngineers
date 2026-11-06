@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ClientProtectedRoute from "@/components/ClientProtectedRoute";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function ClientLayout({ children }) {
   const pathname = usePathname();
@@ -33,7 +34,7 @@ export default function ClientLayout({ children }) {
               </li>
               <li>
                 <Link href="/products" className={isActive("/products") ? "active" : ""}>
-                  📦 Browse Catalog
+                  <InterfaceIcon name="box" size={18} /> Browse Catalog
                 </Link>
               </li>
               <li>

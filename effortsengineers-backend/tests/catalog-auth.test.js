@@ -77,26 +77,30 @@ beforeEach(() => {
       return { rows: [{ category: "Cylinder Liners" }] };
     }
     if (sql.includes("FROM products")) {
+      const product = {
+        id: 1,
+        name: "Admin Product",
+        description: "Test",
+        price: 100,
+        brand: "Grasso",
+        category: "Cylinder Liners",
+        oem_no: "GRA-RC11-042",
+        stock_quantity: 18,
+        stock_status: "In Stock",
+        image_url: "/images/liners-bushes.jpg",
+        series: "RC Series",
+        part_number: "GRA-RC11-042",
+        photo_id: "GRA-RC11-LIN-01",
+        compatible_models: "RC11",
+        material_size: "Cast iron",
+        is_published: true,
+        created_at: new Date(),
+      };
+      if (sql.includes("AS part_number")) {
+        product.part_number = product.part_number || product.oem_no;
+      }
       return {
-        rows: [{
-          id: 1,
-          name: "Admin Product",
-          description: "Test",
-          price: 100,
-          brand: "Grasso",
-          category: "Cylinder Liners",
-          oem_no: "GRA-RC11-042",
-          stock_quantity: 18,
-          stock_status: "In Stock",
-          image_url: "/images/liners-bushes.jpg",
-          series: "RC Series",
-          part_number: "GRA-RC11-042",
-          photo_id: "GRA-RC11-LIN-01",
-          compatible_models: "RC11",
-          material_size: "Cast iron",
-          is_published: true,
-          created_at: new Date(),
-        }],
+        rows: [product],
       };
     }
     return { rows: [] };
@@ -152,8 +156,13 @@ test("catalog list and item endpoints return product details", async () => {
 
   expect(listResponse.status).toBe(200);
   expect(itemResponse.status).toBe(200);
-  expect(Array.isArray(listResponse.body)).toBe(true);
-  for (const product of [listResponse.body[0], itemResponse.body]) {
+  expect(listResponse.body).toMatchObject({
+    page: 1,
+    pageSize: 24,
+    total: 1,
+    totalPages: 1,
+  });
+  for (const product of [listResponse.body.products[0], itemResponse.body]) {
     expect(product).toMatchObject({
       name: "Admin Product",
       brand: "Grasso",
@@ -165,9 +174,42 @@ test("catalog list and item endpoints return product details", async () => {
     expect(product).not.toHaveProperty("photo_id");
     expect(product).not.toHaveProperty("created_at");
   }
-  const listCall = querySpy.mock.calls.find(([sql]) => sql.includes("FROM products"));
-  expect(listCall[0]).toMatch(/^SELECT id, name, description, brand, category, image_url, series, part_number, compatible_models, material_size, alt_text FROM products/i);
-  expect(listCall[0]).not.toMatch(/oem_no|stock_quantity|photo_status|photo_id|file_name|remarks|page_url|created_at,/i);
+  const listCall = querySpy.mock.calls.find(([sql]) => sql.includes("LIMIT"));
+  expect(listCall[0]).toMatch(/^SELECT id, name, description, brand, category, image_url, series, COALESCE\(NULLIF\(BTRIM\(part_number\)/i);
+  expect(listCall[0]).not.toMatch(/stock_quantity|photo_status|photo_id|file_name|remarks|page_url|created_at,/i);
+});
+
+test("catalog pagination is enabled by default and placeholder wording is removed", async () => {
+  jest.spyOn(dbModule.default, "query").mockImplementation(async (sql) => {
+    if (sql.includes("COUNT(*)")) return { rows: [{ total: 1 }] };
+    if (sql.includes("FROM products")) {
+      return {
+        rows: [{
+          id: 8,
+          name: "Grasso V HP (sizes to add)",
+          brand: "Grasso",
+          category: "Cylinder Liner",
+          part_number: "GRA-VHP-100",
+          oem_no: "GRA-VHP-100",
+          compatible_models: "V HP (other sizes to add), V 450",
+          material_size: "Other sizes to add",
+        }],
+      };
+    }
+    return { rows: [] };
+  });
+
+  const res = await request(app).get("/api/catalog");
+
+  expect(res.status).toBe(200);
+  expect(res.body).toMatchObject({ page: 1, pageSize: 24, total: 1, totalPages: 1 });
+  expect(res.body.products[0]).toMatchObject({
+    name: "Grasso V HP",
+    part_number: "GRA-VHP-100",
+    compatible_models: "V 450",
+    material_size: "",
+  });
+  expect(JSON.stringify(res.body)).not.toMatch(/sizes to add/i);
 });
 
 test("catalog brand filter is applied by the database query", async () => {

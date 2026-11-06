@@ -4,6 +4,7 @@ import { QuoteContext } from "@/context/QuoteContext";
 import Link from "next/link";
 import Field from "@/components/Field";
 import useQuoteSubmission from "@/hooks/useQuoteSubmission";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function QuoteBuilderDrawer() {
   const { items, removeItem, updateQuantity, clearQuote, isDrawerOpen, setIsDrawerOpen, totalEstimated } = useContext(QuoteContext);
@@ -58,7 +59,7 @@ export default function QuoteBuilderDrawer() {
             <div className="drawer-body">
               {items.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "40px 0", color: "var(--text-muted)" }}>
-                  <div style={{ fontSize: "2.5rem", marginBottom: "10px" }}>📦</div>
+                  <div style={{ marginBottom: "10px", color: "var(--primary)" }}><InterfaceIcon name="box" size={40} /></div>
                   <p>Your quotation list is currently empty.</p>
                   <Link href="/products" className="btn btn-outline" onClick={() => setIsDrawerOpen(false)} style={{ marginTop: "12px" }}>
                     Explore Ready Spares Catalog
@@ -74,7 +75,7 @@ export default function QuoteBuilderDrawer() {
                             {item.brand}
                           </span>
                           <h4>{item.name}</h4>
-                          <p>Ref: {item.oem_no}</p>
+                          <p>Part number: {item.oem_no || "Not listed"}</p>
                           <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--navy)" }}>
                             {item.price === null
                               ? "Price on request"
@@ -145,7 +146,7 @@ export default function QuoteBuilderDrawer() {
                       style={{ background: "white" }}
                     >
                       <option value="Immediate breakdown — requested priority handling">🚨 Immediate breakdown — request priority handling</option>
-                      <option value="Urgent — request expedited handling">⚡ Urgent — request expedited handling</option>
+                      <option value="Urgent — request expedited handling">Urgent — request expedited handling</option>
                       <option value="Standard — timing to be confirmed">📅 Standard — timing to be confirmed</option>
                       <option value="Scheduled Annual Overhaul">🛠 Scheduled Annual Overhaul</option>
                     </Field>
@@ -181,9 +182,8 @@ export default function QuoteBuilderDrawer() {
                   {isSubmitting ? "Generating Official RFQ..." : "Request Automated Quotation →"}
                 </button>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.78rem", color: "var(--text-dim)" }}>
-                  <span>✓ 100% Free Consultation</span>
-                  <span>✓ Formal PDF with Letterhead</span>
-                  <span>✓ 1-Yr Warranty Backed</span>
+                  <span>Availability confirmed per order</span>
+                  <span>Warranty terms per accepted quotation</span>
                 </div>
               </div>
             )}

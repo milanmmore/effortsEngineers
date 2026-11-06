@@ -8,14 +8,6 @@ const sabroeSeries = [
 
 const brandRanges = [
   {
-    brand: "Grasso",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
-    brand: "Bitzer",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
     brand: "Kirloskar",
     series: [
       "KC single-stage: KC-2, KC-3, KC-4, KC-5, KC-6, KC-9, KC-12.",
@@ -57,25 +49,9 @@ const brandRanges = [
     ],
   },
   {
-    brand: "Bock",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
-    brand: "Daikin",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
-    brand: "Vilter",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
-    brand: "Mycom",
-    series: ["Share the compressor model and part reference so we can confirm the applicable range."],
-  },
-  {
     brand: "Other makes",
     series: [
-      "Copeland, Ingersoll Rand, Atlas Copco, and CPT: share the compressor model and part reference so we can confirm the applicable range.",
+      "Grasso, Bitzer, Bock, Daikin, Vilter, Mycom, Copeland, Ingersoll Rand, Atlas Copco, and CPT: share the compressor model and part reference so we can confirm the applicable range.",
     ],
   },
 ];

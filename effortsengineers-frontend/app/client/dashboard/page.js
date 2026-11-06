@@ -15,6 +15,8 @@ export default function ClientDashboard() {
   const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
+    if (!user || user.role !== "client") return;
+
     API.get("/client/dashboard")
       .then((res) => {
         setOrders(Array.isArray(res.data?.orders) ? res.data.orders : []);

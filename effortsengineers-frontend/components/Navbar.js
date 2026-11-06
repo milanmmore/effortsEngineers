@@ -6,6 +6,7 @@ import { AuthContext } from "@/context/AuthContext";
 import { QuoteContext } from "@/context/QuoteContext";
 import logo from '../images/logo.jpg';
 import CONTACT_CONFIG from "@/config/contactConfig";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
@@ -51,11 +52,11 @@ export default function Navbar() {
       <div className="top-announcement-bar">
         <div className="announcement-inner">
           <div className="announcement-left">
-            <span>⚡ Ask About Availability & Dispatch Estimates Across India and Export Markets </span>
+            <span><InterfaceIcon name="bolt" size={16} /> Availability and dispatch estimates are confirmed per order</span>
           </div>
           <div className="announcement-right">
-            <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}>📞 {CONTACT_CONFIG.phone}</a>
-            <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`}>✉️ {CONTACT_CONFIG.primaryEmail}</a>
+            <a href={`tel:${CONTACT_CONFIG.phoneRaw}`}><InterfaceIcon name="phone" size={15} /> {CONTACT_CONFIG.phone}</a>
+            <a href={`mailto:${CONTACT_CONFIG.primaryEmail}`}><InterfaceIcon name="mail" size={15} /> {CONTACT_CONFIG.primaryEmail}</a>
           </div>
         </div>
       </div>
@@ -97,7 +98,7 @@ export default function Navbar() {
                   className={`dropdown-item ${isActive("/products") ? "active" : ""}`}
                   onClick={closeAll}
                 >
-                  <span className="dropdown-item-icon">📦</span>
+                  <span className="dropdown-item-icon"><InterfaceIcon name="box" size={19} /></span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">Products &amp; Catalog</span>
                     <span className="dropdown-item-desc">Ammonia, Freon, Air &amp; Gas compressor spares</span>
@@ -108,7 +109,7 @@ export default function Navbar() {
                   className={`dropdown-item ${isActive("/services") ? "active" : ""}`}
                   onClick={closeAll}
                 >
-                  <span className="dropdown-item-icon">⚙️</span>
+                  <span className="dropdown-item-icon"><InterfaceIcon name="settings" size={19} /></span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">Services &amp; Projects</span>
                     <span className="dropdown-item-desc">Service coordination through external partners</span>
@@ -119,7 +120,7 @@ export default function Navbar() {
                   className={`dropdown-item ${isActive("/productsourcing") ? "active" : ""}`}
                   onClick={closeAll}
                 >
-                  <span className="dropdown-item-icon">🔍</span>
+                  <span className="dropdown-item-icon"><InterfaceIcon name="search" size={19} /></span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">Custom Sourcing</span>
                     <span className="dropdown-item-desc">Hard-to-find spares &amp; reverse engineering</span>
@@ -150,7 +151,7 @@ export default function Navbar() {
                   className={`dropdown-item ${isActive("/about") ? "active" : ""}`}
                   onClick={closeAll}
                 >
-                  <span className="dropdown-item-icon">🏢</span>
+                  <span className="dropdown-item-icon"><InterfaceIcon name="building" size={19} /></span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">About Us</span>
                     <span className="dropdown-item-desc">{CONTACT_CONFIG.yearsInBusinessText} · Compressor-parts sourcing</span>
@@ -161,7 +162,7 @@ export default function Navbar() {
                   className={`dropdown-item ${isActive("/warranty") ? "active" : ""}`}
                   onClick={closeAll}
                 >
-                  <span className="dropdown-item-icon">🛡️</span>
+                  <span className="dropdown-item-icon"><InterfaceIcon name="shield" size={19} /></span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">Warranty &amp; FAQ</span>
                     <span className="dropdown-item-desc">Order-specific warranty terms &amp; claim enquiries</span>
@@ -172,7 +173,7 @@ export default function Navbar() {
                   className={`dropdown-item ${isActive("/contact") ? "active" : ""}`}
                   onClick={closeAll}
                 >
-                  <span className="dropdown-item-icon">📞</span>
+                  <span className="dropdown-item-icon"><InterfaceIcon name="phone" size={19} /></span>
                   <div className="dropdown-item-text">
                     <span className="dropdown-item-title">Contact Us</span>
                     <span className="dropdown-item-desc">Direct RFQs, sourcing coordination &amp; contact details</span>

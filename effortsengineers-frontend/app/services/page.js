@@ -3,43 +3,44 @@ import React, { useContext } from "react";
 import { QuoteContext } from "@/context/QuoteContext";
 import CONTACT_CONFIG from "@/config/contactConfig";
 import EnquiryForm from "@/components/EnquiryForm";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function ServicesPage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
 
   const consultancyServices = [
     {
-      icon: "🔍",
+      icon: "search",
       title: "Failure Assessment Coordination",
       description: "We help document failures using photos, running hours, and failed-part details, then coordinate metallurgical or mechanical analysis through external laboratories and engineers. Scope, report format, and timeline are confirmed per case.",
     },
     {
-      icon: "⚡",
+      icon: "bolt",
       title: "Refrigeration Energy Assessment Coordination",
       description: "We can coordinate an on-site plant energy assessment through partner engineers, covering compressor condition, compression ratios, and discharge temperatures. Scope and deliverables are confirmed per project.",
     },
     {
-      icon: "⚙️",
+      icon: "settings",
       title: "Reverse Engineering of Discontinued Spares",
       description: "We help document discontinued part requirements and coordinate suitable reverse-engineering or manufacturing services through external specialists.",
     },
     {
-      icon: "🛠️",
+      icon: "wrench",
       title: "Compressor Overhaul Coordination",
       description: "We can help scope overhaul requirements and coordinate suitable external workshop services. Scope, capability, and schedule are confirmed per project.",
     },
     {
-      icon: "🌊",
+      icon: "ship",
       title: "Marine Refrigeration Spare-Parts Sourcing",
       description: "We can review marine refrigeration spare-part requirements and coordinate supplier enquiries. Availability, any classification requirements, and shipping schedules must be confirmed for each order.",
     },
     {
-      icon: "📋",
+      icon: "clipboard",
       title: "Planned Maintenance Spare-Parts Enquiries",
       description: "Running-hour spares bundles, for example 10,000 h or 25,000 h service intervals, can be put together for your compressor model. Contents are confirmed against your model and maintenance plan.",
     },
     {
-      icon: "📦",
+      icon: "box",
       title: "Recurring Compressor Spares Enquiries",
       description: "Discuss recurring supply requirements. Supported makes, quantities, commercial terms, and availability are confirmed for each quotation.",
     },
@@ -82,7 +83,9 @@ export default function ServicesPage() {
       <div className="services-grid" style={{ marginBottom: "70px" }}>
         {consultancyServices.map((service, idx) => (
           <div key={idx} className="service-card" style={{ padding: "30px", borderTop: "4px solid var(--primary)" }}>
-            <div style={{ fontSize: "2.4rem", marginBottom: "16px" }}>{service.icon}</div>
+            <div style={{ color: "var(--primary)", marginBottom: "16px" }}>
+              <InterfaceIcon name={service.icon} size={32} />
+            </div>
             <h3 style={{ fontSize: "1.25rem", marginBottom: "12px" }}>{service.title}</h3>
             <p style={{ color: "var(--text-muted)", fontSize: "0.92rem", lineHeight: 1.6, flex: 1, margin: 0 }}>
               {service.description}

@@ -29,6 +29,7 @@ const initialFormData = {
   message: "",
   warranty_reference: "",
   issue_description: "",
+  website: "",
 };
 
 const inputStyle = {
@@ -59,13 +60,14 @@ export default function EnquiryForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [rfqNumber, setRfqNumber] = useState("");
+  const [notificationWarning, setNotificationWarning] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const requestedBrand = params.get("brand");
     const requestedCategory = params.get("category");
     const requestedSearch = params.get("search");
-    if (SITE_CONFIG.brands.some(({ name }) => name === requestedBrand)) {
+    if (SITE_CONFIG.enquiryBrands.some(({ name }) => name === requestedBrand)) {
       setFormData((current) => ({ ...current, brand: requestedBrand }));
     }
     if (requestedCategory || requestedSearch) {
@@ -134,6 +136,7 @@ export default function EnquiryForm({
         quantity: formData.quantity,
         urgency: formData.urgency,
         destination_country: formData.destination_country,
+        website: formData.website,
         message: [
           `Enquiry source: ${source}`,
           warranty && `Invoice / Quotation Number: ${formData.warranty_reference}`,
@@ -180,6 +183,9 @@ export default function EnquiryForm({
           "Inquiry email notification failed:",
           emailResult.error || emailResult.message
         );
+        setNotificationWarning(
+          "Your enquiry was received, but we could not confirm the email notification. Please contact us with this reference if you need to follow up."
+        );
       }
       setRfqNumber(reference);
     } catch (error) {
@@ -199,6 +205,7 @@ export default function EnquiryForm({
     setAttachmentFile(null);
     setSubmitError("");
     setRfqNumber("");
+    setNotificationWarning("");
   };
 
   return (
@@ -219,6 +226,10 @@ export default function EnquiryForm({
           <p>
             Reference: <strong>{rfqNumber}</strong>. The team will review your details and follow up using the contact information provided.
           </p>
+          {!notificationWarning && formData.email && (
+            <p>A confirmation email should arrive at {formData.email} shortly.</p>
+          )}
+          {notificationWarning && <p role="alert">{notificationWarning}</p>}
           <button type="button" className="btn btn-primary" onClick={resetForm}>
             Submit Another Enquiry
           </button>
@@ -233,6 +244,20 @@ export default function EnquiryForm({
           </p>
 
           <form onSubmit={handleSubmit} style={{ display: "grid", gap: "16px" }}>
+            <label
+              aria-hidden="true"
+              style={{ position: "absolute", width: "1px", height: "1px", padding: 0, margin: "-1px", overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }}
+            >
+              Leave this field empty
+              <input
+                name="website"
+                type="text"
+                autoComplete="off"
+                tabIndex={-1}
+                value={formData.website}
+                onChange={updateField}
+              />
+            </label>
             {submitError && (
               <p role="alert" style={{ margin: 0, padding: "12px 14px", border: "1px solid #fca5a5", borderRadius: "6px", color: "#991b1b", background: "#fef2f2" }}>
                 {submitError}
@@ -265,7 +290,7 @@ export default function EnquiryForm({
               <label style={labelStyle}>
                 Compressor Make{warranty ? "" : " *"}
                 <select name="brand" required={!warranty} value={formData.brand} onChange={updateField} style={inputStyle}>
-                  {SITE_CONFIG.brands.map(({ name }) => <option key={name} value={name}>{name}</option>)}
+                  {SITE_CONFIG.enquiryBrands.map(({ name }) => <option key={name} value={name}>{name}</option>)}
                 </select>
               </label>
               <label style={labelStyle}>
@@ -303,7 +328,7 @@ export default function EnquiryForm({
                     <option>Standard — timing to be confirmed</option>
                     <option>Urgent — please advise options</option>
                     <option>Breakdown — priority requested</option>
-                    <option value="Scheduled maintenance">Planned Overhaul</option>
+                    <option value="Planned Overhaul">Planned Overhaul</option>
                   </select>
                 </label>
                 <label style={labelStyle}>
@@ -334,7 +359,7 @@ export default function EnquiryForm({
                 ? "Submitting Enquiry..."
                 : warranty
                   ? "Submit Warranty Enquiry →"
-                  : formData.urgency === "Scheduled maintenance"
+                  : formData.urgency === "Planned Overhaul"
                     ? "Submit Planned Overhaul Enquiry →"
                     : formData.urgency === "Standard — timing to be confirmed"
                       ? "Submit Enquiry / RFQ →"

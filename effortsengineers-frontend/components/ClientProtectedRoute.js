@@ -11,9 +11,9 @@ export default function ClientProtectedRoute({ children }) {
     if (isLoading) return;
 
     if (!user) {
-      router.push("/auth/login");
+      router.replace("/auth/login");
     } else if (user.role !== "client") {
-      router.push("/");
+      router.replace("/");
     }
   }, [user, isLoading, router]);
 

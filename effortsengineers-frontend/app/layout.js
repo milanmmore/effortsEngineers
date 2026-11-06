@@ -12,14 +12,18 @@ import './globals.css';
 const isIndexingEnabled = process.env.ALLOW_INDEXING === 'true';
 const localBusinessData = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': ['Organization', 'LocalBusiness'],
   name: 'Efforts Engineers',
   url: SITE_ORIGIN,
   telephone: SITE_CONFIG.phone,
   email: SITE_CONFIG.primaryEmail,
+  sameAs: SITE_CONFIG.profileLinks.map(({ url }) => url),
+  ...(SITE_CONFIG.openingHours.length > 0 && {
+    openingHours: SITE_CONFIG.openingHours,
+  }),
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Shop No. 10, Shirole Park, Vetal Baba Chowk, Senapati Bapat Road, Shivajinagar',
+    streetAddress: SITE_CONFIG.address,
     addressLocality: 'Pune',
     addressRegion: 'Maharashtra',
     postalCode: '411016',
@@ -28,7 +32,7 @@ const localBusinessData = {
 };
 
 export const metadata = {
-  title: 'Efforts Engineers | Industrial Compressor Spares & Engineering Overhaul',
+  title: 'Efforts Engineers | Industrial Compressor Spare Parts',
   description: 'Sourcing replacement spare parts for Grasso, Bitzer, Kirloskar, Carrier, Sabroe, Bock, and Daikin compressors. Availability, dispatch estimates, and warranty terms are confirmed per order.',
   metadataBase: new URL(SITE_ORIGIN),
   alternates: {

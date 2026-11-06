@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import AdminLayout from "@/components/AdminLayout";
 import API from "@/lib/axiosClient";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function AdminDashboard() {
   const [metrics, setMetrics] = useState({
@@ -59,7 +60,7 @@ export default function AdminDashboard() {
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
           <Link href="/admin/inventory" className="btn btn-primary">
-            📦 Manage Inventory
+            <InterfaceIcon name="box" size={18} /> Manage Inventory
           </Link>
           <Link href="/admin/quotations" className="btn btn-amber">
             📋 Review Pending Quotes ({metrics.pendingQuotes})

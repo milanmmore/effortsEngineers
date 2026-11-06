@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
@@ -23,7 +24,7 @@ export default function AdminLayout({ children }) {
               </li>
               <li>
                 <Link href="/admin/inventory" className={isActive("/admin/inventory") ? "active" : ""}>
-                  📦 Stock & Inventory
+                  <InterfaceIcon name="box" size={18} /> Stock & Inventory
                 </Link>
               </li>
               <li>

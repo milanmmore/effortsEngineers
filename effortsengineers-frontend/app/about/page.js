@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import CONTACT_CONFIG from "@/config/contactConfig";
 import SITE_CONFIG from "@/config/site";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function AboutPage() {
   const [activeYear, setActiveYear] = useState(2026);
@@ -258,7 +259,7 @@ export default function AboutPage() {
             📐 <strong>Dimensional Inspection:</strong> Inspection requirements and records are confirmed for the selected component.
           </div>
           <div style={{ background: "rgba(255,255,255,0.08)", padding: "12px 18px", borderRadius: "8px" }}>
-            ⚙️ <strong>Partner Capabilities:</strong> Balancing and other specialist services can be discussed for specific requirements.
+            <InterfaceIcon name="settings" size={16} /> <strong>Partner Capabilities:</strong> Balancing and other specialist services can be discussed for specific requirements.
           </div>
           <div style={{ background: "rgba(255,255,255,0.08)", padding: "12px 18px", borderRadius: "8px" }}>
             🛡️ <strong>Test Documentation:</strong> Any applicable test results are subject to supplier capability and order terms.

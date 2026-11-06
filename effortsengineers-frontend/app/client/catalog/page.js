@@ -1,55 +1,90 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import ClientLayout from "@/components/ClientLayout";
 import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
+import SITE_CONFIG from "@/config/site";
+
+const PAGE_SIZE = 24;
 
 export default function CatalogPage() {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("All");
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
+  const searchTimer = useRef(null);
   const { addItem, setIsDrawerOpen } = useContext(QuoteContext);
 
-  useEffect(() => {
-    API.get("/catalog")
-      .then(({ data }) => {
-        if (!Array.isArray(data)) {
-          throw new Error("Catalog response was not a product list.");
-        }
-        setProducts(data.map((product) => {
-          const stockQuantity = Number(product.stock_quantity);
-          const hasStockQuantity = Number.isFinite(stockQuantity) && stockQuantity > 0;
-          const stock = product.stock_status?.trim() || (
-            hasStockQuantity
-              ? `${stockQuantity} ${stockQuantity === 1 ? "unit" : "units"} listed`
-              : "Availability on request"
-          );
-          const stockType = /in stock|available/i.test(stock)
-            ? "in-stock"
-            : /low stock/i.test(stock)
-              ? "low-stock"
-              : "order";
-          const price = product.price === null || product.price === undefined || product.price === ""
-            ? null
-            : Number(product.price);
+  const loadProducts = useCallback(async (nextPage = 1, query = "", brand = "All") => {
+    setIsLoading(true);
+    setLoadError("");
+    try {
+      const { data } = await API.get("/catalog", {
+        params: {
+          page: nextPage,
+          ...(query.trim() && { q: query.trim() }),
+          ...(brand !== "All" && { brand }),
+        },
+      });
+      if (!Array.isArray(data.products)) {
+        throw new Error("Catalog response did not contain a product page.");
+      }
 
-          return {
-            ...product,
-            brand: product.brand || "",
-            oem_no: product.oem_no || "",
-            description: product.description || "",
-            price: Number.isFinite(price) ? price : null,
-            stock,
-            stockType,
-          };
-        }));
-      })
-      .catch((error) => {
-        console.error("Failed to load client catalog:", error);
-        setLoadError("Unable to load products. Please try again later.");
-      })
-      .finally(() => setIsLoading(false));
+      setProducts(data.products.map((product) => {
+        const price = product.price === null || product.price === undefined || product.price === ""
+          ? null
+          : Number(product.price);
+
+        return {
+          ...product,
+          brand: product.brand || "",
+          oem_no: product.part_number || product.oem_no || "",
+          description: product.description || "",
+          price: Number.isFinite(price) ? price : null,
+          stock: product.stock_status || "Availability on request",
+          stockType: /in stock|available/i.test(product.stock_status || "")
+            ? "in-stock"
+            : /low stock/i.test(product.stock_status || "")
+              ? "low-stock"
+              : "order",
+        };
+      }));
+      setPage(data.page);
+      setTotal(data.total);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      console.error("Failed to load client catalog:", error);
+      setLoadError("Unable to load products. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadProducts();
+    return () => clearTimeout(searchTimer.current);
+  }, [loadProducts]);
+
+  const handleSearchChange = (event) => {
+    const query = event.target.value;
+    setSearchTerm(query);
+    setPage(1);
+    clearTimeout(searchTimer.current);
+    searchTimer.current = setTimeout(() => loadProducts(1, query, selectedBrand), 300);
+  };
+
+  const handleBrandChange = (event) => {
+    const brand = event.target.value;
+    setSelectedBrand(brand);
+    setPage(1);
+    clearTimeout(searchTimer.current);
+    loadProducts(1, searchTerm, brand);
+  };
 
   return (
     <ClientLayout>
@@ -58,7 +93,7 @@ export default function CatalogPage() {
           <span className="eyebrow" style={{ color: "var(--primary)" }}>Warehouse Inventory</span>
           <h1 style={{ fontSize: "2rem", margin: 0 }}>Client Spare Parts Catalog</h1>
           <p style={{ color: "var(--text-muted)", margin: "4px 0 0" }}>
-            Browse product details and request a quotation for compressor spares.
+            Search listed compressor spares and request a quotation. Availability and pricing are confirmed on enquiry.
           </p>
         </div>
         <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber">
@@ -66,13 +101,49 @@ export default function CatalogPage() {
         </button>
       </div>
 
+      <div style={{ display: "flex", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
+        <input
+          type="search"
+          aria-label="Search products by name, brand, model, or part number"
+          placeholder="Search name, brand, compressor model, or part number"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          style={{ flex: "1 1 280px", minWidth: 0, padding: "10px 14px", border: "1px solid var(--line)", borderRadius: "var(--radius-sm)" }}
+        />
+        <select
+          aria-label="Filter products by brand"
+          value={selectedBrand}
+          onChange={handleBrandChange}
+          style={{ padding: "10px 14px", border: "1px solid var(--line)", borderRadius: "var(--radius-sm)", background: "white" }}
+        >
+          <option value="All">All brands</option>
+          {SITE_CONFIG.brands.map(({ name }) => <option key={name} value={name}>{name}</option>)}
+        </select>
+      </div>
+      <p aria-live="polite" style={{ color: "var(--text-muted)", marginBottom: "12px" }}>
+        Showing {products.length} of {total} matching products · {PAGE_SIZE} per page
+      </p>
+
       <div style={{ background: "white", borderRadius: "12px", border: "1px solid var(--line)", padding: "20px", overflowX: "auto" }}>
         {isLoading ? (
           <p role="status">Loading products...</p>
         ) : loadError ? (
-          <p role="alert">{loadError}</p>
+          <div role="alert">
+            <p>{loadError}</p>
+            <button type="button" className="btn btn-outline" onClick={() => loadProducts(page, searchTerm, selectedBrand)}>
+              Retry
+            </button>
+          </div>
         ) : products.length === 0 ? (
-          <p>No products are available yet.</p>
+          <div>
+            <p>No catalog products match these filters.</p>
+            <Link href={`/contact?${new URLSearchParams({
+              ...(selectedBrand !== "All" && { brand: selectedBrand }),
+              ...(searchTerm && { search: searchTerm }),
+            }).toString()}`} className="btn btn-outline">
+              Enquire about this requirement
+            </Link>
+          </div>
         ) : (
           <table className="quote-table" style={{ margin: 0 }}>
             <thead>
@@ -88,10 +159,10 @@ export default function CatalogPage() {
             <tbody>
               {products.map((product) => (
                 <tr key={product.id}>
-                  <td><code>{product.part_number || product.oem_no || `EE-PART-${product.id}`}</code></td>
+                  <td><code>{product.part_number || "Not listed"}</code></td>
                   <td>
-                    <strong>{product.name}</strong>
-                    <div style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>{product.description}</div>
+                    <strong><Link href={`/products/${product.id}`}>{product.name}</Link></strong>
+                    {product.description && <div style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>{product.description}</div>}
                     <div style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
                       {[product.series, product.category, product.compatible_models]
                         .filter(Boolean)
@@ -103,11 +174,7 @@ export default function CatalogPage() {
                       {product.brand || "—"}
                     </span>
                   </td>
-                  <td>
-                    <strong>
-                      {product.price === null ? "Price on request" : `₹${product.price.toLocaleString()}`}
-                    </strong>
-                  </td>
+                  <td><strong>Price on request</strong></td>
                   <td><span className={`badge badge-${product.stockType}`}>{product.stock}</span></td>
                   <td style={{ textAlign: "center" }}>
                     <button
@@ -124,6 +191,17 @@ export default function CatalogPage() {
           </table>
         )}
       </div>
+      {!isLoading && !loadError && totalPages > 1 && (
+        <nav aria-label="Catalog pages" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "14px", marginTop: "24px" }}>
+          <button type="button" className="btn btn-outline" disabled={page <= 1} onClick={() => loadProducts(page - 1, searchTerm, selectedBrand)}>
+            Previous
+          </button>
+          <span aria-live="polite">Page {page} of {totalPages}</span>
+          <button type="button" className="btn btn-outline" disabled={page >= totalPages} onClick={() => loadProducts(page + 1, searchTerm, selectedBrand)}>
+            Next
+          </button>
+        </nav>
+      )}
     </ClientLayout>
   );
 }
