@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import SITE_CONFIG from "@/config/site";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function Footer() {
   return (
@@ -12,7 +13,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Efforts Engineers</h4>
             <p>
-              {SITE_CONFIG.yearsInBusinessText}. Efforts Engineers supplies replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors.
+              {SITE_CONFIG.yearsInBusinessText}. Efforts Engineers sources replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors. Availability and dispatch estimates are confirmed per order.
             </p>
             <div style={{ marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #334155" }}>
@@ -43,7 +44,7 @@ export default function Footer() {
               <li><Link href="/products">Product Catalog</Link></li>
               <li><Link href="/services">Consultancy & Industrial Projects</Link></li>
               <li><Link href="/global-reach">Global Reach & Logistics</Link></li>
-              <li><Link href="/contact">Request Order Documentation</Link></li>
+              <li><Link href="/global-reach#certificates">Request Order Documentation</Link></li>
               <li><Link href="/warranty">Warranty Terms & Support</Link></li>
               <li><Link href="/about">Company Story & Timeline</Link></li>
               <li><Link href="/client/dashboard">Customer Portal & Order Tracking</Link></li>
@@ -56,16 +57,16 @@ export default function Footer() {
             <h4>Pune Locations &amp; Contact</h4>
             {SITE_CONFIG.locations.map((location) => (
               <p key={location.id} style={{ marginBottom: "12px" }}>
-                📍 <strong>{location.shop} · {location.role}:</strong><br />
+                <InterfaceIcon name="building" size={15} /> <strong>{location.shop} · {location.role}:</strong><br />
                 {location.address}<br />
                 <a href={location.mapUrl} target="_blank" rel="noreferrer" style={{ color: "#38bdf8" }}>View on Google Maps</a>
               </p>
             ))}
             <p style={{ margin: "4px 0" }}>
-              📞 <strong>Phone / WhatsApp:</strong> <a href={`tel:${SITE_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{SITE_CONFIG.phone}</a>
+              <InterfaceIcon name="phone" size={15} /> <strong>Phone / WhatsApp:</strong> <a href={`tel:${SITE_CONFIG.phoneRaw}`} style={{ color: "#38bdf8" }}>{SITE_CONFIG.phone}</a>
             </p>
             <p style={{ margin: "4px 0" }}>
-              ✉️ <strong>Email:</strong><br />
+              <InterfaceIcon name="mail" size={15} /> <strong>RFQ / Sales Email:</strong><br />
               {SITE_CONFIG.emails.map((email, index) => (
                 <React.Fragment key={email}>
                   {index > 0 && <br />}
@@ -74,6 +75,9 @@ export default function Footer() {
               ))}
             </p>
             <a href={`https://wa.me/${SITE_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#34d399" }}>Message us on WhatsApp</a>
+            <p style={{ margin: "10px 0 4px", color: "#cbd5e1" }}>
+              <strong>Business hours:</strong> {SITE_CONFIG.businessHoursLabel}
+            </p>
           </div>
         </div>
 
@@ -85,15 +89,13 @@ export default function Footer() {
           <div style={{ fontSize: "0.78rem", color: "#64748b" }}>
             *Disclaimer: All manufacturer names, symbols, numbers, and descriptions are used solely for reference and identification purposes.
           </div>
-          <a
-            href="https://www.facebook.com/effortsengg/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit Efforts Engineers on Facebook"
-            style={{ color: "#38bdf8", fontWeight: 600 }}
-          >
-            Facebook
-          </a>
+          <div className="footer-social-links" aria-label="Business profiles">
+            {SITE_CONFIG.profileLinks.map(({ label, url }) => (
+              <a key={url} href={url} target="_blank" rel="noopener noreferrer" style={{ color: "#38bdf8", fontWeight: 600 }}>
+                {label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

@@ -48,6 +48,9 @@ export default function ContactPage() {
 
           <section style={{ background: "white", border: "1px solid var(--line)", borderRadius: "16px", padding: "26px", boxShadow: "var(--shadow-sm)" }}>
             <h2 style={{ fontSize: "1.2rem", margin: "0 0 16px" }}>Pune Locations &amp; Contact</h2>
+            <p style={{ margin: "0 0 16px", color: "var(--text-muted)" }}>
+              <strong>Business hours:</strong> {CONTACT_CONFIG.businessHoursLabel}
+            </p>
             {CONTACT_CONFIG.locations.map((location) => (
               <p key={location.id} style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>
                 <strong>{location.shop} · {location.role}</strong><br />
@@ -85,6 +88,16 @@ export default function ContactPage() {
                 </React.Fragment>
               ))}
             </p>
+            <h3 style={{ fontSize: "1rem", margin: "22px 0 10px" }}>Find our office</h3>
+            <iframe
+              title="Map showing the Efforts Engineers Pune office"
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(CONTACT_CONFIG.address)}&output=embed`}
+              width="100%"
+              height="220"
+              style={{ border: 0, borderRadius: "8px" }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </section>
         </aside>
       </div>

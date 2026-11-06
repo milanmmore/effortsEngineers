@@ -17,16 +17,31 @@ const PUBLIC_PRODUCT_COLUMNS = [
   "id", "name", "description", "brand", "category", "image_url", "series",
   "part_number", "compatible_models", "material_size", "alt_text",
 ];
-const PUBLIC_PRODUCT_SELECT = PUBLIC_PRODUCT_COLUMNS.join(", ");
+const PUBLIC_PRODUCT_SELECT = PUBLIC_PRODUCT_COLUMNS
+  .map((column) => column === "part_number"
+    ? "COALESCE(NULLIF(BTRIM(part_number), ''), NULLIF(BTRIM(oem_no), '')) AS part_number"
+    : column)
+  .join(", ");
 const PUBLIC_PAGE_SIZE = 24;
 
 const toPublicProduct = (product) => ({
-  ...Object.fromEntries(PUBLIC_PRODUCT_COLUMNS.map((column) => [column, product[column]])),
-  compatible_models: (product.compatible_models || "")
-    .split(",")
-    .map((model) => model.trim())
-    .filter((model) => model && !/\bto add\b/i.test(model))
-    .join(", "),
+  ...Object.fromEntries(PUBLIC_PRODUCT_COLUMNS.map((column) => {
+    const value = product[column];
+    if (typeof value !== "string") return [column, value];
+
+    const cleanedValue = column === "name"
+      ? value.replace(/\s*\([^)]*\bto add\b[^)]*\)/gi, "")
+      : value;
+    const sanitizedValue = cleanedValue
+      .split(",")
+      .map((part) => part.trim())
+      .filter((part) => part && !/\bto add\b/i.test(part))
+      .join(", ")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+
+    return [column, sanitizedValue];
+  })),
 });
 
 // Placeholder list ($1, $2, ...) for the given number of columns.
@@ -40,7 +55,6 @@ export const listCatalog = asyncHandler(async (req, res) => {
   if (search.length > 120) {
     throw new ApiError(400, "q must be 120 characters or fewer.");
   }
-  const filtered = Boolean(brand || category || search || req.query.page !== undefined);
   const filters = [];
   const values = [];
   if (brand) {
@@ -55,20 +69,11 @@ export const listCatalog = asyncHandler(async (req, res) => {
     values.push(`%${search}%`);
     const searchParameter = `$${values.length}`;
     filters.push(
-      `(name ILIKE ${searchParameter} OR part_number ILIKE ${searchParameter} OR series ILIKE ${searchParameter} OR compatible_models ILIKE ${searchParameter} OR brand ILIKE ${searchParameter})`
+      `(name ILIKE ${searchParameter} OR part_number ILIKE ${searchParameter} OR oem_no ILIKE ${searchParameter} OR series ILIKE ${searchParameter} OR compatible_models ILIKE ${searchParameter} OR brand ILIKE ${searchParameter} OR category ILIKE ${searchParameter} OR description ILIKE ${searchParameter} OR material_size ILIKE ${searchParameter})`
     );
   }
   filters.unshift("is_published = TRUE");
   const whereClause = `WHERE ${filters.join(" AND ")}`;
-
-  if (!filtered) {
-    const result = await db.query(
-      `SELECT ${PUBLIC_PRODUCT_SELECT} FROM products ${whereClause} ORDER BY created_at DESC`,
-      values
-    );
-    return res.json(result.rows.map(toPublicProduct));
-  }
-
   const page = Number(req.query.page ?? 1);
   if (!Number.isInteger(page) || page < 1) {
     throw new ApiError(400, "page must be a positive integer.");

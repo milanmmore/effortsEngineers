@@ -22,6 +22,9 @@ describe("API Endpoints", () => {
         }
         return { rows: [] };
       }
+      if (sql.includes("COUNT(*)")) {
+        return { rows: [{ total: 1 }] };
+      }
       if (sql.includes("FROM products")) {
         return { rows: [{ id: 1, name: "Test Product", description: "Desc", price: 99 }] };
       }
@@ -89,10 +92,16 @@ describe("API Endpoints", () => {
     expect(res.status).toBe(401);
   });
 
-  test("catalog list returns products", async () => {
+  test("catalog list is paginated by default", async () => {
     const res = await request(app).get("/api/catalog");
     expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body).toMatchObject({
+      page: 1,
+      pageSize: 24,
+      total: 1,
+      totalPages: 1,
+    });
+    expect(Array.isArray(res.body.products)).toBe(true);
   });
 
   test("warranty claim requires reference and issue, then returns a claim number", async () => {
@@ -128,6 +137,17 @@ describe("API Endpoints", () => {
     });
 
     expect(response.status).toBe(400);
+  });
+
+  test("inquiry rejects honeypot submissions", async () => {
+    const res = await request(app).post("/api/inquiries").send({
+      name: "Spam bot",
+      email: "spam@example.com",
+      website: "https://spam.example",
+    });
+
+    expect(res.status).toBe(400);
+    expect(res.body.message || res.body.error?.message).toMatch(/Unable to submit inquiry/);
   });
 
   test("admin can create catalog item", async () => {

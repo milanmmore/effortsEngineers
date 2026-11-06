@@ -26,13 +26,16 @@ function getProductDisplayName(product) {
 export default async function ProductsPage({ searchParams }) {
   const params = await searchParams;
   const requestedBrand = params?.brand;
+  const requestedCategory = typeof params?.category === "string" ? params.category.slice(0, 100) : "";
   const initialBrand = SITE_CONFIG.brands.some(({ name }) => name === requestedBrand)
     ? requestedBrand
     : "All";
+  const initialCategory = requestedCategory || "All";
   const initialQuery = typeof params?.q === "string" ? params.q.slice(0, 120) : "";
   const catalogUrl = new URL(`${API_BASE_URL}/catalog`);
   catalogUrl.searchParams.set("page", "1");
   if (initialBrand !== "All") catalogUrl.searchParams.set("brand", initialBrand);
+  if (initialCategory !== "All") catalogUrl.searchParams.set("category", initialCategory);
   if (initialQuery) catalogUrl.searchParams.set("q", initialQuery);
 
   const [catalogResult, filtersResult] = await Promise.allSettled([
@@ -76,7 +79,9 @@ export default async function ProductsPage({ searchParams }) {
             category: product.category || undefined,
             brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined,
             mpn: product.part_number || undefined,
-            image: product.image_url || undefined,
+            image: product.image_url && !/\/components\.jpeg(?:[?#]|$)/i.test(product.image_url)
+              ? product.image_url
+              : undefined,
           },
         }))
         : brandRanges.map(({ brand }, index) => ({
@@ -96,6 +101,7 @@ export default async function ProductsPage({ searchParams }) {
         initialBrands={initialFilters?.brands || []}
         initialCategories={initialFilters?.categories || []}
         initialBrand={initialBrand}
+        initialCategory={initialCategory}
         initialQuery={initialQuery}
         initialError={initialError}
         initialFilterWarning={initialFilterWarning}

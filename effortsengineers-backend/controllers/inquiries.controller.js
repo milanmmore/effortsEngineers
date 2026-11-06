@@ -65,7 +65,12 @@ export const createInquiry = asyncHandler(async (req, res) => {
     urgency,
     message,
     attachment_url,
+    website,
   } = req.body;
+
+  if (typeof website === "string" && website.trim()) {
+    throw new ApiError(400, "Unable to submit inquiry.");
+  }
 
   if (!name || (!email && !phone)) {
     throw new ApiError(400, "Name and either email or phone are required");

@@ -6,6 +6,7 @@ import brandRanges from "@/config/brandRanges";
 import CONTACT_CONFIG from "@/config/contactConfig";
 import EnquiryForm from "@/components/EnquiryForm";
 import HowItWorks from "@/components/HowItWorks";
+import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function HomePage() {
   const { setIsDrawerOpen } = useContext(QuoteContext);
@@ -112,7 +113,7 @@ export default function HomePage() {
           </div>
 
           <div className="why-card">
-            <div className="why-icon-box">⚡</div>
+            <div className="why-icon-box"><InterfaceIcon name="bolt" size={24} /></div>
             <h4>Availability & Dispatch Estimates</h4>
             <p>
               Ask us to confirm current availability and dispatch options. Delivery estimates depend on stock, order confirmation, carrier schedules, destination, and customs.
@@ -233,9 +234,38 @@ export default function HomePage() {
           <span className="eyebrow">Customer Trust</span>
           <h2 className="section-title"><b>Customer</b> References</h2>
           <p className="section-desc">
-            Customer references and feedback are shared only with permission. Contact our team to discuss your compressor spare-parts requirement.
+            Customer names and logos are shared only with permission. Supplier certifications and product records vary by source and order; ask us what documentation is available for your requirement.
           </p>
           <div className="separator-line" />
+        </div>
+        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))" }}>
+          <article className="why-card">
+            <h3>Serving industry since 1986</h3>
+            <p>{CONTACT_CONFIG.yearsInBusinessText}. Replacement parts are sourced and confirmed against each enquiry.</p>
+          </article>
+          <article className="why-card">
+            <h3>Supplier documentation</h3>
+            <p>Request applicable supplier certificates, inspection records, and order documents for your specific requirement.</p>
+            <Link href="/global-reach#certificates">View documentation information →</Link>
+          </article>
+          <article className="why-card">
+            <h3>Business registration</h3>
+            <p>Request GST and business registration details for vendor onboarding or quotation records.</p>
+            <Link href="/contact">Contact our team →</Link>
+          </article>
+          <article className="why-card">
+            <h3>Find our Pune office</h3>
+            <p>View the office location and contact details.</p>
+            <a
+              href={CONTACT_CONFIG.profileLinks.find(({ label }) => label === "Google Business Profile")?.url || CONTACT_CONFIG.locations[0].mapUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {CONTACT_CONFIG.profileLinks.some(({ label }) => label === "Google Business Profile")
+                ? "Google Business Profile →"
+                : "Find us on Google Maps →"}
+            </a>
+          </article>
         </div>
       </section>
 

@@ -20,9 +20,12 @@ const brands = [
   { name: "Voltas", label: "Voltas" },
 ];
 
+const enquiryBrands = [...brands, { name: "Other", label: "Other" }];
+
 export const SITE_CONFIG = {
   ...CONTACT_CONFIG,
   brands,
+  enquiryBrands,
   exportDestinationCount: 29,
 };
 

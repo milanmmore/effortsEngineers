@@ -157,3 +157,20 @@ test("rejects file uploads larger than 5 MB", async () => {
 
   expect(response.status).toBe(413);
 });
+
+test("accepts files at the 5 MB upload limit", async () => {
+  const maxSizePng = Buffer.concat([
+    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+    Buffer.alloc(5 * 1024 * 1024 - 8),
+  ]);
+  const response = await request(app)
+    .post("/api/uploads/images")
+    .attach("image", maxSizePng, {
+      filename: "max-size.png",
+      contentType: "image/png",
+    });
+
+  expect(response.status).toBe(201);
+  expect(response.body.file.size).toBe(5 * 1024 * 1024);
+  createdImageFilenames.push(response.body.file.filename);
+});

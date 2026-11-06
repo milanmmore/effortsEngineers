@@ -104,7 +104,7 @@ export default function AdminInventoryPage() {
       <div style={{ background: "white", padding: "16px", borderRadius: "10px", border: "1px solid var(--line)", marginBottom: "20px", display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center" }}>
         <input
           type="text"
-          placeholder="🔍 Search SKU or part name..."
+          placeholder="Search SKU or part name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{ flex: 1, minWidth: "240px", padding: "10px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.9rem" }}

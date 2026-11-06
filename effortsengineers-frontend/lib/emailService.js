@@ -3,7 +3,7 @@ import { CONTACT_CONFIG } from "@/config/contactConfig";
 
 /**
  * Dispatch contact forms, RFQs, and quotation requests directly to target emails.
- * Uses FormSubmit.co endpoint with your unique verified token: 1779af28564bf27dc0c4ecd0f6909d7c
+ * Uses the configured FormSubmit endpoint to notify the sales desk and acknowledge the sender.
  */
 
 const FORMSUBMIT_TOKEN = "1779af28564bf27dc0c4ecd0f6909d7c";
@@ -17,12 +17,17 @@ export async function sendEmailNotification({
 }) {
   try {
     const sender = from_name || "Website Inquirer";
+    const reference = data.rfq_number || data.claim_number;
     const payload = {
       _subject: subject || "New RFQ / Inquiry from Efforts Engineers",
       _replyto: reply_to || CONTACT_CONFIG.primaryEmail,
-      _cc: CONTACT_CONFIG.secondaryEmail,
+      ...(CONTACT_CONFIG.secondaryEmail && { _cc: CONTACT_CONFIG.secondaryEmail }),
       _template: "table",
-      _captcha: "false",
+      _autoresponse:
+        `Thank you for contacting Efforts Engineers${reference ? ` (reference: ${reference})` : ""}.\n\n` +
+        "We have received your enquiry. Our team will review it and follow up using the contact details provided. " +
+        "Availability, pricing, dispatch estimates, and any warranty coverage are confirmed per order.\n\n" +
+        "This automated acknowledgement does not confirm availability, pricing, or warranty eligibility.",
       "Greeting": "Hello, Received an enquiry with below details:",
       "Customer / Plant Name": sender,
       ...data,

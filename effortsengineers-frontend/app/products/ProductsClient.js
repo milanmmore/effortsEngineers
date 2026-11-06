@@ -7,6 +7,7 @@ import { normalizeCatalogProducts } from "@/lib/catalogProducts";
 import { CONTACT_CONFIG } from "@/config/contactConfig";
 import SITE_CONFIG from "@/config/site";
 import EnquiryForm from "@/components/EnquiryForm";
+import ProductImage from "@/components/ProductImage";
 
 function getProductDisplayName(item) {
   let name = item.name.trim();
@@ -33,6 +34,7 @@ function ProductsContent({
   initialBrands = [],
   initialCategories = [],
   initialBrand = "All",
+  initialCategory = "All",
   initialQuery = "",
   initialError = "",
   initialFilterWarning = "",
@@ -44,7 +46,7 @@ function ProductsContent({
   );
   const [searchTerm, setSearchTerm] = useState(initialQuery);
   const [selectedBrand, setSelectedBrand] = useState(initialBrand);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [brands, setBrands] = useState(initialBrands);
   const [categories, setCategories] = useState(initialCategories);
   const [page, setPage] = useState(initialCatalog?.page || 1);
@@ -92,7 +94,7 @@ function ProductsContent({
     const brand = SITE_CONFIG.brands.some(({ name }) => name === requestedBrand)
       ? requestedBrand
       : "All";
-    const category = "All";
+    const category = initialCategory;
     setSelectedBrand(brand);
     setSelectedCategory(category);
     const loadFiltersAndProducts = async () => {
@@ -108,11 +110,12 @@ function ProductsContent({
       await loadProducts(brand, category);
     };
     loadFiltersAndProducts();
-  }, [initialCatalog, initialError, loadProducts]);
+  }, [initialCatalog, initialError, initialCategory, loadProducts]);
 
   const brandsList = useMemo(
     () => ["All", ...new Set([
-      ...(brands.length ? brands : SITE_CONFIG.brands.map(({ name }) => name)),
+      ...SITE_CONFIG.brands.map(({ name }) => name),
+      ...brands,
       ...(selectedBrand !== "All" ? [selectedBrand] : []),
     ])],
     [brands, selectedBrand]
@@ -158,28 +161,6 @@ function ProductsContent({
         <div className="separator-line" />
       </div>
 
-      <section aria-labelledby="shop-locations-title" style={{ marginBottom: "32px" }}>
-        <h2 id="shop-locations-title" style={{ fontSize: "1.35rem", marginBottom: "8px" }}>
-          Pune Locations
-        </h2>
-        <p style={{ color: "var(--text-muted)", margin: "0 0 16px" }}>
-          Browse our shared product catalog and contact the right location for your enquiry.
-        </p>
-        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
-          {CONTACT_CONFIG.locations.map((location) => (
-            <article key={location.id} className="why-card" style={{ padding: "22px" }}>
-              <h3 style={{ margin: "0 0 8px", fontSize: "1.05rem" }}>
-                {location.shop} · {location.role}
-              </h3>
-              <p style={{ margin: 0 }}>
-                {location.address}<br />
-                <a href={location.mapUrl} target="_blank" rel="noreferrer">View on Google Maps</a>
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section aria-labelledby="additional-categories-title" style={{ marginBottom: "32px" }}>
         <h2 id="additional-categories-title" style={{ fontSize: "1.35rem", marginBottom: "16px" }}>
           Accessories & Hardware
@@ -201,7 +182,8 @@ function ProductsContent({
         <div className="search-input-wrap">
           <input
             type="text"
-            placeholder="🔍 Search by part name, compressor model, or part number..."
+            aria-label="Search products by name, brand, compressor model, category, or part number"
+            placeholder="Search by part name, brand, model, category, or part number..."
             value={searchTerm}
             onChange={handleSearchChange}
           />
@@ -291,17 +273,21 @@ function ProductsContent({
           {products.map((item) => (
             <div key={item.id} className="product-card-modern">
               <div className="product-thumb">
-                {item.image && <img src={item.image} alt={item.alt_text || item.name} />}
+                <ProductImage
+                  src={item.image}
+                  alt={item.alt_text || item.name}
+                  label={item.category || getProductDisplayName(item)}
+                />
                 <span className={`badge badge-${item.stock_type} stock-floating-pill`}>
                   {item.stock_status}
                 </span>
                 {item.brand && <span className="brand-floating-tag">{item.brand}</span>}
               </div>
               <div className="product-info">
-                {item.part_number && (
-                  <span className="product-oem-no">PART NO: {item.part_number}</span>
-                )}
-                <h3>{getProductDisplayName(item)}</h3>
+                <span className="product-oem-no">
+                  {item.part_number ? `PART NO: ${item.part_number}` : "PART NUMBER NOT LISTED"}
+                </span>
+                <h3><Link href={`/products/${item.id}`}>{getProductDisplayName(item)}</Link></h3>
                 {item.description && <p>{item.description}</p>}
                 {(item.series || item.category || item.compatible_models || item.material_size) && (
                   <dl style={{ margin: "0 0 16px", fontSize: "0.85rem" }}>
@@ -320,6 +306,9 @@ function ProductsContent({
                   </dl>
                 )}
                 <div className="product-card-bottom">
+                  <Link href={`/products/${item.id}`} className="btn btn-outline" style={{ padding: "8px 12px", fontSize: "0.85rem" }}>
+                    Details
+                  </Link>
                   <button
                     onClick={() => addItem(item)}
                     className="btn btn-primary"
@@ -370,6 +359,28 @@ function ProductsContent({
       <div style={{ marginTop: "60px" }}>
         <EnquiryForm source="Product catalog" title="Ask About a Compressor Spare Part" />
       </div>
+      <section aria-labelledby="shop-locations-title" style={{ marginTop: "60px" }}>
+        <div className="section-header">
+          <span className="eyebrow">Visit or Contact</span>
+          <h2 id="shop-locations-title" className="section-title"><b>Pune</b> Locations</h2>
+          <p className="section-desc">
+            Our catalog is shared across locations. Contact us to confirm the right point of contact for your requirement.
+          </p>
+        </div>
+        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
+          {CONTACT_CONFIG.locations.map((location) => (
+            <article key={location.id} className="why-card" style={{ padding: "22px" }}>
+              <h3 style={{ margin: "0 0 8px", fontSize: "1.05rem" }}>
+                {location.shop} · {location.role}
+              </h3>
+              <p style={{ margin: 0 }}>
+                {location.address}<br />
+                <a href={location.mapUrl} target="_blank" rel="noreferrer">View on Google Maps</a>
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }

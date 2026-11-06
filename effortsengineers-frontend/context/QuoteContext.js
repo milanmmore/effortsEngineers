@@ -12,7 +12,14 @@ export function QuoteProvider({ children }) {
     try {
       const saved = localStorage.getItem("ee_quote_items");
       if (saved) {
-        setItems(JSON.parse(saved));
+        const savedItems = JSON.parse(saved);
+        if (!Array.isArray(savedItems)) {
+          throw new Error("Saved quote items are not a list.");
+        }
+        setItems(savedItems.map((item) => ({
+          ...item,
+          oem_no: /^EE-PART-\d+$/i.test(item.oem_no || "") ? "" : item.oem_no || "",
+        })));
       }
     } catch (e) {
       console.error("Failed to load quote cart", e);
@@ -45,7 +52,7 @@ export function QuoteProvider({ children }) {
                 ...item,
                 name: product.name,
                 brand: product.brand || "Industrial Grade",
-                oem_no: product.part_number || product.oem_no || `EE-PART-${product.id}`,
+                oem_no: product.part_number || product.oem_no || "",
                 price: listedPrice,
                 stock_status: product.stock_status || "Availability on request",
                 quantity: item.quantity + 1,
@@ -59,7 +66,7 @@ export function QuoteProvider({ children }) {
           id: product.id,
           name: product.name,
           brand: product.brand || "Industrial Grade",
-          oem_no: product.part_number || product.oem_no || `EE-PART-${product.id}`,
+          oem_no: product.part_number || product.oem_no || "",
           price: listedPrice,
           quantity: 1,
           stock_status: product.stock_status || "Availability on request",

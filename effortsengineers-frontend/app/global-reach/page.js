@@ -126,7 +126,7 @@ export default function GlobalReachPage() {
           </p>
           <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: "10px", fontSize: "0.92rem" }}>
             <li>🛡️ <strong>1. Corrosion Protection:</strong> Protective coatings may be specified for suitable machined surfaces.</li>
-            <li>📦 <strong>2. VCI Packaging:</strong> Available when appropriate and stated in the shipment arrangements.</li>
+            <li><strong>2. VCI Packaging:</strong> Available when appropriate and stated in the shipment arrangements.</li>
             <li>🌲 <strong>3. ISPM-15 Wood Packaging:</strong> Where required, treated by an approved method stated on the applicable certificate. Crating options are confirmed per shipment.</li>
           </ul>
           <Link href="/contact" className="btn btn-outline">
