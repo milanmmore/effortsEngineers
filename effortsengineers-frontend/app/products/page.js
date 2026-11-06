@@ -1,5 +1,5 @@
 import ProductsClient from "./ProductsClient";
-import brandRanges from "@/config/brandRanges";
+import BrandRangesSection from "@/components/BrandRangesSection";
 import { SITE_ORIGIN } from "@/config/siteOrigin";
 import { API_BASE_URL } from "@/lib/apiBaseUrl";
 import SITE_CONFIG from "@/config/site";
@@ -27,13 +27,17 @@ export default async function ProductsPage({ searchParams }) {
   const params = await searchParams;
   const requestedBrand = params?.brand;
   const requestedCategory = typeof params?.category === "string" ? params.category.slice(0, 100) : "";
+  const requestedPage = Number(params?.page);
+  const initialPage = Number.isSafeInteger(requestedPage) && requestedPage > 0
+    ? requestedPage
+    : 1;
   const initialBrand = SITE_CONFIG.brands.some(({ name }) => name === requestedBrand)
     ? requestedBrand
     : "All";
   const initialCategory = requestedCategory || "All";
   const initialQuery = typeof params?.q === "string" ? params.q.slice(0, 120) : "";
   const catalogUrl = new URL(`${API_BASE_URL}/catalog`);
-  catalogUrl.searchParams.set("page", "1");
+  catalogUrl.searchParams.set("page", String(initialPage));
   if (initialBrand !== "All") catalogUrl.searchParams.set("brand", initialBrand);
   if (initialCategory !== "All") catalogUrl.searchParams.set("category", initialCategory);
   if (initialQuery) catalogUrl.searchParams.set("q", initialQuery);
@@ -65,15 +69,19 @@ export default async function ProductsPage({ searchParams }) {
     name: "Industrial Compressor Spare Parts Catalog",
     description:
       "Browse compressor spare parts and model families. Compatibility, availability, and pricing are confirmed per enquiry.",
-    url: new URL("/products", SITE_ORIGIN).toString(),
+    url: new URL(
+      initialPage === 1 ? "/products" : `/products?page=${initialPage}`,
+      SITE_ORIGIN
+    ).toString(),
     mainEntity: {
       "@type": "ItemList",
       itemListElement: listedProducts.length
         ? listedProducts.map((product, index) => ({
           "@type": "ListItem",
-          position: index + 1,
+          position: ((initialCatalog?.page || 1) - 1) * (initialCatalog?.pageSize || listedProducts.length) + index + 1,
           item: {
             "@type": "Product",
+            url: new URL(`/products/${product.id}`, SITE_ORIGIN).toString(),
             name: getProductDisplayName(product),
             description: product.description || undefined,
             category: product.category || undefined,
@@ -84,11 +92,7 @@ export default async function ProductsPage({ searchParams }) {
               : undefined,
           },
         }))
-        : brandRanges.map(({ brand }, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name: `${brand} compressor spare parts`,
-        })),
+        : [],
     },
   };
   const structuredDataJson = JSON.stringify(structuredData).replace(/</g, "\\u003c");
@@ -106,28 +110,12 @@ export default async function ProductsPage({ searchParams }) {
         initialError={initialError}
         initialFilterWarning={initialFilterWarning}
       />
-      <section className="section-shell" aria-labelledby="catalog-model-guide-title">
-        <div className="section-header">
-          <span className="eyebrow">Compressor Compatibility Guide</span>
-          <h2 id="catalog-model-guide-title" className="section-title">
-            <b>Browse Parts</b> by Brand and Model Family
-          </h2>
-          <p className="section-desc">
-            Use these model families to identify your compressor when requesting replacement parts. Compatibility, product specifications, availability, and pricing are confirmed for each enquiry.
-          </p>
-          <div className="separator-line" />
-        </div>
-        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
-          {brandRanges.map(({ brand, series }) => (
-            <article key={brand} className="why-card" style={{ padding: "24px" }}>
-              <h3 style={{ margin: "0 0 12px", fontSize: "1.1rem" }}>{brand}</h3>
-              <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "0.9rem" }}>
-                {series.map((range) => <li key={range} style={{ marginBottom: "8px" }}>{range}</li>)}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
+      <BrandRangesSection
+        id="catalog-model-guide-title"
+        eyebrow="Compressor Compatibility Guide"
+        title={<><b>Browse Parts</b> by Brand and Model Family</>}
+        description="Model series and compatible models are shown from catalog listings. Compatibility, specifications, availability, and pricing are confirmed for each enquiry."
+      />
     </>
   );
 }

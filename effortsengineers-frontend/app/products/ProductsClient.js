@@ -29,6 +29,17 @@ const ADDITIONAL_PRODUCT_CATEGORIES = [
   },
 ];
 
+function getCatalogPageHref(page, brand, category, query, totalPages = page) {
+  const params = new URLSearchParams();
+  const targetPage = Math.min(Math.max(page, 1), totalPages);
+  if (targetPage > 1) params.set("page", String(targetPage));
+  if (brand !== "All") params.set("brand", brand);
+  if (category !== "All") params.set("category", category);
+  if (query.trim()) params.set("q", query.trim());
+  const search = params.toString();
+  return search ? `/products?${search}` : "/products";
+}
+
 function ProductsContent({
   initialCatalog,
   initialBrands = [],
@@ -325,23 +336,38 @@ function ProductsContent({
 
       {!isLoading && !loadError && totalPages > 1 && (
         <nav aria-label="Catalog pages" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "14px", marginTop: "28px" }}>
-          <button
-            type="button"
+          <a
             className="btn btn-outline"
-            disabled={page <= 1}
-            onClick={() => loadProducts(selectedBrand, selectedCategory, page - 1, searchTerm)}
+            href={getCatalogPageHref(page - 1, selectedBrand, selectedCategory, searchTerm, totalPages)}
+            aria-disabled={page <= 1}
+            tabIndex={page <= 1 ? -1 : undefined}
+            onClick={page <= 1 ? (event) => event.preventDefault() : undefined}
           >
             Previous
-          </button>
+          </a>
           <span aria-live="polite">Page {page} of {totalPages}</span>
-          <button
-            type="button"
+          <a
             className="btn btn-outline"
-            disabled={page >= totalPages}
-            onClick={() => loadProducts(selectedBrand, selectedCategory, page + 1, searchTerm)}
+            href={getCatalogPageHref(page + 1, selectedBrand, selectedCategory, searchTerm, totalPages)}
+            aria-disabled={page >= totalPages}
+            tabIndex={page >= totalPages ? -1 : undefined}
+            onClick={page >= totalPages ? (event) => event.preventDefault() : undefined}
           >
             Next
-          </button>
+          </a>
+          <div className="catalog-page-links" aria-label="Choose catalog page" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map((catalogPage) => (
+              <a
+                key={catalogPage}
+                href={getCatalogPageHref(catalogPage, selectedBrand, selectedCategory, searchTerm, totalPages)}
+                aria-current={catalogPage === page ? "page" : undefined}
+                aria-label={`Catalog page ${catalogPage}`}
+                style={{ padding: "8px 12px", border: "1px solid var(--line)", borderRadius: "6px" }}
+              >
+                {catalogPage}
+              </a>
+            ))}
+          </div>
         </nav>
       )}
 
