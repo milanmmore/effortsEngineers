@@ -182,7 +182,7 @@ function ProductsContent({
     ({ name }) => !brands.some((availableBrand) => availableBrand.toLowerCase() === name.toLowerCase())
   );
   return (
-    <main className="section-shell">
+    <main className="section-shell catalog-section-shell">
       <div className="section-header">
         <span className="eyebrow">Inventory Catalog</span>
         <h1 className="section-title"><b>Product</b> Catalog</h1>
@@ -365,16 +365,6 @@ function ProductsContent({
           >
             Previous
           </a>
-          <span aria-live="polite">Page {page} of {totalPages}</span>
-          <a
-            className="btn btn-outline"
-            href={getCatalogPageHref(page + 1, selectedBrand, selectedCategory, searchTerm, totalPages)}
-            aria-disabled={page >= totalPages}
-            tabIndex={page >= totalPages ? -1 : undefined}
-            onClick={page >= totalPages ? (event) => event.preventDefault() : undefined}
-          >
-            Next
-          </a>
           <div className="catalog-page-links" aria-label="Choose catalog page">
             {getVisibleCatalogPages(page, totalPages).map((catalogPage, index) => (
               catalogPage === "ellipsis" ? (
@@ -391,6 +381,15 @@ function ProductsContent({
               )
             ))}
           </div>
+          <a
+            className="btn btn-outline"
+            href={getCatalogPageHref(page + 1, selectedBrand, selectedCategory, searchTerm, totalPages)}
+            aria-disabled={page >= totalPages}
+            tabIndex={page >= totalPages ? -1 : undefined}
+            onClick={page >= totalPages ? (event) => event.preventDefault() : undefined}
+          >
+            Next
+          </a>
         </nav>
       )}
 
