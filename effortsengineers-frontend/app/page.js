@@ -2,9 +2,9 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { QuoteContext } from "@/context/QuoteContext";
-import brandRanges from "@/config/brandRanges";
 import CONTACT_CONFIG from "@/config/contactConfig";
 import EnquiryForm from "@/components/EnquiryForm";
+import BrandRangesSection from "@/components/BrandRangesSection";
 import HowItWorks from "@/components/HowItWorks";
 import InterfaceIcon from "@/components/InterfaceIcon";
 
@@ -130,25 +130,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section-shell" id="brand-ranges">
-        <div className="section-header">
-          <span className="eyebrow">Compressor Compatibility</span>
-          <h2 className="section-title"><b>Brands and Detailed</b> Model Ranges</h2>
-          <p className="section-desc">
-            Browse the compressor makes and models we support. For availability and compatibility, send us the exact model and part reference.
-          </p>
-          <div className="separator-line" />
-        </div>
-        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-          {brandRanges.map(({ brand, series }) => (
-            <article key={brand} className="why-card" style={{ padding: "26px" }}>
-              <h3 style={{ margin: "0 0 12px", fontSize: "1.1rem" }}>{brand}</h3>
-              <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "0.9rem" }}>
-                {series.map((range) => <li key={range} style={{ marginBottom: "8px" }}>{range}</li>)}
-              </ul>
-            </article>
-          ))}
-        </div>
+      <BrandRangesSection
+        id="brand-ranges"
+        eyebrow="Compressor Compatibility"
+        title={<><b>Brands and Detailed</b> Model Ranges</>}
+        description="Browse the makes and model ranges listed in our catalog. Availability and compatibility are confirmed against the exact model and part reference."
+      />
+      <section className="section-shell">
         <div style={{ textAlign: "center", marginTop: "28px" }}>
           <Link href="/productsourcing#brand-ranges" className="btn btn-outline">
             View Sourcing & Compatibility Details →
