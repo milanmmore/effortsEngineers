@@ -2,6 +2,7 @@
 import db from "../config/db.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
+import { sendEmailNotification } from "../utils/emailNotification.js";
 
 // Browse catalog
 export const browseCatalog = asyncHandler(async (req, res) => {
@@ -13,7 +14,18 @@ export const browseCatalog = asyncHandler(async (req, res) => {
 
 // Request a quotation
 export const requestQuotation = asyncHandler(async (req, res) => {
-  const { customer_name, product_id, quantity } = req.body;
+  const {
+    customer_name,
+    email,
+    phone,
+    company,
+    urgency,
+    notes,
+    items = [],
+    total,
+    product_id,
+    quantity,
+  } = req.body;
   if (!customer_name || !product_id || !quantity) {
     throw new ApiError(400, "customer_name, product_id, and quantity are required");
   }
@@ -25,7 +37,41 @@ export const requestQuotation = asyncHandler(async (req, res) => {
     [customer_name, product_id, quantity]
   );
 
-  res.status(201).json(result.rows[0]);
+  const quotation = result.rows[0];
+  if (!quotation) {
+    throw new ApiError(500, "Could not register quotation request");
+  }
+  const quoteId = quotation.id
+    ? `EE-QT-${quotation.id}`
+    : `EE-QT-${Math.floor(1000 + Math.random() * 9000)}`;
+  const requestedItems = Array.isArray(items) ? items : [];
+  const notification = await sendEmailNotification({
+    subject: `New formal RFQ: ${company || customer_name} (${requestedItems.length || 1} parts)`,
+    replyTo: email,
+    reference: quoteId,
+    data: {
+      Greeting: "Hello, we received a formal quotation request:",
+      "Customer / Plant Name": customer_name,
+      company: company || "Not provided",
+      email: email || "Not provided",
+      phone: phone || "Not provided",
+      urgency: urgency || "Standard",
+      notes: notes || "None",
+      estimated_total:
+        Number(total) > 0
+          ? `INR ${Number(total).toLocaleString("en-IN")}`
+          : "Pricing to be confirmed",
+      items_requested: requestedItems.length
+        ? requestedItems
+            .map((item) =>
+              `${item.name || "Part"} (Qty: ${item.quantity || 1}, Make: ${item.brand || "OEM"})`
+            )
+            .join("; ")
+        : `Product ID ${product_id} (Qty: ${quantity})`,
+    },
+  });
+
+  res.status(201).json({ ...quotation, quoteId, notification });
 });
 
 // View client dashboard

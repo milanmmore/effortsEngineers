@@ -1,7 +1,17 @@
 // utils/jwt.js
 import jwtLib from "jsonwebtoken";
 
-const getSecret = () => process.env.JWT_SECRET || "effortsengineers_jwt_super_secret_key_2026";
+const getSecret = () => {
+  const secret = process.env.JWT_SECRET;
+  if (process.env.NODE_ENV === "production" && (secret || "").length < 32) {
+    throw new Error("JWT_SECRET must be configured with at least 32 characters in production.");
+  }
+  if (secret) return secret;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("JWT_SECRET must be configured in production.");
+  }
+  return "local-development-only-jwt-secret";
+};
 
 export const signToken = (payload) => {
   return jwtLib.sign(payload, getSecret(), { expiresIn: "1h" });
@@ -10,4 +20,3 @@ export const signToken = (payload) => {
 export const verifyToken = (token) => {
   return jwtLib.verify(token, getSecret());
 };
-

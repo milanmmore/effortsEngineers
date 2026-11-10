@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import db from "../config/db.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
+import { sendEmailNotification } from "../utils/emailNotification.js";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ATTACHMENT_PATTERN =
@@ -68,9 +69,28 @@ export const createWarrantyClaim = asyncHandler(async (req, res) => {
       attachment_url || null,
     ]
   );
+  const claim = result.rows[0];
+  const notification = await sendEmailNotification({
+    subject: `Warranty claim ${claim.claim_number}: ${invoice_reference.trim()}`,
+    replyTo: email.trim(),
+    reference: claim.claim_number,
+    data: {
+      Greeting: "Hello, we received a warranty enquiry:",
+      "Customer / Plant Name": name.trim(),
+      company: company?.trim() || "Not provided",
+      email: email.trim(),
+      phone: phone?.trim() || "Not provided",
+      invoice_or_quotation_number: invoice_reference.trim(),
+      part: part?.trim() || "Not provided",
+      serial: serial?.trim() || "Not provided",
+      issue: issue.trim(),
+      attached_file: attachment_url || "None",
+    },
+  });
 
   res.status(201).json({
     success: true,
-    claim: result.rows[0],
+    claim,
+    notification,
   });
 });
