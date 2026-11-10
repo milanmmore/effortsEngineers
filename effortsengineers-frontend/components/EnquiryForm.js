@@ -2,18 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import API from "@/lib/axiosClient";
-import CONTACT_CONFIG from "@/config/contactConfig";
 import SITE_CONFIG from "@/config/site";
-import { sendEmailNotification } from "@/lib/emailService";
 
 const MAX_ATTACHMENT_SIZE = 5 * 1024 * 1024;
 const ALLOWED_ATTACHMENT_EXTENSIONS = new Set([
-  ".jpg",
-  ".jpeg",
-  ".png",
-  ".webp",
-  ".pdf",
-  ".dwg",
+  ".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif", ".pdf", ".dwg",
 ]);
 const initialFormData = {
   name: "",
@@ -150,38 +143,10 @@ export default function EnquiryForm({
         throw new Error("The inquiry service did not return a reference number.");
       }
 
-      const emailResult = await sendEmailNotification({
-        subject: warranty
-          ? `Warranty enquiry: ${formData.warranty_reference}`
-          : `Technical RFQ: ${formData.brand} - ${formData.part_name || formData.model}`,
-        from_name: formData.name,
-        reply_to: formData.email || CONTACT_CONFIG.primaryEmail,
-        data: {
-          rfq_number: reference,
-          source,
-          customer_name: formData.name,
-          company: formData.company,
-          email: formData.email,
-          phone: formData.phone,
-          brand: formData.brand,
-          model: formData.model,
-          part_name: formData.part_name,
-          quantity: formData.quantity,
-          urgency: formData.urgency,
-          destination_country: formData.destination_country,
-          message: formData.message,
-          warranty_reference: formData.warranty_reference,
-          issue_description: formData.issue_description,
-          attached_file: attachmentUrl || "None",
-          attached_image: attachmentUrl || "None",
-          submitted_at: new Date().toLocaleString(),
-        },
-      });
-
-      if (!emailResult.success) {
+      if (!inquiryResponse.data?.notification?.success) {
         console.error(
           "Inquiry email notification failed:",
-          emailResult.error || emailResult.message
+          inquiryResponse.data?.notification?.message || "No delivery confirmation was returned."
         );
         setNotificationWarning(
           "Your enquiry was received, but we could not confirm the email notification. Please contact us with this reference if you need to follow up."
@@ -347,9 +312,9 @@ export default function EnquiryForm({
 
             <label style={labelStyle}>
               Attach Nameplate Photo or Drawing (optional)
-              <input name="attachment" type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.dwg,image/jpeg,image/png,image/webp,application/pdf,application/acad" onChange={handleAttachmentChange} style={inputStyle} />
+              <input name="attachment" type="file" accept=".jpg,.jpeg,.png,.webp,.heic,.heif,.pdf,.dwg,image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf,application/acad" onChange={handleAttachmentChange} style={inputStyle} />
               <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontWeight: 400 }}>
-                JPEG, PNG, WebP, PDF, or DWG; maximum 5 MB.
+                JPEG, PNG, WebP, HEIC / HEIF, PDF, or DWG; maximum 5 MB.
                 {attachmentFile ? ` Selected: ${attachmentFile.name}` : ""}
               </span>
             </label>

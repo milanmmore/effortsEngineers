@@ -10,7 +10,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   // Login form state
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,12 +34,8 @@ export default function LoginPage() {
     setIsLoading(true);
     setLoginError("");
     try {
-      await login(email, password);
-      if (email.includes("admin")) {
-        router.push("/admin/dashboard");
-      } else {
-        router.push("/client/dashboard");
-      }
+      const authenticatedUser = await login(identifier, password);
+      router.push(authenticatedUser.role === "admin" ? "/admin/dashboard" : "/client/dashboard");
     } catch (err) {
       const msg = err.response?.data?.message || err.message;
       setLoginError(msg);
@@ -110,7 +106,7 @@ export default function LoginPage() {
       setTimeout(() => {
         setShowForgotModal(false);
         setForgotStep(1);
-        setEmail(forgotEmail);
+        setIdentifier(forgotEmail);
       }, 1500);
     } catch (err) {
       setForgotError(err.response?.data?.message || err.message);
@@ -138,13 +134,14 @@ export default function LoginPage() {
 
         <form onSubmit={handleLoginSubmit} style={{ display: "grid", gap: "16px" }}>
           <label style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem", fontWeight: 700 }}>
-            Email Address *
+            User ID or Email *
             <input
-              type="email"
+              type="text"
               required
-              placeholder="e.g. engineer@coldstorage.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="username"
+              placeholder="Enter your user ID or email"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
               style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem" }}
             />
           </label>
@@ -155,7 +152,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setForgotEmail(email);
+                  setForgotEmail(identifier.includes("@") ? identifier : "");
                   setForgotError("");
                   setForgotSuccess("");
                   setForgotStep(1);

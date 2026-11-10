@@ -93,7 +93,9 @@ cd effortsengineers-backend
 npm install
 
 # Configure environment variables (.env)
-# Verify DB credentials and JWT secret in .env and env.test
+# Verify DB credentials and JWT secret in .env and env.test.
+# Set FORMSUBMIT_TOKEN in the backend environment for server-side inquiry emails.
+# Optionally set EMAIL_NOTIFICATION_CC and EMAIL_REPLY_TO; never put the token in frontend variables.
 
 # Run tests in mock mode (no DB required)
 npm run test:mock
@@ -104,6 +106,13 @@ npm run test:db
 # Start local backend API server (http://localhost:5000)
 npm run dev
 ```
+
+Inquiry, warranty, and quotation notifications are sent by the backend after the
+request is saved. Set `FORMSUBMIT_TOKEN` in the backend's local `.env` and in the
+backend deployment's secret environment variables. The FormSubmit endpoint was
+previously embedded in browser code; generate a new FormSubmit token and use the
+new value for local and deployed environments. Email delivery failures do not
+undo a saved request and are reported to the submitter.
 
 ### 3. Frontend Setup (`effortsengineers-frontend`)
 ```bash

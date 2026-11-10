@@ -19,7 +19,7 @@ export default function AdminLayout({ children }) {
             <ul className="portal-nav-list">
               <li>
                 <Link href="/admin/dashboard" className={isActive("/admin/dashboard") ? "active" : ""}>
-                  📊 Dashboard & KPIs
+                  Products & Photo Master
                 </Link>
               </li>
               <li>

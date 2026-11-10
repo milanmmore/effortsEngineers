@@ -2,6 +2,7 @@
 import db from "../config/db.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
+import { sendEmailNotification } from "../utils/emailNotification.js";
 
 // In-memory fallback if table doesn't exist
 const memoryInquiries = [
@@ -121,11 +122,34 @@ export const createInquiry = asyncHandler(async (req, res) => {
     memoryInquiries.unshift(inquiryRecord);
   }
 
+  const notification = await sendEmailNotification({
+    subject: `Technical RFQ: ${inquiryRecord.brand} - ${inquiryRecord.part_name}`,
+    replyTo: email,
+    reference: rfqId,
+    data: {
+      Greeting: "Hello, we received a compressor parts enquiry:",
+      "Customer / Plant Name": name,
+      reference: rfqId,
+      company: inquiryRecord.company,
+      email: inquiryRecord.email,
+      phone: inquiryRecord.phone,
+      brand: inquiryRecord.brand,
+      model: inquiryRecord.model,
+      part_name: inquiryRecord.part_name,
+      quantity: inquiryRecord.quantity,
+      urgency: inquiryRecord.urgency,
+      message: inquiryMessage || "No additional notes provided.",
+      attached_file: attachment_url || "None",
+      "Submission Time": inquiryRecord.created_at,
+    },
+  });
+
   res.status(201).json({
     success: true,
     message: "Inquiry / RFQ submitted successfully. Our engineering team will review your request and follow up using the contact details provided.",
     rfqId,
     inquiry: inquiryRecord,
+    notification,
   });
 });
 

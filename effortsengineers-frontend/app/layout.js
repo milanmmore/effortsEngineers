@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import QuoteBuilderDrawer from '@/components/QuoteBuilderDrawer';
 import AIChatbot from '@/components/AIChatbot';
+import FacebookButton from '@/components/FacebookButton';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { SITE_ORIGIN } from '@/config/siteOrigin';
 import SITE_CONFIG from '@/config/site';
@@ -58,8 +59,9 @@ export default function RootLayout({ children }) {
             {children}
             <Footer />
             <QuoteBuilderDrawer />
-            {/* Floating Action Dock: WhatsApp & AI Assistant */}
+            {/* Floating Action Dock: Facebook, WhatsApp, and AI Assistant */}
             <div className="floating-action-dock">
+              <FacebookButton />
               <WhatsAppButton />
               <AIChatbot />
             </div>

@@ -1,0 +1,11 @@
+BEGIN;
+
+ALTER TABLE users
+  ADD COLUMN IF NOT EXISTS username VARCHAR(80),
+  ADD COLUMN IF NOT EXISTS managed_by_env BOOLEAN NOT NULL DEFAULT FALSE;
+
+CREATE UNIQUE INDEX IF NOT EXISTS users_username_unique
+  ON users (LOWER(username))
+  WHERE username IS NOT NULL AND BTRIM(username) <> '';
+
+COMMIT;

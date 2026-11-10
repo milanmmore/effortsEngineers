@@ -39,6 +39,61 @@ test("uploads a valid PNG and serves it from the returned URL", async () => {
   expect(imageResponse.headers["x-content-type-options"]).toBe("nosniff");
 });
 
+test.each(["jpg", "jpeg"])("uploads a valid .%s image", async (extension) => {
+  const jpegSignature = Buffer.from([0xff, 0xd8, 0xff, 0xd9]);
+  const response = await request(app)
+    .post("/api/uploads/images")
+    .attach("image", jpegSignature, {
+      filename: `compressor-part.${extension}`,
+      contentType: "image/jpeg",
+    });
+
+  expect(response.status).toBe(201);
+  expect(response.body.file.filename).toMatch(/^[0-9a-f-]+\.jpg$/);
+  expect(response.body.file.mimeType).toBe("image/jpeg");
+  createdImageFilenames.push(response.body.file.filename);
+});
+
+test.each([
+  ["heic", "heic", "image/heic"],
+  ["heif", "mif1", "image/heif"],
+])("uploads a valid .%s phone photo", async (extension, brand, mimeType) => {
+  const fileTypeBox = Buffer.alloc(20);
+  fileTypeBox.writeUInt32BE(fileTypeBox.length, 0);
+  fileTypeBox.write("ftyp", 4, "ascii");
+  fileTypeBox.write(brand, 8, "ascii");
+  const response = await request(app)
+    .post("/api/uploads/images")
+    .attach("image", fileTypeBox, {
+      filename: `compressor-photo.${extension}`,
+      contentType: mimeType,
+    });
+
+  expect(response.status).toBe(201);
+  expect(response.body.file.filename).toMatch(
+    new RegExp(`^[0-9a-f-]+\\.${extension}$`)
+  );
+  expect(response.body.file.mimeType).toBe(mimeType);
+  createdImageFilenames.push(response.body.file.filename);
+});
+
+test("detects supported content when the filename extension and MIME type are wrong", async () => {
+  const pngSignature = Buffer.from([
+    0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+  ]);
+  const response = await request(app)
+    .post("/api/uploads/images")
+    .attach("image", pngSignature, {
+      filename: "phone-photo.jpg",
+      contentType: "image/jpeg",
+    });
+
+  expect(response.status).toBe(201);
+  expect(response.body.file.filename).toMatch(/^[0-9a-f-]+\.png$/);
+  expect(response.body.file.mimeType).toBe("image/png");
+  createdImageFilenames.push(response.body.file.filename);
+});
+
 test.each([
   ["PDF", Buffer.from("%PDF-1.7\n"), "drawing.pdf", "application/pdf", ".pdf"],
   ["DWG", Buffer.from("AC1027"), "drawing.dwg", "application/acad", ".dwg"],

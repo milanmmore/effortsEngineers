@@ -12,7 +12,7 @@ export default function ProtectedRoute({ children, role }) {
 
     // If no user is logged in, redirect to login
     if (!user) {
-      router.push("/auth/login");
+      router.replace("/auth/login");
     }
     // If a role is required and user doesn't match, redirect to home
     else if (role && user.role !== role) {

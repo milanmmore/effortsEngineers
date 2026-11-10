@@ -2,11 +2,9 @@
 
 import React, { useState } from "react";
 import API from "@/lib/axiosClient";
-import SITE_CONFIG from "@/config/site";
-import { sendEmailNotification } from "@/lib/emailService";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const FILE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".pdf", ".dwg"]);
+const FILE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif", ".pdf", ".dwg"]);
 const inputStyle = {
   width: "100%",
   padding: "11px 14px",
@@ -87,25 +85,11 @@ export default function WarrantyClaimForm() {
         throw new Error("The warranty service did not return a claim reference.");
       }
 
-      const notification = await sendEmailNotification({
-        subject: `Warranty claim ${data.claim.claim_number}: ${values.invoice_reference}`,
-        from_name: values.name,
-        reply_to: values.email || SITE_CONFIG.primaryEmail,
-        data: {
-          claim_number: data.claim.claim_number,
-          customer_name: values.name,
-          company: values.company || "Not provided",
-          email: values.email,
-          phone: values.phone || "Not provided",
-          invoice_or_quotation_number: values.invoice_reference,
-          part: values.part || "Not provided",
-          serial: values.serial || "Not provided",
-          issue: values.issue,
-          attached_file: attachmentPath || "None",
-        },
-      });
-      if (!notification.success) {
-        console.error("Warranty claim notification failed:", notification.error || notification.message);
+      if (!data.notification?.success) {
+        console.error(
+          "Warranty claim notification failed:",
+          data.notification?.message || "No delivery confirmation was returned."
+        );
         setNotificationWarning(
           "Your claim was saved, but the email notification could not be confirmed. Please contact us with this reference if you need to follow up."
         );
@@ -176,9 +160,9 @@ export default function WarrantyClaimForm() {
         </label>
 
         <label style={labelStyle}>Nameplate Photo or Supporting Document
-          <input name="attachment" type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.dwg,image/jpeg,image/png,image/webp,application/pdf,application/acad" onChange={selectAttachment} style={inputStyle} />
+          <input name="attachment" type="file" accept=".jpg,.jpeg,.png,.webp,.heic,.heif,.pdf,.dwg,image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf,application/acad" onChange={selectAttachment} style={inputStyle} />
           <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontWeight: 400 }}>
-            JPEG, PNG, WebP, PDF, or DWG; maximum 5 MB.{attachment ? ` Selected: ${attachment.name}` : ""}
+            JPEG, PNG, WebP, HEIC / HEIF, PDF, or DWG; maximum 5 MB.{attachment ? ` Selected: ${attachment.name}` : ""}
           </span>
         </label>
 

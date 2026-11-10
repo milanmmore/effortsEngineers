@@ -22,7 +22,12 @@ export function AuthProvider({ children }) {
     }
 
     try {
-      setUser({ ...decodeToken(token), token });
+      const decodedToken = decodeToken(token);
+      if (typeof decodedToken.exp !== "number" || decodedToken.exp <= Date.now() / 1000) {
+        localStorage.removeItem("token");
+        return;
+      }
+      setUser({ ...decodedToken, token });
     } catch {
       localStorage.removeItem("token");
     } finally {
@@ -30,11 +35,12 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  const login = async (email, password) => {
-    const res = await API.post("/auth/login", { email, password });
+  const login = async (identifier, password) => {
+    const res = await API.post("/auth/login", { identifier, password });
     const { token, user: authenticatedUser } = res.data;
     localStorage.setItem("token", token);
     setUser({ ...authenticatedUser, token });
+    return authenticatedUser;
   };
 
   const logout = () => {

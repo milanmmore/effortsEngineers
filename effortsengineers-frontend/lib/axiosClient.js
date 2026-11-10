@@ -19,4 +19,24 @@ API.interceptors.request.use((config) => {
 	return config;
 });
 
+API.interceptors.response.use(
+	(response) => response,
+	(error) => {
+		const requestUrl = error.config?.url || "";
+		const isLoginRequest = /\/auth\/login(?:\?|$)/.test(requestUrl);
+		if (
+			typeof window !== "undefined" &&
+			error.response?.status === 401 &&
+			!isLoginRequest &&
+			localStorage.getItem("token")
+		) {
+			localStorage.removeItem("token");
+			delete API.defaults.headers.common.Authorization;
+			window.location.replace("/auth/login");
+		}
+
+		return Promise.reject(error);
+	}
+);
+
 export default API;
