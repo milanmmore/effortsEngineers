@@ -8,6 +8,7 @@ const router = express.Router();
 const fileUploadRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 10,
+  skip: () => process.env.NODE_ENV === "test",
   standardHeaders: "draft-8",
   legacyHeaders: false,
   message: { message: "Too many file uploads. Please try again later." },
