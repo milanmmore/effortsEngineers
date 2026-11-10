@@ -1,8 +1,13 @@
 import bcrypt from "bcryptjs";
+import { createHash, timingSafeEqual } from "node:crypto";
 import db from "../config/db.js";
 import ApiError from "../utils/ApiError.js";
 import { signToken, verifyToken } from "../utils/jwt.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import {
+  getConfiguredPortalAccounts,
+  isDemoAccountEmail,
+} from "../config/portalAccounts.js";
 
 
 // POST /api/auth/register
@@ -11,6 +16,9 @@ export const register = asyncHandler(async (req, res) => {
 
   if (!name || !email || !password) {
     throw new ApiError(400, "name, email and password are required");
+  }
+  if (process.env.NODE_ENV === "production" && isDemoAccountEmail(email)) {
+    throw new ApiError(400, "This email address is not available.");
   }
 
   // Standard password strength validation:
@@ -53,28 +61,79 @@ export const register = asyncHandler(async (req, res) => {
 
 // POST /api/auth/login
 export const login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const identifier = String(req.body.identifier ?? req.body.email ?? "").trim();
+  const { password } = req.body;
 
-  if (!email || !password) {
-    throw new ApiError(400, "email and password are required");
+  if (!identifier || typeof password !== "string" || !password) {
+    throw new ApiError(400, "user ID/email and password are required");
   }
 
-  const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
-  const user = result.rows[0];
+  const configuredAccount = getConfiguredPortalAccounts().find(
+    ({ username, email }) =>
+      username.toLowerCase() === identifier.toLowerCase() ||
+      email.toLowerCase() === identifier.toLowerCase()
+  );
+  let user;
 
-  if (!user) {
-    throw new ApiError(401, "Invalid email or password");
-  }
+  if (configuredAccount) {
+    const submittedHash = createHash("sha256").update(password).digest();
+    const configuredHash = createHash("sha256")
+      .update(configuredAccount.password)
+      .digest();
+    if (!timingSafeEqual(submittedHash, configuredHash)) {
+      throw new ApiError(401, "Invalid user ID/email or password");
+    }
 
-  const match = await bcrypt.compare(password, user.password_hash);
-  if (!match) {
-    throw new ApiError(401, "Invalid email or password");
+    const passwordHash = await bcrypt.hash(configuredAccount.password, 10);
+    const result = await db.query(
+      `INSERT INTO users (name, username, email, password_hash, role, managed_by_env)
+       VALUES ($1, $2, $3, $4, $5, TRUE)
+       ON CONFLICT (email) DO UPDATE SET
+         name = EXCLUDED.name,
+         username = EXCLUDED.username,
+         password_hash = EXCLUDED.password_hash,
+         role = EXCLUDED.role,
+         managed_by_env = TRUE
+       RETURNING id, name, username, email, role`,
+      [
+        configuredAccount.name,
+        configuredAccount.username,
+        configuredAccount.email,
+        passwordHash,
+        configuredAccount.role,
+      ]
+    );
+    user = result.rows[0];
+  } else {
+    const result = await db.query(
+      `SELECT id, name, username, email, password_hash, role, managed_by_env
+       FROM users
+       WHERE LOWER(email) = LOWER($1) OR LOWER(username) = LOWER($1)
+       LIMIT 1`,
+      [identifier]
+    );
+    user = result.rows[0];
+
+    if (!user || user.managed_by_env) {
+      throw new ApiError(401, "Invalid user ID/email or password");
+    }
+
+    const match = await bcrypt.compare(password, user.password_hash);
+    if (!match) {
+      throw new ApiError(401, "Invalid user ID/email or password");
+    }
   }
 
   const token = signToken({ id: user.id, role: user.role, email: user.email });
 
   res.json({
-    user: { id: user.id, name: user.name, email: user.email, role: user.role },
+    user: {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    },
     token,
   });
 });
@@ -87,11 +146,21 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Email address is required");
   }
 
-  const result = await db.query("SELECT id, name, email FROM users WHERE email = $1", [email]);
+  const result = await db.query(
+    "SELECT id, name, email, managed_by_env FROM users WHERE email = $1",
+    [email]
+  );
   const user = result.rows[0];
 
   // For security, do not disclose whether user exists or not
   if (!user) {
+    return res.json({
+      success: true,
+      message: "If an account with that email exists, password reset instructions have been dispatched.",
+    });
+  }
+
+  if (user.managed_by_env) {
     return res.json({
       success: true,
       message: "If an account with that email exists, password reset instructions have been dispatched.",
@@ -129,6 +198,9 @@ export const resetPassword = asyncHandler(async (req, res) => {
     const { verifyToken } = await import("../utils/jwt.js");
     decoded = verifyToken(token);
   } catch {
+    throw new ApiError(400, "Password reset link has expired or is invalid. Please request a new one.");
+  }
+  if (decoded.type !== "password_reset") {
     throw new ApiError(400, "Password reset link has expired or is invalid. Please request a new one.");
   }
 

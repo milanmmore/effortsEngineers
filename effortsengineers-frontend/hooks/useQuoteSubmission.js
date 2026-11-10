@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
 import API from "@/lib/axiosClient";
-import { sendEmailNotification } from "@/lib/emailService";
-import CONTACT_CONFIG from "@/config/contactConfig";
 
 const DEFAULT_FORM = {
   name: "",
@@ -13,16 +11,13 @@ const DEFAULT_FORM = {
   notes: "",
 };
 
-const generateQuoteId = () => `EE-QT-${Math.floor(1000 + Math.random() * 9000)}`;
-
 /**
  * Encapsulates the RFQ submit flow for the quotation drawer:
- * email notification, backend registration, and submitted state.
+ * backend registration and submitted state.
  */
 export default function useQuoteSubmission({
   items,
   totalEstimated,
-  hasUnpricedItems,
   clearQuote,
 }) {
   const [formData, setFormData] = useState(DEFAULT_FORM);
@@ -32,29 +27,6 @@ export default function useQuoteSubmission({
 
   const updateField = (key, value) =>
     setFormData((prev) => ({ ...prev, [key]: value }));
-
-  const sendNotification = (quoteId) =>
-    sendEmailNotification({
-      subject: `📋 New Formal RFQ Quote Request: ${formData.company || formData.name} (${items.length} parts)`,
-      from_name: formData.name,
-      reply_to: formData.email || CONTACT_CONFIG.primaryEmail,
-      data: {
-        quote_id: quoteId,
-        customer_name: formData.name,
-        company: formData.company,
-        email: formData.email,
-        phone: formData.phone,
-        urgency: formData.urgency,
-        notes: formData.notes,
-        estimated_total: hasUnpricedItems
-          ? "Pricing to be confirmed"
-          : `INR ₹${totalEstimated.toLocaleString("en-IN")}`,
-        items_requested: items
-          .map((it) => `${it.name} (Qty: ${it.quantity}, Make: ${it.brand || "OEM"})`)
-          .join("; "),
-        submitted_at: new Date().toLocaleString(),
-      },
-    }).catch((err) => console.warn("Direct quote email notice:", err));
 
   const buildPayload = () => ({
     customer_name: formData.name,
@@ -77,12 +49,25 @@ export default function useQuoteSubmission({
 
     setIsSubmitting(true);
     setSubmitError("");
-    let quoteId = generateQuoteId();
-    sendNotification(quoteId);
 
     try {
       const res = await API.post("/client/quotation", buildPayload());
-      if (res.data?.id) quoteId = `EE-QT-${res.data.id}`;
+      const quoteId = res.data?.quoteId || (res.data?.id && `EE-QT-${res.data.id}`);
+      if (!quoteId) {
+        throw new Error("The quotation service did not return a reference number.");
+      }
+      const notificationWarning = res.data?.notification?.success
+        ? ""
+        : "Your request was registered, but the email notification could not be confirmed. Please contact us with this reference if you need to follow up.";
+
+      setSubmittedQuote({
+        id: quoteId,
+        date: new Date().toLocaleDateString(),
+        customer: formData,
+        items: [...items],
+        total: totalEstimated,
+        notificationWarning,
+      });
     } catch (err) {
       // Keep the form state and tell the user the RFQ was not registered.
       console.error("RFQ registration failed:", err);
@@ -93,13 +78,6 @@ export default function useQuoteSubmission({
       return;
     }
 
-    setSubmittedQuote({
-      id: quoteId,
-      date: new Date().toLocaleDateString(),
-      customer: formData,
-      items: [...items],
-      total: totalEstimated,
-    });
     clearQuote();
     setIsSubmitting(false);
   };

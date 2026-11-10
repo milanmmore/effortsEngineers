@@ -90,7 +90,7 @@ export default function Footer() {
             *Disclaimer: All manufacturer names, symbols, numbers, and descriptions are used solely for reference and identification purposes.
           </div>
           <div className="footer-social-links" aria-label="Business profiles">
-            {SITE_CONFIG.profileLinks.map(({ label, url }) => (
+            {SITE_CONFIG.profileLinks.filter(({ label }) => label !== "Facebook").map(({ label, url }) => (
               <a key={url} href={url} target="_blank" rel="noopener noreferrer" style={{ color: "#38bdf8", fontWeight: 600 }}>
                 {label}
               </a>

@@ -10,9 +10,23 @@ export const getImageUploadDirectory = () =>
       path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "images")
   );
 
+const HEIC_BRANDS = new Set([
+  "heic", "heix", "hevc", "hevx", "heim", "heis", "hevm", "hevs",
+]);
+const HEIF_BRANDS = new Set([...HEIC_BRANDS, "mif1", "msf1"]);
+
 const uploadFormats = [
   {
     extension: ".jpg",
+    mimeType: "image/jpeg",
+    matches: (buffer) =>
+      buffer.length >= 3 &&
+      buffer[0] === 0xff &&
+      buffer[1] === 0xd8 &&
+      buffer[2] === 0xff,
+  },
+  {
+    extension: ".jpeg",
     mimeType: "image/jpeg",
     matches: (buffer) =>
       buffer.length >= 3 &&
@@ -38,6 +52,26 @@ const uploadFormats = [
       buffer.toString("ascii", 8, 12) === "WEBP",
   },
   {
+    extension: ".heic",
+    mimeType: "image/heic",
+    matches: (buffer) => {
+      if (buffer.length < 12 || buffer.toString("ascii", 4, 8) !== "ftyp") {
+        return false;
+      }
+      return HEIC_BRANDS.has(buffer.toString("ascii", 8, 12));
+    },
+  },
+  {
+    extension: ".heif",
+    mimeType: "image/heif",
+    matches: (buffer) => {
+      if (buffer.length < 12 || buffer.toString("ascii", 4, 8) !== "ftyp") {
+        return false;
+      }
+      return HEIF_BRANDS.has(buffer.toString("ascii", 8, 12));
+    },
+  },
+  {
     extension: ".pdf",
     mimeType: "application/pdf",
     matches: (buffer) => buffer.length >= 5 && buffer.toString("ascii", 0, 5) === "%PDF-",
@@ -49,32 +83,47 @@ const uploadFormats = [
   },
 ];
 
-export const uploadImage = async (req, res) => {
+const saveUploadedImage = async (req, res, { preserveFilename = false } = {}) => {
   if (!req.file) {
     throw new ApiError(400, "A file is required in the 'image' field.");
   }
 
-  const extension = path.extname(req.file.originalname).toLowerCase();
-  const uploadFormat = uploadFormats.find(
-    (format) => format.extension === extension && format.matches(req.file.buffer)
+  const uploadFormat = uploadFormats.find((format) =>
+    format.matches(req.file.buffer)
   );
   if (!uploadFormat) {
-    throw new ApiError(400, "The uploaded file content does not match a supported file type.");
+    throw new ApiError(
+      400,
+      "Unsupported file content. Upload a JPEG, PNG, WebP, HEIC / HEIF, PDF, or DWG file."
+    );
   }
-
-  if (
-    uploadFormat.extension !== ".dwg" &&
-    uploadFormat.mimeType !== req.file.mimetype
-  ) {
-    throw new ApiError(400, "The uploaded file content does not match its declared file type.");
+  if (preserveFilename && !uploadFormat.mimeType.startsWith("image/")) {
+    throw new ApiError(400, "Product photos must be image files.");
   }
 
   const imageUploadDirectory = getImageUploadDirectory();
   await mkdir(imageUploadDirectory, { recursive: true });
 
-  const filename = `${randomUUID()}${uploadFormat.extension}`;
+  let filename = `${randomUUID()}${uploadFormat.extension}`;
+  if (preserveFilename) {
+    let requestedFilename;
+    try {
+      requestedFilename = decodeURIComponent(req.get("x-file-name") || "");
+    } catch {
+      throw new ApiError(400, "Provide a valid product photo filename.");
+    }
+    if (
+      typeof requestedFilename !== "string" ||
+      !/^[\p{L}\p{N}][\p{L}\p{N}._ -]{0,199}$/u.test(requestedFilename) ||
+      requestedFilename === "." ||
+      requestedFilename === ".."
+    ) {
+      throw new ApiError(400, "Provide a valid product photo filename.");
+    }
+    filename = `${path.parse(requestedFilename).name}${uploadFormat.extension}`;
+  }
   await writeFile(path.join(imageUploadDirectory, filename), req.file.buffer, {
-    flag: "wx",
+    flag: preserveFilename ? "w" : "wx",
     mode: 0o644,
   });
 
@@ -94,3 +143,8 @@ export const uploadImage = async (req, res) => {
     },
   });
 };
+
+export const uploadImage = (req, res) => saveUploadedImage(req, res);
+
+export const uploadAdminProductImage = (req, res) =>
+  saveUploadedImage(req, res, { preserveFilename: true });

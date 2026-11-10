@@ -18,11 +18,15 @@ beforeEach(() => {
     if (sql.includes("INSERT INTO users")) {
       return { rows: [{ id: 1, email: params[1], name: params[0] }] };
     }
-    if (sql.includes("SELECT * FROM users")) {
+    if (sql.includes("FROM users") && sql.includes("password_hash")) {
       return {
         rows: [{
           id: 1,
+          name: "Milan",
+          username: null,
           email: "saurabh@effortsengineers.in",
+          role: "client",
+          managed_by_env: false,
           password_hash: await bcrypt.hash("Secret@123", 10),
         }],
       };

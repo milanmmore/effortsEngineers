@@ -4,6 +4,8 @@ import request from "supertest";
 
 import * as dbModule from "../config/db.js";
 
+const originalFormSubmitToken = process.env.FORMSUBMIT_TOKEN;
+
 jest.unstable_mockModule("../utils/jwt.js", () => ({
   signToken: jest.fn(() => "test-token"),
   verifyToken: jest.fn(),
@@ -14,6 +16,13 @@ const { default: app } = await import("../server.js");
 
 describe("API Endpoints", () => {
   beforeEach(() => {
+    process.env.FORMSUBMIT_TOKEN = "test-formsubmit-token";
+    jest.spyOn(global, "fetch").mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({ success: "true", message: "OK" }),
+    });
+
     // Mock DB
     jest.spyOn(dbModule.default, "query").mockImplementation(async (sql, params) => {
       if (sql.includes("FROM users")) {
@@ -30,6 +39,17 @@ describe("API Endpoints", () => {
       }
       if (sql.includes("FROM quotations")) {
         return { rows: [{ id: 1, customer_name: "Alice", details: "Test", total: 500 }] };
+      }
+      if (sql.includes("INSERT INTO quotations")) {
+        return {
+          rows: [{
+            id: 1,
+            customer_name: params[0],
+            product_id: params[1],
+            quantity: params[2],
+            status: "pending",
+          }],
+        };
       }
       if (sql.includes("INSERT INTO users")) {
         return { rows: [{ id: 1, name: params[0], email: params[1], role: params[3] }] };
@@ -57,6 +77,11 @@ describe("API Endpoints", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+    if (originalFormSubmitToken === undefined) {
+      delete process.env.FORMSUBMIT_TOKEN;
+    } else {
+      process.env.FORMSUBMIT_TOKEN = originalFormSubmitToken;
+    }
   });
 
   afterAll(async () => {
@@ -83,6 +108,28 @@ describe("API Endpoints", () => {
     expect(res.status).toBe(201);
     expect(res.body.token).toBeDefined();
   });
+
+  test.each(["admin@example.com", "user@example.com"])(
+    "production registration rejects demo email %s",
+    async (email) => {
+      const previousNodeEnv = process.env.NODE_ENV;
+      const query = jest.spyOn(dbModule.default, "query");
+      try {
+        process.env.NODE_ENV = "production";
+        const res = await request(app).post("/api/auth/register").send({
+          name: "Demo Account",
+          email,
+          password: "Strong-Password1!",
+        });
+
+        expect(res.status).toBe(400);
+        expect(query).not.toHaveBeenCalled();
+      } finally {
+        if (previousNodeEnv === undefined) delete process.env.NODE_ENV;
+        else process.env.NODE_ENV = previousNodeEnv;
+      }
+    }
+  );
 
   test("login fails with wrong credentials", async () => {
     const res = await request(app).post("/api/auth/login").send({
@@ -125,6 +172,24 @@ describe("API Endpoints", () => {
 
     expect(valid.status).toBe(201);
     expect(valid.body.claim.claim_number).toMatch(/^EE-WC-[0-9A-F]{8}$/);
+    expect(valid.body.notification.success).toBe(true);
+  });
+
+  test("saved warranty claim succeeds when notification delivery fails", async () => {
+    global.fetch.mockRejectedValueOnce(new Error("provider unavailable"));
+    const response = await request(app).post("/api/warranty/claims").send({
+      name: "Test Customer",
+      email: "customer@example.com",
+      invoice_reference: "INV-123",
+      issue: "The supplied part has a visible crack.",
+    });
+
+    expect(response.status).toBe(201);
+    expect(response.body.claim.claim_number).toMatch(/^EE-WC-[0-9A-F]{8}$/);
+    expect(response.body.notification).toMatchObject({
+      success: false,
+      message: "Email provider could not be reached.",
+    });
   });
 
   test("warranty claim rejects honeypot submissions", async () => {
@@ -148,6 +213,59 @@ describe("API Endpoints", () => {
 
     expect(res.status).toBe(400);
     expect(res.body.message || res.body.error?.message).toMatch(/Unable to submit inquiry/);
+  });
+
+  test("saved inquiry succeeds when notification delivery fails", async () => {
+    global.fetch.mockRejectedValueOnce(new Error("provider unavailable"));
+    const response = await request(app).post("/api/inquiries").send({
+      name: "Test Customer",
+      email: "customer@example.com",
+      phone: "+91 90000 00000",
+      brand: "Grasso",
+      model: "RC11",
+      part_name: "Valve plate",
+      quantity: 1,
+    });
+
+    expect(response.status).toBe(201);
+    expect(response.body.rfqId).toMatch(/^EE-RFQ-\d+$/);
+    expect(response.body.notification).toMatchObject({
+      success: false,
+      message: "Email provider could not be reached.",
+    });
+  });
+
+  test("quotation registration returns a reference and notification result", async () => {
+    const response = await request(app).post("/api/client/quotation").send({
+      customer_name: "Test Customer",
+      email: "customer@example.com",
+      phone: "+91 90000 00000",
+      product_id: 1,
+      quantity: 2,
+      items: [{ name: "Valve plate", quantity: 2, brand: "Grasso" }],
+    });
+
+    expect(response.status).toBe(201);
+    expect(response.body.quoteId).toBe("EE-QT-1");
+    expect(response.body.notification.success).toBe(true);
+  });
+
+  test("saved quotation succeeds when notification delivery fails", async () => {
+    global.fetch.mockRejectedValueOnce(new Error("provider unavailable"));
+    const response = await request(app).post("/api/client/quotation").send({
+      customer_name: "Test Customer",
+      email: "customer@example.com",
+      product_id: 1,
+      quantity: 2,
+      items: [{ name: "Valve plate", quantity: 2, brand: "Grasso" }],
+    });
+
+    expect(response.status).toBe(201);
+    expect(response.body.quoteId).toBe("EE-QT-1");
+    expect(response.body.notification).toMatchObject({
+      success: false,
+      message: "Email provider could not be reached.",
+    });
   });
 
   test("admin can create catalog item", async () => {

@@ -14,6 +14,7 @@ import catalogRoutes from "./routes/catalog.routes.js";
 import quotationRoutes from "./routes/quotation.routes.js";
 import ordersRoutes from "./routes/orders.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
+import adminProductsRoutes from "./routes/admin/products.routes.js";
 import clientRoutes from "./routes/clients.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import inventoryRoutes from "./routes/inventory.routes.js";
@@ -22,6 +23,7 @@ import chatRoutes from "./routes/chat.routes.js";
 import uploadsRoutes from "./routes/uploads.routes.js";
 import warrantyRoutes from "./routes/warranty.routes.js";
 import { getImageUploadDirectory } from "./controllers/uploads.controller.js";
+import { assertProductionAuthEnvironment } from "./config/portalAccounts.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
@@ -66,6 +68,7 @@ app.use("/api/catalog", catalogRoutes);
 app.use("/api/quotation", quotationRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/admin/products", adminProductsRoutes);
 app.use("/api/client", clientRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/inventory", inventoryRoutes);
@@ -79,6 +82,7 @@ app.use(errorHandler);
 
 // Only start the server if run directly (keeps `import app` safe for Jest tests)
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  assertProductionAuthEnvironment();
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, "0.0.0.0", () =>
     console.log(`API listening on port ${PORT}`)

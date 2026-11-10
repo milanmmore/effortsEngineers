@@ -3,11 +3,17 @@
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(120) NOT NULL,
+  username VARCHAR(80),
   email VARCHAR(160) UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
   role VARCHAR(20) NOT NULL DEFAULT 'client', -- 'client' | 'admin'
+  managed_by_env BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS users_username_unique
+  ON users (LOWER(username))
+  WHERE username IS NOT NULL AND BTRIM(username) <> '';
 
 CREATE TABLE IF NOT EXISTS catalog_items (
   id SERIAL PRIMARY KEY,

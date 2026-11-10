@@ -10,7 +10,7 @@ export default function QuoteBuilderDrawer() {
   const { items, removeItem, updateQuantity, clearQuote, isDrawerOpen, setIsDrawerOpen, totalEstimated } = useContext(QuoteContext);
   const hasUnpricedItems = items.some((item) => item.price === null);
   const { formData, updateField, isSubmitting, submittedQuote, submitError, submit: handleSubmit, resetSubmission } =
-    useQuoteSubmission({ items, totalEstimated, hasUnpricedItems, clearQuote });
+    useQuoteSubmission({ items, totalEstimated, clearQuote });
 
   if (!isDrawerOpen) return null;
 
@@ -36,6 +36,11 @@ export default function QuoteBuilderDrawer() {
             <p style={{ color: "var(--text-muted)", fontSize: "0.92rem", marginBottom: "20px" }}>
               Quotation Ref: <strong>{submittedQuote.id}</strong> has been registered. Our team will review your request and follow up; response timing depends on the inquiry and business hours.
             </p>
+            {submittedQuote.notificationWarning && (
+              <p role="alert" style={{ color: "var(--accent-red)", fontSize: "0.88rem" }}>
+                {submittedQuote.notificationWarning}
+              </p>
+            )}
             <div style={{ background: "var(--bg-page)", padding: "16px", borderRadius: "8px", textAlign: "left", marginBottom: "24px" }}>
               <p style={{ margin: "4px 0", fontSize: "0.85rem" }}><strong>Client:</strong> {submittedQuote.customer.name} ({submittedQuote.customer.company || "N/A"})</p>
               <p style={{ margin: "4px 0", fontSize: "0.85rem" }}><strong>Contact:</strong> {submittedQuote.customer.email || submittedQuote.customer.phone}</p>
