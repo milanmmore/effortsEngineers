@@ -1,5 +1,40 @@
 const EMAIL_TIMEOUT_MS = 10_000;
 
+export async function sendPasswordResetEmail({ to, resetUrl }) {
+  const token = process.env.FORMSUBMIT_TOKEN?.trim();
+  if (!token) {
+    return { success: false, message: "Email delivery is not configured on the backend." };
+  }
+
+  try {
+    const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(token)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        _to: to,
+        _subject: "Reset your Efforts Engineers password",
+        _template: "table",
+        _autoresponse: "Your password reset request has been received.",
+        Message: `Use this link to reset your password. It expires in 15 minutes.\n\n${resetUrl}\n\nIf you did not request this, you can ignore this email.`,
+      }),
+      signal: AbortSignal.timeout(EMAIL_TIMEOUT_MS),
+    });
+    let result;
+    try { result = await response.json(); } catch { result = null; }
+    const success = response.ok && (result?.success === "true" || result?.success === true);
+    if (!success) {
+      console.error("Password reset email delivery was not confirmed:", {
+        status: response.status,
+        message: result?.message || "Provider returned an unsuccessful response.",
+      });
+    }
+    return { success, message: result?.message || "Email provider did not confirm delivery." };
+  } catch (error) {
+    console.error("Password reset email request failed:", { name: error.name });
+    return { success: false, message: "Email provider could not be reached." };
+  }
+}
+
 export async function sendEmailNotification({
   subject,
   replyTo,

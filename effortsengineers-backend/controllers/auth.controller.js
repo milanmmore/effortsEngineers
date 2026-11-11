@@ -4,6 +4,7 @@ import db from "../config/db.js";
 import ApiError from "../utils/ApiError.js";
 import { signToken, verifyToken } from "../utils/jwt.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { sendPasswordResetEmail } from "../utils/emailNotification.js";
 import {
   getConfiguredPortalAccounts,
   isDemoAccountEmail,
@@ -168,12 +169,20 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   }
 
   // Create temporary reset token valid for 15 minutes
-  const resetToken = signToken({ id: user.id, email: user.email, type: "password_reset" });
+  const resetToken = signToken(
+    { id: user.id, email: user.email, type: "password_reset" },
+    { expiresIn: "15m" }
+  );
+  const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:3000").replace(/\/$/, "");
+  const resetUrl = `${frontendUrl}/auth/login?resetToken=${encodeURIComponent(resetToken)}`;
+  const delivery = await sendPasswordResetEmail({ to: user.email, resetUrl });
+  if (!delivery.success) {
+    throw new ApiError(503, "Password reset email could not be sent. Please try again later.");
+  }
 
   res.json({
     success: true,
-    message: "Password reset verification code / link generated successfully.",
-    resetToken, // Returned so frontend can transition directly to reset screen
+    message: "If an account with that email exists, password reset instructions have been dispatched.",
   });
 });
 

@@ -37,7 +37,10 @@ export function getConfiguredPortalAccounts() {
   for (const { role, name, prefix } of ACCOUNT_CONFIG) {
     const username = process.env[`${prefix}_LOGIN_ID`]?.trim() || "";
     const email = process.env[`${prefix}_EMAIL`]?.trim() || "";
-    const password = process.env[`${prefix}_PASSWORD`] || "";
+    // Environment files and deployment dashboards often append a newline or
+    // whitespace when a secret is pasted. Normalize those outer characters
+    // just like the username and email values above.
+    const password = process.env[`${prefix}_PASSWORD`]?.trim() || "";
     const values = [username, email, password];
 
     if (values.every((value) => !value)) continue;
