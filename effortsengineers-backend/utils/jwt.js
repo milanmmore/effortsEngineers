@@ -13,8 +13,8 @@ const getSecret = () => {
   return "local-development-only-jwt-secret";
 };
 
-export const signToken = (payload) => {
-  return jwtLib.sign(payload, getSecret(), { expiresIn: "1h" });
+export const signToken = (payload, options = {}) => {
+  return jwtLib.sign(payload, getSecret(), { expiresIn: options.expiresIn || "1h" });
 };
 
 export const verifyToken = (token) => {

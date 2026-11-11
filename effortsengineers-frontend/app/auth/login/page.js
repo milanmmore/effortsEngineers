@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
@@ -29,6 +29,17 @@ export default function LoginPage() {
   const [forgotError, setForgotError] = useState("");
   const [forgotSuccess, setForgotSuccess] = useState("");
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromEmail = params.get("resetToken");
+    if (!tokenFromEmail) return;
+    setResetToken(tokenFromEmail);
+    setForgotStep(2);
+    setShowForgotModal(true);
+    setForgotSuccess("");
+    window.history.replaceState({}, "", window.location.pathname);
+  }, []);
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -52,13 +63,7 @@ export default function LoginPage() {
     setForgotSuccess("");
     try {
       const res = await API.post("/auth/forgot-password", { email: forgotEmail });
-      if (res.data?.resetToken) {
-        setResetToken(res.data.resetToken);
-        setForgotStep(2);
-        setForgotSuccess("Verification confirmed! Please set your new password below.");
-      } else {
-        setForgotSuccess("Instructions have been dispatched to your email address.");
-      }
+      setForgotSuccess(res.data?.message || "If an account with that email exists, password reset instructions have been dispatched.");
     } catch (err) {
       setForgotError(err.response?.data?.message || err.message);
     } finally {
