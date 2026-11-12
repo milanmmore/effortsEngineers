@@ -33,7 +33,7 @@ export default function ProductSourcingClient({ brandRangesSection }) {
             <Link href="/contact" className="btn btn-primary">
               Submit Sourcing Requirement →
             </Link>
-            <button onClick={() => setIsDrawerOpen(true)} className="btn btn-outline">
+            <button type="button" onClick={() => setIsDrawerOpen(true)} className="btn btn-outline">
               Open Quote Builder
             </button>
           </div>

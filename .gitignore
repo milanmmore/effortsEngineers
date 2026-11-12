@@ -32,3 +32,6 @@ Thumbs.db
 
 # Local archive (keep non-essential files out of Git)
 _archive/
+
+# Confidential business correspondence
+/effortsengineers-backend/offer_letter.docx

@@ -1,5 +1,9 @@
 const DEFAULT_ORIGIN = "https://dev.effortsengineers.in";
 
+if (process.env.NODE_ENV === "production" && !process.env.BASE_URL?.trim()) {
+  throw new Error("BASE_URL must be set to the public website origin in production.");
+}
+
 // Keep only the first whitespace-separated token, so a stray second line
 // (or trailing text) in the env variable can never leak into the URL.
 const configuredBaseUrl = (process.env.BASE_URL || DEFAULT_ORIGIN)

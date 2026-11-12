@@ -1,29 +1,34 @@
 // routes/auth.routes.js
 import express from "express";
-import { register, login, forgotPassword, resetPassword } from "../controllers/auth.controller.js";
-import { verifyToken } from "../utils/jwt.js";
+import rateLimit from "express-rate-limit";
+import { register, login, forgotPassword, resetPassword, logout } from "../controllers/auth.controller.js";
+import db from "../config/db.js";
+import asyncHandler from "../utils/asyncHandler.js";
+import { requireAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
-const authMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ error: "No token provided" });
-
-  const token = authHeader.split(" ")[1];
-  try {
-    req.user = verifyToken(token);
-    next();
-  } catch {
-    return res.status(401).json({ error: "Invalid or expired token" });
-  }
-};
-
-router.post("/register", register);
-router.post("/login", login);
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPassword);
-router.get("/profile", authMiddleware, (req, res) => {
-  res.json({ message: "Protected route accessed successfully", user: req.user });
+const makeRateLimit = (limit, windowMs = 15 * 60 * 1000) => rateLimit({
+  windowMs,
+  limit,
+  skip: () => process.env.NODE_ENV === "test",
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: { message: "Too many attempts. Please try again later." },
 });
+
+router.post("/register", makeRateLimit(5), register);
+router.post("/login", makeRateLimit(10), login);
+router.post("/forgot-password", makeRateLimit(5, 60 * 60 * 1000), forgotPassword);
+router.post("/reset-password", makeRateLimit(10), resetPassword);
+router.post("/logout", logout);
+router.get("/profile", requireAuth, asyncHandler(async (req, res) => {
+  const result = await db.query(
+    "SELECT id, name, username, email, role FROM users WHERE id = $1 LIMIT 1",
+    [req.user.id]
+  );
+  if (!result.rows[0]) return res.status(401).json({ message: "Session is no longer valid." });
+  res.json({ user: result.rows[0] });
+}));
 
 export default router;

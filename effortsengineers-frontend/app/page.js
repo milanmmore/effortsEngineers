@@ -13,8 +13,8 @@ export default async function HomePage() {
         <BrandRangesSection
           id="brand-ranges"
           eyebrow="Compressor Compatibility"
-          title={<><b>Brands and Detailed</b> Model Ranges</>}
-          description="Browse the makes and model ranges listed in our catalog. Availability and compatibility are confirmed against the exact model and part reference."
+          title={<><b>Published Catalog</b> Model Ranges</>}
+          description="These are the compressor ranges represented by current catalog listings. Other brands shown on the site are handled as sourcing enquiries; compatibility is confirmed against the exact model and part reference."
           brandRanges={brandRanges}
           loadError={loadError}
         />

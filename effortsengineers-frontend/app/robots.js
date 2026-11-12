@@ -8,7 +8,7 @@ export default function robots() {
   return {
     rules: {
       userAgent: "*",
-      ...(isIndexingEnabled ? { allow: "/" } : { disallow: "/" }),
+      ...(isIndexingEnabled ? { allow: "/", disallow: ["/admin", "/client", "/auth"] } : { disallow: "/" }),
     },
     ...(isIndexingEnabled && {
       sitemap: new URL("/sitemap.xml", SITE_ORIGIN).toString(),

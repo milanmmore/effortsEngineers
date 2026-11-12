@@ -1,7 +1,7 @@
 -- =============================================================================
 -- Efforts Engineers: full database schema (PostgreSQL)
--- Part 1 = your existing schema (unchanged except CREATE TABLE IF NOT EXISTS,
---          so the file can be re-run safely on a live database).
+-- Fresh installs use CREATE TABLE definitions; additive ALTERs below also
+-- upgrade databases created by earlier schema versions. All are rerunnable.
 -- Part 2 = catalog structure added from the Parts Photo Master Sheet.
 -- =============================================================================
  
@@ -111,6 +111,15 @@ CREATE TABLE IF NOT EXISTS users (
   role VARCHAR(20) DEFAULT 'client',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+  id BIGSERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  token_hash CHAR(64) NOT NULL UNIQUE,
+  expires_at TIMESTAMP NOT NULL,
+  used_at TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
  
 CREATE TABLE IF NOT EXISTS inquiries (
   id SERIAL PRIMARY KEY,
@@ -123,8 +132,11 @@ CREATE TABLE IF NOT EXISTS inquiries (
   model VARCHAR(100),
   message TEXT,
   status VARCHAR(50) DEFAULT 'new',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 CREATE TABLE IF NOT EXISTS warranty_claims (
   id SERIAL PRIMARY KEY,
@@ -139,8 +151,11 @@ CREATE TABLE IF NOT EXISTS warranty_claims (
   issue TEXT NOT NULL,
   attachment_url TEXT,
   status VARCHAR(50) NOT NULL DEFAULT 'new',
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE warranty_claims ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
  
 -- -----------------------------------------------------------------------------
 -- PART 2: CATALOG STRUCTURE (from Efforts_Engineers_Parts_Photo_Master_Sheet.xlsx)
@@ -219,6 +234,14 @@ CREATE INDEX IF NOT EXISTS idx_products_photo_status ON products (photo_status);
 CREATE OR REPLACE FUNCTION touch_updated_at() RETURNS trigger AS $$
 BEGIN NEW.updated_at = CURRENT_TIMESTAMP; RETURN NEW; END;
 $$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_inquiries_touch ON inquiries;
+CREATE TRIGGER trg_inquiries_touch BEFORE UPDATE ON inquiries
+FOR EACH ROW EXECUTE FUNCTION touch_updated_at();
+
+DROP TRIGGER IF EXISTS trg_warranty_claims_touch ON warranty_claims;
+CREATE TRIGGER trg_warranty_claims_touch BEFORE UPDATE ON warranty_claims
+FOR EACH ROW EXECUTE FUNCTION touch_updated_at();
  
 DROP TRIGGER IF EXISTS trg_products_touch ON products;
 CREATE TRIGGER trg_products_touch BEFORE UPDATE ON products

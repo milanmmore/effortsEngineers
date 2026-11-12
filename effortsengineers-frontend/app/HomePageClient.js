@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { QuoteContext } from "@/context/QuoteContext";
-import CONTACT_CONFIG from "@/config/contactConfig";
+import SITE_CONFIG from "@/config/site";
 import EnquiryForm from "@/components/EnquiryForm";
 import HowItWorks from "@/components/HowItWorks";
 import InterfaceIcon from "@/components/InterfaceIcon";
@@ -18,7 +18,7 @@ export default function HomePageClient({ brandRangesSection }) {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> Supplier Network • {CONTACT_CONFIG.yearsInBusinessText} • Export Coordination
+              <span>★</span> Supplier Network • Serving industry since 1986 • Export Coordination
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>
@@ -30,38 +30,28 @@ export default function HomePageClient({ brandRangesSection }) {
               <Link href="/products" className="btn btn-primary hero-btn">
                 Browse Stock Catalog →
               </Link>
-              <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber hero-btn">
+              <button type="button" onClick={() => setIsDrawerOpen(true)} className="btn btn-amber hero-btn">
                 📋 Open Quote Builder
               </button>
-              <Link href="/contact" className="btn btn-outline-white hero-btn">
-                Send Drawing or Part Ref →
-              </Link>
-              <a
-                href="/brochure.pdf"
-                download="Efforts-Engineers-Brochure.pdf"
-                className="btn btn-outline-white hero-btn"
-              >
-                Download Brochure ↓
-              </a>
             </div>
 
             {/* Stats Counter Strip */}
             <dl className="hero-stats-strip">
               <div className="hero-stat-item">
-                <dt>{CONTACT_CONFIG.yearsInBusinessShort}</dt>
-                <dd>Company History</dd>
+                <dt>{SITE_CONFIG.brands.length}</dt>
+                <dd>Compressor Brands Listed</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>Export</dt>
-                <dd>Coordination by Order</dd>
+                <dt>{SITE_CONFIG.exportDestinationCount}</dt>
+                <dd>Potential Export Destinations</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>By Order</dt>
-                <dd>Dispatch Estimate</dd>
+                <dt>Per Enquiry</dt>
+                <dd>Availability & Pricing Checked</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>Warranty</dt>
-                <dd>Terms Per Quotation</dd>
+                <dt>Order Terms</dt>
+                <dd>Warranty Coverage Stated</dd>
               </div>
             </dl>
           </div>
@@ -70,12 +60,10 @@ export default function HomePageClient({ brandRangesSection }) {
           <div className="hero-rfq-card">
             <div className="rfq-card-header">
               <span className="eyebrow" style={{ color: "var(--primary)" }}>Parts Enquiries</span>
-              <h3>Need a Compressor Spare?</h3>
+              <h2>Need a Compressor Spare?</h2>
               <p>Share the make, model, and part reference. We&apos;ll review your request and confirm availability, pricing, and dispatch estimates.</p>
             </div>
-            <Link href="#home-enquiry" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>
-              Send a Parts Enquiry →
-            </Link>
+            <p style={{ margin: 0, color: "var(--text-muted)", fontSize: "0.9rem" }}>Use the catalog or Quote Builder to start an enquiry.</p>
           </div>
         </div>
       </section>
@@ -97,7 +85,7 @@ export default function HomePageClient({ brandRangesSection }) {
         <div className="section-header">
           <h2 className="section-title"><b>Why Choose</b> Efforts Engineers?</h2>
           <p className="section-desc">
-            {CONTACT_CONFIG.yearsInBusinessText}. We source compressor spares and coordinate logistics for industrial plant requirements.
+            We source compressor spares and coordinate logistics for industrial plant requirements.
           </p>
           <div className="separator-line" />
         </div>
@@ -105,7 +93,7 @@ export default function HomePageClient({ brandRangesSection }) {
         <div className="why-choose-grid">
           <div className="why-card">
             <div className="why-icon-box">💰</div>
-            <h4>Competitive Quotations</h4>
+            <h3>Competitive Quotations</h3>
             <p>
               We source replacement spares through our supplier network and quote per requirement. Pricing depends on the part specification, availability and quantity.
             </p>
@@ -113,7 +101,7 @@ export default function HomePageClient({ brandRangesSection }) {
 
           <div className="why-card">
             <div className="why-icon-box"><InterfaceIcon name="bolt" size={24} /></div>
-            <h4>Availability & Dispatch Estimates</h4>
+            <h3>Availability & Dispatch Estimates</h3>
             <p>
               Ask us to confirm current availability and dispatch options. Delivery estimates depend on stock, order confirmation, carrier schedules, destination, and customs.
             </p>
@@ -121,7 +109,7 @@ export default function HomePageClient({ brandRangesSection }) {
 
           <div className="why-card">
             <div className="why-icon-box">🏭</div>
-            <h4>Sourcing Through Partners</h4>
+            <h3>Sourcing Through Partners</h3>
             <p>
               We coordinate with manufacturing partners for suitable CNC machining and inspection. Capabilities and inspection documentation are confirmed for each requirement.
             </p>
@@ -184,7 +172,7 @@ export default function HomePageClient({ brandRangesSection }) {
               <li>✓ <strong>Export Routes:</strong> Pune has road access to Mumbai air cargo and Nhava Sheva (JNPT) port. Shipping mode, customs clearance and transit time are confirmed per shipment and destination.</li>
             </ul>
             <Link href="/global-reach" className="btn btn-primary" style={{ padding: "14px 28px", fontSize: "1.02rem" }}>
-              Explore Our Global Export Network →
+              View Potential Export Destinations →
             </Link>
           </div>
           <div className="home-logistics-estimates" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: "16px", padding: "38px", backdropFilter: "blur(6px)", boxShadow: "0 20px 40px rgba(0,0,0,0.35)" }}>
@@ -210,20 +198,20 @@ export default function HomePageClient({ brandRangesSection }) {
         </div>
       </section>
 
-      {/* 7. CUSTOMER REFERENCES */}
+      {/* Sourcing and documentation information */}
       <section className="section-shell">
         <div className="section-header">
-          <span className="eyebrow">Customer Trust</span>
-          <h2 className="section-title"><b>Customer</b> References</h2>
+          <span className="eyebrow">Sourcing Information</span>
+          <h2 className="section-title"><b>Documentation &amp;</b> Business Details</h2>
           <p className="section-desc">
-            Customer names and logos are shared only with permission. Supplier certifications and product records vary by source and order; ask us what documentation is available for your requirement.
+            Product compatibility and availability are confirmed for each enquiry. Documentation depends on the product source and order.
           </p>
           <div className="separator-line" />
         </div>
         <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))" }}>
           <article className="why-card">
-            <h3>Serving industry since 1986</h3>
-            <p>{CONTACT_CONFIG.yearsInBusinessText}. Replacement parts are sourced and confirmed against each enquiry.</p>
+            <h3>Model and part verification</h3>
+            <p>Share the compressor nameplate and part reference so we can check the requirement before quotation.</p>
           </article>
           <article className="why-card">
             <h3>Supplier documentation</h3>

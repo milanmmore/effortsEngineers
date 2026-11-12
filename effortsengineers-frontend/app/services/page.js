@@ -1,12 +1,11 @@
 "use client";
-import React, { useContext } from "react";
-import { QuoteContext } from "@/context/QuoteContext";
+import React from "react";
 import CONTACT_CONFIG from "@/config/contactConfig";
 import EnquiryForm from "@/components/EnquiryForm";
 import InterfaceIcon from "@/components/InterfaceIcon";
+import Link from "next/link";
 
 export default function ServicesPage() {
-  const { setIsDrawerOpen } = useContext(QuoteContext);
 
   const consultancyServices = [
     {
@@ -80,6 +79,11 @@ export default function ServicesPage() {
       </div>
 
       {/* Consultancy Services Grid */}
+      <section aria-labelledby="coordinated-services-title">
+        <div className="section-header">
+          <h2 id="coordinated-services-title" className="section-title">Services Coordinated Through Specialist Partners</h2>
+          <p className="section-desc">Scope, availability, capability, and deliverables are confirmed for each requirement.</p>
+        </div>
       <div className="services-grid" style={{ marginBottom: "70px" }}>
         {consultancyServices.map((service, idx) => (
           <div key={idx} className="service-card" style={{ padding: "30px", borderTop: "4px solid var(--primary)" }}>
@@ -93,6 +97,7 @@ export default function ServicesPage() {
           </div>
         ))}
       </div>
+      </section>
 
       <section aria-labelledby="shop-locations-title" style={{ marginBottom: "60px" }}>
         <h2 id="shop-locations-title" style={{ fontSize: "1.35rem", marginBottom: "16px" }}>
@@ -113,7 +118,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <div style={{ marginBottom: "70px" }}>
+      <div id="service-enquiry" style={{ marginBottom: "70px", scrollMarginTop: "100px" }}>
         <EnquiryForm source="Services page" title="Enquire About Compressor Services" />
       </div>
 
@@ -147,13 +152,13 @@ export default function ServicesPage() {
                 <span className="badge badge-primary" style={{ marginBottom: "12px" }}>Enquiry example {example.id}</span>
                 <h3 style={{ fontSize: "1.5rem", marginBottom: "10px" }}>{example.title}</h3>
                 <div style={{ background: "var(--bg-page)", padding: "16px", borderRadius: "8px", borderLeft: "4px solid var(--accent-red)", marginBottom: "14px" }}>
-                  <h5 style={{ margin: "0 0 6px", color: "var(--navy)" }}>Example requirement:</h5>
+                  <h4 style={{ margin: "0 0 6px", color: "var(--navy)" }}>Example requirement:</h4>
                   <p style={{ margin: 0, fontSize: "0.88rem", color: "var(--text-muted)" }}>{example.requirement}</p>
                 </div>
               </div>
 
               <div style={{ background: "var(--bg-page)", padding: "16px", borderRadius: "8px", borderLeft: "4px solid var(--primary)", alignSelf: "start" }}>
-                <h5 style={{ margin: "0 0 6px", color: "var(--navy)" }}>Potential coordination:</h5>
+                <h4 style={{ margin: "0 0 6px", color: "var(--navy)" }}>Potential coordination:</h4>
                 <p style={{ margin: 0, fontSize: "0.88rem", color: "var(--text-muted)" }}>{example.coordination}</p>
               </div>
             </div>
@@ -168,9 +173,9 @@ export default function ServicesPage() {
           Share the compressor model, symptoms, and available part references through the enquiry form. Any assessment or specialist service is discussed and scoped before engagement.
         </p>
         <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
-          <button onClick={() => setIsDrawerOpen(true)} className="btn btn-amber">
+          <Link href="#service-enquiry" className="btn btn-amber">
             📋 Enquire About Service Coordination
-          </button>
+          </Link>
           <a href={`https://wa.me/${CONTACT_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" className="btn btn-outline-white">
             💬 WhatsApp Engineering Desk
           </a>

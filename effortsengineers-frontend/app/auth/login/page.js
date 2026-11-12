@@ -280,7 +280,7 @@ export default function LoginPage() {
               ✕
             </button>
 
-            <h3 style={{ fontSize: "1.35rem", marginBottom: "6px", color: "var(--navy)" }}>
+            <h2 style={{ fontSize: "1.35rem", marginBottom: "6px", color: "var(--navy)" }}>
               {forgotStep === 1 ? "Reset Your Password" : "Set New Password"}
             </h3>
             <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "18px" }}>

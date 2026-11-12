@@ -7,6 +7,27 @@ import { getServerBrandRanges } from "@/lib/serverBrandRanges";
 
 export const dynamic = "force-dynamic";
 
+export async function generateMetadata({ searchParams }) {
+  const params = await searchParams;
+  const requestedPage = Number(params?.page);
+  const page = Number.isSafeInteger(requestedPage) && requestedPage > 1 ? requestedPage : 1;
+  const hasFilters = Boolean(params?.brand || params?.category || params?.q);
+  const canonicalPath = page > 1 ? `/products?page=${page}` : "/products";
+  const title = page > 1
+    ? `Industrial Compressor Spare Parts Catalog – Page ${page} | Efforts Engineers`
+    : "Industrial Compressor Spare Parts Catalog | Efforts Engineers";
+  const description = "Browse replacement compressor spare parts by brand, model, series, and part number. Request a quote to confirm availability, pricing, and delivery.";
+  const canonical = new URL(canonicalPath, SITE_ORIGIN).toString();
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    ...(hasFilters && { robots: { index: false, follow: true } }),
+    openGraph: { type: "website", url: canonical, title, description, siteName: "Efforts Engineers" },
+  };
+}
+
 async function fetchJson(url) {
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) {

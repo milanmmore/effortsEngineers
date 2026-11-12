@@ -82,7 +82,7 @@ export default function ClientDashboard() {
       {/* Recent Quotations Table */}
       <div style={{ background: "white", borderRadius: "12px", border: "1px solid var(--line)", padding: "24px", marginBottom: "30px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-          <h3 style={{ margin: 0, fontSize: "1.2rem" }}>Recent Quotations</h3>
+          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>Recent Quotations</h2>
           <Link href="/client/quotation" style={{ color: "var(--primary)", fontSize: "0.85rem", fontWeight: 700 }}>
             View Quotations →
           </Link>
@@ -130,7 +130,7 @@ export default function ClientDashboard() {
       {/* Recent Orders Tracking */}
       <div style={{ background: "white", borderRadius: "12px", border: "1px solid var(--line)", padding: "24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-          <h3 style={{ margin: 0, fontSize: "1.2rem" }}>Recent Orders</h3>
+          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>Recent Orders</h2>
           <Link href="/client/orders" style={{ color: "var(--primary)", fontSize: "0.85rem", fontWeight: 700 }}>
             Track All Orders →
           </Link>

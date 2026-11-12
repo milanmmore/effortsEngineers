@@ -3,6 +3,7 @@ import db from "../config/db.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { sendEmailNotification } from "../utils/emailNotification.js";
+import { randomUUID } from "node:crypto";
 
 // In-memory fallback if table doesn't exist
 const memoryInquiries = [
@@ -84,7 +85,7 @@ export const createInquiry = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Attachment URL must reference an uploaded file.");
   }
 
-  const rfqId = `EE-RFQ-${Math.floor(1000 + Math.random() * 9000)}`;
+  const rfqId = `EE-RFQ-${randomUUID().toUpperCase()}`;
   const inquiryMessage = [
     message || "",
     attachment_url ? `Attached file: ${attachment_url}` : "",
@@ -117,8 +118,14 @@ export const createInquiry = asyncHandler(async (req, res) => {
     );
     console.log(`[DB] Successfully inserted inquiry ${rfqId} into database table inquiries`);
   } catch (err) {
-    console.error(`[DB ERROR] Failed to insert inquiry ${rfqId}:`, err.message);
-    // Graceful fallback to memory store if table not yet created in PostgreSQL
+    if (err.code !== "42P01" || process.env.NODE_ENV === "production") {
+      console.error(`[DB ERROR] Failed to persist inquiry ${rfqId}:`, {
+        code: err.code,
+        message: err.message,
+      });
+      throw new ApiError(503, "Your inquiry could not be saved. Please try again later.");
+    }
+    console.warn("Inquiries table is missing; storing this submission in the development memory fallback.");
     memoryInquiries.unshift(inquiryRecord);
   }
 
@@ -156,11 +163,16 @@ export const createInquiry = asyncHandler(async (req, res) => {
 export const listInquiries = asyncHandler(async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM inquiries ORDER BY created_at DESC");
-    if (result.rows && result.rows.length > 0) {
-      return res.json(result.rows);
-    }
+    return res.json(result.rows || []);
   } catch (err) {
-    // table not created, return memory fallback
+    if (err.code !== "42P01" || process.env.NODE_ENV === "production") {
+      console.error("Failed to load inquiries from the database:", {
+        code: err.code,
+        message: err.message,
+      });
+      throw new ApiError(503, "Inquiry records are temporarily unavailable.");
+    }
+    console.warn("Inquiries table is missing; returning development memory fallback records.");
   }
   res.json(memoryInquiries);
 });

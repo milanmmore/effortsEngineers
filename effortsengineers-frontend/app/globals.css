@@ -685,7 +685,7 @@ h1, h2, h3, h4, h5, h6 {
 .rfq-card-header {
   margin-bottom: 8px;
 }
-.rfq-card-header h3 {
+.rfq-card-header h2 {
   font-size: 1.15rem;
   margin-bottom: 2px;
 }
@@ -757,7 +757,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.6rem;
   margin-bottom: 22px;
 }
-.why-card h4 {
+.why-card h3 {
   font-size: 1.28rem;
   margin-bottom: 12px;
 }
@@ -1948,6 +1948,12 @@ h1, h2, h3, h4, h5, h6 {
   gap: 16px;
   font-size: 0.95rem;
   color: #94a3b8;
+}
+.footer-trademark-disclaimer {
+  max-width: 760px;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 .footer-social-links {
   display: flex;

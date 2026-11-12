@@ -1,5 +1,15 @@
 const BRANDS_WITHOUT_CATALOG_ITEMS = ["Bitzer", "Bock", "Daikin"];
 
+const cleanRangeValue = (value) =>
+  value
+    .replace(/\s*\([^)]*\bto add\b[^)]*\)/gi, "")
+    .split(",")
+    .map((part) => part.trim())
+    .filter((part) => part && !/\bto add\b/i.test(part))
+    .join(", ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
 export function buildBrandRanges(catalogRanges) {
   const brands = new Map();
 
@@ -13,9 +23,9 @@ export function buildBrandRanges(catalogRanges) {
     }
 
     const ranges = brands.get(key).ranges;
-    const series = typeof catalogRange.series === "string" ? catalogRange.series.trim() : "";
+    const series = typeof catalogRange.series === "string" ? cleanRangeValue(catalogRange.series) : "";
     const compatibleModels = typeof catalogRange.compatible_models === "string"
-      ? catalogRange.compatible_models.trim()
+      ? cleanRangeValue(catalogRange.compatible_models)
       : "";
 
     if (series) ranges.add(`Series: ${series}`);
@@ -34,7 +44,7 @@ export function buildBrandRanges(catalogRanges) {
       brands.set(key, {
         brand,
         ranges: new Set([
-          "Share the compressor model and part reference so we can confirm the applicable range.",
+          "No model range is currently listed in the catalog. Contact us with the compressor nameplate and part reference to check sourcing options.",
         ]),
       });
     }

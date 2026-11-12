@@ -2,6 +2,7 @@
 import express from "express";
 import rateLimit from "express-rate-limit";
 import { createInquiry, listInquiries } from "../controllers/inquiries.controller.js";
+import { requireAuth, requireRole } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -15,6 +16,6 @@ const inquiryRateLimit = rateLimit({
 });
 
 router.post("/", inquiryRateLimit, createInquiry);
-router.get("/", listInquiries);
+router.get("/", requireAuth, requireRole("admin"), listInquiries);
 
 export default router;

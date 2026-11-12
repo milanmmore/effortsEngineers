@@ -11,13 +11,15 @@ import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
+router.use(requireAuth, requireRole("admin"));
+
 router.get("/", listInventory);
 router.get("/:id", getInventoryItem);
-router.post("/", requireAuth, requireRole("admin"), createInventoryItem);
-router.put("/:id", requireAuth, requireRole("admin"), updateInventoryItem);
-router.delete("/:id", requireAuth, requireRole("admin"), deleteInventoryItem);
+router.post("/", createInventoryItem);
+router.put("/:id", updateInventoryItem);
+router.delete("/:id", deleteInventoryItem);
 
 // Custom route for updating stock
-router.patch("/stock", requireAuth, requireRole("admin"), updateStock);
+router.patch("/stock", updateStock);
 
 export default router;

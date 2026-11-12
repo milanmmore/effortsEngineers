@@ -256,6 +256,8 @@ function ProductsContent({
         </span>
       </div>
 
+      <h2 className="section-title" style={{ fontSize: "1.4rem", marginBottom: "18px" }}>Compressor Spare Parts</h2>
+
       {!isLoading && !loadError && selectedBrand === "All" && unavailableBrands.length > 0 && (
         <section aria-labelledby="enquire-about-make-title" style={{ marginBottom: "28px" }}>
           <h2 id="enquire-about-make-title" style={{ fontSize: "1.25rem" }}>Enquire About Other Makes</h2>
@@ -310,7 +312,7 @@ function ProductsContent({
                   label={item.category || getProductDisplayName(item)}
                 />
                 <span className={`badge badge-${item.stock_type} stock-floating-pill`}>
-                  {item.stock_status}
+                  Listed: {item.stock_status}
                 </span>
                 {item.brand && <span className="brand-floating-tag">{item.brand}</span>}
               </div>
@@ -337,9 +339,6 @@ function ProductsContent({
                   </dl>
                 )}
                 <div className="product-card-bottom">
-                  <Link href={`/products/${item.id}`} className="btn btn-outline" style={{ padding: "8px 12px", fontSize: "0.85rem" }}>
-                    Details
-                  </Link>
                   <button
                     onClick={() => addItem(item)}
                     className="btn btn-primary"
