@@ -6,7 +6,11 @@ import ApiError from "../utils/ApiError.js";
 // GET /api/inventory
 export const listInventory = asyncHandler(async (req, res) => {
   const result = await db.query(
-    "SELECT id, product_id, quantity, updated_at FROM inventory ORDER BY updated_at DESC"
+    `SELECT i.id, i.product_id, i.quantity, i.updated_at,
+            p.name, p.brand, p.part_number
+     FROM inventory i
+     LEFT JOIN products p ON p.id = i.product_id
+     ORDER BY i.updated_at DESC`
   );
   res.json(result.rows);
 });

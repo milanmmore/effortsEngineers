@@ -367,7 +367,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Cylinder Liner', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Cylinder Liner', NULL, E'GRA-VHP-CLN-01', E'GRA-VHP-CLN-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Cylinder Liner spare part - Efforts Engineers', E'/grasso/v-hp-xhp/cylinder-liner', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Cylinder Liner', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Cylinder Liner', NULL, E'GRA-VHP-CLN-01', E'GRA-VHP-CLN-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Cylinder Liner spare part - Efforts Engineers', E'/grasso/v-hp-xhp/cylinder-liner', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -387,7 +387,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Piston Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Piston Assembly', NULL, E'GRA-VHP-PST-01', E'GRA-VHP-PST-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Piston Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/piston-assembly', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Piston Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Piston Assembly', NULL, E'GRA-VHP-PST-01', E'GRA-VHP-PST-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Piston Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/piston-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -407,7 +407,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Piston Ring Set', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Piston Ring Set', NULL, E'GRA-VHP-PRG-01', E'GRA-VHP-PRG-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Piston Ring Set spare part - Efforts Engineers', E'/grasso/v-hp-xhp/piston-ring-set', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Piston Ring Set', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Piston Ring Set', NULL, E'GRA-VHP-PRG-01', E'GRA-VHP-PRG-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Piston Ring Set spare part - Efforts Engineers', E'/grasso/v-hp-xhp/piston-ring-set', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -427,7 +427,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Connecting Rod', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Connecting Rod', NULL, E'GRA-VHP-CRD-01', E'GRA-VHP-CRD-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Connecting Rod spare part - Efforts Engineers', E'/grasso/v-hp-xhp/connecting-rod', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Connecting Rod', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Connecting Rod', NULL, E'GRA-VHP-CRD-01', E'GRA-VHP-CRD-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Connecting Rod spare part - Efforts Engineers', E'/grasso/v-hp-xhp/connecting-rod', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -447,7 +447,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Crankshaft', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Crankshaft', NULL, E'GRA-VHP-CRK-01', E'GRA-VHP-CRK-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Crankshaft spare part - Efforts Engineers', E'/grasso/v-hp-xhp/crankshaft', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Crankshaft', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Crankshaft', NULL, E'GRA-VHP-CRK-01', E'GRA-VHP-CRK-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Crankshaft spare part - Efforts Engineers', E'/grasso/v-hp-xhp/crankshaft', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -467,7 +467,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Gudgeon Pin and Bush', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Gudgeon Pin and Bush', NULL, E'GRA-VHP-PIN-01', E'GRA-VHP-PIN-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/grasso/v-hp-xhp/gudgeon-pin-and-bush', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Gudgeon Pin and Bush', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Gudgeon Pin and Bush', NULL, E'GRA-VHP-PIN-01', E'GRA-VHP-PIN-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/grasso/v-hp-xhp/gudgeon-pin-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -487,7 +487,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Main Bearing and Bush', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Main Bearing and Bush', NULL, E'GRA-VHP-BRG-01', E'GRA-VHP-BRG-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Main Bearing and Bush spare part - Efforts Engineers', E'/grasso/v-hp-xhp/main-bearing-and-bush', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Main Bearing and Bush', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Main Bearing and Bush', NULL, E'GRA-VHP-BRG-01', E'GRA-VHP-BRG-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Main Bearing and Bush spare part - Efforts Engineers', E'/grasso/v-hp-xhp/main-bearing-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -507,7 +507,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Suction Valve Plate', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Suction Valve Plate', NULL, E'GRA-VHP-SVP-01', E'GRA-VHP-SVP-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Suction Valve Plate spare part - Efforts Engineers', E'/grasso/v-hp-xhp/suction-valve-plate', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Suction Valve Plate', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Suction Valve Plate', NULL, E'GRA-VHP-SVP-01', E'GRA-VHP-SVP-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Suction Valve Plate spare part - Efforts Engineers', E'/grasso/v-hp-xhp/suction-valve-plate', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -527,7 +527,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Discharge Valve Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Discharge Valve Assembly', NULL, E'GRA-VHP-DVA-01', E'GRA-VHP-DVA-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Discharge Valve Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/discharge-valve-assembly', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Discharge Valve Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Discharge Valve Assembly', NULL, E'GRA-VHP-DVA-01', E'GRA-VHP-DVA-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Discharge Valve Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/discharge-valve-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -547,7 +547,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Valve Spring and Cage', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Valve Spring and Cage', NULL, E'GRA-VHP-VSP-01', E'GRA-VHP-VSP-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Valve Spring and Cage spare part - Efforts Engineers', E'/grasso/v-hp-xhp/valve-spring-and-cage', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Valve Spring and Cage', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Valve Spring and Cage', NULL, E'GRA-VHP-VSP-01', E'GRA-VHP-VSP-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Valve Spring and Cage spare part - Efforts Engineers', E'/grasso/v-hp-xhp/valve-spring-and-cage', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -567,7 +567,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Cylinder Head Cover', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Cylinder Head Cover', NULL, E'GRA-VHP-HDC-01', E'GRA-VHP-HDC-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Cylinder Head Cover spare part - Efforts Engineers', E'/grasso/v-hp-xhp/cylinder-head-cover', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Cylinder Head Cover', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Cylinder Head Cover', NULL, E'GRA-VHP-HDC-01', E'GRA-VHP-HDC-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Cylinder Head Cover spare part - Efforts Engineers', E'/grasso/v-hp-xhp/cylinder-head-cover', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -587,7 +587,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Gasket and Overhaul Kit', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Gasket and Overhaul Kit', NULL, E'GRA-VHP-GSK-01', E'GRA-VHP-GSK-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/grasso/v-hp-xhp/gasket-and-overhaul-kit', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Gasket and Overhaul Kit', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Gasket and Overhaul Kit', NULL, E'GRA-VHP-GSK-01', E'GRA-VHP-GSK-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/grasso/v-hp-xhp/gasket-and-overhaul-kit', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -607,7 +607,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Oil Pump Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Oil Pump Assembly', NULL, E'GRA-VHP-OPA-01', E'GRA-VHP-OPA-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Oil Pump Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/oil-pump-assembly', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Oil Pump Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Oil Pump Assembly', NULL, E'GRA-VHP-OPA-01', E'GRA-VHP-OPA-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Oil Pump Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/oil-pump-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -627,7 +627,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Shaft Seal', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Shaft Seal', NULL, E'GRA-VHP-SHS-01', E'GRA-VHP-SHS-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Shaft Seal spare part - Efforts Engineers', E'/grasso/v-hp-xhp/shaft-seal', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Shaft Seal', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Shaft Seal', NULL, E'GRA-VHP-SHS-01', E'GRA-VHP-SHS-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Shaft Seal spare part - Efforts Engineers', E'/grasso/v-hp-xhp/shaft-seal', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -647,7 +647,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Oil Filter and Strainer', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Oil Filter and Strainer', NULL, E'GRA-VHP-FLT-01', E'GRA-VHP-FLT-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Oil Filter and Strainer spare part - Efforts Engineers', E'/grasso/v-hp-xhp/oil-filter-and-strainer', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Oil Filter and Strainer', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Oil Filter and Strainer', NULL, E'GRA-VHP-FLT-01', E'GRA-VHP-FLT-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Oil Filter and Strainer spare part - Efforts Engineers', E'/grasso/v-hp-xhp/oil-filter-and-strainer', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -667,7 +667,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Unloader and Capacity Control', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Unloader and Capacity Control', NULL, E'GRA-VHP-ULD-01', E'GRA-VHP-ULD-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Unloader and Capacity Control spare part - Efforts Engineers', E'/grasso/v-hp-xhp/unloader-and-capacity-control', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Unloader and Capacity Control', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Unloader and Capacity Control', NULL, E'GRA-VHP-ULD-01', E'GRA-VHP-ULD-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Unloader and Capacity Control spare part - Efforts Engineers', E'/grasso/v-hp-xhp/unloader-and-capacity-control', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -687,7 +687,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Safety Head and Relief Valve', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Safety Head and Relief Valve', NULL, E'GRA-VHP-SAF-01', E'GRA-VHP-SAF-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/grasso/v-hp-xhp/safety-head-and-relief-valve', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Safety Head and Relief Valve', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Safety Head and Relief Valve', NULL, E'GRA-VHP-SAF-01', E'GRA-VHP-SAF-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/grasso/v-hp-xhp/safety-head-and-relief-valve', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3087,7 +3087,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Cylinder Liner', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Cylinder Liner', NULL, E'SAB-HPO-CLN-01', E'SAB-HPO-CLN-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Cylinder Liner spare part - Efforts Engineers', E'/sabroe/hpo-hpc/cylinder-liner', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Cylinder Liner', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Cylinder Liner', NULL, E'SAB-HPO-CLN-01', E'SAB-HPO-CLN-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Cylinder Liner spare part - Efforts Engineers', E'/sabroe/hpo-hpc/cylinder-liner', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3107,7 +3107,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Piston Assembly', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Piston Assembly', NULL, E'SAB-HPO-PST-01', E'SAB-HPO-PST-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Piston Assembly spare part - Efforts Engineers', E'/sabroe/hpo-hpc/piston-assembly', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Piston Assembly', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Piston Assembly', NULL, E'SAB-HPO-PST-01', E'SAB-HPO-PST-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Piston Assembly spare part - Efforts Engineers', E'/sabroe/hpo-hpc/piston-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3127,7 +3127,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Piston Ring Set', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Piston Ring Set', NULL, E'SAB-HPO-PRG-01', E'SAB-HPO-PRG-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Piston Ring Set spare part - Efforts Engineers', E'/sabroe/hpo-hpc/piston-ring-set', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Piston Ring Set', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Piston Ring Set', NULL, E'SAB-HPO-PRG-01', E'SAB-HPO-PRG-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Piston Ring Set spare part - Efforts Engineers', E'/sabroe/hpo-hpc/piston-ring-set', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3147,7 +3147,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Connecting Rod', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Connecting Rod', NULL, E'SAB-HPO-CRD-01', E'SAB-HPO-CRD-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Connecting Rod spare part - Efforts Engineers', E'/sabroe/hpo-hpc/connecting-rod', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Connecting Rod', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Connecting Rod', NULL, E'SAB-HPO-CRD-01', E'SAB-HPO-CRD-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Connecting Rod spare part - Efforts Engineers', E'/sabroe/hpo-hpc/connecting-rod', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3167,7 +3167,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Crankshaft', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Crankshaft', NULL, E'SAB-HPO-CRK-01', E'SAB-HPO-CRK-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Crankshaft spare part - Efforts Engineers', E'/sabroe/hpo-hpc/crankshaft', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Crankshaft', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Crankshaft', NULL, E'SAB-HPO-CRK-01', E'SAB-HPO-CRK-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Crankshaft spare part - Efforts Engineers', E'/sabroe/hpo-hpc/crankshaft', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3187,7 +3187,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Gudgeon Pin and Bush', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Gudgeon Pin and Bush', NULL, E'SAB-HPO-PIN-01', E'SAB-HPO-PIN-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/sabroe/hpo-hpc/gudgeon-pin-and-bush', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Gudgeon Pin and Bush', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Gudgeon Pin and Bush', NULL, E'SAB-HPO-PIN-01', E'SAB-HPO-PIN-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/sabroe/hpo-hpc/gudgeon-pin-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3207,7 +3207,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Main Bearing and Bush', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Main Bearing and Bush', NULL, E'SAB-HPO-BRG-01', E'SAB-HPO-BRG-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Main Bearing and Bush spare part - Efforts Engineers', E'/sabroe/hpo-hpc/main-bearing-and-bush', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Main Bearing and Bush', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Main Bearing and Bush', NULL, E'SAB-HPO-BRG-01', E'SAB-HPO-BRG-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Main Bearing and Bush spare part - Efforts Engineers', E'/sabroe/hpo-hpc/main-bearing-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3227,7 +3227,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Suction Valve Plate', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Suction Valve Plate', NULL, E'SAB-HPO-SVP-01', E'SAB-HPO-SVP-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Suction Valve Plate spare part - Efforts Engineers', E'/sabroe/hpo-hpc/suction-valve-plate', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Suction Valve Plate', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Suction Valve Plate', NULL, E'SAB-HPO-SVP-01', E'SAB-HPO-SVP-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Suction Valve Plate spare part - Efforts Engineers', E'/sabroe/hpo-hpc/suction-valve-plate', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3247,7 +3247,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Discharge Valve Assembly', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Discharge Valve Assembly', NULL, E'SAB-HPO-DVA-01', E'SAB-HPO-DVA-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Discharge Valve Assembly spare part - Efforts Engineers', E'/sabroe/hpo-hpc/discharge-valve-assembly', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Discharge Valve Assembly', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Discharge Valve Assembly', NULL, E'SAB-HPO-DVA-01', E'SAB-HPO-DVA-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Discharge Valve Assembly spare part - Efforts Engineers', E'/sabroe/hpo-hpc/discharge-valve-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3267,7 +3267,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Valve Spring and Cage', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Valve Spring and Cage', NULL, E'SAB-HPO-VSP-01', E'SAB-HPO-VSP-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Valve Spring and Cage spare part - Efforts Engineers', E'/sabroe/hpo-hpc/valve-spring-and-cage', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Valve Spring and Cage', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Valve Spring and Cage', NULL, E'SAB-HPO-VSP-01', E'SAB-HPO-VSP-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Valve Spring and Cage spare part - Efforts Engineers', E'/sabroe/hpo-hpc/valve-spring-and-cage', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3287,7 +3287,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Cylinder Head Cover', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Cylinder Head Cover', NULL, E'SAB-HPO-HDC-01', E'SAB-HPO-HDC-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Cylinder Head Cover spare part - Efforts Engineers', E'/sabroe/hpo-hpc/cylinder-head-cover', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Cylinder Head Cover', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Cylinder Head Cover', NULL, E'SAB-HPO-HDC-01', E'SAB-HPO-HDC-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Cylinder Head Cover spare part - Efforts Engineers', E'/sabroe/hpo-hpc/cylinder-head-cover', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3307,7 +3307,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Gasket and Overhaul Kit', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Gasket and Overhaul Kit', NULL, E'SAB-HPO-GSK-01', E'SAB-HPO-GSK-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/sabroe/hpo-hpc/gasket-and-overhaul-kit', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Gasket and Overhaul Kit', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Gasket and Overhaul Kit', NULL, E'SAB-HPO-GSK-01', E'SAB-HPO-GSK-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/sabroe/hpo-hpc/gasket-and-overhaul-kit', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3327,7 +3327,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Oil Pump Assembly', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Oil Pump Assembly', NULL, E'SAB-HPO-OPA-01', E'SAB-HPO-OPA-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Oil Pump Assembly spare part - Efforts Engineers', E'/sabroe/hpo-hpc/oil-pump-assembly', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Oil Pump Assembly', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Oil Pump Assembly', NULL, E'SAB-HPO-OPA-01', E'SAB-HPO-OPA-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Oil Pump Assembly spare part - Efforts Engineers', E'/sabroe/hpo-hpc/oil-pump-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3347,7 +3347,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Shaft Seal', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Shaft Seal', NULL, E'SAB-HPO-SHS-01', E'SAB-HPO-SHS-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Shaft Seal spare part - Efforts Engineers', E'/sabroe/hpo-hpc/shaft-seal', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Shaft Seal', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Shaft Seal', NULL, E'SAB-HPO-SHS-01', E'SAB-HPO-SHS-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Shaft Seal spare part - Efforts Engineers', E'/sabroe/hpo-hpc/shaft-seal', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3367,7 +3367,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Oil Filter and Strainer', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Oil Filter and Strainer', NULL, E'SAB-HPO-FLT-01', E'SAB-HPO-FLT-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Oil Filter and Strainer spare part - Efforts Engineers', E'/sabroe/hpo-hpc/oil-filter-and-strainer', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Oil Filter and Strainer', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Oil Filter and Strainer', NULL, E'SAB-HPO-FLT-01', E'SAB-HPO-FLT-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Oil Filter and Strainer spare part - Efforts Engineers', E'/sabroe/hpo-hpc/oil-filter-and-strainer', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3387,7 +3387,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Unloader and Capacity Control', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Unloader and Capacity Control', NULL, E'SAB-HPO-ULD-01', E'SAB-HPO-ULD-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Unloader and Capacity Control spare part - Efforts Engineers', E'/sabroe/hpo-hpc/unloader-and-capacity-control', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Unloader and Capacity Control', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Unloader and Capacity Control', NULL, E'SAB-HPO-ULD-01', E'SAB-HPO-ULD-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Unloader and Capacity Control spare part - Efforts Engineers', E'/sabroe/hpo-hpc/unloader-and-capacity-control', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -3407,7 +3407,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Sabroe - Sabroe HPO and HPC Series - Safety Head and Relief Valve', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Safety Head and Relief Valve', NULL, E'SAB-HPO-SAF-01', E'SAB-HPO-SAF-01.jpg', E'HPO 24, HPO / HPC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/sabroe/hpo-hpc/safety-head-and-relief-valve', NULL)
+VALUES (E'Sabroe - Sabroe HPO and HPC Series - Safety Head and Relief Valve', NULL, E'Sabroe', E'Sabroe HPO and HPC Series', E'Safety Head and Relief Valve', NULL, E'SAB-HPO-SAF-01', E'SAB-HPO-SAF-01.jpg', E'HPO 24, HPO / HPC', NULL, E'To Shoot', NULL, NULL, NULL, E'Sabroe HPO and HPC Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/sabroe/hpo-hpc/safety-head-and-relief-valve', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4447,7 +4447,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Cylinder Liner', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Cylinder Liner', NULL, E'KIR-PC-CLN-01', E'KIR-PC-CLN-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Cylinder Liner spare part - Efforts Engineers', E'/kirloskar/pc/cylinder-liner', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Cylinder Liner', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Cylinder Liner', NULL, E'KIR-PC-CLN-01', E'KIR-PC-CLN-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Cylinder Liner spare part - Efforts Engineers', E'/kirloskar/pc/cylinder-liner', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4467,7 +4467,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Piston Assembly', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Piston Assembly', NULL, E'KIR-PC-PST-01', E'KIR-PC-PST-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Piston Assembly spare part - Efforts Engineers', E'/kirloskar/pc/piston-assembly', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Piston Assembly', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Piston Assembly', NULL, E'KIR-PC-PST-01', E'KIR-PC-PST-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Piston Assembly spare part - Efforts Engineers', E'/kirloskar/pc/piston-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4487,7 +4487,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Piston Ring Set', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Piston Ring Set', NULL, E'KIR-PC-PRG-01', E'KIR-PC-PRG-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Piston Ring Set spare part - Efforts Engineers', E'/kirloskar/pc/piston-ring-set', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Piston Ring Set', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Piston Ring Set', NULL, E'KIR-PC-PRG-01', E'KIR-PC-PRG-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Piston Ring Set spare part - Efforts Engineers', E'/kirloskar/pc/piston-ring-set', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4507,7 +4507,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Connecting Rod', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Connecting Rod', NULL, E'KIR-PC-CRD-01', E'KIR-PC-CRD-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Connecting Rod spare part - Efforts Engineers', E'/kirloskar/pc/connecting-rod', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Connecting Rod', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Connecting Rod', NULL, E'KIR-PC-CRD-01', E'KIR-PC-CRD-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Connecting Rod spare part - Efforts Engineers', E'/kirloskar/pc/connecting-rod', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4527,7 +4527,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Crankshaft', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Crankshaft', NULL, E'KIR-PC-CRK-01', E'KIR-PC-CRK-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Crankshaft spare part - Efforts Engineers', E'/kirloskar/pc/crankshaft', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Crankshaft', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Crankshaft', NULL, E'KIR-PC-CRK-01', E'KIR-PC-CRK-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Crankshaft spare part - Efforts Engineers', E'/kirloskar/pc/crankshaft', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4547,7 +4547,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Gudgeon Pin and Bush', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Gudgeon Pin and Bush', NULL, E'KIR-PC-PIN-01', E'KIR-PC-PIN-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/kirloskar/pc/gudgeon-pin-and-bush', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Gudgeon Pin and Bush', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Gudgeon Pin and Bush', NULL, E'KIR-PC-PIN-01', E'KIR-PC-PIN-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/kirloskar/pc/gudgeon-pin-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4567,7 +4567,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Main Bearing and Bush', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Main Bearing and Bush', NULL, E'KIR-PC-BRG-01', E'KIR-PC-BRG-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Main Bearing and Bush spare part - Efforts Engineers', E'/kirloskar/pc/main-bearing-and-bush', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Main Bearing and Bush', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Main Bearing and Bush', NULL, E'KIR-PC-BRG-01', E'KIR-PC-BRG-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Main Bearing and Bush spare part - Efforts Engineers', E'/kirloskar/pc/main-bearing-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4587,7 +4587,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Suction Valve Plate', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Suction Valve Plate', NULL, E'KIR-PC-SVP-01', E'KIR-PC-SVP-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Suction Valve Plate spare part - Efforts Engineers', E'/kirloskar/pc/suction-valve-plate', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Suction Valve Plate', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Suction Valve Plate', NULL, E'KIR-PC-SVP-01', E'KIR-PC-SVP-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Suction Valve Plate spare part - Efforts Engineers', E'/kirloskar/pc/suction-valve-plate', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4607,7 +4607,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Discharge Valve Assembly', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Discharge Valve Assembly', NULL, E'KIR-PC-DVA-01', E'KIR-PC-DVA-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Discharge Valve Assembly spare part - Efforts Engineers', E'/kirloskar/pc/discharge-valve-assembly', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Discharge Valve Assembly', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Discharge Valve Assembly', NULL, E'KIR-PC-DVA-01', E'KIR-PC-DVA-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Discharge Valve Assembly spare part - Efforts Engineers', E'/kirloskar/pc/discharge-valve-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4627,7 +4627,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Valve Spring and Cage', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Valve Spring and Cage', NULL, E'KIR-PC-VSP-01', E'KIR-PC-VSP-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Valve Spring and Cage spare part - Efforts Engineers', E'/kirloskar/pc/valve-spring-and-cage', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Valve Spring and Cage', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Valve Spring and Cage', NULL, E'KIR-PC-VSP-01', E'KIR-PC-VSP-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Valve Spring and Cage spare part - Efforts Engineers', E'/kirloskar/pc/valve-spring-and-cage', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4647,7 +4647,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Cylinder Head Cover', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Cylinder Head Cover', NULL, E'KIR-PC-HDC-01', E'KIR-PC-HDC-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Cylinder Head Cover spare part - Efforts Engineers', E'/kirloskar/pc/cylinder-head-cover', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Cylinder Head Cover', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Cylinder Head Cover', NULL, E'KIR-PC-HDC-01', E'KIR-PC-HDC-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Cylinder Head Cover spare part - Efforts Engineers', E'/kirloskar/pc/cylinder-head-cover', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4667,7 +4667,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Gasket and Overhaul Kit', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Gasket and Overhaul Kit', NULL, E'KIR-PC-GSK-01', E'KIR-PC-GSK-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/kirloskar/pc/gasket-and-overhaul-kit', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Gasket and Overhaul Kit', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Gasket and Overhaul Kit', NULL, E'KIR-PC-GSK-01', E'KIR-PC-GSK-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/kirloskar/pc/gasket-and-overhaul-kit', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4687,7 +4687,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Oil Pump Assembly', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Oil Pump Assembly', NULL, E'KIR-PC-OPA-01', E'KIR-PC-OPA-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Oil Pump Assembly spare part - Efforts Engineers', E'/kirloskar/pc/oil-pump-assembly', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Oil Pump Assembly', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Oil Pump Assembly', NULL, E'KIR-PC-OPA-01', E'KIR-PC-OPA-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Oil Pump Assembly spare part - Efforts Engineers', E'/kirloskar/pc/oil-pump-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4707,7 +4707,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Shaft Seal', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Shaft Seal', NULL, E'KIR-PC-SHS-01', E'KIR-PC-SHS-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Shaft Seal spare part - Efforts Engineers', E'/kirloskar/pc/shaft-seal', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Shaft Seal', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Shaft Seal', NULL, E'KIR-PC-SHS-01', E'KIR-PC-SHS-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Shaft Seal spare part - Efforts Engineers', E'/kirloskar/pc/shaft-seal', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4727,7 +4727,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Oil Filter and Strainer', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Oil Filter and Strainer', NULL, E'KIR-PC-FLT-01', E'KIR-PC-FLT-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Oil Filter and Strainer spare part - Efforts Engineers', E'/kirloskar/pc/oil-filter-and-strainer', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Oil Filter and Strainer', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Oil Filter and Strainer', NULL, E'KIR-PC-FLT-01', E'KIR-PC-FLT-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Oil Filter and Strainer spare part - Efforts Engineers', E'/kirloskar/pc/oil-filter-and-strainer', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4747,7 +4747,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Unloader and Capacity Control', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Unloader and Capacity Control', NULL, E'KIR-PC-ULD-01', E'KIR-PC-ULD-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Unloader and Capacity Control spare part - Efforts Engineers', E'/kirloskar/pc/unloader-and-capacity-control', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Unloader and Capacity Control', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Unloader and Capacity Control', NULL, E'KIR-PC-ULD-01', E'KIR-PC-ULD-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Unloader and Capacity Control spare part - Efforts Engineers', E'/kirloskar/pc/unloader-and-capacity-control', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -4767,7 +4767,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Kirloskar - Kirloskar PC Series - Safety Head and Relief Valve', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Safety Head and Relief Valve', NULL, E'KIR-PC-SAF-01', E'KIR-PC-SAF-01.jpg', E'PC 2, PC (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/kirloskar/pc/safety-head-and-relief-valve', NULL)
+VALUES (E'Kirloskar - Kirloskar PC Series - Safety Head and Relief Valve', NULL, E'Kirloskar', E'Kirloskar PC Series', E'Safety Head and Relief Valve', NULL, E'KIR-PC-SAF-01', E'KIR-PC-SAF-01.jpg', E'PC 2, PC', NULL, E'To Shoot', NULL, NULL, NULL, E'Kirloskar PC Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/kirloskar/pc/safety-head-and-relief-valve', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8187,7 +8187,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Cylinder Liner', NULL, E'Mycom', E'Mycom J Series', E'Cylinder Liner', NULL, E'MYC-J-CLN-01', E'MYC-J-CLN-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Cylinder Liner spare part - Efforts Engineers', E'/mycom/j-series/cylinder-liner', NULL)
+VALUES (E'Mycom - Mycom J Series - Cylinder Liner', NULL, E'Mycom', E'Mycom J Series', E'Cylinder Liner', NULL, E'MYC-J-CLN-01', E'MYC-J-CLN-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Cylinder Liner spare part - Efforts Engineers', E'/mycom/j-series/cylinder-liner', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8207,7 +8207,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Piston Assembly', NULL, E'Mycom', E'Mycom J Series', E'Piston Assembly', NULL, E'MYC-J-PST-01', E'MYC-J-PST-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Piston Assembly spare part - Efforts Engineers', E'/mycom/j-series/piston-assembly', NULL)
+VALUES (E'Mycom - Mycom J Series - Piston Assembly', NULL, E'Mycom', E'Mycom J Series', E'Piston Assembly', NULL, E'MYC-J-PST-01', E'MYC-J-PST-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Piston Assembly spare part - Efforts Engineers', E'/mycom/j-series/piston-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8227,7 +8227,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Piston Ring Set', NULL, E'Mycom', E'Mycom J Series', E'Piston Ring Set', NULL, E'MYC-J-PRG-01', E'MYC-J-PRG-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Piston Ring Set spare part - Efforts Engineers', E'/mycom/j-series/piston-ring-set', NULL)
+VALUES (E'Mycom - Mycom J Series - Piston Ring Set', NULL, E'Mycom', E'Mycom J Series', E'Piston Ring Set', NULL, E'MYC-J-PRG-01', E'MYC-J-PRG-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Piston Ring Set spare part - Efforts Engineers', E'/mycom/j-series/piston-ring-set', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8247,7 +8247,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Connecting Rod', NULL, E'Mycom', E'Mycom J Series', E'Connecting Rod', NULL, E'MYC-J-CRD-01', E'MYC-J-CRD-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Connecting Rod spare part - Efforts Engineers', E'/mycom/j-series/connecting-rod', NULL)
+VALUES (E'Mycom - Mycom J Series - Connecting Rod', NULL, E'Mycom', E'Mycom J Series', E'Connecting Rod', NULL, E'MYC-J-CRD-01', E'MYC-J-CRD-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Connecting Rod spare part - Efforts Engineers', E'/mycom/j-series/connecting-rod', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8267,7 +8267,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Crankshaft', NULL, E'Mycom', E'Mycom J Series', E'Crankshaft', NULL, E'MYC-J-CRK-01', E'MYC-J-CRK-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Crankshaft spare part - Efforts Engineers', E'/mycom/j-series/crankshaft', NULL)
+VALUES (E'Mycom - Mycom J Series - Crankshaft', NULL, E'Mycom', E'Mycom J Series', E'Crankshaft', NULL, E'MYC-J-CRK-01', E'MYC-J-CRK-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Crankshaft spare part - Efforts Engineers', E'/mycom/j-series/crankshaft', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8287,7 +8287,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Gudgeon Pin and Bush', NULL, E'Mycom', E'Mycom J Series', E'Gudgeon Pin and Bush', NULL, E'MYC-J-PIN-01', E'MYC-J-PIN-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/mycom/j-series/gudgeon-pin-and-bush', NULL)
+VALUES (E'Mycom - Mycom J Series - Gudgeon Pin and Bush', NULL, E'Mycom', E'Mycom J Series', E'Gudgeon Pin and Bush', NULL, E'MYC-J-PIN-01', E'MYC-J-PIN-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/mycom/j-series/gudgeon-pin-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8307,7 +8307,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Main Bearing and Bush', NULL, E'Mycom', E'Mycom J Series', E'Main Bearing and Bush', NULL, E'MYC-J-BRG-01', E'MYC-J-BRG-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Main Bearing and Bush spare part - Efforts Engineers', E'/mycom/j-series/main-bearing-and-bush', NULL)
+VALUES (E'Mycom - Mycom J Series - Main Bearing and Bush', NULL, E'Mycom', E'Mycom J Series', E'Main Bearing and Bush', NULL, E'MYC-J-BRG-01', E'MYC-J-BRG-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Main Bearing and Bush spare part - Efforts Engineers', E'/mycom/j-series/main-bearing-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8327,7 +8327,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Suction Valve Plate', NULL, E'Mycom', E'Mycom J Series', E'Suction Valve Plate', NULL, E'MYC-J-SVP-01', E'MYC-J-SVP-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Suction Valve Plate spare part - Efforts Engineers', E'/mycom/j-series/suction-valve-plate', NULL)
+VALUES (E'Mycom - Mycom J Series - Suction Valve Plate', NULL, E'Mycom', E'Mycom J Series', E'Suction Valve Plate', NULL, E'MYC-J-SVP-01', E'MYC-J-SVP-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Suction Valve Plate spare part - Efforts Engineers', E'/mycom/j-series/suction-valve-plate', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8347,7 +8347,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Discharge Valve Assembly', NULL, E'Mycom', E'Mycom J Series', E'Discharge Valve Assembly', NULL, E'MYC-J-DVA-01', E'MYC-J-DVA-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Discharge Valve Assembly spare part - Efforts Engineers', E'/mycom/j-series/discharge-valve-assembly', NULL)
+VALUES (E'Mycom - Mycom J Series - Discharge Valve Assembly', NULL, E'Mycom', E'Mycom J Series', E'Discharge Valve Assembly', NULL, E'MYC-J-DVA-01', E'MYC-J-DVA-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Discharge Valve Assembly spare part - Efforts Engineers', E'/mycom/j-series/discharge-valve-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8367,7 +8367,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Valve Spring and Cage', NULL, E'Mycom', E'Mycom J Series', E'Valve Spring and Cage', NULL, E'MYC-J-VSP-01', E'MYC-J-VSP-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Valve Spring and Cage spare part - Efforts Engineers', E'/mycom/j-series/valve-spring-and-cage', NULL)
+VALUES (E'Mycom - Mycom J Series - Valve Spring and Cage', NULL, E'Mycom', E'Mycom J Series', E'Valve Spring and Cage', NULL, E'MYC-J-VSP-01', E'MYC-J-VSP-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Valve Spring and Cage spare part - Efforts Engineers', E'/mycom/j-series/valve-spring-and-cage', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8387,7 +8387,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Cylinder Head Cover', NULL, E'Mycom', E'Mycom J Series', E'Cylinder Head Cover', NULL, E'MYC-J-HDC-01', E'MYC-J-HDC-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Cylinder Head Cover spare part - Efforts Engineers', E'/mycom/j-series/cylinder-head-cover', NULL)
+VALUES (E'Mycom - Mycom J Series - Cylinder Head Cover', NULL, E'Mycom', E'Mycom J Series', E'Cylinder Head Cover', NULL, E'MYC-J-HDC-01', E'MYC-J-HDC-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Cylinder Head Cover spare part - Efforts Engineers', E'/mycom/j-series/cylinder-head-cover', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8407,7 +8407,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Gasket and Overhaul Kit', NULL, E'Mycom', E'Mycom J Series', E'Gasket and Overhaul Kit', NULL, E'MYC-J-GSK-01', E'MYC-J-GSK-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/mycom/j-series/gasket-and-overhaul-kit', NULL)
+VALUES (E'Mycom - Mycom J Series - Gasket and Overhaul Kit', NULL, E'Mycom', E'Mycom J Series', E'Gasket and Overhaul Kit', NULL, E'MYC-J-GSK-01', E'MYC-J-GSK-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/mycom/j-series/gasket-and-overhaul-kit', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8427,7 +8427,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Oil Pump Assembly', NULL, E'Mycom', E'Mycom J Series', E'Oil Pump Assembly', NULL, E'MYC-J-OPA-01', E'MYC-J-OPA-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Oil Pump Assembly spare part - Efforts Engineers', E'/mycom/j-series/oil-pump-assembly', NULL)
+VALUES (E'Mycom - Mycom J Series - Oil Pump Assembly', NULL, E'Mycom', E'Mycom J Series', E'Oil Pump Assembly', NULL, E'MYC-J-OPA-01', E'MYC-J-OPA-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Oil Pump Assembly spare part - Efforts Engineers', E'/mycom/j-series/oil-pump-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8447,7 +8447,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Shaft Seal', NULL, E'Mycom', E'Mycom J Series', E'Shaft Seal', NULL, E'MYC-J-SHS-01', E'MYC-J-SHS-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Shaft Seal spare part - Efforts Engineers', E'/mycom/j-series/shaft-seal', NULL)
+VALUES (E'Mycom - Mycom J Series - Shaft Seal', NULL, E'Mycom', E'Mycom J Series', E'Shaft Seal', NULL, E'MYC-J-SHS-01', E'MYC-J-SHS-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Shaft Seal spare part - Efforts Engineers', E'/mycom/j-series/shaft-seal', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8467,7 +8467,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Oil Filter and Strainer', NULL, E'Mycom', E'Mycom J Series', E'Oil Filter and Strainer', NULL, E'MYC-J-FLT-01', E'MYC-J-FLT-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Oil Filter and Strainer spare part - Efforts Engineers', E'/mycom/j-series/oil-filter-and-strainer', NULL)
+VALUES (E'Mycom - Mycom J Series - Oil Filter and Strainer', NULL, E'Mycom', E'Mycom J Series', E'Oil Filter and Strainer', NULL, E'MYC-J-FLT-01', E'MYC-J-FLT-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Oil Filter and Strainer spare part - Efforts Engineers', E'/mycom/j-series/oil-filter-and-strainer', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8487,7 +8487,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Unloader and Capacity Control', NULL, E'Mycom', E'Mycom J Series', E'Unloader and Capacity Control', NULL, E'MYC-J-ULD-01', E'MYC-J-ULD-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Unloader and Capacity Control spare part - Efforts Engineers', E'/mycom/j-series/unloader-and-capacity-control', NULL)
+VALUES (E'Mycom - Mycom J Series - Unloader and Capacity Control', NULL, E'Mycom', E'Mycom J Series', E'Unloader and Capacity Control', NULL, E'MYC-J-ULD-01', E'MYC-J-ULD-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Unloader and Capacity Control spare part - Efforts Engineers', E'/mycom/j-series/unloader-and-capacity-control', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -8507,7 +8507,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Mycom - Mycom J Series - Safety Head and Relief Valve', NULL, E'Mycom', E'Mycom J Series', E'Safety Head and Relief Valve', NULL, E'MYC-J-SAF-01', E'MYC-J-SAF-01.jpg', E'6J2, J series (other sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/mycom/j-series/safety-head-and-relief-valve', NULL)
+VALUES (E'Mycom - Mycom J Series - Safety Head and Relief Valve', NULL, E'Mycom', E'Mycom J Series', E'Safety Head and Relief Valve', NULL, E'MYC-J-SAF-01', E'MYC-J-SAF-01.jpg', E'6J2, J series', NULL, E'To Shoot', NULL, NULL, NULL, E'Mycom J Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/mycom/j-series/safety-head-and-relief-valve', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9547,7 +9547,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Cylinder Liner', NULL, E'Carrier', E'Carrier 06E Series', E'Cylinder Liner', NULL, E'CAR-06E-CLN-01', E'CAR-06E-CLN-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Cylinder Liner spare part - Efforts Engineers', E'/carrier/06e/cylinder-liner', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Cylinder Liner', NULL, E'Carrier', E'Carrier 06E Series', E'Cylinder Liner', NULL, E'CAR-06E-CLN-01', E'CAR-06E-CLN-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Cylinder Liner spare part - Efforts Engineers', E'/carrier/06e/cylinder-liner', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9567,7 +9567,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Piston Assembly', NULL, E'Carrier', E'Carrier 06E Series', E'Piston Assembly', NULL, E'CAR-06E-PST-01', E'CAR-06E-PST-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Piston Assembly spare part - Efforts Engineers', E'/carrier/06e/piston-assembly', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Piston Assembly', NULL, E'Carrier', E'Carrier 06E Series', E'Piston Assembly', NULL, E'CAR-06E-PST-01', E'CAR-06E-PST-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Piston Assembly spare part - Efforts Engineers', E'/carrier/06e/piston-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9587,7 +9587,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Piston Ring Set', NULL, E'Carrier', E'Carrier 06E Series', E'Piston Ring Set', NULL, E'CAR-06E-PRG-01', E'CAR-06E-PRG-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Piston Ring Set spare part - Efforts Engineers', E'/carrier/06e/piston-ring-set', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Piston Ring Set', NULL, E'Carrier', E'Carrier 06E Series', E'Piston Ring Set', NULL, E'CAR-06E-PRG-01', E'CAR-06E-PRG-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Piston Ring Set spare part - Efforts Engineers', E'/carrier/06e/piston-ring-set', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9607,7 +9607,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Connecting Rod', NULL, E'Carrier', E'Carrier 06E Series', E'Connecting Rod', NULL, E'CAR-06E-CRD-01', E'CAR-06E-CRD-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Connecting Rod spare part - Efforts Engineers', E'/carrier/06e/connecting-rod', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Connecting Rod', NULL, E'Carrier', E'Carrier 06E Series', E'Connecting Rod', NULL, E'CAR-06E-CRD-01', E'CAR-06E-CRD-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Connecting Rod spare part - Efforts Engineers', E'/carrier/06e/connecting-rod', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9627,7 +9627,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Crankshaft', NULL, E'Carrier', E'Carrier 06E Series', E'Crankshaft', NULL, E'CAR-06E-CRK-01', E'CAR-06E-CRK-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Crankshaft spare part - Efforts Engineers', E'/carrier/06e/crankshaft', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Crankshaft', NULL, E'Carrier', E'Carrier 06E Series', E'Crankshaft', NULL, E'CAR-06E-CRK-01', E'CAR-06E-CRK-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Crankshaft spare part - Efforts Engineers', E'/carrier/06e/crankshaft', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9647,7 +9647,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Gudgeon Pin and Bush', NULL, E'Carrier', E'Carrier 06E Series', E'Gudgeon Pin and Bush', NULL, E'CAR-06E-PIN-01', E'CAR-06E-PIN-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/carrier/06e/gudgeon-pin-and-bush', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Gudgeon Pin and Bush', NULL, E'Carrier', E'Carrier 06E Series', E'Gudgeon Pin and Bush', NULL, E'CAR-06E-PIN-01', E'CAR-06E-PIN-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/carrier/06e/gudgeon-pin-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9667,7 +9667,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Main Bearing and Bush', NULL, E'Carrier', E'Carrier 06E Series', E'Main Bearing and Bush', NULL, E'CAR-06E-BRG-01', E'CAR-06E-BRG-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Main Bearing and Bush spare part - Efforts Engineers', E'/carrier/06e/main-bearing-and-bush', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Main Bearing and Bush', NULL, E'Carrier', E'Carrier 06E Series', E'Main Bearing and Bush', NULL, E'CAR-06E-BRG-01', E'CAR-06E-BRG-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Main Bearing and Bush spare part - Efforts Engineers', E'/carrier/06e/main-bearing-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9687,7 +9687,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Suction Valve Plate', NULL, E'Carrier', E'Carrier 06E Series', E'Suction Valve Plate', NULL, E'CAR-06E-SVP-01', E'CAR-06E-SVP-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Suction Valve Plate spare part - Efforts Engineers', E'/carrier/06e/suction-valve-plate', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Suction Valve Plate', NULL, E'Carrier', E'Carrier 06E Series', E'Suction Valve Plate', NULL, E'CAR-06E-SVP-01', E'CAR-06E-SVP-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Suction Valve Plate spare part - Efforts Engineers', E'/carrier/06e/suction-valve-plate', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9707,7 +9707,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Discharge Valve Assembly', NULL, E'Carrier', E'Carrier 06E Series', E'Discharge Valve Assembly', NULL, E'CAR-06E-DVA-01', E'CAR-06E-DVA-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Discharge Valve Assembly spare part - Efforts Engineers', E'/carrier/06e/discharge-valve-assembly', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Discharge Valve Assembly', NULL, E'Carrier', E'Carrier 06E Series', E'Discharge Valve Assembly', NULL, E'CAR-06E-DVA-01', E'CAR-06E-DVA-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Discharge Valve Assembly spare part - Efforts Engineers', E'/carrier/06e/discharge-valve-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9727,7 +9727,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Valve Spring and Cage', NULL, E'Carrier', E'Carrier 06E Series', E'Valve Spring and Cage', NULL, E'CAR-06E-VSP-01', E'CAR-06E-VSP-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Valve Spring and Cage spare part - Efforts Engineers', E'/carrier/06e/valve-spring-and-cage', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Valve Spring and Cage', NULL, E'Carrier', E'Carrier 06E Series', E'Valve Spring and Cage', NULL, E'CAR-06E-VSP-01', E'CAR-06E-VSP-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Valve Spring and Cage spare part - Efforts Engineers', E'/carrier/06e/valve-spring-and-cage', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9747,7 +9747,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Cylinder Head Cover', NULL, E'Carrier', E'Carrier 06E Series', E'Cylinder Head Cover', NULL, E'CAR-06E-HDC-01', E'CAR-06E-HDC-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Cylinder Head Cover spare part - Efforts Engineers', E'/carrier/06e/cylinder-head-cover', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Cylinder Head Cover', NULL, E'Carrier', E'Carrier 06E Series', E'Cylinder Head Cover', NULL, E'CAR-06E-HDC-01', E'CAR-06E-HDC-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Cylinder Head Cover spare part - Efforts Engineers', E'/carrier/06e/cylinder-head-cover', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9767,7 +9767,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Gasket and Overhaul Kit', NULL, E'Carrier', E'Carrier 06E Series', E'Gasket and Overhaul Kit', NULL, E'CAR-06E-GSK-01', E'CAR-06E-GSK-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/carrier/06e/gasket-and-overhaul-kit', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Gasket and Overhaul Kit', NULL, E'Carrier', E'Carrier 06E Series', E'Gasket and Overhaul Kit', NULL, E'CAR-06E-GSK-01', E'CAR-06E-GSK-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/carrier/06e/gasket-and-overhaul-kit', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9787,7 +9787,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Oil Pump Assembly', NULL, E'Carrier', E'Carrier 06E Series', E'Oil Pump Assembly', NULL, E'CAR-06E-OPA-01', E'CAR-06E-OPA-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Oil Pump Assembly spare part - Efforts Engineers', E'/carrier/06e/oil-pump-assembly', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Oil Pump Assembly', NULL, E'Carrier', E'Carrier 06E Series', E'Oil Pump Assembly', NULL, E'CAR-06E-OPA-01', E'CAR-06E-OPA-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Oil Pump Assembly spare part - Efforts Engineers', E'/carrier/06e/oil-pump-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9807,7 +9807,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Shaft Seal', NULL, E'Carrier', E'Carrier 06E Series', E'Shaft Seal', NULL, E'CAR-06E-SHS-01', E'CAR-06E-SHS-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Shaft Seal spare part - Efforts Engineers', E'/carrier/06e/shaft-seal', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Shaft Seal', NULL, E'Carrier', E'Carrier 06E Series', E'Shaft Seal', NULL, E'CAR-06E-SHS-01', E'CAR-06E-SHS-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Shaft Seal spare part - Efforts Engineers', E'/carrier/06e/shaft-seal', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9827,7 +9827,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Oil Filter and Strainer', NULL, E'Carrier', E'Carrier 06E Series', E'Oil Filter and Strainer', NULL, E'CAR-06E-FLT-01', E'CAR-06E-FLT-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Oil Filter and Strainer spare part - Efforts Engineers', E'/carrier/06e/oil-filter-and-strainer', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Oil Filter and Strainer', NULL, E'Carrier', E'Carrier 06E Series', E'Oil Filter and Strainer', NULL, E'CAR-06E-FLT-01', E'CAR-06E-FLT-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Oil Filter and Strainer spare part - Efforts Engineers', E'/carrier/06e/oil-filter-and-strainer', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9847,7 +9847,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Unloader and Capacity Control', NULL, E'Carrier', E'Carrier 06E Series', E'Unloader and Capacity Control', NULL, E'CAR-06E-ULD-01', E'CAR-06E-ULD-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Unloader and Capacity Control spare part - Efforts Engineers', E'/carrier/06e/unloader-and-capacity-control', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Unloader and Capacity Control', NULL, E'Carrier', E'Carrier 06E Series', E'Unloader and Capacity Control', NULL, E'CAR-06E-ULD-01', E'CAR-06E-ULD-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Unloader and Capacity Control spare part - Efforts Engineers', E'/carrier/06e/unloader-and-capacity-control', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -9867,7 +9867,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Carrier - Carrier 06E Series - Safety Head and Relief Valve', NULL, E'Carrier', E'Carrier 06E Series', E'Safety Head and Relief Valve', NULL, E'CAR-06E-SAF-01', E'CAR-06E-SAF-01.jpg', E'06E (sizes to add)', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/carrier/06e/safety-head-and-relief-valve', NULL)
+VALUES (E'Carrier - Carrier 06E Series - Safety Head and Relief Valve', NULL, E'Carrier', E'Carrier 06E Series', E'Safety Head and Relief Valve', NULL, E'CAR-06E-SAF-01', E'CAR-06E-SAF-01.jpg', E'06E', NULL, E'To Shoot', NULL, NULL, NULL, E'Carrier 06E Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/carrier/06e/safety-head-and-relief-valve', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,

@@ -46,10 +46,12 @@ export default function WarrantyPage() {
       </div>
 
       {/* 3 Core Warranty Pillars */}
+      <section aria-labelledby="warranty-process-title">
+      <h2 id="warranty-process-title" className="section-title">How Warranty Support Works</h2>
       <div className="why-choose-grid" style={{ marginBottom: "60px" }}>
         <div className="why-card">
           <div className="why-icon-box"><InterfaceIcon name="shield" size={24} /></div>
-          <h4>Warranty Review</h4>
+          <h3>Warranty Review</h3>
           <p>
             Submit the order reference and issue details. Claims are reviewed against the applicable product and order terms.
           </p>
@@ -57,7 +59,7 @@ export default function WarrantyPage() {
 
         <div className="why-card">
           <div className="why-icon-box"><InterfaceIcon name="bolt" size={24} /></div>
-          <h4>Claim Handling</h4>
+          <h3>Claim Handling</h3>
           <p>
             We will confirm the review process and any available remedy. Replacement availability and delivery timing depend on the claim outcome, stock, and carrier.
           </p>
@@ -65,16 +67,26 @@ export default function WarrantyPage() {
 
         <div className="why-card">
           <div className="why-icon-box">🔬</div>
-          <h4>Product Documentation</h4>
+          <h3>Product Documentation</h3>
           <p>
             Inspection, material, and traceability records vary by product. Please request the documentation available for your part.
           </p>
           <Link href="/global-reach#certificates">View supplier and order documentation →</Link>
         </div>
       </div>
+      </section>
 
       <section style={{ maxWidth: "850px", margin: "0 auto 60px" }}>
         <WarrantyClaimForm />
+      </section>
+
+      <section aria-labelledby="warranty-next-steps-title" style={{ maxWidth: "850px", margin: "0 auto 60px", textAlign: "center" }}>
+        <h2 id="warranty-next-steps-title">Need further assistance?</h2>
+        <p>For an existing claim, include your order reference when contacting our team. For replacement parts, browse the catalog.</p>
+        <div style={{ display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
+          <Link href="/contact" className="btn btn-primary">Contact our team</Link>
+          <Link href="/products" className="btn btn-outline">Browse compressor parts</Link>
+        </div>
       </section>
 
       {/* Warranty FAQ Accordion */}

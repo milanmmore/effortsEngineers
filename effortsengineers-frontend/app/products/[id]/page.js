@@ -7,11 +7,23 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  if (!/^\d+$/.test(id)) return { title: "Product details | Efforts Engineers" };
+  if (!/^\d+$/.test(id)) {
+    return {
+      title: "Product details | Efforts Engineers",
+      description: "Compressor spare-part details.",
+      robots: { index: false, follow: false },
+    };
+  }
 
   try {
     const response = await fetch(`${API_BASE_URL}/catalog/${id}`, { cache: "no-store" });
-    if (!response.ok) return { title: "Product details | Efforts Engineers" };
+    if (!response.ok) {
+      return {
+        title: "Product details | Efforts Engineers",
+        description: "Compressor spare-part details.",
+        robots: { index: false, follow: false },
+      };
+    }
     const product = await response.json();
     return {
       title: `${product.name} | Efforts Engineers`,
@@ -20,7 +32,11 @@ export async function generateMetadata({ params }) {
     };
   } catch (error) {
     console.error("Failed to load product metadata:", error);
-    return { title: "Product details | Efforts Engineers" };
+    return {
+      title: "Product details | Efforts Engineers",
+      description: "Compressor spare-part details.",
+      robots: { index: false, follow: false },
+    };
   }
 }
 

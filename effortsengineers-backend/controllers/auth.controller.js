@@ -5,6 +5,7 @@ import ApiError from "../utils/ApiError.js";
 import { signToken, verifyToken } from "../utils/jwt.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { sendPasswordResetEmail } from "../utils/emailNotification.js";
+import { clearAuthCookie, setAuthCookie } from "../utils/authCookie.js";
 import {
   getConfiguredPortalAccounts,
   isDemoAccountEmail,
@@ -56,8 +57,9 @@ export const register = asyncHandler(async (req, res) => {
 
   const user = result.rows[0];
   const token = signToken({ id: user.id, role: user.role, email: user.email });
+  setAuthCookie(res, token);
 
-  res.status(201).json({ user, token });
+  res.status(201).json({ user });
 });
 
 // POST /api/auth/login
@@ -126,6 +128,7 @@ export const login = asyncHandler(async (req, res) => {
   }
 
   const token = signToken({ id: user.id, role: user.role, email: user.email });
+  setAuthCookie(res, token);
 
   res.json({
     user: {
@@ -135,7 +138,6 @@ export const login = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
     },
-    token,
   });
 });
 
@@ -173,11 +175,18 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     { id: user.id, email: user.email, type: "password_reset" },
     { expiresIn: "15m" }
   );
-  const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:3000").replace(/\/$/, "");
+  const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:3000")
+    .split(",")[0].trim().replace(/\/$/, "");
+  const tokenHash = createHash("sha256").update(resetToken).digest("hex");
+  await db.query(
+    `INSERT INTO password_reset_tokens (user_id, token_hash, expires_at)
+     VALUES ($1, $2, NOW() + INTERVAL '15 minutes')`,
+    [user.id, tokenHash]
+  );
   const resetUrl = `${frontendUrl}/auth/login?resetToken=${encodeURIComponent(resetToken)}`;
   const delivery = await sendPasswordResetEmail({ to: user.email, resetUrl });
   if (!delivery.success) {
-    throw new ApiError(503, "Password reset email could not be sent. Please try again later.");
+    console.error("Password reset email could not be delivered.");
   }
 
   res.json({
@@ -214,10 +223,37 @@ export const resetPassword = asyncHandler(async (req, res) => {
   }
 
   const passwordHash = await bcrypt.hash(newPassword, 10);
-  await db.query("UPDATE users SET password_hash = $1 WHERE id = $2", [passwordHash, decoded.id]);
+  const tokenHash = createHash("sha256").update(token).digest("hex");
+  const client = await db.getClient();
+  try {
+    await client.query("BEGIN");
+    const consumed = await client.query(
+      `UPDATE password_reset_tokens
+       SET used_at = NOW()
+       WHERE token_hash = $1 AND user_id = $2 AND used_at IS NULL AND expires_at > NOW()
+       RETURNING user_id`,
+      [tokenHash, decoded.id]
+    );
+    if (!consumed.rows.length) {
+      await client.query("ROLLBACK");
+      throw new ApiError(400, "Password reset link has expired or is invalid. Please request a new one.");
+    }
+    await client.query("UPDATE users SET password_hash = $1 WHERE id = $2", [passwordHash, decoded.id]);
+    await client.query("COMMIT");
+  } catch (error) {
+    try { await client.query("ROLLBACK"); } catch {}
+    throw error;
+  } finally {
+    client.release();
+  }
 
   res.json({
     success: true,
     message: "Password has been reset successfully. You can now log in with your new password.",
   });
+});
+
+export const logout = asyncHandler(async (_req, res) => {
+  clearAuthCookie(res);
+  res.json({ success: true });
 });

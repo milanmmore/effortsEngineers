@@ -1,5 +1,5 @@
-import ProductsManager from "../ProductsManager";
+import { redirect } from "next/navigation";
 
 export default function AdminProductsPage() {
-  return <ProductsManager />;
+  redirect("/admin/dashboard");
 }

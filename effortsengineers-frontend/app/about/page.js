@@ -1,8 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import CONTACT_CONFIG from "@/config/contactConfig";
-import SITE_CONFIG from "@/config/site";
 import InterfaceIcon from "@/components/InterfaceIcon";
 
 export default function AboutPage() {
@@ -11,48 +9,15 @@ export default function AboutPage() {
   const timelineEvents = [
     {
       year: 1986,
-    title: "Established in Pune, India",
-    description:
-      "Efforts Engineers began operations in Pune, serving customers with industrial refrigeration compressor parts and related support.",
-    highlight: "Our journey began in Pune in 1986.",
-  },
-  {
-    year: "2006–2007",
-    title: "Product Range Expansion (Kirloskar & Grasso)",
-    description:
-      "Expanded the range of Kirloskar KC and Grasso RC compatible compressor parts available through our sourcing network.",
-    highlight:
-      "Broadened sourcing support for Kirloskar KC and Grasso RC compressor families.",
-  },
-  {
-    year: 2009,
-    title: "Entering Global Markets",
-    description:
-      "Expanded into international markets, establishing export operations across Saudi Arabia, Oman and Southeast Asia.",
-    highlight:
-      "Established export operations across the Middle East and Southeast Asia.",
-  },
-  {
-    year: 2019,
-    title: "Scaling International Exports",
-    description:
-      "Strengthened our global supply capabilities, supporting export and logistics coordination for refrigeration compressor spare parts across international customer requirements.",
-    highlight:
-      "Supporting global export coordination for refrigeration compressor spare parts.",
-  },
-  {
-    year: 2024,
-    title: "Global Reach",
-    description:
-      `Expanded our international presence, supplying industrial refrigeration spare parts and components to customers across ${SITE_CONFIG.exportDestinationCount} listed export destination countries.`,
-    highlight:
-      `Serving customers across ${SITE_CONFIG.exportDestinationCount} listed export destination countries.`,
+      title: "Established in Pune, India",
+      description: "Efforts Engineers was established in Pune in 1986.",
+      highlight: "Established in Pune.",
   },
   {
     year: 2026,
-    title: "Digital Catalog & Customer Support Tools",
-    description: "Added an online catalog, enquiry tools, and downloadable quotations.",
-    highlight: "Online catalog, enquiry tools and downloadable quotations.",
+      title: "Current Site: Online Catalog & Enquiry Tools",
+      description: "The current website provides a product catalog and online enquiry tools.",
+      highlight: "Available online.",
   },
   ];
 
@@ -60,32 +25,32 @@ export default function AboutPage() {
     {
       icon: "❄️",
       name: "Cold Storage & Agro Freezing",
-      description: "Ammonia & Freon compressor spares for multi-commodity cold stores, IQF fruit & vegetable freezers, seafood processing plants, and meat preservation facilities.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for ammonia and Freon compressor applications in cold stores, food processing, seafood, and meat storage. Compatibility and availability are confirmed per requirement.",
     },
     {
       icon: "🚢",
       name: "Marine & Offshore Shipping",
-      description: "High-grade components for shipboard provision reefer plants, refrigerated container vessel fleets, offshore oil platforms, and fishing trawlers.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for marine refrigeration on vessels, offshore facilities, and fishing fleets. Compatibility and availability are confirmed per requirement.",
     },
     {
       icon: "🧪",
       name: "Chemical & Petrochemical Processing",
-      description: "Corrosion-resistant alloy valves, piston rings, and cylinder sleeves for process gas compressors handling hydrocarbon gases, CO2, ammonia, and nitrogen.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for process-gas compressor applications involving hydrocarbons, CO2, ammonia, and nitrogen. Compatibility and availability are confirmed per requirement.",
     },
     {
       icon: "🍺",
       name: "Dairy, Breweries & Beverage",
-      description: "Continuous-duty compressor spares powering milk chilling centers, glycol brine chillers, CO2 recovery compressors, and brewery fermentation systems.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for milk chilling, brine cooling, CO2 recovery, and beverage production systems. Compatibility and availability are confirmed per requirement.",
     },
     {
       icon: "🏢",
       name: "Commercial HVAC & District Cooling",
-      description: "Heavy reciprocating compressor spares for central chillers in airports, hospitals, IT parks, shopping malls, and industrial cleanrooms.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for commercial HVAC and district-cooling compressor applications. Compatibility and availability are confirmed per requirement.",
     },
     {
       icon: "🏭",
       name: "Pharmaceutical & Cleanroom Plants",
-      description: "Oil-free and lubricated compressor components operating under strict environmental and temperature tolerance requirements.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for pharmaceutical and cleanroom compressor applications. Compatibility and availability are confirmed per requirement.",
     },
   ];
 
@@ -93,10 +58,10 @@ export default function AboutPage() {
     <main className="section-shell">
       {/* Header */}
       <div className="section-header">
-        <span className="eyebrow">{CONTACT_CONFIG.yearsInBusinessText}</span>
+        <span className="eyebrow">Pune-based Compressor Parts Sourcing</span>
         <h1 className="section-title"><b>Company Story</b> & Industrial Heritage</h1>
         <p className="section-desc">
-          {CONTACT_CONFIG.yearsInBusinessText}. Efforts Engineers sources industrial compressor spare parts and coordinates support for customers in India and export markets.
+          Efforts Engineers sources industrial compressor spare parts and coordinates support for customers in India and potential export markets.
         </p>
         <div className="separator-line" />
       </div>
@@ -138,7 +103,7 @@ export default function AboutPage() {
             style={{ width: "100%", height: "420px", objectFit: "cover", display: "block" }}
           />
           <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(15,23,42,0.9), transparent)", padding: "25px", color: "white" }}>
-            <h4 style={{ color: "white", margin: "0 0 6px" }}>Inspection Documentation</h4>
+          <h3 style={{ color: "white", margin: "0 0 6px" }}>Inspection Documentation</h3>
             <p style={{ margin: 0, fontSize: "0.85rem", color: "#cbd5e1" }}>
               Inspection and material documentation can be confirmed with our team for the specified part and order.
             </p>
@@ -152,7 +117,7 @@ export default function AboutPage() {
           <span className="eyebrow">Our Milestones</span>
           <h2 className="section-title"><b>Interactive Timeline:</b> 1986 to 2026</h2>
           <p className="section-desc">
-            Click on any milestone year below to explore key phases in our engineering evolution.
+            Select a year to view the company&apos;s founding or current online enquiry tools.
           </p>
         </div>
 
@@ -202,7 +167,7 @@ export default function AboutPage() {
                   }}
                 >
                   <div className="timeline-year">{item.year}</div>
-                  <h4>{item.title}</h4>
+                  <h3>{item.title}</h3>
                   <p>{item.description}</p>
                   <div style={{ marginTop: "10px", fontSize: "0.8rem", color: "var(--primary)", fontWeight: 700 }}>
                     ★ {item.highlight}
@@ -218,9 +183,9 @@ export default function AboutPage() {
       <section style={{ marginBottom: "60px" }}>
         <div className="section-header">
           <span className="eyebrow">Cross-Sector Applications</span>
-          <h2 className="section-title"><b>Industries</b> We Power Worldwide</h2>
+          <h2 className="section-title"><b>Industries &</b> Applications</h2>
           <p className="section-desc">
-            Supplying critical spares that ensure round-the-clock cooling, gas compression, and cold chain continuity.
+            Examples of applications for compressor-parts enquiries. Product fit and availability are confirmed for each requirement.
           </p>
           <div className="separator-line" />
         </div>
@@ -229,7 +194,7 @@ export default function AboutPage() {
           {industries.map((ind, idx) => (
             <div key={idx} className="why-card" style={{ padding: "28px" }}>
               <div className="why-icon-box" style={{ fontSize: "2rem" }}>{ind.icon}</div>
-              <h4>{ind.name}</h4>
+              <h3>{ind.name}</h3>
               <p>{ind.description}</p>
             </div>
           ))}

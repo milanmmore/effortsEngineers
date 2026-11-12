@@ -123,7 +123,7 @@ export default function RegisterPage() {
             <input
               type="text"
               required
-              placeholder="e.g. Ramesh Kulkarni"
+              placeholder="e.g. Alex Morgan"
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem" }}
@@ -134,7 +134,7 @@ export default function RegisterPage() {
             Company / Plant Name
             <input
               type="text"
-              placeholder="e.g. Konkan Cold Storage Ltd"
+              placeholder="e.g. Northshore Refrigeration Ltd"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem" }}
@@ -146,7 +146,7 @@ export default function RegisterPage() {
             <input
               type="email"
               required
-              placeholder="e.g. ramesh@company.com"
+              placeholder="e.g. alex@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem" }}

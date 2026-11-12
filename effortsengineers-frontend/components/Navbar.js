@@ -225,6 +225,7 @@ export default function Navbar() {
           {/* Action CTAs */}
           <div className="nav-actions">
             <button
+              type="button"
               className="quote-counter-btn"
               onClick={() => setIsDrawerOpen(true)}
               title="Open Quote Builder"

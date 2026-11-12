@@ -91,14 +91,14 @@ export const CONTACT_CONFIG = {
   secondaryEmail,
   emails,
   businessHours,
-  businessHoursLabel: businessHours || "Please contact us to confirm current business hours.",
+  businessHoursLabel: businessHours || "Response time: we aim to reply within one business day.",
   openingHours: validOpeningHours,
   profileLinks,
   address: businessAddress,
   workshopAddress,
   locations,
-  yearsInBusinessText: "Serving industry since 1986",
-  yearsInBusinessShort: "Serving industry since 1986",
+  yearsInBusinessText: "Established in Pune in 1986",
+  yearsInBusinessShort: "Since 1986",
 };
 
 export default CONTACT_CONFIG;

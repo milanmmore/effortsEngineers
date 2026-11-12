@@ -54,10 +54,10 @@ export default function GlobalReachPage() {
     <main className="section-shell">
       {/* Header */}
       <div className="section-header">
-        <span className="eyebrow">Worldwide Footprint & Supplier Documentation</span>
+        <span className="eyebrow">Potential Destinations & Supplier Documentation</span>
         <h1 className="section-title"><b>Global Reach</b> & Order Documentation</h1>
         <p className="section-desc">
-          Sourcing compressor spares for refrigeration and marine operations across {SITE_CONFIG.exportDestinationCount} listed export destination countries. Product documentation and shipment arrangements are confirmed by supplier, destination, and order.
+          We can discuss sourcing and shipment arrangements for refrigeration and marine compressor spares to {SITE_CONFIG.exportDestinationCount} listed potential destination countries. Product documentation, route availability, and shipment terms are confirmed for each order.
         </p>
         <div className="separator-line" />
       </div>
@@ -66,19 +66,19 @@ export default function GlobalReachPage() {
       <dl className="export-stats-grid">
         <div className="export-stat-box">
           <dt>{SITE_CONFIG.exportDestinationCount}</dt>
-          <dd>Listed Destination Countries</dd>
+          <dd>Potential Destination Countries</dd>
         </div>
         <div className="export-stat-box">
-          <dt>By Order</dt>
-          <dd>VCI Packaging Options</dd>
+          <dt>Per Shipment</dt>
+          <dd>Packaging arrangements confirmed</dd>
         </div>
         <div className="export-stat-box">
-          <dt>Varies</dt>
-          <dd>Carrier & Customs Processing</dd>
+          <dt>Per Destination</dt>
+          <dd>Transit estimate checked</dd>
         </div>
         <div className="export-stat-box">
-          <dt>Supplier</dt>
-          <dd>Quality Documents (If Available)</dd>
+          <dt>On Request</dt>
+          <dd>Supplier documents checked for availability</dd>
         </div>
       </dl>
 
@@ -94,7 +94,7 @@ export default function GlobalReachPage() {
             <thead>
               <tr>
                 <th>Region</th>
-                <th>Major Export Destinations</th>
+                <th>Potential Export Destinations</th>
                 <th>Indicative Transit Time</th>
                 <th>Shipping & Packaging</th>
               </tr>

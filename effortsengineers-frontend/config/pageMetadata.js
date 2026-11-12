@@ -40,56 +40,67 @@ const pageMetadata = {
     path: "/auth/login",
     title: "Customer Portal Sign In | Efforts Engineers",
     description: "Sign in to the Efforts Engineers customer portal to access quotations, order information, and account services.",
+    noindex: true,
   },
   register: {
     path: "/auth/register",
     title: "Register for the Customer Portal | Efforts Engineers",
     description: "Create an Efforts Engineers customer portal account to access quotation and order services.",
+    noindex: true,
   },
   clientDashboard: {
     path: "/client/dashboard",
     title: "Customer Dashboard | Efforts Engineers",
     description: "View customer account information and available order and quotation services in the Efforts Engineers portal.",
+    noindex: true,
   },
   clientCatalog: {
     path: "/client/catalog",
     title: "Customer Product Catalog | Efforts Engineers",
     description: "Browse compressor spare-parts catalog information available to Efforts Engineers customer portal users.",
+    noindex: true,
   },
   clientOrders: {
     path: "/client/orders",
     title: "Customer Orders | Efforts Engineers",
     description: "Review order information and dispatch updates available in the Efforts Engineers customer portal.",
+    noindex: true,
   },
   clientQuotation: {
     path: "/client/quotation",
     title: "Customer Quotations | Efforts Engineers",
     description: "Review and print quotation information available in the Efforts Engineers customer portal.",
+    noindex: true,
   },
   adminDashboard: {
     path: "/admin/dashboard",
-    title: "Administration Dashboard | Efforts Engineers",
-    description: "Efforts Engineers internal administration dashboard.",
+    title: "Parts Catalog & Photo Master | Efforts Engineers Admin",
+    description: "Internal catalog administration for managing product, photo, model compatibility, stock, and publishing details.",
+    noindex: true,
   },
   adminForecasting: {
     path: "/admin/forecasting",
     title: "Inventory Forecasting | Efforts Engineers Administration",
     description: "Efforts Engineers internal inventory forecasting dashboard.",
+    noindex: true,
   },
   adminInventory: {
     path: "/admin/inventory",
     title: "Inventory Management | Efforts Engineers Administration",
     description: "Efforts Engineers internal compressor spare-parts inventory management.",
+    noindex: true,
   },
   adminOrders: {
     path: "/admin/orders",
     title: "Order Management | Efforts Engineers Administration",
     description: "Efforts Engineers internal customer order management.",
+    noindex: true,
   },
   adminQuotations: {
     path: "/admin/quotations",
     title: "Quotation Management | Efforts Engineers Administration",
     description: "Efforts Engineers internal RFQ and quotation management.",
+    noindex: true,
   },
 };
 
@@ -102,6 +113,7 @@ export function getPageMetadata(pageKey) {
   return {
     title: page.title,
     description: page.description,
+    ...(page.noindex && { robots: { index: false, follow: false } }),
     alternates: {
       canonical: new URL(page.path, SITE_ORIGIN).toString(),
     },

@@ -14,7 +14,7 @@ export default function ClientLayout({ children }) {
       <div className="portal-shell">
         <aside className="portal-sidebar portal-sidebar-client">
           <span className="eyebrow" style={{ color: "var(--primary)" }}>Customer Workspace</span>
-          <h2 style={{ fontSize: "1.4rem", marginBottom: "20px" }}>Client Portal</h2>
+          <p className="eyebrow" style={{ fontSize: "1rem", marginBottom: "20px" }}>Client Portal</p>
           <nav>
             <ul className="portal-nav-list">
               <li>
@@ -33,7 +33,7 @@ export default function ClientLayout({ children }) {
                 </Link>
               </li>
               <li>
-                <Link href="/products" className={isActive("/products") ? "active" : ""}>
+                <Link href="/client/catalog" className={isActive("/client/catalog") ? "active" : ""}>
                   <InterfaceIcon name="box" size={18} /> Browse Catalog
                 </Link>
               </li>

@@ -82,7 +82,7 @@ EffortsEngineers/
 
 ### 1. Prerequisites
 - **Node.js**: `v20.0.0` or higher
-- **PostgreSQL**: `v15` or higher (configured on port `5433` or `5432`)
+- **PostgreSQL**: `v15` or higher (`DB_PORT` defaults to `5433` locally; use `DATABASE_URL` or `DB_PORT=5432` when your local server uses `5432`)
 - **Git**
 
 ### 2. Backend Setup (`effortsengineers-backend`)
@@ -96,6 +96,7 @@ npm install
 # Verify DB credentials and JWT secret in .env and env.test.
 # Set FORMSUBMIT_TOKEN in the backend environment for server-side inquiry emails.
 # Optionally set EMAIL_NOTIFICATION_CC and EMAIL_REPLY_TO; never put the token in frontend variables.
+# Apply scripts/schema_new.sql to the target database before using single-use password resets.
 
 # Run tests in mock mode (no DB required)
 npm run test:mock
@@ -189,7 +190,7 @@ Refer to the diagrams in `docs/` for system topology:
   └── Automated RFQ Dispatch
           │
           ▼
-[ PostgreSQL Database (Port 5433 / 5432) ]
+[ PostgreSQL Database (local default port 5433; configurable) ]
   ├── users, products, orders, quotations
 ```
 

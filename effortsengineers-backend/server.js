@@ -29,12 +29,32 @@ import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
+const configuredFrontendOrigins = (process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+  .map((origin) => new URL(origin).origin);
+const allowedFrontendOrigins = configuredFrontendOrigins.length
+  ? configuredFrontendOrigins
+  : process.env.NODE_ENV === "production"
+    ? []
+    : ["http://localhost:3000"];
+
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "*",
+    origin: (origin, callback) => callback(null, !origin || allowedFrontendOrigins.includes(origin)),
+    credentials: true,
   })
 );
+app.use("/api", (req, res, next) => {
+  const origin = req.get("origin");
+  const isWriteRequest = !["GET", "HEAD", "OPTIONS"].includes(req.method);
+  if (isWriteRequest && origin && !allowedFrontendOrigins.includes(origin)) {
+    return res.status(403).json({ message: "Request origin is not allowed." });
+  }
+  next();
+});
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 app.use(express.json());
 app.use(
@@ -83,6 +103,9 @@ app.use(errorHandler);
 // Only start the server if run directly (keeps `import app` safe for Jest tests)
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   assertProductionAuthEnvironment();
+  if (process.env.NODE_ENV === "production" && !allowedFrontendOrigins.length) {
+    throw new Error("FRONTEND_URL must contain at least one allowed frontend origin in production.");
+  }
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, "0.0.0.0", () =>
     console.log(`API listening on port ${PORT}`)

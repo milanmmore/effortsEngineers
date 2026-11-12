@@ -122,7 +122,7 @@ export default function WarrantyClaimForm() {
       <h2 id="warranty-claim-title" className="section-title"><b>Submit a</b> Warranty Claim</h2>
       <p className="section-desc">Provide the order reference and issue details. Submission does not confirm warranty eligibility or a remedy.</p>
       <form onSubmit={submitClaim} style={{ display: "grid", gap: "16px" }}>
-        <label style={{ position: "absolute", width: "1px", height: "1px", padding: 0, margin: "-1px", overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }}>
+        <label aria-hidden="true" style={{ position: "absolute", width: "1px", height: "1px", padding: 0, margin: "-1px", overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }}>
           Leave this field empty
           <input name="website" type="text" autoComplete="off" tabIndex={-1} value={values.website} onChange={updateValue} />
         </label>

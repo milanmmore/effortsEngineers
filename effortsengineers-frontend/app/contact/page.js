@@ -49,7 +49,9 @@ export default function ContactPage() {
           <section style={{ background: "white", border: "1px solid var(--line)", borderRadius: "16px", padding: "26px", boxShadow: "var(--shadow-sm)" }}>
             <h2 style={{ fontSize: "1.2rem", margin: "0 0 16px" }}>Pune Locations &amp; Contact</h2>
             <p style={{ margin: "0 0 16px", color: "var(--text-muted)" }}>
-              <strong>Business hours:</strong> {CONTACT_CONFIG.businessHoursLabel}
+              {CONTACT_CONFIG.businessHours
+                ? <><strong>Business hours:</strong> {CONTACT_CONFIG.businessHoursLabel}</>
+                : <><strong>Response time:</strong> We aim to reply within one business day.</>}
             </p>
             {CONTACT_CONFIG.locations.map((location) => (
               <p key={location.id} style={{ margin: "0 0 12px", color: "var(--text-muted)" }}>

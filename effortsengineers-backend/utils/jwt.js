@@ -14,7 +14,7 @@ const getSecret = () => {
 };
 
 export const signToken = (payload, options = {}) => {
-  return jwtLib.sign(payload, getSecret(), { expiresIn: options.expiresIn || "1h" });
+  return jwtLib.sign(payload, getSecret(), { expiresIn: options.expiresIn || "8h" });
 };
 
 export const verifyToken = (token) => {

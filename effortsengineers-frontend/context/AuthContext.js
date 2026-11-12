@@ -8,44 +8,32 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const decodeToken = (token) => {
-    const payload = token.split(".")[1];
-    if (!payload) throw new Error("Invalid token");
-    return JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
-  };
-
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const decodedToken = decodeToken(token);
-      if (typeof decodedToken.exp !== "number" || decodedToken.exp <= Date.now() / 1000) {
-        localStorage.removeItem("token");
-        return;
-      }
-      setUser({ ...decodedToken, token });
-    } catch {
-      localStorage.removeItem("token");
-    } finally {
-      setIsLoading(false);
-    }
+    let active = true;
+    const handleSessionExpired = () => {
+      setUser(null);
+      window.location.replace("/auth/login");
+    };
+    window.addEventListener("ee:session-expired", handleSessionExpired);
+    API.get("/auth/profile")
+      .then((response) => { if (active) setUser(response.data?.user || null); })
+      .catch(() => { if (active) setUser(null); })
+      .finally(() => { if (active) setIsLoading(false); });
+    return () => {
+      active = false;
+      window.removeEventListener("ee:session-expired", handleSessionExpired);
+    };
   }, []);
 
   const login = async (identifier, password) => {
     const res = await API.post("/auth/login", { identifier, password });
-    const { token, user: authenticatedUser } = res.data;
-    localStorage.setItem("token", token);
-    setUser({ ...authenticatedUser, token });
+    const { user: authenticatedUser } = res.data;
+    setUser(authenticatedUser);
     return authenticatedUser;
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    delete API.defaults.headers.common.Authorization;
+    API.post("/auth/logout").catch(() => {});
     setUser(null);
   };
 

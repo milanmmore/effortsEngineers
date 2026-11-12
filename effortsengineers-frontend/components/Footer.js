@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Efforts Engineers</h4>
             <p>
-              {SITE_CONFIG.yearsInBusinessText}. Efforts Engineers sources replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors. Availability and dispatch estimates are confirmed per order.
+              Serving industry since 1986. Efforts Engineers sources replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors. Availability and dispatch estimates are confirmed per order.
             </p>
             <div style={{ marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #334155" }}>
@@ -27,7 +27,7 @@ export default function Footer() {
 
           {/* Column 2: Compatible Compressor Brands (Amocon style) */}
           <div className="footer-col">
-            <h4>Compatible Brands</h4>
+            <h4>Brands We Source</h4>
             <ul>
               {SITE_CONFIG.brands.map(({ name, label }) => (
                 <li key={name}>
@@ -76,7 +76,9 @@ export default function Footer() {
             </p>
             <a href={`https://wa.me/${SITE_CONFIG.whatsappRaw}`} target="_blank" rel="noreferrer" style={{ color: "#34d399" }}>Message us on WhatsApp</a>
             <p style={{ margin: "10px 0 4px", color: "#cbd5e1" }}>
-              <strong>Business hours:</strong> {SITE_CONFIG.businessHoursLabel}
+              {SITE_CONFIG.businessHours
+                ? <><strong>Business hours:</strong> {SITE_CONFIG.businessHoursLabel}</>
+                : <><strong>Response time:</strong> We aim to reply within one business day.</>}
             </p>
           </div>
         </div>
@@ -86,8 +88,8 @@ export default function Footer() {
           <div>
             © {new Date().getFullYear()} Efforts Engineers. All rights reserved. Designed for industrial reliability.
           </div>
-          <div style={{ fontSize: "0.78rem", color: "#64748b" }}>
-            *Disclaimer: All manufacturer names, symbols, numbers, and descriptions are used solely for reference and identification purposes.
+          <div className="footer-trademark-disclaimer">
+            Manufacturer names, logos, and part numbers are used only to identify products. All third-party trademarks remain the property of their respective owners.
           </div>
           <div className="footer-social-links" aria-label="Business profiles">
             {SITE_CONFIG.profileLinks.filter(({ label }) => label !== "Facebook").map(({ label, url }) => (

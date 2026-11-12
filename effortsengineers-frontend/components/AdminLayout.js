@@ -14,7 +14,7 @@ export default function AdminLayout({ children }) {
       <div className="portal-shell">
         <aside className="portal-sidebar portal-sidebar-admin">
           <span className="eyebrow" style={{ color: "var(--primary)" }}>Operations Console</span>
-          <h2 style={{ fontSize: "1.4rem", marginBottom: "20px" }}>Admin Panel</h2>
+          <p className="eyebrow" style={{ fontSize: "1rem", marginBottom: "20px" }}>Admin Panel</p>
           <nav>
             <ul className="portal-nav-list">
               <li>

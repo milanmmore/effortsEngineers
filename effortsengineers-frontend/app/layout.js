@@ -34,7 +34,7 @@ const localBusinessData = {
 
 export const metadata = {
   title: 'Efforts Engineers | Industrial Compressor Spare Parts',
-  description: 'Sourcing replacement spare parts for Grasso, Bitzer, Kirloskar, Carrier, Sabroe, Bock, and Daikin compressors. Availability, dispatch estimates, and warranty terms are confirmed per order.',
+  description: 'Compressor spares for Grasso, Kirloskar, Carrier and Sabroe. Availability and dispatch estimates are confirmed per order.',
   metadataBase: new URL(SITE_ORIGIN),
   alternates: {
     canonical: new URL('/', SITE_ORIGIN).toString(),

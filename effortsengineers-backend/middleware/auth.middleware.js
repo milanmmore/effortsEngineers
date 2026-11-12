@@ -1,19 +1,12 @@
 // middleware/auth.middleware.js
 import { verifyToken } from "../utils/jwt.js";
 import ApiError from "../utils/ApiError.js";
+import { getRequestAuthToken } from "../utils/authCookie.js";
 
 export const requireAuth = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) return next(new ApiError(401, "No token provided"));
-
-  const match = /^Bearer\s+(.+)$/.exec(authHeader);
-  if (!match) {
-    return next(new ApiError(401, "Malformed authorization header"));
-  }
-
-  const token = match[1].trim();
+  const token = getRequestAuthToken(req);
   if (!token) {
-    return next(new ApiError(401, "Malformed authorization header"));
+    return next(new ApiError(401, "Not authenticated"));
   }
   try {
     req.user = verifyToken(token);
