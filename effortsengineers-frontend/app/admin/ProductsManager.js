@@ -174,7 +174,7 @@ export default function ProductsManager() {
     loadProducts();
   }, [loadProducts]);
 
-  const startNewProduct = () => {
+  const startNewProduct = useCallback(() => {
     setEditingProduct(null);
     setForm(EMPTY_PRODUCT);
     setPhotoFile(null);
@@ -183,9 +183,9 @@ export default function ProductsManager() {
     setIsProductFormOpen(true);
     setNotice("");
     setError("");
-  };
+  }, []);
 
-  const startEditProduct = (product) => {
+  const startEditProduct = useCallback((product) => {
     setEditingProduct(product.id);
     setForm(productToForm(product));
     setPhotoFile(null);
@@ -195,7 +195,7 @@ export default function ProductsManager() {
     setNotice("");
     setError("");
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, []);
 
   const closeProductForm = () => {
     setEditingProduct(null);
@@ -251,6 +251,19 @@ export default function ProductsManager() {
     setPhotoMissing(false);
     setForm((current) => ({ ...current, file_name: file.name }));
   };
+
+  const handleBrowsePhoto = useCallback(() => {
+    photoInputRef.current?.click();
+  }, []);
+
+  const handlePhotoPreviewError = useCallback((event) => {
+    const fallback = event.currentTarget.dataset.fallback;
+    if (!photoPreview && fallback && event.currentTarget.src !== fallback) {
+      event.currentTarget.src = fallback;
+    } else {
+      setPhotoMissing(true);
+    }
+  }, [photoPreview]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -329,7 +342,7 @@ export default function ProductsManager() {
     }
   };
 
-  const handleDelete = async (product) => {
+  const handleDelete = useCallback(async (product) => {
     if (!window.confirm(`Delete "${product.name}"? This cannot be undone.`)) return;
     setError("");
     setNotice("");
@@ -344,7 +357,17 @@ export default function ProductsManager() {
           "Unable to delete this product record."
       );
     }
-  };
+  }, [loadProducts, page, products.length]);
+
+  const handleEditProductClick = useCallback((event) => {
+    const product = products.find(({ id }) => String(id) === event.currentTarget.dataset.productId);
+    if (product) startEditProduct(product);
+  }, [products, startEditProduct]);
+
+  const handleDeleteProductClick = useCallback((event) => {
+    const product = products.find(({ id }) => String(id) === event.currentTarget.dataset.productId);
+    if (product) void handleDelete(product);
+  }, [handleDelete, products]);
 
   return (
     <AdminLayout>
@@ -457,7 +480,7 @@ export default function ProductsManager() {
                       <button
                         type="button"
                         className="btn btn-outline admin-product-browse-button"
-                        onClick={() => photoInputRef.current?.click()}
+                        onClick={handleBrowsePhoto}
                       >
                         Browse
                       </button>
@@ -479,14 +502,7 @@ export default function ProductsManager() {
                             }
                             data-fallback={form.image_url ? new URL(form.image_url, API.defaults.baseURL).toString() : ""}
                             alt={`Preview of ${form.file_name || "selected photo"}`}
-                            onError={(event) => {
-                              const fallback = event.currentTarget.dataset.fallback;
-                              if (!photoPreview && fallback && event.currentTarget.src !== fallback) {
-                                event.currentTarget.src = fallback;
-                              } else {
-                                setPhotoMissing(true);
-                              }
-                            }}
+                            onError={handlePhotoPreviewError}
                           />
                         )
                       ) : null}
@@ -635,10 +651,10 @@ export default function ProductsManager() {
                     <td>{product.is_published ? "Published" : "Draft"}</td>
                     <td>
                       <div className="admin-product-actions">
-                        <button type="button" className="btn btn-outline" onClick={() => startEditProduct(product)}>
+                        <button type="button" className="btn btn-outline" data-product-id={product.id} onClick={handleEditProductClick}>
                           Edit
                         </button>
-                        <button type="button" className="btn btn-danger" onClick={() => handleDelete(product)}>
+                        <button type="button" className="btn btn-danger" data-product-id={product.id} onClick={handleDeleteProductClick}>
                           Delete
                         </button>
                       </div>

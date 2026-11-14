@@ -25,32 +25,32 @@ export default function AboutPage() {
     {
       icon: "❄️",
       name: "Cold Storage & Agro Freezing",
-      description: "We coordinate parts-sourcing enquiries through our supplier network for ammonia and Freon compressor applications in cold stores, food processing, seafood, and meat storage. Compatibility and availability are confirmed per requirement.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for ammonia and Freon compressor applications in cold stores, food processing, seafood, and meat storage. Suitability and availability are confirmed per enquiry.",
     },
     {
       icon: "🚢",
       name: "Marine & Offshore Shipping",
-      description: "We coordinate parts-sourcing enquiries through our supplier network for marine refrigeration on vessels, offshore facilities, and fishing fleets. Compatibility and availability are confirmed per requirement.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for marine refrigeration on vessels, offshore facilities, and fishing fleets. Suitability and availability are confirmed per enquiry.",
     },
     {
       icon: "🧪",
       name: "Chemical & Petrochemical Processing",
-      description: "We coordinate parts-sourcing enquiries through our supplier network for process-gas compressor applications involving hydrocarbons, CO2, ammonia, and nitrogen. Compatibility and availability are confirmed per requirement.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for process-gas compressor applications involving hydrocarbons, CO2, ammonia, and nitrogen. Suitability and availability are confirmed per enquiry.",
     },
     {
       icon: "🍺",
       name: "Dairy, Breweries & Beverage",
-      description: "We coordinate parts-sourcing enquiries through our supplier network for milk chilling, brine cooling, CO2 recovery, and beverage production systems. Compatibility and availability are confirmed per requirement.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for milk chilling, brine cooling, CO2 recovery, and beverage production systems. Suitability and availability are confirmed per enquiry.",
     },
     {
       icon: "🏢",
       name: "Commercial HVAC & District Cooling",
-      description: "We coordinate parts-sourcing enquiries through our supplier network for commercial HVAC and district-cooling compressor applications. Compatibility and availability are confirmed per requirement.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for commercial HVAC and district-cooling compressor applications. Suitability and availability are confirmed per enquiry.",
     },
     {
       icon: "🏭",
       name: "Pharmaceutical & Cleanroom Plants",
-      description: "We coordinate parts-sourcing enquiries through our supplier network for pharmaceutical and cleanroom compressor applications. Compatibility and availability are confirmed per requirement.",
+      description: "We coordinate parts-sourcing enquiries through our supplier network for pharmaceutical and cleanroom compressor applications. Suitability and availability are confirmed per enquiry.",
     },
   ];
 
@@ -183,7 +183,7 @@ export default function AboutPage() {
       <section style={{ marginBottom: "60px" }}>
         <div className="section-header">
           <span className="eyebrow">Cross-Sector Applications</span>
-          <h2 className="section-title"><b>Industries &</b> Applications</h2>
+          <h2 className="section-title"><b>Industries We Support</b> with Parts Sourcing</h2>
           <p className="section-desc">
             Examples of applications for compressor-parts enquiries. Product fit and availability are confirmed for each requirement.
           </p>

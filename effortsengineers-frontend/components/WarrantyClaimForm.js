@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import API from "@/lib/axiosClient";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -113,6 +114,10 @@ export default function WarrantyClaimForm() {
         <h2>Warranty claim received</h2>
         <p>Your reference number is <strong>{claimNumber}</strong>. The claim will be reviewed against the applicable order terms.</p>
         {notificationWarning && <p role="alert">{notificationWarning}</p>}
+        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "20px" }}>
+          <Link href="/products" className="btn btn-primary">Browse Catalog</Link>
+          <Link href="/contact" className="btn btn-outline">Contact Our Team</Link>
+        </div>
       </section>
     );
   }

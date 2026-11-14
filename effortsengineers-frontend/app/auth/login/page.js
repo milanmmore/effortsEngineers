@@ -308,7 +308,7 @@ export default function LoginPage() {
                   <input
                     type="email"
                     required
-                    placeholder="e.g. yourname@company.com"
+                    placeholder="Enter your account email"
                     value={forgotEmail}
                     onChange={(e) => setForgotEmail(e.target.value)}
                     style={{ padding: "11px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.9rem" }}
@@ -331,7 +331,7 @@ export default function LoginPage() {
                     <input
                       type={showNewPassword ? "text" : "password"}
                       required
-                      placeholder="Min 8 chars, uppercase, number & symbol"
+                      placeholder="Create a new password"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       style={{ padding: "11px 40px 11px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.9rem", width: "100%" }}

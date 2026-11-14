@@ -1,5 +1,5 @@
 import { SITE_ORIGIN } from "@/config/siteOrigin";
-import { API_BASE_URL } from "@/lib/apiBaseUrl";
+import { createApiUrl } from "@/lib/apiBaseUrl";
 
 export const dynamic = "force-dynamic";
 
@@ -15,9 +15,9 @@ const publicPaths = [
 ];
 
 async function fetchCatalogPage(page) {
-  const url = new URL(`${API_BASE_URL}/catalog`);
+  const url = createApiUrl("catalog");
   url.searchParams.set("page", String(page));
-  const response = await fetch(url, { cache: "no-store" });
+  const response = await fetch(url, { cache: "no-store", redirect: "error" });
   if (!response.ok) {
     throw new Error(`Catalog API returned ${response.status} while generating sitemap.`);
   }
@@ -26,6 +26,14 @@ async function fetchCatalogPage(page) {
     throw new Error("Catalog API returned invalid pagination data while generating sitemap.");
   }
   return data;
+}
+
+function getProductLastModified(product) {
+  const timestamp = product.updated_at || product.created_at;
+  if (!timestamp) return undefined;
+
+  const date = new Date(timestamp);
+  return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
 export default async function sitemap() {
@@ -45,8 +53,11 @@ export default async function sitemap() {
     const products = [firstPage, ...remainingPages]
       .flatMap(({ products: pageProducts }) => pageProducts);
     paths.push(
-      ...products.map(({ id }) => ({
-        url: new URL(`/products/${id}`, SITE_ORIGIN).toString(),
+      ...products.map((product) => ({
+        url: new URL(`/products/${product.id}`, SITE_ORIGIN).toString(),
+        ...(getProductLastModified(product) && {
+          lastModified: getProductLastModified(product),
+        }),
         changeFrequency: "weekly",
         priority: 0.8,
       }))

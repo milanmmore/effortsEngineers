@@ -15,7 +15,7 @@ const PRODUCT_COLUMNS = [
 const PRODUCT_SELECT = ["id", ...PRODUCT_COLUMNS, "created_at"].join(", ");
 const PUBLIC_PRODUCT_COLUMNS = [
   "id", "name", "description", "brand", "category", "image_url", "series",
-  "part_number", "compatible_models", "material_size", "alt_text",
+  "part_number", "compatible_models", "material_size", "alt_text", "created_at", "updated_at",
 ];
 const PUBLIC_PRODUCT_SELECT = PUBLIC_PRODUCT_COLUMNS
   .map((column) => column === "part_number"

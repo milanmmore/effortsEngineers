@@ -18,7 +18,7 @@ export default function HomePageClient({ brandRangesSection }) {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> Supplier Network • Serving industry since 1986 • Export Coordination
+              <span>★</span> Supplier Network • Compressor Parts Sourcing • Export Coordination
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>
@@ -46,12 +46,8 @@ export default function HomePageClient({ brandRangesSection }) {
                 <dd>Potential Export Destinations</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>Per Enquiry</dt>
-                <dd>Availability & Pricing Checked</dd>
-              </div>
-              <div className="hero-stat-item">
-                <dt>Order Terms</dt>
-                <dd>Warranty Coverage Stated</dd>
+                <dt>Since 1986</dt>
+                <dd>Serving Industry</dd>
               </div>
             </dl>
           </div>
