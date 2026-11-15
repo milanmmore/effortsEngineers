@@ -1,9 +1,10 @@
-import { API_BASE_URL } from "@/lib/apiBaseUrl";
+import { createApiUrl } from "@/lib/apiBaseUrl";
 import { buildBrandRanges } from "@/lib/brandRanges";
 
 export async function getServerBrandRanges() {
   try {
-    const response = await fetch(`${API_BASE_URL}/catalog/ranges`, {
+    const response = await fetch(createApiUrl("catalog", "ranges"), {
+      redirect: "error",
       next: { revalidate: 300 },
     });
     if (!response.ok) {

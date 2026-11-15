@@ -80,15 +80,6 @@ export default function WarrantyPage() {
         <WarrantyClaimForm />
       </section>
 
-      <section aria-labelledby="warranty-next-steps-title" style={{ maxWidth: "850px", margin: "0 auto 60px", textAlign: "center" }}>
-        <h2 id="warranty-next-steps-title">Need further assistance?</h2>
-        <p>For an existing claim, include your order reference when contacting our team. For replacement parts, browse the catalog.</p>
-        <div style={{ display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
-          <Link href="/contact" className="btn btn-primary">Contact our team</Link>
-          <Link href="/products" className="btn btn-outline">Browse compressor parts</Link>
-        </div>
-      </section>
-
       {/* Warranty FAQ Accordion */}
       <section id="faq" style={{ borderTop: "1px solid var(--line)", paddingTop: "60px" }}>
         <div className="section-header">

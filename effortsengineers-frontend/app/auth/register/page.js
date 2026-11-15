@@ -123,7 +123,7 @@ export default function RegisterPage() {
             <input
               type="text"
               required
-              placeholder="e.g. Alex Morgan"
+              placeholder="Your full name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem" }}
@@ -134,7 +134,7 @@ export default function RegisterPage() {
             Company / Plant Name
             <input
               type="text"
-              placeholder="e.g. Northshore Refrigeration Ltd"
+              placeholder="Company or plant name"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem" }}
@@ -146,7 +146,7 @@ export default function RegisterPage() {
             <input
               type="email"
               required
-              placeholder="e.g. alex@company.com"
+              placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{ padding: "12px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem" }}
@@ -159,7 +159,7 @@ export default function RegisterPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 required
-                placeholder="At least 8 chars, uppercase, number & symbol"
+                placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{ padding: "12px 42px 12px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.92rem", width: "100%" }}

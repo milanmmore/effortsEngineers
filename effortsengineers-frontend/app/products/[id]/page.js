@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { API_BASE_URL } from "@/lib/apiBaseUrl";
+import { createApiUrl } from "@/lib/apiBaseUrl";
 import { SITE_ORIGIN } from "@/config/siteOrigin";
 import ProductDetailClient from "./ProductDetailClient";
 
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/catalog/${id}`, { cache: "no-store" });
+    const response = await fetch(createApiUrl("catalog", id), { cache: "no-store", redirect: "error" });
     if (!response.ok) {
       return {
         title: "Product details | Efforts Engineers",
@@ -46,7 +46,7 @@ export default async function ProductDetailPage({ params }) {
 
   let response;
   try {
-    response = await fetch(`${API_BASE_URL}/catalog/${id}`, { cache: "no-store" });
+    response = await fetch(createApiUrl("catalog", id), { cache: "no-store", redirect: "error" });
   } catch (error) {
     console.error("Failed to load product details:", error);
     throw new Error("Unable to load product details.");

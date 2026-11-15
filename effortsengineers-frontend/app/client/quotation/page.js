@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import ClientLayout from "@/components/ClientLayout";
 import { AuthContext } from "@/context/AuthContext";
 import { QuoteContext } from "@/context/QuoteContext";
@@ -26,6 +26,13 @@ export default function QuotationPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
 
+  const openQuoteBuilder = useCallback(() => setIsDrawerOpen(true), [setIsDrawerOpen]);
+  const printSummary = useCallback(() => window.print(), []);
+  const selectQuotation = useCallback((event) => {
+    const quotationId = event.currentTarget.dataset.quotationId;
+    if (quotationId) setSelectedId(quotationId);
+  }, []);
+
   useEffect(() => {
     API.get("/client/dashboard")
       .then(({ data }) => {
@@ -40,7 +47,7 @@ export default function QuotationPage() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const selectedQuotation = quotations.find(({ id }) => id === selectedId);
+  const selectedQuotation = quotations.find(({ id }) => String(id) === String(selectedId));
 
   return (
     <ClientLayout>
@@ -53,10 +60,10 @@ export default function QuotationPage() {
           </p>
         </div>
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          <button type="button" onClick={() => setIsDrawerOpen(true)} className="btn btn-primary">
+          <button type="button" onClick={openQuoteBuilder} className="btn btn-primary">
             Request a quotation
           </button>
-          <button type="button" onClick={() => window.print()} className="btn btn-outline" disabled={!selectedQuotation}>
+          <button type="button" onClick={printSummary} className="btn btn-outline" disabled={!selectedQuotation}>
             Print / Save summary
           </button>
         </div>
@@ -69,7 +76,7 @@ export default function QuotationPage() {
         <div className="why-card no-print" style={{ padding: "24px" }}>
           <h2 style={{ marginTop: 0, fontSize: "1.2rem" }}>No quotations linked to this account</h2>
           <p style={{ color: "var(--text-muted)" }}>Request a quotation or contact our team if you expected to see an existing record.</p>
-          <button type="button" onClick={() => setIsDrawerOpen(true)} className="btn btn-primary">Request a quotation</button>
+          <button type="button" onClick={openQuoteBuilder} className="btn btn-primary">Request a quotation</button>
         </div>
       ) : (
         <>
@@ -78,9 +85,10 @@ export default function QuotationPage() {
               <button
                 type="button"
                 key={quotation.id}
-                aria-pressed={selectedId === quotation.id}
-                onClick={() => setSelectedId(quotation.id)}
-                className={selectedId === quotation.id ? "btn btn-primary" : "btn btn-outline"}
+                data-quotation-id={quotation.id}
+                aria-pressed={String(selectedId) === String(quotation.id)}
+                onClick={selectQuotation}
+                className={String(selectedId) === String(quotation.id) ? "btn btn-primary" : "btn btn-outline"}
                 style={{ minWidth: "180px", textAlign: "left" }}
               >
                 Quotation record #{quotation.id}

@@ -1,7 +1,7 @@
 import ProductsClient from "./ProductsClient";
 import BrandRangesSection from "@/components/BrandRangesSection";
 import { SITE_ORIGIN } from "@/config/siteOrigin";
-import { API_BASE_URL } from "@/lib/apiBaseUrl";
+import { createApiUrl } from "@/lib/apiBaseUrl";
 import SITE_CONFIG from "@/config/site";
 import { getServerBrandRanges } from "@/lib/serverBrandRanges";
 
@@ -12,7 +12,7 @@ export async function generateMetadata({ searchParams }) {
   const requestedPage = Number(params?.page);
   const page = Number.isSafeInteger(requestedPage) && requestedPage > 1 ? requestedPage : 1;
   const hasFilters = Boolean(params?.brand || params?.category || params?.q);
-  const canonicalPath = page > 1 ? `/products?page=${page}` : "/products";
+  const canonicalPath = "/products";
   const title = page > 1
     ? `Industrial Compressor Spare Parts Catalog – Page ${page} | Efforts Engineers`
     : "Industrial Compressor Spare Parts Catalog | Efforts Engineers";
@@ -29,7 +29,7 @@ export async function generateMetadata({ searchParams }) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, { cache: "no-store" });
+  const response = await fetch(url, { cache: "no-store", redirect: "error" });
   if (!response.ok) {
     throw new Error(`Catalog API returned ${response.status}.`);
   }
@@ -58,7 +58,7 @@ export default async function ProductsPage({ searchParams }) {
     : "All";
   const initialCategory = requestedCategory || "All";
   const initialQuery = typeof params?.q === "string" ? params.q.slice(0, 120) : "";
-  const catalogUrl = new URL(`${API_BASE_URL}/catalog`);
+  const catalogUrl = createApiUrl("catalog");
   catalogUrl.searchParams.set("page", String(initialPage));
   if (initialBrand !== "All") catalogUrl.searchParams.set("brand", initialBrand);
   if (initialCategory !== "All") catalogUrl.searchParams.set("category", initialCategory);
@@ -67,7 +67,7 @@ export default async function ProductsPage({ searchParams }) {
   const [[catalogOutcome, filtersOutcome], brandRangesResult] = await Promise.all([
     Promise.allSettled([
       fetchJson(catalogUrl.toString()),
-      fetchJson(`${API_BASE_URL}/catalog/filters`),
+      fetchJson(createApiUrl("catalog", "filters")),
     ]),
     getServerBrandRanges(),
   ]);

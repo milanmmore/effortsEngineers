@@ -282,7 +282,7 @@ export default function LoginPage() {
 
             <h2 style={{ fontSize: "1.35rem", marginBottom: "6px", color: "var(--navy)" }}>
               {forgotStep === 1 ? "Reset Your Password" : "Set New Password"}
-            </h3>
+            </h2>
             <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "18px" }}>
               {forgotStep === 1
                 ? "Enter your registered email address to receive password reset instructions."
@@ -308,7 +308,7 @@ export default function LoginPage() {
                   <input
                     type="email"
                     required
-                    placeholder="e.g. yourname@company.com"
+                    placeholder="Enter your account email"
                     value={forgotEmail}
                     onChange={(e) => setForgotEmail(e.target.value)}
                     style={{ padding: "11px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.9rem" }}
@@ -331,7 +331,7 @@ export default function LoginPage() {
                     <input
                       type={showNewPassword ? "text" : "password"}
                       required
-                      placeholder="Min 8 chars, uppercase, number & symbol"
+                      placeholder="Create a new password"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       style={{ padding: "11px 40px 11px 14px", border: "1px solid var(--line)", borderRadius: "6px", fontSize: "0.9rem", width: "100%" }}
