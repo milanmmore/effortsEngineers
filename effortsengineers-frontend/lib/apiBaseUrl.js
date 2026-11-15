@@ -1,6 +1,9 @@
 const isProduction = process.env.NODE_ENV === "production";
 const configuredApiUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").trim();
 const trustedOriginConfig = (process.env.NEXT_PUBLIC_API_TRUSTED_ORIGINS || "").trim();
+const trustedHostnameConfig = (
+  process.env.NEXT_PUBLIC_API_TRUSTED_HOSTNAMES || "dev.effortsengineers.in,localhost,127.0.0.1"
+).trim();
 
 function parseOrigin(value, label) {
   let url;
@@ -25,15 +28,18 @@ function parseOrigin(value, label) {
 
 const configuredUrl = parseOrigin(configuredApiUrl, "NEXT_PUBLIC_API_URL");
 const apiHostname = configuredUrl.hostname.toLowerCase();
-const isLoopback = apiHostname === "localhost";
-const trustedHostnames = ["effortsengineers.in", "localhost"];
+const isLoopback = ["localhost", "127.0.0.1"].includes(apiHostname);
+const trustedHostnames = trustedHostnameConfig
+  .split(",")
+  .map((hostname) => hostname.trim().toLowerCase())
+  .filter(Boolean);
 
 if (!trustedHostnames.includes(apiHostname)) {
-  throw new Error("Untrusted API_BASE_URL: hostname must be localhost or effortsengineers.in.");
+  throw new Error(`Untrusted API_BASE_URL hostname: ${apiHostname}.`);
 }
 
 if (configuredUrl.protocol === "http:" && (!isLoopback || isProduction)) {
-  throw new Error("NEXT_PUBLIC_API_URL must use HTTPS except for localhost during development.");
+  throw new Error("NEXT_PUBLIC_API_URL must use HTTPS except for loopback hosts during development.");
 }
 if (isProduction && isLoopback) {
   throw new Error("NEXT_PUBLIC_API_URL cannot point to localhost in production.");

@@ -282,7 +282,7 @@ export default function LoginPage() {
 
             <h2 style={{ fontSize: "1.35rem", marginBottom: "6px", color: "var(--navy)" }}>
               {forgotStep === 1 ? "Reset Your Password" : "Set New Password"}
-            </h3>
+            </h2>
             <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "18px" }}>
               {forgotStep === 1
                 ? "Enter your registered email address to receive password reset instructions."
