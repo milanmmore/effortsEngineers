@@ -1,4 +1,4 @@
-# Efforts Engineers — Industrial Compressor Spares & Overhaul Platform
+# Efforts Engineers — Industrial Compressor Spares & Service Coordination Platform
 
 [![Backend Test Suite](https://img.shields.io/badge/Backend%20Tests-19%20Passed%20(100%25)-success?style=flat-square&logo=jest)](docs/TEST_CASES.md)
 [![Frontend Prerender](https://img.shields.io/badge/Next.js%2016-21%20Pages%20Prerendered-blue?style=flat-square&logo=next.js)](effortsengineers-frontend)
@@ -8,7 +8,7 @@
 
 ## 📌 Executive Overview
 
-**Efforts Engineers** (Pune, India) is an established supplier and sourcing partner for replacement spare parts and coordinated overhaul services for industrial refrigeration, air, and gas compressors.
+**Efforts Engineers** (Pune, India) is an established supplier and sourcing partner for replacement spare parts and service coordination for industrial refrigeration, air, and gas compressors.
 
 Serving industry since 1986, Efforts Engineers has supplied high-integrity spares suitable for **Grasso, Kirloskar, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, Mycom, and York** compressors to cold storage operators, marine fleets, and petrochemical plants across India and 15+ export nations.
 
