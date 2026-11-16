@@ -175,6 +175,9 @@ export default function WarrantyClaimForm() {
         <button type="submit" disabled={isSubmitting} className="btn btn-primary" style={{ padding: "14px", fontSize: "1rem" }}>
           {isSubmitting ? "Submitting Claim..." : "Submit Warranty Claim"}
         </button>
+        <p style={{ margin: "4px 0 0", fontSize: "0.78rem", color: "var(--text-muted)", textAlign: "center" }}>
+          By submitting, you agree to our <a href="/terms" style={{ color: "var(--primary)" }}>Terms of Service</a> and <a href="/privacy" style={{ color: "var(--primary)" }}>Privacy Policy</a>.
+        </p>
       </form>
     </section>
   );

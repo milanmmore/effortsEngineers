@@ -25,9 +25,13 @@ export async function generateMetadata({ params }) {
       };
     }
     const product = await response.json();
+    const isIndexingEnabled = process.env.ALLOW_INDEXING === "true";
     return {
       title: `${product.name} | Efforts Engineers`,
       description: product.description || `${product.name} compressor spare part details and enquiry.`,
+      robots: !isIndexingEnabled
+        ? { index: false, follow: false }
+        : { index: true, follow: true },
       alternates: { canonical: new URL(`/products/${id}`, SITE_ORIGIN).toString() },
     };
   } catch (error) {

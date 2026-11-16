@@ -49,6 +49,8 @@ export default function Footer() {
               <li><Link href="/about">Company Story & Timeline</Link></li>
               <li><Link href="/client/dashboard">Customer Portal & Order Tracking</Link></li>
               <li><Link href="/contact">Inquiry & RFQ Desk</Link></li>
+              <li><Link href="/privacy">Privacy Policy</Link></li>
+              <li><Link href="/terms">Terms & Conditions</Link></li>
             </ul>
           </div>
 
@@ -92,6 +94,12 @@ export default function Footer() {
             Manufacturer names, logos, and part numbers are used only to identify products. All third-party trademarks remain the property of their respective owners.
           </div>
           <div className="footer-social-links" aria-label="Business profiles">
+            <Link href="/privacy" style={{ color: "#94a3b8", marginRight: "12px", textDecoration: "underline" }}>
+              Privacy Policy
+            </Link>
+            <Link href="/terms" style={{ color: "#94a3b8", marginRight: "18px", textDecoration: "underline" }}>
+              Terms of Service
+            </Link>
             {SITE_CONFIG.profileLinks.filter(({ label }) => label !== "Facebook").map(({ label, url }) => (
               <a key={url} href={url} target="_blank" rel="noopener noreferrer" style={{ color: "#38bdf8", fontWeight: 600 }}>
                 {label}

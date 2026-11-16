@@ -15,10 +15,14 @@ const workshopAddress =
   "Shop No. 11, Shirole Park, Vetal Baba Chowk, Senapati Bapat Rd, Shivajinagar, Pune, Maharashtra 411016, India";
 const primaryEmail =
   process.env.NEXT_PUBLIC_PRIMARY_EMAIL || "sales@effortsengineers.in";
-const secondaryEmail = process.env.NEXT_PUBLIC_SECONDARY_EMAIL || "";
-const emails = [primaryEmail];
-const businessHours = (process.env.NEXT_PUBLIC_BUSINESS_HOURS || "").trim();
-const openingHours = businessHours.split(";").map((hours) => hours.trim()).filter(Boolean);
+const secondaryEmail =
+  process.env.NEXT_PUBLIC_SECONDARY_EMAIL || "saurabh@effortsengineers.in";
+const emails = [primaryEmail, secondaryEmail].filter(Boolean);
+const defaultBusinessHours = "Mon – Sat: 09:30 – 18:30 IST (Closed on Sundays)";
+const businessHours = (process.env.NEXT_PUBLIC_BUSINESS_HOURS || defaultBusinessHours).trim();
+const openingHours = (process.env.NEXT_PUBLIC_BUSINESS_HOURS ? businessHours.split(";") : ["Mo-Sa 09:30-18:30"])
+  .map((hours) => hours.trim())
+  .filter(Boolean);
 const openingHoursPattern =
   /^(Mo|Tu|We|Th|Fr|Sa|Su)(-(Mo|Tu|We|Th|Fr|Sa|Su))? \d{2}:\d{2}-\d{2}:\d{2}$/;
 const validOpeningHours = openingHours.filter((hours) => openingHoursPattern.test(hours));

@@ -44,7 +44,14 @@ function productToForm(product) {
 }
 
 function splitCompatibleModels(value) {
-  return value.split(",").map((model) => model.trim()).filter(Boolean);
+  if (typeof value !== "string") return [];
+  return value
+    .replace(/\s*\([^)]*\bto add\b[^)]*\)/gi, "")
+    .replace(/\s*\b(?:other\s+)?sizes\s+to\s+add\b/gi, "")
+    .replace(/\s*\bto add\b/gi, "")
+    .split(",")
+    .map((model) => model.trim())
+    .filter((model) => model && !/\bto add\b/i.test(model));
 }
 
 function normalizeSeriesOptions(filters, products, brands) {

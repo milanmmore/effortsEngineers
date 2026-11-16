@@ -67,7 +67,7 @@ export default function QuoteBuilderDrawer() {
                   <div style={{ marginBottom: "10px", color: "var(--primary)" }}><InterfaceIcon name="box" size={40} /></div>
                   <p>Your quotation list is currently empty.</p>
                   <Link href="/products" className="btn btn-outline" onClick={() => setIsDrawerOpen(false)} style={{ marginTop: "12px" }}>
-                    Explore Ready Spares Catalog
+                    Browse Parts Catalog
                   </Link>
                 </div>
               ) : (

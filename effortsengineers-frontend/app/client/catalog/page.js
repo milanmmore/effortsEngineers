@@ -5,6 +5,7 @@ import ClientLayout from "@/components/ClientLayout";
 import { QuoteContext } from "@/context/QuoteContext";
 import API from "@/lib/axiosClient";
 import SITE_CONFIG from "@/config/site";
+import { cleanRangeValue } from "@/lib/brandRanges";
 
 const PAGE_SIZE = 24;
 
@@ -42,7 +43,10 @@ export default function CatalogPage() {
 
         return {
           ...product,
+          name: cleanRangeValue(product.name || ""),
           brand: product.brand || "",
+          series: cleanRangeValue(product.series || ""),
+          compatible_models: cleanRangeValue(product.compatible_models || ""),
           oem_no: product.part_number || product.oem_no || "",
           description: product.description || "",
           price: Number.isFinite(price) ? price : null,

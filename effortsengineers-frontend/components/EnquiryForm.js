@@ -330,6 +330,9 @@ export default function EnquiryForm({
                       ? "Submit Enquiry / RFQ →"
                       : "Submit Urgent RFQ →"}
             </button>
+            <p style={{ margin: "4px 0 0", fontSize: "0.78rem", color: "var(--text-muted)", textAlign: "center" }}>
+              By submitting, you agree to our <a href="/terms" style={{ color: "var(--primary)" }}>Terms of Service</a> and <a href="/privacy" style={{ color: "var(--primary)" }}>Privacy Policy</a>.
+            </p>
           </form>
         </>
       )}

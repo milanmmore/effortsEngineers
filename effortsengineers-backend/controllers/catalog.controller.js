@@ -58,8 +58,14 @@ export const listCatalog = asyncHandler(async (req, res) => {
   const filters = [];
   const values = [];
   if (brand) {
-    values.push(brand);
-    filters.push(`LOWER(brand) = LOWER($${values.length})`);
+    if (brand.toLowerCase() === "accel sabroe" || brand.toLowerCase() === "accelsabroe") {
+      values.push("sabroe");
+      values.push("accel sabroe");
+      filters.push(`(LOWER(brand) = LOWER($${values.length - 1}) OR LOWER(brand) = LOWER($${values.length}))`);
+    } else {
+      values.push(brand);
+      filters.push(`LOWER(brand) = LOWER($${values.length})`);
+    }
   }
   if (category) {
     values.push(category);
@@ -123,7 +129,17 @@ export const getCatalogBrandRanges = asyncHandler(async (_req, res) => {
        AND BTRIM(brand) <> ''
      ORDER BY brand, series, compatible_models`
   );
-  res.json(result.rows);
+  res.json(
+    result.rows.map((row) => ({
+      brand: row.brand,
+      series: typeof row.series === "string"
+        ? row.series.replace(/\s*\([^)]*\bto add\b[^)]*\)/gi, "").split(",").map((p) => p.trim()).filter((p) => p && !/\bto add\b/i.test(p)).join(", ").trim()
+        : row.series,
+      compatible_models: typeof row.compatible_models === "string"
+        ? row.compatible_models.replace(/\s*\([^)]*\bto add\b[^)]*\)/gi, "").split(",").map((p) => p.trim()).filter((p) => p && !/\bto add\b/i.test(p)).join(", ").trim()
+        : row.compatible_models,
+    }))
+  );
 });
 
 export const getCatalogItem = asyncHandler(async (req, res) => {

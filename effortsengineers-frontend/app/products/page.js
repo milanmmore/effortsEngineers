@@ -16,14 +16,21 @@ export async function generateMetadata({ searchParams }) {
   const title = page > 1
     ? `Industrial Compressor Spare Parts Catalog – Page ${page} | Efforts Engineers`
     : "Industrial Compressor Spare Parts Catalog | Efforts Engineers";
-  const description = "Browse replacement compressor spare parts by brand, model, series, and part number. Request a quote to confirm availability, pricing, and delivery.";
+  const description = "Browse replacement compressor spare parts by brand, model series, and component category. Request a quote to confirm compatibility, availability, pricing, and delivery.";
   const canonical = new URL(canonicalPath, SITE_ORIGIN).toString();
+
+  const isIndexingEnabled = process.env.ALLOW_INDEXING === "true";
+  const robots = !isIndexingEnabled
+    ? { index: false, follow: false }
+    : hasFilters
+      ? { index: false, follow: true }
+      : { index: true, follow: true };
 
   return {
     title,
     description,
     alternates: { canonical },
-    ...(hasFilters && { robots: { index: false, follow: true } }),
+    robots,
     openGraph: { type: "website", url: canonical, title, description, siteName: "Efforts Engineers" },
   };
 }
@@ -93,7 +100,7 @@ export default async function ProductsPage({ searchParams }) {
     "@type": "CollectionPage",
     name: "Industrial Compressor Spare Parts Catalog",
     description:
-      "Browse compressor spare parts and model families. Compatibility, availability, and pricing are confirmed per enquiry.",
+      "Browse replacement compressor spare parts organised by brand, series, and component category. Compatibility, availability, and pricing are confirmed per enquiry.",
     url: new URL(
       initialPage === 1 ? "/products" : `/products?page=${initialPage}`,
       SITE_ORIGIN
