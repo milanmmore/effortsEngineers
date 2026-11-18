@@ -10,13 +10,13 @@ import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// Public routes
+// All quotation management endpoints require admin privileges
+router.use(requireAuth, requireRole("admin"));
+
 router.get("/", listQuotations);
 router.get("/:id", getQuotation);
-
-// Admin-only route
-router.post("/", requireAuth, requireRole("admin"), createQuotation);
-router.put("/:id/status", requireAuth, requireRole("admin"), updateQuotationStatus);
-router.patch("/:id", requireAuth, requireRole("admin"), updateQuotationStatus);
+router.post("/", createQuotation);
+router.put("/:id/status", updateQuotationStatus);
+router.patch("/:id", updateQuotationStatus);
 
 export default router;

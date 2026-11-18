@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [sessionExpiredNotice, setSessionExpiredNotice] = useState(false);
 
   // Forgot password modal state
   const [showForgotModal, setShowForgotModal] = useState(false);
@@ -31,6 +32,10 @@ export default function LoginPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    if (params.get("expired") === "1") {
+      setSessionExpiredNotice(true);
+    }
+
     const tokenFromEmail = params.get("resetToken");
     if (!tokenFromEmail) return;
     setResetToken(tokenFromEmail);
@@ -46,7 +51,18 @@ export default function LoginPage() {
     setLoginError("");
     try {
       const authenticatedUser = await login(identifier, password);
-      router.push(authenticatedUser.role === "admin" ? "/admin/dashboard" : "/client/dashboard");
+      const params = new URLSearchParams(window.location.search);
+      const redirectUrl = params.get("redirect");
+      if (
+        redirectUrl &&
+        redirectUrl.startsWith("/") &&
+        !redirectUrl.startsWith("//") &&
+        !redirectUrl.startsWith("/auth/")
+      ) {
+        router.push(redirectUrl);
+      } else {
+        router.push(authenticatedUser.role === "admin" ? "/admin/dashboard" : "/client/dashboard");
+      }
     } catch (err) {
       const msg = err.response?.data?.message || err.message;
       setLoginError(msg);
@@ -130,6 +146,12 @@ export default function LoginPage() {
             Access your quotations, order tracking, and warranty records.
           </p>
         </div>
+
+        {sessionExpiredNotice && !loginError && (
+          <div style={{ background: "#fffbeb", border: "1px solid #fcd34d", color: "#92400e", padding: "12px 16px", borderRadius: "8px", marginBottom: "18px", fontSize: "0.88rem" }}>
+            ⏰ Your session has expired. Please sign in again to continue.
+          </div>
+        )}
 
         {loginError && (
           <div style={{ background: "#fef2f2", border: "1px solid #fca5a5", color: "#991b1b", padding: "12px 16px", borderRadius: "8px", marginBottom: "18px", fontSize: "0.88rem" }}>

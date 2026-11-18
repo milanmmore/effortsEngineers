@@ -11,13 +11,13 @@ import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// Public routes
+// All order management endpoints require admin privileges
+router.use(requireAuth, requireRole("admin"));
+
 router.get("/", listOrders);
 router.get("/:id", getOrder);
-
-// Admin-only routes
-router.post("/", requireAuth, requireRole("admin"), createOrder);
-router.put("/:id", requireAuth, requireRole("admin"), updateOrder);
-router.delete("/:id", requireAuth, requireRole("admin"), deleteOrder);
+router.post("/", createOrder);
+router.put("/:id", updateOrder);
+router.delete("/:id", deleteOrder);
 
 export default router;

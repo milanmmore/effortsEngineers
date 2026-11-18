@@ -26,7 +26,7 @@ This modernized platform delivers:
 | Layer | Technologies |
 | :--- | :--- |
 | **Frontend Web App** | **Next.js 16** (App Router, Turbopack, SSR/SSG), **React 18**, CSS3 Custom Design System |
-| **Backend API** | **Node.js 22**, **Express 5**, **PostgreSQL (`pg` Pool)**, **JWT Authentication**, **Helmet**, **CORS** |
+| **Backend API** | **Node.js 22/24**, **Express 5**, **PostgreSQL (`pg` Pool)**, **JWT Authentication**, **Helmet**, **CORS**, **Railway Volume / AWS S3 Persistence** |
 | **Testing & QA** | **Jest 30.5**, **Supertest 7.2**, Mock DB & Live DB Runners, Master Excel Matrix |
 | **Data & Scripts** | PostgreSQL 15/16, SQL Migration Scripts (`generateDB.sql`, `seedDB.sql`) |
 

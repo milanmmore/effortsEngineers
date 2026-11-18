@@ -12,7 +12,12 @@ export default function ProtectedRoute({ children, role }) {
 
     // If no user is logged in, redirect to login
     if (!user) {
-      router.replace("/auth/login");
+      const currentPath = typeof window !== "undefined"
+        ? `${window.location.pathname}${window.location.search}`
+        : "";
+      const isAuthPage = /^\/auth\//.test(typeof window !== "undefined" ? window.location.pathname : "");
+      const redirectQuery = currentPath && !isAuthPage ? `?redirect=${encodeURIComponent(currentPath)}` : "";
+      router.replace(`/auth/login${redirectQuery}`);
     }
     // If a role is required and user doesn't match, redirect to home
     else if (role && user.role !== role) {

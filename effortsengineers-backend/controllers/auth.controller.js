@@ -5,7 +5,11 @@ import ApiError from "../utils/ApiError.js";
 import { signToken, verifyToken } from "../utils/jwt.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { sendPasswordResetEmail } from "../utils/emailNotification.js";
-import { clearAuthCookie, setAuthCookie } from "../utils/authCookie.js";
+import {
+  clearAuthCookie,
+  setAuthCookie,
+  getRequestAuthToken,
+} from "../utils/authCookie.js";
 import {
   getConfiguredPortalAccounts,
   isDemoAccountEmail,
@@ -59,7 +63,7 @@ export const register = asyncHandler(async (req, res) => {
   const token = signToken({ id: user.id, role: user.role, email: user.email });
   setAuthCookie(res, token);
 
-  res.status(201).json({ user });
+  res.status(201).json({ user, token });
 });
 
 // POST /api/auth/login
@@ -138,6 +142,7 @@ export const login = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
     },
+    token,
   });
 });
 
@@ -256,4 +261,55 @@ export const resetPassword = asyncHandler(async (req, res) => {
 export const logout = asyncHandler(async (_req, res) => {
   clearAuthCookie(res);
   res.json({ success: true });
+});
+
+// POST /api/auth/refresh
+export const refresh = asyncHandler(async (req, res) => {
+  const token = getRequestAuthToken(req);
+  if (!token) {
+    throw new ApiError(401, "No authentication token provided.");
+  }
+
+  let decoded;
+  try {
+    // Attempt standard verification (active token)
+    decoded = verifyToken(token);
+  } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      try {
+        decoded = verifyToken(token, { ignoreExpiration: true });
+        const now = Math.floor(Date.now() / 1000);
+        const MAX_REFRESH_GRACE_SECONDS = 7 * 24 * 60 * 60; // 7 days grace period
+        if (decoded.exp && now - decoded.exp > MAX_REFRESH_GRACE_SECONDS) {
+          throw new ApiError(401, "Session has expired. Please sign in again.");
+        }
+      } catch {
+        throw new ApiError(401, "Session has expired or is invalid. Please sign in again.");
+      }
+    } else {
+      throw new ApiError(401, "Invalid authentication token.");
+    }
+  }
+
+  if (!decoded?.id) {
+    throw new ApiError(401, "Invalid session payload.");
+  }
+
+  const result = await db.query(
+    "SELECT id, name, username, email, role FROM users WHERE id = $1 LIMIT 1",
+    [decoded.id]
+  );
+  const user = result.rows[0];
+  if (!user) {
+    throw new ApiError(401, "User account no longer exists.");
+  }
+
+  const freshToken = signToken({ id: user.id, role: user.role, email: user.email });
+  setAuthCookie(res, freshToken);
+
+  res.json({
+    success: true,
+    user,
+    token: freshToken,
+  });
 });

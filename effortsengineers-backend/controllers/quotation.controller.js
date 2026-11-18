@@ -20,7 +20,18 @@ export const getQuotation = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Quotation not found");
   }
 
-  res.json(result.rows[0]);
+  const quotation = result.rows[0];
+  try {
+    const itemsResult = await db.query(
+      "SELECT * FROM quotation_items WHERE quotation_id = $1 ORDER BY id ASC",
+      [id]
+    );
+    quotation.items = itemsResult.rows;
+  } catch {
+    quotation.items = [];
+  }
+
+  res.json(quotation);
 });
 
 // POST /api/quotations

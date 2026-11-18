@@ -66,9 +66,11 @@ export const deleteInventoryItem = asyncHandler(async (req, res) => {
 
 // Update stock for a product
 export const updateStock = asyncHandler(async (req, res) => {
-  const { product_id, quantity } = req.body;
+  const productId =
+    req.body.product_id ?? req.params.id ?? req.params.catalogItemId;
+  const quantity = req.body.quantity;
 
-  if (!product_id || quantity == null) {
+  if (!productId || quantity == null) {
     throw new ApiError(400, "product_id and quantity are required");
   }
 
@@ -77,7 +79,7 @@ export const updateStock = asyncHandler(async (req, res) => {
      SET quantity = $1, updated_at = NOW()
      WHERE product_id = $2
      RETURNING id, product_id, quantity, updated_at`,
-    [quantity, product_id]
+    [quantity, productId]
   );
 
   if (result.rows.length === 0) {

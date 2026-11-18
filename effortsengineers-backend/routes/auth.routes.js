@@ -1,7 +1,14 @@
 // routes/auth.routes.js
 import express from "express";
 import rateLimit from "express-rate-limit";
-import { register, login, forgotPassword, resetPassword, logout } from "../controllers/auth.controller.js";
+import {
+  register,
+  login,
+  forgotPassword,
+  resetPassword,
+  logout,
+  refresh,
+} from "../controllers/auth.controller.js";
 import db from "../config/db.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { requireAuth } from "../middleware/auth.js";
@@ -22,6 +29,7 @@ router.post("/login", makeRateLimit(10), login);
 router.post("/forgot-password", makeRateLimit(5, 60 * 60 * 1000), forgotPassword);
 router.post("/reset-password", makeRateLimit(10), resetPassword);
 router.post("/logout", logout);
+router.post("/refresh", refresh);
 router.get("/profile", requireAuth, asyncHandler(async (req, res) => {
   const result = await db.query(
     "SELECT id, name, username, email, role FROM users WHERE id = $1 LIMIT 1",

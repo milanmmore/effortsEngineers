@@ -1,14 +1,12 @@
 import { randomUUID } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import ApiError from "../utils/ApiError.js";
+import {
+  getImageUploadDirectory,
+  saveFileToStorage,
+} from "../services/storage.service.js";
 
-export const getImageUploadDirectory = () =>
-  path.resolve(
-    process.env.IMAGE_UPLOAD_DIR ||
-      path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "images")
-  );
+export { getImageUploadDirectory };
 
 const HEIC_BRANDS = new Set([
   "heic", "heix", "hevc", "hevx", "heim", "heis", "hevm", "hevs",
@@ -101,9 +99,6 @@ const saveUploadedImage = async (req, res, { preserveFilename = false } = {}) =>
     throw new ApiError(400, "Product photos must be image files.");
   }
 
-  const imageUploadDirectory = getImageUploadDirectory();
-  await mkdir(imageUploadDirectory, { recursive: true });
-
   let filename = `${randomUUID()}${uploadFormat.extension}`;
   if (preserveFilename) {
     let requestedFilename;
@@ -122,22 +117,25 @@ const saveUploadedImage = async (req, res, { preserveFilename = false } = {}) =>
     }
     filename = `${path.parse(requestedFilename).name}${uploadFormat.extension}`;
   }
-  await writeFile(path.join(imageUploadDirectory, filename), req.file.buffer, {
-    flag: preserveFilename ? "w" : "wx",
-    mode: 0o644,
+
+  const stored = await saveFileToStorage({
+    filename,
+    buffer: req.file.buffer,
+    mimeType: uploadFormat.mimeType,
+    preserveFilename,
   });
 
   res.status(201).json({
     success: true,
     file: {
-      filename,
-      url: `/uploads/images/${filename}`,
+      filename: stored.filename,
+      url: stored.url,
       mimeType: uploadFormat.mimeType,
       size: req.file.size,
     },
     image: {
-      filename,
-      url: `/uploads/images/${filename}`,
+      filename: stored.filename,
+      url: stored.url,
       mimeType: uploadFormat.mimeType,
       size: req.file.size,
     },
