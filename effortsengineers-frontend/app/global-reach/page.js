@@ -2,53 +2,17 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import EnquiryForm from "@/components/EnquiryForm";
-import SITE_CONFIG from "@/config/site";
+import SITE_CONFIG, {
+  EXPORT_DESTINATIONS,
+  EXPORT_CERTIFICATES,
+  PACKAGING_STANDARDS,
+  CUSTOMS_DOCUMENTS,
+  EXPORT_STATS,
+  EXPORT_LOGISTICS,
+} from "@/config/site";
 
 export default function GlobalReachPage() {
   const [selectedCert, setSelectedCert] = useState(null);
-
-  const certificates = [
-    {
-      id: "SUPPLIER-QUALITY",
-      title: "Supplier Quality Documentation",
-      category: "Supplier Documentation",
-      issuer: "Relevant supplier, where available",
-      validity: "Availability and scope vary by supplier",
-      description: "Quality-system documents may be requested for review. Certification status applies to the named supplier only and does not imply that Efforts Engineers is certified.",
-    },
-    {
-      id: "MATERIAL-INSPECTION",
-      title: "Material & Inspection Records",
-      category: "Product Documentation",
-      issuer: "Relevant supplier or testing provider, where applicable",
-      validity: "Availability depends on the product and accepted order terms",
-      description: "Material, dimensional, or test records can be discussed for a specific part. Any applicable documentation must be confirmed before ordering.",
-    },
-    {
-      id: "WARRANTY-TERMS",
-      title: "Product Warranty Terms",
-      category: "Order Documentation",
-      issuer: "As stated in the accepted quotation or order",
-      validity: "Product- and order-specific",
-      description: "Warranty coverage, period, eligibility, and remedies apply only when stated in the accepted quotation or order documents.",
-    },
-    {
-      id: "SHIPPING-DOCUMENTS",
-      title: "Shipping & Packaging Documents",
-      category: "Export Documentation",
-      issuer: "Prepared as applicable to the order and destination",
-      validity: "Confirmed per shipment",
-      description: "Required shipping and packaging records vary by destination and shipment. Packaging options and applicable documents are confirmed for each order.",
-    },
-  ];
-
-  const exportDestinations = [
-    { region: "Middle East & Gulf", countries: "UAE, Saudi Arabia, Oman, Qatar, Kuwait, Bahrain", transit: "Indicative: 2 - 3 Days (Air) / 7 Days (Sea)" },
-    { region: "Southeast Asia", countries: "Singapore, Malaysia, Indonesia, Vietnam, Thailand, Philippines", transit: "Indicative: 3 - 4 Days (Air) / 10 Days (Sea)" },
-    { region: "Africa", countries: "Nigeria, Kenya, South Africa, Egypt, Ghana, Tanzania", transit: "Indicative: 4 - 5 Days (Air) / 14 Days (Sea)" },
-    { region: "Europe", countries: "Germany, Netherlands, UK, Greece, Italy, Poland", transit: "Indicative: 3 - 5 Days (Air) / 18 Days (Sea)" },
-    { region: "Americas", countries: "USA, Canada, Brazil, Mexico, Chile", transit: "Indicative: 4 - 6 Days (Air) / 24 Days (Sea)" },
-  ];
 
   return (
     <main className="section-shell">
@@ -64,29 +28,19 @@ export default function GlobalReachPage() {
 
       {/* Stats Grid */}
       <dl className="export-stats-grid">
-        <div className="export-stat-box">
-          <dt>{SITE_CONFIG.exportDestinationCount}</dt>
-          <dd>Potential Destination Countries</dd>
-        </div>
-        <div className="export-stat-box">
-          <dt>Per Shipment</dt>
-          <dd>Packaging arrangements confirmed</dd>
-        </div>
-        <div className="export-stat-box">
-          <dt>Per Destination</dt>
-          <dd>Transit estimate checked</dd>
-        </div>
-        <div className="export-stat-box">
-          <dt>On Request</dt>
-          <dd>Supplier documents checked for availability</dd>
-        </div>
+        {EXPORT_STATS.map((stat, idx) => (
+          <div key={idx} className="export-stat-box">
+            <dt>{stat.value}</dt>
+            <dd>{stat.label}</dd>
+          </div>
+        ))}
       </dl>
 
       {/* Global Export Network Table */}
       <section style={{ background: "white", borderRadius: "12px", border: "1px solid var(--line)", padding: "35px", marginBottom: "60px", boxShadow: "var(--shadow-sm)" }}>
         <h2 style={{ fontSize: "1.6rem", marginBottom: "14px" }}>International Export & Logistics Corridors</h2>
         <p style={{ color: "var(--text-muted)", marginBottom: "25px", fontSize: "0.95rem" }}>
-          Based in Pune with access to Mumbai air cargo and Nhava Sheva (JNPT) port routes. Dispatch schedules and transit depend on confirmed availability, carriers, customs, and destination.
+          {EXPORT_LOGISTICS.hubOrigin}
         </p>
 
         <div style={{ overflowX: "auto" }}>
@@ -100,7 +54,7 @@ export default function GlobalReachPage() {
               </tr>
             </thead>
             <tbody>
-              {exportDestinations.map((dest, idx) => (
+              {EXPORT_DESTINATIONS.map((dest, idx) => (
                 <tr key={idx}>
                   <td><strong>{dest.region}</strong></td>
                   <td>{dest.countries}</td>
@@ -112,7 +66,7 @@ export default function GlobalReachPage() {
           </table>
         </div>
         <p style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginTop: "12px" }}>
-          Transit times are estimates only and may exclude order processing, carrier schedules, customs clearance, and local delivery. Actual timing depends on the shipment and destination.
+          {EXPORT_LOGISTICS.transitDisclaimer}
         </p>
       </section>
 
@@ -125,9 +79,11 @@ export default function GlobalReachPage() {
             Compressor spares such as cast iron cylinder liners, crankshafts, and valve plates can be sensitive to atmospheric moisture during ocean transit. Packaging and preservation requirements are confirmed for each shipment:
           </p>
           <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: "10px", fontSize: "0.92rem" }}>
-            <li>🛡️ <strong>1. Corrosion Protection:</strong> Protective coatings may be specified for suitable machined surfaces.</li>
-            <li><strong>2. VCI Packaging:</strong> Available when appropriate and stated in the shipment arrangements.</li>
-            <li>🌲 <strong>3. ISPM-15 Wood Packaging:</strong> Where required, treated by an approved method stated on the applicable certificate. Crating options are confirmed per shipment.</li>
+            {PACKAGING_STANDARDS.map((std, idx) => (
+              <li key={idx}>
+                {std.icon} <strong>{idx + 1}. {std.title}:</strong> {std.description}
+              </li>
+            ))}
           </ul>
           <Link href="/contact" className="btn btn-outline">
             📄 Ask About Packaging Documentation
@@ -139,18 +95,11 @@ export default function GlobalReachPage() {
             Export documents are prepared as applicable to the order and destination:
           </p>
           <div style={{ display: "grid", gap: "10px", fontSize: "0.88rem" }}>
-            <div style={{ padding: "10px 14px", background: "rgba(255,255,255,0.06)", borderRadius: "6px" }}>
-              ✓ Commercial Invoice with Harmonized System (HS) Codes
-            </div>
-            <div style={{ padding: "10px 14px", background: "rgba(255,255,255,0.06)", borderRadius: "6px" }}>
-              ✓ Certificate of Origin, where applicable
-            </div>
-            <div style={{ padding: "10px 14px", background: "rgba(255,255,255,0.06)", borderRadius: "6px" }}>
-              ✓ Packing List with Gross/Net Weights & Dimensions
-            </div>
-            <div style={{ padding: "10px 14px", background: "rgba(255,255,255,0.06)", borderRadius: "6px" }}>
-              ✓ Material or dimensional inspection records, where available and agreed
-            </div>
+            {CUSTOMS_DOCUMENTS.map((doc, idx) => (
+              <div key={idx} style={{ padding: "10px 14px", background: "rgba(255,255,255,0.06)", borderRadius: "6px" }}>
+                ✓ {doc}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -167,7 +116,7 @@ export default function GlobalReachPage() {
         </div>
 
         <div className="cert-grid">
-          {certificates.map((cert) => (
+          {EXPORT_CERTIFICATES.map((cert) => (
             <div key={cert.id} className="cert-card">
               <span className="badge badge-primary cert-badge-pill">{cert.category}</span>
               <h3>{cert.title}</h3>

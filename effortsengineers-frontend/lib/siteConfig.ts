@@ -42,6 +42,46 @@ export interface ProfileLink {
   url: string;
 }
 
+export interface ExportDestination {
+  region: string;
+  countries: string;
+  transit: string;
+}
+
+export interface ExportCertificate {
+  id: string;
+  title: string;
+  category: string;
+  issuer: string;
+  validity: string;
+  description: string;
+}
+
+export interface PackagingStandard {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface ExportStat {
+  value: string | number;
+  label: string;
+}
+
+export interface ExportLogistics {
+  hubOrigin: string;
+  transitDisclaimer: string;
+}
+
+export interface GlobalReachConfig {
+  destinations: ExportDestination[];
+  certificates: ExportCertificate[];
+  packagingStandards: PackagingStandard[];
+  customsDocuments: string[];
+  stats: ExportStat[];
+  logistics: ExportLogistics;
+}
+
 // ---------------------------------------------------------------------------
 // 1. BRAND & IDENTITY
 // ---------------------------------------------------------------------------
@@ -247,7 +287,111 @@ export const FOOTER_QUICK_LINKS = [
 ];
 
 // ---------------------------------------------------------------------------
-// 7. UNIFIED SITE CONFIG EXPORT
+// 7. GLOBAL REACH & EXPORT LOGISTICS CONFIGURATION
+// ---------------------------------------------------------------------------
+export const EXPORT_DESTINATIONS: ExportDestination[] = [
+  { region: "Middle East & Gulf", countries: "UAE, Saudi Arabia, Oman, Qatar, Kuwait, Bahrain", transit: "Indicative: 2 - 3 Days (Air) / 7 Days (Sea)" },
+  { region: "Southeast Asia", countries: "Singapore, Malaysia, Indonesia, Vietnam, Thailand, Philippines", transit: "Indicative: 3 - 4 Days (Air) / 10 Days (Sea)" },
+  { region: "Africa", countries: "Nigeria, Kenya, South Africa, Egypt, Ghana, Tanzania", transit: "Indicative: 4 - 5 Days (Air) / 14 Days (Sea)" },
+  { region: "Europe", countries: "Germany, Netherlands, UK, Greece, Italy, Poland", transit: "Indicative: 3 - 5 Days (Air) / 18 Days (Sea)" },
+  { region: "Americas", countries: "USA, Canada, Brazil, Mexico, Chile", transit: "Indicative: 4 - 6 Days (Air) / 24 Days (Sea)" },
+];
+
+export const EXPORT_CERTIFICATES: ExportCertificate[] = [
+  {
+    id: "SUPPLIER-QUALITY",
+    title: "Supplier Quality Documentation",
+    category: "Supplier Documentation",
+    issuer: "Relevant supplier, where available",
+    validity: "Availability and scope vary by supplier",
+    description: "Quality-system documents may be requested for review. Certification status applies to the named supplier only and does not imply that Efforts Engineers is certified.",
+  },
+  {
+    id: "MATERIAL-INSPECTION",
+    title: "Material & Inspection Records",
+    category: "Product Documentation",
+    issuer: "Relevant supplier or testing provider, where applicable",
+    validity: "Availability depends on the product and accepted order terms",
+    description: "Material, dimensional, or test records can be discussed for a specific part. Any applicable documentation must be confirmed before ordering.",
+  },
+  {
+    id: "WARRANTY-TERMS",
+    title: "Product Warranty Terms",
+    category: "Order Documentation",
+    issuer: "As stated in the accepted quotation or order",
+    validity: "Product- and order-specific",
+    description: "Warranty coverage, period, eligibility, and remedies apply only when stated in the accepted quotation or order documents.",
+  },
+  {
+    id: "SHIPPING-DOCUMENTS",
+    title: "Shipping & Packaging Documents",
+    category: "Export Documentation",
+    issuer: "Prepared as applicable to the order and destination",
+    validity: "Confirmed per shipment",
+    description: "Required shipping and packaging records vary by destination and shipment. Packaging options and applicable documents are confirmed for each order.",
+  },
+];
+
+export const PACKAGING_STANDARDS: PackagingStandard[] = [
+  {
+    icon: "🛡️",
+    title: "Corrosion Protection",
+    description: "Protective coatings may be specified for suitable machined surfaces.",
+  },
+  {
+    icon: "📦",
+    title: "VCI Packaging",
+    description: "Available when appropriate and stated in the shipment arrangements.",
+  },
+  {
+    icon: "🌲",
+    title: "ISPM-15 Wood Packaging",
+    description: "Where required, treated by an approved method stated on the applicable certificate. Crating options are confirmed per shipment.",
+  },
+];
+
+export const CUSTOMS_DOCUMENTS: string[] = [
+  "Commercial Invoice with Harmonized System (HS) Codes",
+  "Certificate of Origin, where applicable",
+  "Packing List with Gross/Net Weights & Dimensions",
+  "Material or dimensional inspection records, where available and agreed",
+];
+
+export const EXPORT_STATS: ExportStat[] = [
+  {
+    value: CONTACT_DETAILS.exportDestinationCount,
+    label: "Potential Destination Countries",
+  },
+  {
+    value: "Per Shipment",
+    label: "Packaging arrangements confirmed",
+  },
+  {
+    value: "Per Destination",
+    label: "Transit estimate checked",
+  },
+  {
+    value: "On Request",
+    label: "Supplier documents checked for availability",
+  },
+];
+
+export const EXPORT_LOGISTICS: ExportLogistics = {
+  hubOrigin: "Based in Pune with access to Mumbai air cargo and Nhava Sheva (JNPT) port routes. Dispatch schedules and transit depend on confirmed availability, carriers, customs, and destination.",
+  transitDisclaimer: "Transit times are estimates only and may exclude order processing, carrier schedules, customs clearance, and local delivery. Actual timing depends on the shipment and destination.",
+};
+
+export const GLOBAL_REACH_CONFIG: GlobalReachConfig = {
+  destinations: EXPORT_DESTINATIONS,
+  certificates: EXPORT_CERTIFICATES,
+  packagingStandards: PACKAGING_STANDARDS,
+  customsDocuments: CUSTOMS_DOCUMENTS,
+  stats: EXPORT_STATS,
+  logistics: EXPORT_LOGISTICS,
+};
+
+// ---------------------------------------------------------------------------
+// 8. UNIFIED SITE CONFIG EXPORT
 // ---------------------------------------------------------------------------
 export const siteConfig = {
   ...BRAND_INFO,
@@ -259,6 +403,13 @@ export const siteConfig = {
   brands: ALL_BRANDS,
   enquiryBrands: ENQUIRY_BRANDS,
   quickLinks: FOOTER_QUICK_LINKS,
+  exportDestinations: EXPORT_DESTINATIONS,
+  exportCertificates: EXPORT_CERTIFICATES,
+  packagingStandards: PACKAGING_STANDARDS,
+  customsDocuments: CUSTOMS_DOCUMENTS,
+  exportStats: EXPORT_STATS,
+  exportLogistics: EXPORT_LOGISTICS,
+  globalReach: GLOBAL_REACH_CONFIG,
 };
 
 export default siteConfig;

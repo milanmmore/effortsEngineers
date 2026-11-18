@@ -1,17 +1,7 @@
 /// <reference types="next" />
 /// <reference types="next/image-types/global" />
+import "./.next/types/routes.d.ts";
+import "./.next/types/root-params.d.ts";
 
-declare module "*.jpg" {
-  const content: { src: string; height: number; width: number; blurDataURL?: string };
-  export default content;
-}
-
-declare module "*.jpeg" {
-  const content: { src: string; height: number; width: number; blurDataURL?: string };
-  export default content;
-}
-
-declare module "*.png" {
-  const content: { src: string; height: number; width: number; blurDataURL?: string };
-  export default content;
-}
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 import { QuoteContext } from "@/context/QuoteContext";
-// @ts-expect-error Image asset imported from static assets
 import logo from "@/images/logo.jpg";
 import { BRAND_INFO } from "@/lib/siteConfig";
 import TopBar from "./TopBar";
