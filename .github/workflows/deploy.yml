@@ -37,8 +37,14 @@ jobs:
         run: |
           gh pr merge "${GITHUB_REF_NAME}" \
             --repo "$GITHUB_REPOSITORY" \
-            --squash \
-            --delete-branch
+            --squash
+
+      - name: Delete branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/${GITHUB_REF_NAME}"
+          
 
   deploy:
     # Runs after a successful merge, or on any direct push to main
