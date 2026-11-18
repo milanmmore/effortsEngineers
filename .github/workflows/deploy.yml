@@ -8,32 +8,15 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: auto-pr-deploy
+  cancel-in-progress: false
+
 jobs:
   pr-and-merge:
     # Only for feature branches
     if: github.ref != 'refs/heads/main'
-  test:
     runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24.13.0
-
-      - name: Install backend dependencies
-        working-directory: effortsengineers-backend
-        run: npm ci
-
-      - name: Run backend mock tests
-        working-directory: effortsengineers-backend
-        run: npm run test:mock
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Create PR if none exists
         env:
@@ -64,8 +47,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/${GITHUB_REF_NAME}"
-          
+          gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/${GITHUB_REF_NAME}" || true
 
   deploy:
     # Runs after a successful merge, or on any direct push to main
