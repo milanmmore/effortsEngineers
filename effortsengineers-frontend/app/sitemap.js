@@ -12,6 +12,8 @@ const publicPaths = [
   "/productsourcing",
   "/services",
   "/warranty",
+  "/privacy",
+  "/terms",
 ];
 
 async function fetchCatalogPage(page) {

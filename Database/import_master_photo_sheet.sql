@@ -367,7 +367,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Cylinder Liner', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Cylinder Liner', NULL, E'GRA-VHP-CLN-01', E'GRA-VHP-CLN-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Cylinder Liner spare part - Efforts Engineers', E'/grasso/v-hp-xhp/cylinder-liner', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Cylinder Liner', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Cylinder Liner', NULL, E'GRA-VHP-CLN-01', E'GRA-VHP-CLN-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Cylinder Liner spare part - Efforts Engineers', E'/grasso/v-hp-xhp/cylinder-liner', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -387,7 +387,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Piston Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Piston Assembly', NULL, E'GRA-VHP-PST-01', E'GRA-VHP-PST-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Piston Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/piston-assembly', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Piston Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Piston Assembly', NULL, E'GRA-VHP-PST-01', E'GRA-VHP-PST-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Piston Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/piston-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -407,7 +407,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Piston Ring Set', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Piston Ring Set', NULL, E'GRA-VHP-PRG-01', E'GRA-VHP-PRG-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Piston Ring Set spare part - Efforts Engineers', E'/grasso/v-hp-xhp/piston-ring-set', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Piston Ring Set', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Piston Ring Set', NULL, E'GRA-VHP-PRG-01', E'GRA-VHP-PRG-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Piston Ring Set spare part - Efforts Engineers', E'/grasso/v-hp-xhp/piston-ring-set', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -427,7 +427,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Connecting Rod', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Connecting Rod', NULL, E'GRA-VHP-CRD-01', E'GRA-VHP-CRD-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Connecting Rod spare part - Efforts Engineers', E'/grasso/v-hp-xhp/connecting-rod', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Connecting Rod', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Connecting Rod', NULL, E'GRA-VHP-CRD-01', E'GRA-VHP-CRD-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Connecting Rod spare part - Efforts Engineers', E'/grasso/v-hp-xhp/connecting-rod', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -447,7 +447,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Crankshaft', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Crankshaft', NULL, E'GRA-VHP-CRK-01', E'GRA-VHP-CRK-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Crankshaft spare part - Efforts Engineers', E'/grasso/v-hp-xhp/crankshaft', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Crankshaft', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Crankshaft', NULL, E'GRA-VHP-CRK-01', E'GRA-VHP-CRK-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Crankshaft spare part - Efforts Engineers', E'/grasso/v-hp-xhp/crankshaft', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -467,7 +467,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Gudgeon Pin and Bush', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Gudgeon Pin and Bush', NULL, E'GRA-VHP-PIN-01', E'GRA-VHP-PIN-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/grasso/v-hp-xhp/gudgeon-pin-and-bush', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Gudgeon Pin and Bush', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Gudgeon Pin and Bush', NULL, E'GRA-VHP-PIN-01', E'GRA-VHP-PIN-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Gudgeon Pin and Bush spare part - Efforts Engineers', E'/grasso/v-hp-xhp/gudgeon-pin-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -487,7 +487,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Main Bearing and Bush', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Main Bearing and Bush', NULL, E'GRA-VHP-BRG-01', E'GRA-VHP-BRG-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Main Bearing and Bush spare part - Efforts Engineers', E'/grasso/v-hp-xhp/main-bearing-and-bush', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Main Bearing and Bush', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Main Bearing and Bush', NULL, E'GRA-VHP-BRG-01', E'GRA-VHP-BRG-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Main Bearing and Bush spare part - Efforts Engineers', E'/grasso/v-hp-xhp/main-bearing-and-bush', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -507,7 +507,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Suction Valve Plate', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Suction Valve Plate', NULL, E'GRA-VHP-SVP-01', E'GRA-VHP-SVP-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Suction Valve Plate spare part - Efforts Engineers', E'/grasso/v-hp-xhp/suction-valve-plate', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Suction Valve Plate', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Suction Valve Plate', NULL, E'GRA-VHP-SVP-01', E'GRA-VHP-SVP-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Suction Valve Plate spare part - Efforts Engineers', E'/grasso/v-hp-xhp/suction-valve-plate', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -527,7 +527,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Discharge Valve Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Discharge Valve Assembly', NULL, E'GRA-VHP-DVA-01', E'GRA-VHP-DVA-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Discharge Valve Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/discharge-valve-assembly', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Discharge Valve Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Discharge Valve Assembly', NULL, E'GRA-VHP-DVA-01', E'GRA-VHP-DVA-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Discharge Valve Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/discharge-valve-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -547,7 +547,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Valve Spring and Cage', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Valve Spring and Cage', NULL, E'GRA-VHP-VSP-01', E'GRA-VHP-VSP-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Valve Spring and Cage spare part - Efforts Engineers', E'/grasso/v-hp-xhp/valve-spring-and-cage', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Valve Spring and Cage', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Valve Spring and Cage', NULL, E'GRA-VHP-VSP-01', E'GRA-VHP-VSP-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Valve Spring and Cage spare part - Efforts Engineers', E'/grasso/v-hp-xhp/valve-spring-and-cage', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -567,7 +567,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Cylinder Head Cover', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Cylinder Head Cover', NULL, E'GRA-VHP-HDC-01', E'GRA-VHP-HDC-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Cylinder Head Cover spare part - Efforts Engineers', E'/grasso/v-hp-xhp/cylinder-head-cover', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Cylinder Head Cover', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Cylinder Head Cover', NULL, E'GRA-VHP-HDC-01', E'GRA-VHP-HDC-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Cylinder Head Cover spare part - Efforts Engineers', E'/grasso/v-hp-xhp/cylinder-head-cover', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -587,7 +587,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Gasket and Overhaul Kit', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Gasket and Overhaul Kit', NULL, E'GRA-VHP-GSK-01', E'GRA-VHP-GSK-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/grasso/v-hp-xhp/gasket-and-overhaul-kit', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Gasket and Overhaul Kit', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Gasket and Overhaul Kit', NULL, E'GRA-VHP-GSK-01', E'GRA-VHP-GSK-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Gasket and Overhaul Kit spare part - Efforts Engineers', E'/grasso/v-hp-xhp/gasket-and-overhaul-kit', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -607,7 +607,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Oil Pump Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Oil Pump Assembly', NULL, E'GRA-VHP-OPA-01', E'GRA-VHP-OPA-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Oil Pump Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/oil-pump-assembly', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Oil Pump Assembly', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Oil Pump Assembly', NULL, E'GRA-VHP-OPA-01', E'GRA-VHP-OPA-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Oil Pump Assembly spare part - Efforts Engineers', E'/grasso/v-hp-xhp/oil-pump-assembly', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -627,7 +627,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Shaft Seal', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Shaft Seal', NULL, E'GRA-VHP-SHS-01', E'GRA-VHP-SHS-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Shaft Seal spare part - Efforts Engineers', E'/grasso/v-hp-xhp/shaft-seal', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Shaft Seal', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Shaft Seal', NULL, E'GRA-VHP-SHS-01', E'GRA-VHP-SHS-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Shaft Seal spare part - Efforts Engineers', E'/grasso/v-hp-xhp/shaft-seal', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -647,7 +647,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Oil Filter and Strainer', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Oil Filter and Strainer', NULL, E'GRA-VHP-FLT-01', E'GRA-VHP-FLT-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Oil Filter and Strainer spare part - Efforts Engineers', E'/grasso/v-hp-xhp/oil-filter-and-strainer', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Oil Filter and Strainer', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Oil Filter and Strainer', NULL, E'GRA-VHP-FLT-01', E'GRA-VHP-FLT-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Oil Filter and Strainer spare part - Efforts Engineers', E'/grasso/v-hp-xhp/oil-filter-and-strainer', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -667,7 +667,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Unloader and Capacity Control', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Unloader and Capacity Control', NULL, E'GRA-VHP-ULD-01', E'GRA-VHP-ULD-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Unloader and Capacity Control spare part - Efforts Engineers', E'/grasso/v-hp-xhp/unloader-and-capacity-control', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Unloader and Capacity Control', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Unloader and Capacity Control', NULL, E'GRA-VHP-ULD-01', E'GRA-VHP-ULD-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Unloader and Capacity Control spare part - Efforts Engineers', E'/grasso/v-hp-xhp/unloader-and-capacity-control', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
@@ -687,7 +687,7 @@ ON CONFLICT (photo_id) DO UPDATE SET
   remarks = EXCLUDED.remarks;
 
 INSERT INTO products (name, description, brand, series, category, part_number, photo_id, file_name, compatible_models, material_size, photo_status, photo_source, photo_view, stock_status, alt_text, page_url, remarks)
-VALUES (E'Grasso - Grasso V HP and V XHP Series - Safety Head and Relief Valve', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Safety Head and Relief Valve', NULL, E'GRA-VHP-SAF-01', E'GRA-VHP-SAF-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, ', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/grasso/v-hp-xhp/safety-head-and-relief-valve', NULL)
+VALUES (E'Grasso - Grasso V HP and V XHP Series - Safety Head and Relief Valve', NULL, E'Grasso', E'Grasso V HP and V XHP Series', E'Safety Head and Relief Valve', NULL, E'GRA-VHP-SAF-01', E'GRA-VHP-SAF-01.jpg', E'V 350 XHP, V 550 XHP, V 750 XHP, V 950 XHP, V HP', NULL, E'To Shoot', NULL, NULL, NULL, E'Grasso V HP and V XHP Series Safety Head and Relief Valve spare part - Efforts Engineers', E'/grasso/v-hp-xhp/safety-head-and-relief-valve', NULL)
 ON CONFLICT (photo_id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,

@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "Efforts Engineers API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Products API",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/products"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200\", function(){pm.response.to.have.status(200);});",
+              "pm.test(\"Response time under 2s\", function(){pm.expect(pm.response.responseTime).below(2000);});",
+              "pm.test(\"JSON returned\", function(){pm.response.to.be.json;});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "RFQ Submit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/rfq"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Created\", function(){pm.expect(pm.response.code).to.be.oneOf([200,201]);});",
+              "let json=pm.response.json();",
+              "pm.test(\"Reference generated\", function(){pm.expect(json.reference).to.exist;});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

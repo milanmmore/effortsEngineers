@@ -178,16 +178,16 @@ function ProductsContent({
     );
   };
 
-  const unavailableBrands = SITE_CONFIG.brands.filter(
+  const unavailableBrands = (SITE_CONFIG.otherSourcedBrands || []).filter(
     ({ name }) => !brands.some((availableBrand) => availableBrand.toLowerCase() === name.toLowerCase())
   );
   return (
     <main className="section-shell catalog-section-shell">
       <div className="section-header">
-        <span className="eyebrow">Inventory Catalog</span>
-        <h1 className="section-title"><b>Product</b> Catalog</h1>
+        <span className="eyebrow">Replacement Spares Guide</span>
+        <h1 className="section-title"><b>Compressor Spares</b> Catalog</h1>
         <p className="section-desc">
-          Browse compressor spare parts and compatibility details from our catalog. Contact us to confirm current availability and pricing.
+          Browse replacement components organised by compressor brand, series, and part category. Availability, specifications, and quotations are confirmed per enquiry—share your equipment nameplate or part reference with our engineering desk.
         </p>
         <div className="separator-line" />
       </div>
@@ -213,8 +213,8 @@ function ProductsContent({
         <div className="search-input-wrap">
           <input
             type="text"
-            aria-label="Search products by name, brand, compressor model, category, or part number"
-            placeholder="Search by part name, brand, model, category, or part number..."
+            aria-label="Search replacement parts by brand, series, model, or component"
+            placeholder="Search by brand, series, model, or component..."
             value={searchTerm}
             onChange={handleSearchChange}
           />
@@ -249,7 +249,7 @@ function ProductsContent({
 
       <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", marginBottom: "25px", fontSize: "0.85rem", alignItems: "center" }}>
         <span style={{ fontWeight: 700, color: "var(--navy)" }}>
-          Availability and pricing are confirmed on request.
+          Availability, pricing, and dispatch lead times are confirmed on request per enquiry.
         </span>
         <span style={{ marginLeft: "auto", color: "var(--text-muted)", fontWeight: 600 }}>
           Showing {products.length} on this page of {total} matching products
@@ -310,16 +310,23 @@ function ProductsContent({
                   src={item.image}
                   alt={item.alt_text || item.name}
                   label={item.category || getProductDisplayName(item)}
+                  category={item.category}
                 />
-                <span className={`badge badge-${item.stock_type} stock-floating-pill`}>
-                  Listed: {item.stock_status}
-                </span>
+                {item.has_explicit_stock ? (
+                  <span className={`badge badge-${item.stock_type} stock-floating-pill`}>
+                    {item.stock_status}
+                  </span>
+                ) : (
+                  <span className="badge badge-order stock-floating-pill">
+                    Quote on Request
+                  </span>
+                )}
                 {item.brand && <span className="brand-floating-tag">{item.brand}</span>}
               </div>
               <div className="product-info">
-                <span className="product-oem-no">
-                  {item.part_number ? `PART NO: ${item.part_number}` : "PART NUMBER NOT LISTED"}
-                </span>
+                {item.part_number && (
+                  <span className="product-oem-no">PART NO: {item.part_number}</span>
+                )}
                 <h3><Link href={`/products/${item.id}`}>{getProductDisplayName(item)}</Link></h3>
                 {item.description && <p>{item.description}</p>}
                 {(item.series || item.category || item.compatible_models || item.material_size) && (

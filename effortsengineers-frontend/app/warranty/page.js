@@ -66,7 +66,7 @@ export default function WarrantyPage() {
         </div>
 
         <div className="why-card">
-          <div className="why-icon-box">🔬</div>
+          <div className="why-icon-box"><InterfaceIcon name="search" size={24} /></div>
           <h3>Product Documentation</h3>
           <p>
             Inspection, material, and traceability records vary by product. Please request the documentation available for your part.

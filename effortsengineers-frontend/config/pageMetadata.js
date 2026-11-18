@@ -14,7 +14,7 @@ const pageMetadata = {
   products: {
     path: "/products",
     title: "Industrial Compressor Spare Parts Catalog | Efforts Engineers",
-    description: "Browse replacement compressor spare parts by brand, model, series, and part number. Request a quote to confirm availability, pricing, and delivery.",
+    description: "Browse replacement compressor spare parts by brand, model series, and component category. Request a quote to confirm compatibility, availability, pricing, and delivery.",
   },
   globalReach: {
     path: "/global-reach",
@@ -35,6 +35,16 @@ const pageMetadata = {
     path: "/warranty",
     title: "Product Warranty Terms & Support | Efforts Engineers",
     description: "Learn how product-specific warranty coverage and claims are reviewed according to the accepted quotation or order documents.",
+  },
+  privacy: {
+    path: "/privacy",
+    title: "Privacy Policy | Efforts Engineers",
+    description: "Privacy policy and data protection practices for customer enquiries, portal accounts, and orders at Efforts Engineers.",
+  },
+  terms: {
+    path: "/terms",
+    title: "Terms & Conditions | Efforts Engineers",
+    description: "Commercial and legal terms for parts quotations, orders, delivery, and services at Efforts Engineers.",
   },
   login: {
     path: "/auth/login",
@@ -110,10 +120,15 @@ export function getPageMetadata(pageKey) {
     throw new Error(`Missing page metadata for "${pageKey}".`);
   }
 
+  const isIndexingEnabled = process.env.ALLOW_INDEXING === "true";
+  const shouldNoIndex = !isIndexingEnabled || Boolean(page.noindex);
+
   return {
     title: page.title,
     description: page.description,
-    ...(page.noindex && { robots: { index: false, follow: false } }),
+    robots: shouldNoIndex
+      ? { index: false, follow: false }
+      : { index: true, follow: true },
     alternates: {
       canonical: new URL(page.path, SITE_ORIGIN).toString(),
     },

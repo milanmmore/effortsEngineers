@@ -27,6 +27,7 @@ export default function ProductDetailClient({ product: rawProduct }) {
             src={product.image}
             alt={product.alt_text || product.name}
             label={product.category || product.name}
+            category={product.category}
           />
         </div>
         <div>
@@ -45,11 +46,11 @@ export default function ProductDetailClient({ product: rawProduct }) {
           )}
           {!product.part_number && (
             <p className="product-detail-note">
-              No part number is listed. Please share your compressor model or a sample reference so we can confirm the correct item.
+              Part number varies by unit configuration. Share your compressor nameplate, serial number, or sample reference so we can confirm fitment.
             </p>
           )}
           <p className="product-detail-note">
-            Current availability, pricing, and fitment are confirmed for each enquiry.
+            Pricing, availability, and dispatch lead times are confirmed on request per enquiry.
           </p>
           <button type="button" className="btn btn-primary" onClick={() => addItem(product)}>
             Add to Quote

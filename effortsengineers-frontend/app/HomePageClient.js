@@ -28,7 +28,7 @@ export default function HomePageClient({ brandRangesSection }) {
             </p>
             <div className="hero-cta-row">
               <Link href="/products" className="btn btn-primary hero-btn">
-                Browse Stock Catalog →
+                Browse Parts Catalog →
               </Link>
               <button type="button" onClick={() => setIsDrawerOpen(true)} className="btn btn-amber hero-btn">
                 📋 Open Quote Builder
@@ -88,7 +88,7 @@ export default function HomePageClient({ brandRangesSection }) {
 
         <div className="why-choose-grid">
           <div className="why-card">
-            <div className="why-icon-box">💰</div>
+            <div className="why-icon-box"><InterfaceIcon name="clipboard" size={24} /></div>
             <h3>Competitive Quotations</h3>
             <p>
               We source replacement spares through our supplier network and quote per requirement. Pricing depends on the part specification, availability and quantity.
@@ -104,7 +104,7 @@ export default function HomePageClient({ brandRangesSection }) {
           </div>
 
           <div className="why-card">
-            <div className="why-icon-box">🏭</div>
+            <div className="why-icon-box"><InterfaceIcon name="settings" size={24} /></div>
             <h3>Sourcing Through Partners</h3>
             <p>
               We coordinate with manufacturing partners for suitable CNC machining and inspection. Capabilities and inspection documentation are confirmed for each requirement.

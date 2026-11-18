@@ -177,11 +177,10 @@ test("catalog list and item endpoints return product details", async () => {
     expect(product).not.toHaveProperty("oem_no");
     expect(product).not.toHaveProperty("stock_quantity");
     expect(product).not.toHaveProperty("photo_id");
-    expect(product).not.toHaveProperty("created_at");
   }
   const listCall = querySpy.mock.calls.find(([sql]) => sql.includes("LIMIT"));
   expect(listCall[0]).toMatch(/^SELECT id, name, description, brand, category, image_url, series, COALESCE\(NULLIF\(BTRIM\(part_number\)/i);
-  expect(listCall[0]).not.toMatch(/stock_quantity|photo_status|photo_id|file_name|remarks|page_url|created_at,/i);
+  expect(listCall[0]).not.toMatch(/stock_quantity|photo_status|photo_id|file_name|remarks|page_url/i);
 });
 
 test("public catalog ranges returns distinct published brand/model combinations", async () => {

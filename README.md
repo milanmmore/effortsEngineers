@@ -1,4 +1,4 @@
-# Efforts Engineers — Industrial Compressor Spares & Overhaul Platform
+# Efforts Engineers — Industrial Compressor Spares & Service Coordination Platform
 
 [![Backend Test Suite](https://img.shields.io/badge/Backend%20Tests-19%20Passed%20(100%25)-success?style=flat-square&logo=jest)](docs/TEST_CASES.md)
 [![Frontend Prerender](https://img.shields.io/badge/Next.js%2016-21%20Pages%20Prerendered-blue?style=flat-square&logo=next.js)](effortsengineers-frontend)
@@ -8,7 +8,7 @@
 
 ## 📌 Executive Overview
 
-**Efforts Engineers** (Pune, India) is an established supplier and sourcing partner for replacement spare parts and coordinated overhaul services for industrial refrigeration, air, and gas compressors.
+**Efforts Engineers** (Pune, India) is an established supplier and sourcing partner for replacement spare parts and service coordination for industrial refrigeration, air, and gas compressors.
 
 Serving industry since 1986, Efforts Engineers has supplied high-integrity spares suitable for **Grasso, Kirloskar, Bitzer, Carrier, Sabroe, Bock, Daikin, Vilter, Mycom, and York** compressors to cold storage operators, marine fleets, and petrochemical plants across India and 15+ export nations.
 
@@ -26,7 +26,7 @@ This modernized platform delivers:
 | Layer | Technologies |
 | :--- | :--- |
 | **Frontend Web App** | **Next.js 16** (App Router, Turbopack, SSR/SSG), **React 18**, CSS3 Custom Design System |
-| **Backend API** | **Node.js 22**, **Express 5**, **PostgreSQL (`pg` Pool)**, **JWT Authentication**, **Helmet**, **CORS** |
+| **Backend API** | **Node.js 22/24**, **Express 5**, **PostgreSQL (`pg` Pool)**, **JWT Authentication**, **Helmet**, **CORS**, **Railway Volume / AWS S3 Persistence** |
 | **Testing & QA** | **Jest 30.5**, **Supertest 7.2**, Mock DB & Live DB Runners, Master Excel Matrix |
 | **Data & Scripts** | PostgreSQL 15/16, SQL Migration Scripts (`generateDB.sql`, `seedDB.sql`) |
 

@@ -31,6 +31,7 @@ The platform is architected for dual-role workflows:
 | **Phase 6** | [Phase 6: Documentation & Specs](docs/project_plan/phase6.md) | System architecture diagrams (horizontal/vertical), API mapping | ✅ Completed |
 | **Phase 7** | [Phase 7: Roadmap & Evolution](docs/project_plan/phase7.md) | 1–1.5 month demo delivery, quality verification, milestone roadmap | ✅ Completed |
 | **Deployment** | [Deployment Workflow Spec](docs/project_plan/deployment-workflow-spec.md) | Release pipeline, build verification, and deployment topology | ✅ Completed |
+| **Portal Spec** | [Portal Functionality Specification](docs/portal-functionality-spec.md) | Dual-role customer & admin portals, printable quotes, consignment tracking | ✅ Completed |
 | **Testing Hub** | [Comprehensive Test Cases](docs/TEST_CASES.md) | 19 Backend tests + 32 Frontend verification scenarios (100% Pass) | ✅ Completed |
 | **Master QA** | [Master Test Suite Excel](Efforts_Engineers_Master_Test_Suite.xlsx) | Formatted Excel workbook with `Summary`, `frontend`, `backend` | ✅ Completed |
 

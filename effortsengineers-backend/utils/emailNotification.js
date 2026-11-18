@@ -3,6 +3,9 @@ const EMAIL_TIMEOUT_MS = 10_000;
 export async function sendPasswordResetEmail({ to, resetUrl }) {
   const token = process.env.FORMSUBMIT_TOKEN?.trim();
   if (!token) {
+    console.warn(
+      "[EMAIL WARNING] Password reset email skipped: FORMSUBMIT_TOKEN is not configured in backend environment variables."
+    );
     return { success: false, message: "Email delivery is not configured on the backend." };
   }
 
@@ -43,6 +46,9 @@ export async function sendEmailNotification({
 }) {
   const token = process.env.FORMSUBMIT_TOKEN?.trim();
   if (!token) {
+    console.warn(
+      `[EMAIL WARNING] Email notification "${subject || "Enquiry"}" skipped: FORMSUBMIT_TOKEN is not configured in backend environment variables.`
+    );
     return {
       success: false,
       message: "Email delivery is not configured on the backend.",

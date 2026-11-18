@@ -4,6 +4,9 @@ import ApiError from "../utils/ApiError.js";
 import { getRequestAuthToken } from "../utils/authCookie.js";
 
 export const requireAuth = (req, res, next) => {
+  if (req.headers.authorization && !req.headers.authorization.startsWith("Bearer ")) {
+    return next(new ApiError(401, "Malformed authorization header"));
+  }
   const token = getRequestAuthToken(req);
   if (!token) {
     return next(new ApiError(401, "Not authenticated"));

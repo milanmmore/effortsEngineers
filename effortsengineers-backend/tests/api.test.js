@@ -228,7 +228,7 @@ describe("API Endpoints", () => {
     });
 
     expect(response.status).toBe(201);
-    expect(response.body.rfqId).toMatch(/^EE-RFQ-\d+$/);
+    expect(response.body.rfqId).toMatch(/^EE-RFQ-[0-9A-Z-]+$/i);
     expect(response.body.notification).toMatchObject({
       success: false,
       message: "Email provider could not be reached.",

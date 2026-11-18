@@ -17,6 +17,6 @@ export const signToken = (payload, options = {}) => {
   return jwtLib.sign(payload, getSecret(), { expiresIn: options.expiresIn || "8h" });
 };
 
-export const verifyToken = (token) => {
-  return jwtLib.verify(token, getSecret());
+export const verifyToken = (token, options = {}) => {
+  return jwtLib.verify(token, getSecret(), options);
 };
