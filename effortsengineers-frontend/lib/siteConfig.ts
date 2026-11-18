@@ -89,7 +89,7 @@ export const BRAND_INFO = {
   name: "Efforts Engineers",
   titlePrefix: "EFFORTS",
   titleSuffix: "ENGINEERS",
-  tagline: "Compressor Spares & Service Coordination",
+  tagline: "Engineering Excellence Since 1986",
   establishedYear: 1986,
   yearsInBusinessText: "Established in Pune in 1986",
   yearsInBusinessShort: "Since 1986",

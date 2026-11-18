@@ -18,13 +18,13 @@ export default function HomePageClient({ brandRangesSection }) {
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> Supplier Network • Compressor Parts Sourcing • Export Coordination
+              <span>★</span> Supplier Network • {SITE_CONFIG.tagline} • Export Coordination
             </div>
             <h1 className="hero-title">
               Parts That Keep <span>Industry Moving.</span>
             </h1>
             <p className="hero-subtitle">
-              Replacement spare parts and coordinated overhaul services for industrial refrigeration, cold chain, marine HVAC, and process gas compressors. Availability and dispatch estimates are confirmed per order.
+              Replacement spare parts and service coordination for industrial refrigeration, cold chain, marine HVAC, and process gas compressors. Availability and dispatch estimates are confirmed per order.
             </p>
             <div className="hero-cta-row">
               <Link href="/products" className="btn btn-primary hero-btn">
