@@ -1,0 +1,36 @@
+name: Auto PR and merge
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pr-and-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create PR if none exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          if [ -z "$(gh pr list --head "$BRANCH" --base main --state open --json number --jq '.[0].number')" ]; then
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "$(git log -1 --pretty=%s)" \
+              --body "Auto-created from push to $BRANCH"
+          fi
+
+      - name: Merge PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge "${GITHUB_REF_NAME}" --squash --delete-branch --auto
+          
