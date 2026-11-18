@@ -8,6 +8,10 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: auto-pr-deploy
+  cancel-in-progress: false
+
 jobs:
   pr-and-merge:
     # Only for feature branches
@@ -64,8 +68,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/${GITHUB_REF_NAME}"
-          
+          gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/${GITHUB_REF_NAME}" || true
 
   deploy:
     # Runs after a successful merge, or on any direct push to main
