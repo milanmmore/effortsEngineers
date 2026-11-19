@@ -10,44 +10,107 @@ import InterfaceIcon from "@/components/InterfaceIcon";
 export default function HomePageClient({ brandRangesSection }) {
   const { setIsDrawerOpen } = useContext(QuoteContext);
 
+  const servicesList = [
+    {
+      title: "Industrial Automation",
+      description: "PLC, HMI and SCADA system development and integration.",
+      icon: "settings",
+    },
+    {
+      title: "Electrical Engineering",
+      description: "Electrical system design, implementation and commissioning.",
+      icon: "bolt",
+    },
+    {
+      title: "Instrumentation Solutions",
+      description: "Industrial instrumentation, calibration and process control systems.",
+      icon: "clipboard",
+    },
+    {
+      title: "IIoT & Digitalization",
+      description: "Smart monitoring, data analytics and connected industrial solutions.",
+      icon: "box",
+    },
+    {
+      title: "Control Panel Engineering",
+      description: "Design, manufacturing and testing of industrial control panels.",
+      icon: "shield",
+    },
+    {
+      title: "Engineering Consultancy",
+      description: "Technical advisory, project execution and engineering support.",
+      icon: "wrench",
+    },
+  ];
+
+  const whyChooseUsPoints = [
+    {
+      title: "Decades of Experience",
+      description: "Delivering engineering solutions since 1986.",
+      icon: "building",
+    },
+    {
+      title: "Technical Expertise",
+      description: "Skilled professionals across automation, electrical and instrumentation domains.",
+      icon: "bolt",
+    },
+    {
+      title: "Quality-Focused Approach",
+      description: "Solutions designed and executed using proven engineering practices.",
+      icon: "shield",
+    },
+    {
+      title: "Customer-Centric Service",
+      description: "Committed support throughout the project lifecycle.",
+      icon: "settings",
+    },
+  ];
+
   return (
     <main>
-      {/* 1. HERO BANNER (Amocon-inspired) */}
+      {/* 1. HERO BANNER */}
       <section className="hero-industrial">
         <div className="hero-container">
           {/* Left Hero Content */}
           <div>
             <div className="hero-badge-pill">
-              <span>★</span> Supplier Network • {SITE_CONFIG.tagline} • Export Coordination
+              <span>★</span> {SITE_CONFIG.tagline}
             </div>
             <h1 className="hero-title">
-              Parts That Keep <span>Industry Moving.</span>
+              Engineering Excellence <span>Since 1986</span>
             </h1>
+            <p style={{ fontSize: "1.18rem", fontWeight: 600, color: "var(--amber)", marginBottom: "14px", lineHeight: 1.45 }}>
+              Delivering Industrial Automation, Electrical, Instrumentation and Digital Engineering Solutions for Modern Industries.
+            </p>
             <p className="hero-subtitle">
-              Replacement spare parts and service coordination for industrial refrigeration, cold chain, marine HVAC, and process gas compressors. Availability and dispatch estimates are confirmed per order.
+              Efforts Engineers helps industries enhance productivity, reliability and operational efficiency through innovative automation systems, engineering expertise and technology-driven solutions.
             </p>
             <div className="hero-cta-row">
-              <Link href="/products" className="btn btn-primary hero-btn">
-                Browse Parts Catalog →
+              <Link href="/services" className="btn btn-primary hero-btn">
+                Our Services
               </Link>
-              <button type="button" onClick={() => setIsDrawerOpen(true)} className="btn btn-amber hero-btn">
-                📋 Open Quote Builder
-              </button>
+              <Link href="/contact" className="btn btn-amber hero-btn">
+                Contact Us
+              </Link>
             </div>
 
-            {/* Stats Counter Strip */}
+            {/* Statistics / Highlights Section */}
             <dl className="hero-stats-strip">
               <div className="hero-stat-item">
-                <dt>{SITE_CONFIG.brands.length}</dt>
-                <dd>Compressor Brands Listed</dd>
+                <dt style={{ fontSize: "1.1rem", lineHeight: 1.25 }}>40+ Years</dt>
+                <dd style={{ textTransform: "none", letterSpacing: "normal", fontSize: "0.78rem" }}>Industry Experience</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>{SITE_CONFIG.exportDestinationCount}</dt>
-                <dd>Potential Export Destinations</dd>
+                <dt style={{ fontSize: "1.02rem", lineHeight: 1.25 }}>Automation Solutions</dt>
+                <dd style={{ textTransform: "none", letterSpacing: "normal", fontSize: "0.78rem" }}>PLC, SCADA &amp; IIoT Systems</dd>
               </div>
               <div className="hero-stat-item">
-                <dt>Since 1986</dt>
-                <dd>Serving Industry</dd>
+                <dt style={{ fontSize: "1.02rem", lineHeight: 1.25 }}>Engineering Expertise</dt>
+                <dd style={{ textTransform: "none", letterSpacing: "normal", fontSize: "0.78rem" }}>Electrical &amp; Instrumentation Services</dd>
+              </div>
+              <div className="hero-stat-item">
+                <dt style={{ fontSize: "1.02rem", lineHeight: 1.25 }}>Customer Focused</dt>
+                <dd style={{ textTransform: "none", letterSpacing: "normal", fontSize: "0.78rem" }}>Reliable Project Delivery</dd>
               </div>
             </dl>
           </div>
@@ -55,188 +118,148 @@ export default function HomePageClient({ brandRangesSection }) {
           {/* Right Hero Enquiry Callout */}
           <div className="hero-rfq-card">
             <div className="rfq-card-header">
-              <span className="eyebrow" style={{ color: "var(--primary)" }}>Parts Enquiries</span>
-              <h2>Need a Compressor Spare?</h2>
-              <p>Share the make, model, and part reference. We&apos;ll review your request and confirm availability, pricing, and dispatch estimates.</p>
+              <span className="eyebrow" style={{ color: "var(--primary)" }}>Engineering Enquiries</span>
+              <h2>Discuss Your Requirement</h2>
+              <p>Share your technical specifications or project needs. Our engineering and technical teams will review and provide custom engineering support.</p>
             </div>
-            <p style={{ margin: 0, color: "var(--text-muted)", fontSize: "0.9rem" }}>Use the catalog or Quote Builder to start an enquiry.</p>
+            <Link href="/contact" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+              Get In Touch →
+            </Link>
           </div>
         </div>
       </section>
 
-      <section id="home-enquiry" className="section-shell" style={{ background: "#f8fafc" }}>
+      {/* 2. ABOUT COMPANY SECTION */}
+      <section className="section-shell" id="about" style={{ background: "#f8fafc" }}>
         <div className="section-header">
-          <span className="eyebrow">Parts Enquiry</span>
-          <h2 className="section-title"><b>Tell Us What</b> You Need</h2>
-          <p className="section-desc">
-            Share your contact details and compressor requirement. Standard, urgent, breakdown, and planned-overhaul requests are all welcome.
-          </p>
+          <span className="eyebrow">Company Profile</span>
+          <h2 className="section-title"><b>About</b> Efforts Engineers</h2>
           <div className="separator-line" />
         </div>
-        <EnquiryForm source="Home page" title="Submit a Compressor Parts Enquiry" />
+        <div style={{ maxWidth: "880px", margin: "0 auto", textAlign: "center", fontSize: "1.08rem", lineHeight: 1.8, color: "var(--text)" }}>
+          <p style={{ marginBottom: "18px" }}>
+            Established in 1986, Efforts Engineers is a trusted provider of industrial automation, electrical, instrumentation and engineering solutions. Our commitment to quality, innovation and customer satisfaction enables industries to achieve greater efficiency, reliability and sustainable growth.
+          </p>
+          <p style={{ color: "var(--text-muted)", margin: "0 0 24px" }}>
+            We partner with our customers to deliver tailored engineering solutions that meet evolving industrial requirements and operational challenges.
+          </p>
+          <div>
+            <Link href="/about" className="btn btn-outline">
+              Learn More About Our Journey →
+            </Link>
+          </div>
+        </div>
       </section>
 
-      {/* 2. WHY CHOOSE US (AMOCON STYLE 3-COLUMN BADGES) */}
+      {/* 3. WHY CHOOSE US */}
       <section className="section-shell" style={{ background: "#f0f9ff" }}>
         <div className="section-header">
-          <h2 className="section-title"><b>Why Choose</b> Efforts Engineers?</h2>
+          <span className="eyebrow">Proven Engineering Heritage</span>
+          <h2 className="section-title"><b>Why Industries Trust</b> Efforts Engineers</h2>
           <p className="section-desc">
-            We source compressor spares and coordinate logistics for industrial plant requirements.
+            Partnering with manufacturing, process, and industrial facilities with reliable and technology-driven engineering solutions.
           </p>
           <div className="separator-line" />
         </div>
 
-        <div className="why-choose-grid">
-          <div className="why-card">
-            <div className="why-icon-box"><InterfaceIcon name="clipboard" size={24} /></div>
-            <h3>Competitive Quotations</h3>
-            <p>
-              We source replacement spares through our supplier network and quote per requirement. Pricing depends on the part specification, availability and quantity.
-            </p>
-          </div>
-
-          <div className="why-card">
-            <div className="why-icon-box"><InterfaceIcon name="bolt" size={24} /></div>
-            <h3>Availability & Dispatch Estimates</h3>
-            <p>
-              Ask us to confirm current availability and dispatch options. Delivery estimates depend on stock, order confirmation, carrier schedules, destination, and customs.
-            </p>
-          </div>
-
-          <div className="why-card">
-            <div className="why-icon-box"><InterfaceIcon name="settings" size={24} /></div>
-            <h3>Sourcing Through Partners</h3>
-            <p>
-              We coordinate with manufacturing partners for suitable CNC machining and inspection. Capabilities and inspection documentation are confirmed for each requirement.
-            </p>
-          </div>
+        <div className="why-choose-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
+          {whyChooseUsPoints.map((point, idx) => (
+            <div key={idx} className="why-card">
+              <div className="why-icon-box"><InterfaceIcon name={point.icon} size={24} /></div>
+              <h3>{point.title}</h3>
+              <p>{point.description}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {brandRangesSection}
-      <section className="section-shell">
-        <div style={{ textAlign: "center", marginTop: "28px" }}>
-          <Link href="/productsourcing#brand-ranges" className="btn btn-outline">
-            View Sourcing & Compatibility Details →
-          </Link>
-        </div>
-      </section>
-
-      <section className="section-shell" id="annual-supply-contract" style={{ background: "#f0f9ff" }}>
+      {/* 4. SERVICES SECTION */}
+      <section className="section-shell" id="services">
         <div className="section-header">
-          <span className="eyebrow">Long-Term Compressor Spares Supply</span>
-          <h2 className="section-title"><b>Annual Supply</b> Contracts</h2>
+          <span className="eyebrow">Comprehensive Solutions</span>
+          <h2 className="section-title"><b>Our</b> Services</h2>
           <p className="section-desc">
-            Need a dependable supply partner for your compressor fleet? We can discuss an annual contract for compressor spares tailored to your requirements.
+            End-to-end industrial automation, electrical, and instrumentation services tailored to modern industrial requirements.
           </p>
           <div className="separator-line" />
         </div>
+
+        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", marginBottom: "40px" }}>
+          {servicesList.map((service, idx) => (
+            <div
+              key={idx}
+              className="service-card"
+              style={{
+                padding: "30px",
+                borderTop: "4px solid var(--primary)",
+                background: "white",
+                borderRadius: "12px",
+                border: "1px solid var(--line)",
+                borderTopColor: "var(--primary)",
+                boxShadow: "var(--shadow-sm)",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div style={{ color: "var(--primary)", marginBottom: "16px" }}>
+                <InterfaceIcon name={service.icon} size={30} />
+              </div>
+              <h3 style={{ fontSize: "1.25rem", marginBottom: "12px" }}>{service.title}</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", lineHeight: 1.6, margin: 0, flex: 1 }}>
+                {service.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
         <div style={{ textAlign: "center" }}>
-          <Link href="/contact" className="btn btn-primary">
-            Enquire About an Annual Supply Contract →
+          <Link href="/services" className="btn btn-outline">
+            View All Services &amp; Projects →
           </Link>
         </div>
       </section>
 
-      <HowItWorks />
-
-      {/* 3. EXPRESS DELIVERY & GLOBAL LOGISTICS STRIP */}
+      {/* 5. CALL TO ACTION */}
       <section style={{ 
         background: `
           radial-gradient(circle at 85% 30%, rgba(2, 132, 199, 0.2) 0%, transparent 55%),
           radial-gradient(circle at 15% 70%, rgba(14, 165, 233, 0.1) 0%, transparent 45%),
-          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
           linear-gradient(135deg, #09121f 0%, #0f1a2e 50%, #152238 100%)
         `,
-        backgroundSize: "100% 100%, 100% 100%, 48px 48px, 48px 48px, 100% 100%",
         color: "white", 
-        padding: "80px 0.5in" 
+        padding: "70px 1rem",
+        textAlign: "center"
       }}>
-        <div className="home-logistics-grid" style={{ maxWidth: "100%", margin: "auto", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "50px", alignItems: "center" }}>
-          <div>
-            <span className="eyebrow" style={{ color: "#38bdf8", marginBottom: "14px" }}>Express Logistics</span>
-            <h2 style={{ color: "white", fontSize: "clamp(2.2rem, 3.8vw, 3rem)", lineHeight: 1.15, marginBottom: "18px", fontWeight: 800 }}>
-              Dispatch Options for Urgent Requirements.
-            </h2>
-            <p style={{ color: "#cbd5e1", fontSize: "1.18rem", lineHeight: 1.65, marginBottom: "28px" }}>
-              Our Pune base works with courier and freight partners for air, road and sea dispatch, including Mumbai air cargo and Nhava Sheva (JNPT) port.
-            </p>
-            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: "14px", color: "#e2e8f0", fontSize: "1.05rem" }}>
-              <li>✓ <strong>Air Express Courier:</strong> Priority options may be available; dispatch and arrival depend on stock, carrier schedules, and destination.</li>
-              <li>✓ <strong>Export Packaging:</strong> VCI packaging and ISPM-15 heat-treated crates can be arranged where required; options are confirmed per shipment.</li>
-              <li>✓ <strong>Export Routes:</strong> Pune has road access to Mumbai air cargo and Nhava Sheva (JNPT) port. Shipping mode, customs clearance and transit time are confirmed per shipment and destination.</li>
-            </ul>
-            <Link href="/global-reach" className="btn btn-primary" style={{ padding: "14px 28px", fontSize: "1.02rem" }}>
-              View Potential Export Destinations →
-            </Link>
-          </div>
-          <div className="home-logistics-estimates" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: "16px", padding: "38px", backdropFilter: "blur(6px)", boxShadow: "0 20px 40px rgba(0,0,0,0.35)" }}>
-            <h3 style={{ color: "white", marginBottom: "20px", fontSize: "1.4rem", fontWeight: 700 }}>📍 Dispatch &amp; Transit Estimates</h3>
-            <div style={{ display: "grid", gap: "16px", fontSize: "1rem" }}>
-              <div className="home-logistics-estimate-row" style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
-                <span>India — all destinations</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Confirmed per order</strong>
-              </div>
-              <div className="home-logistics-estimate-row" style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.12)", paddingBottom: "12px" }}>
-                <span>Middle East & Gulf Hubs (Dubai, Dammam, Doha)</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 2 - 3 Days (Air)</strong>
-              </div>
-              <div className="home-logistics-estimate-row" style={{ display: "flex", justifyContent: "space-between" }}>
-                <span>Europe, Africa & Southeast Asia</span>
-                <strong style={{ color: "#38bdf8", fontWeight: 700 }}>Estimate: 3 - 5 Days (Air)</strong>
-              </div>
-            </div>
-            <p style={{ color: "#cbd5e1", fontSize: "0.8rem", margin: "16px 0 0" }}>
-              Estimates are not guarantees and may exclude order processing, carrier delays, customs clearance, and local delivery.
-            </p>
-          </div>
+        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+          <h2 style={{ color: "white", fontSize: "clamp(2rem, 3.5vw, 2.7rem)", fontWeight: 800, marginBottom: "18px" }}>
+            Ready to Transform Your Industrial Operations?
+          </h2>
+          <p style={{ color: "#cbd5e1", fontSize: "1.15rem", lineHeight: 1.65, marginBottom: "30px" }}>
+            Partner with Efforts Engineers to implement innovative engineering and automation solutions that improve efficiency, reliability and performance.
+          </p>
+          <Link href="/contact" className="btn btn-amber" style={{ padding: "14px 32px", fontSize: "1.05rem", fontWeight: 700 }}>
+            Get In Touch
+          </Link>
         </div>
       </section>
 
-      {/* Sourcing and documentation information */}
-      <section className="section-shell">
+      {/* 6. COMPATIBILITY & CATALOG (OPTIONAL IF PREVIEWED) */}
+      {brandRangesSection}
+
+      {/* 7. ENQUIRY SECTION */}
+      <section id="home-enquiry" className="section-shell" style={{ background: "#f8fafc" }}>
         <div className="section-header">
-          <span className="eyebrow">Sourcing Information</span>
-          <h2 className="section-title"><b>Documentation &amp;</b> Business Details</h2>
+          <span className="eyebrow">Engineering Enquiries</span>
+          <h2 className="section-title"><b>Tell Us What</b> You Need</h2>
           <p className="section-desc">
-            Product compatibility and availability are confirmed for each enquiry. Documentation depends on the product source and order.
+            Share your contact details and engineering requirement. Standard, urgent, and custom automation requests are all welcome.
           </p>
           <div className="separator-line" />
         </div>
-        <div className="services-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))" }}>
-          <article className="why-card">
-            <h3>Model and part verification</h3>
-            <p>Share the compressor nameplate and part reference so we can check the requirement before quotation.</p>
-          </article>
-          <article className="why-card">
-            <h3>Supplier documentation</h3>
-            <p>Request applicable supplier certificates, inspection records, and order documents for your specific requirement.</p>
-            <Link href="/global-reach#certificates">View documentation information →</Link>
-          </article>
-          <article className="why-card">
-            <h3>Business registration</h3>
-            <p>Request GST and business registration details for vendor onboarding or quotation records.</p>
-            <Link href="/contact">Contact our team →</Link>
-          </article>
-          <article className="why-card">
-            <h3>Find our Pune office</h3>
-            <p>View the office location and contact details.</p>
-            <a
-              href={CONTACT_CONFIG.profileLinks.find(({ label }) => label === "Google Business Profile")?.url || CONTACT_CONFIG.locations[0].mapUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {CONTACT_CONFIG.profileLinks.some(({ label }) => label === "Google Business Profile")
-                ? "Google Business Profile →"
-                : "Find us on Google Maps →"}
-            </a>
-          </article>
-        </div>
+        <EnquiryForm source="Home page" title="Submit an Engineering & Automation Enquiry" />
       </section>
 
-
-
+      <HowItWorks />
     </main>
   );
 }

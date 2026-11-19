@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>{siteConfig.name}</h4>
             <p>
-              Serving industry since {siteConfig.establishedYear}. Efforts Engineers sources replacement spare parts for industrial refrigeration, cold chain, marine HVAC, and air compressors. Availability and dispatch estimates are confirmed per order.
+              Efforts Engineers - Engineering Excellence Since 1986. Delivering Industrial Automation &amp; Engineering Solutions Since 1986.
             </p>
             <div style={{ marginTop: "16px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
               <span className="badge badge-in-stock" style={{ background: "#1e293b", color: "#38bdf8", border: "1px solid #334155" }}>
@@ -100,7 +100,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="footer-bottom">
           <div>
-            © {new Date().getFullYear()} {siteConfig.name}. All rights reserved. Designed for industrial reliability.
+            © {new Date().getFullYear()} {siteConfig.name} - Engineering Excellence Since 1986. All rights reserved.
           </div>
           <div className="footer-trademark-disclaimer">
             Manufacturer names, logos, and part numbers are used only to identify products. All third-party trademarks remain the property of their respective owners.
